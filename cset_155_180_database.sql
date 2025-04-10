@@ -57,6 +57,8 @@ CREATE TABLE IF NOT EXISTS orders (
     status ENUM('pending', 'rejected', 'confirmed', 'processing', 'complete'),
     order_date DATETIME,
     total INT 																-- decminal size setting is depreciated so we use INT and divide by 100 when displaying in UI
+    email varchar(255) NOT NULL,
+    FOREIGN KEY email REFERENCES Users(email)
 );
 
 CREATE TABLE IF NOT EXISTS products (
@@ -81,9 +83,12 @@ CREATE TABLE IF NOT EXISTS product_sizes (
 CREATE TABLE IF NOT EXISTS reviews (
 	review_id INT PRIMARY KEY AUTO_INCREMENT,
     rating INT,
+    title varchar(50),
     description VARCHAR(500),
     image VARCHAR(255),
-    date DATETIME
+    date DATETIME,
+    email varchar(255),
+    FOREIGN KEY email REFERENCES Users(email)
 );
 
 CREATE TABLE IF NOT EXISTS users (
