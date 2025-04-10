@@ -106,7 +106,7 @@ def signup():
                         first_name=first_name, last_name=last_name, type=type)
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for("login", success="Worked!")) 
+        return render_template("signup.html", success="Created account. <a href=\"/login\">Login</a>") 
 
     return render_template("signup.html")
 

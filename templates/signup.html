@@ -21,6 +21,11 @@
     {% if error %}
         <p class="error">{{ error }}</p>
     {% endif %}
+    {% if success %}
+        {% autoescape false %}
+        <h1>{{ success }}</h1>
+        {% endautoescape %}
+    {% endif %}
 
     <form action="/signup" method="post">
         <label for="email">Email:</label>
