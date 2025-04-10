@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS reviews (
 
 CREATE TABLE IF NOT EXISTS users (
 	email VARCHAR(255) PRIMARY KEY, 										-- using email like a user id since unique
-    username VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL UNIQUE,
     hashed_pswd VARCHAR(300) NOT NULL, 										-- hashed passwords needed more space in prev programs so using 300 instead of 255
     first_name VARCHAR(60) NOT NULL,
     last_name VARCHAR(60) NOT NULL,
@@ -169,7 +169,7 @@ INSERT INTO users (email, username, hashed_pswd, first_name, last_name, type)
 			('i_tombolli@study_space.com', 'itombolli_vendor', '$+&2q9e~*$1+JR=G_#K$8`!_/k~9?3#oEJ/`dLe*D$5?_GR#kPEk2JK2;kdE8#$2mmd/=G5#EK0dR=$3RG18L20J0~q;Q`#2`0~=e@Gq_`2@+JRDQ5i/3~*;L`95&@mq/D=1`ei&D*~kQKdKR1d+$k2R!5m2_RQo_L=KQ5@J$=@93R~2i`;#J`1J8Km`#*`D@11qq_o/&Q`+e`&3?`EDio9?*K55iL82Pm`;&o1/GJi@_mo/DQ', 'Isabella', 'Tomboli', 'vendor'); -- vendor
     
 -- 10 products from the 3 vendors
-INSERT INTO products (title, description, warranty_months, curr_inventory, price)
-	VALUES ()
+-- INSERT INTO products (title, description, warranty_months, curr_inventory, price)
+-- 	VALUES ();
 
-DROP DATABASE goods;
+-- DROP DATABASE goods;

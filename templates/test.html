@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        h1 { color: green; }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+    <h1>Email: {{ current_user.email }}</h1>
+    <h1>Username: {{ current_user.username }}</h1>
+    <h1>Hashed Pswd: {{ current_user.hashed_pswd }}</h1>
+    <h1>First Name: {{ current_user.first_name }}</h1>
+    <h1>Last Name: {{ current_user.last_name }}</h1>
+    <h1>Type: {{ current_user.type }}</h1>
+</body>
+</html>
