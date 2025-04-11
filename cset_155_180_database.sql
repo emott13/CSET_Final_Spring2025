@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS goods;
 USE goods;
-
+-- drop database goods;
 -- ----------------------- --
 -- CREATE TABLE STATEMENTS --
 -- ----------------------- --
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR(60) NOT NULL,
     type ENUM('vendor', 'admin', 'customer') NOT NULL
 );
-select * from order_items natural join colors natural join sizes natural join product_variants natural join products;
+
 -- products
 CREATE TABLE IF NOT EXISTS products (					
     product_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -47,16 +47,18 @@ CREATE TABLE IF NOT EXISTS product_variants (			-- product variants with each co
 -- images
 CREATE TABLE IF NOT EXISTS images (						-- product, complaint, and review images
     image_id INT PRIMARY KEY AUTO_INCREMENT,
-    variant_id INT NOT NULL,												-- will contain variant_id if image belongs to product
+    variant_id INT,															-- will contain variant_id if image belongs to product
 	chat_id INT,															-- will contain chat_id if image belongs to chat conversation															
     complaint_id INT,														-- will contain complaint_id if image belongs to customer complaint
+    review_id INT,															-- will contain review_id if image belongs to customer review
     file_path VARCHAR(500) NOT NULL,  										-- path or URL to the image file
     alt_text VARCHAR(255),            										-- image description / alt text
     FOREIGN KEY (variant_id) REFERENCES product_variants(variant_id),
 	CONSTRAINT only_one_fk CHECK (											-- forces only one foreign key per row, ensuring image will belong to only one type of entry
-	(chat_id IS NOT NULL AND variant_id IS NULL AND complaint_id IS NULL) OR
-	(chat_id IS NULL AND variant_id IS NOT NULL AND complaint_id IS NULL) OR
-	(chat_id IS NULL AND variant_id IS NULL AND complaint_id IS NOT NULL)
+	(chat_id IS NOT NULL AND variant_id IS NULL AND complaint_id IS NULL AND review_id IS NULL) OR
+	(chat_id IS NULL AND variant_id IS NOT NULL AND complaint_id IS NULL AND review_id IS NULL) OR
+	(chat_id IS NULL AND variant_id IS NULL AND complaint_id IS NOT NULL AND review_id IS NULL) OR
+    (chat_id IS NULL AND variant_id IS NULL AND complaint_id IS NULL AND review_id IS NOT NULL)
     )
 );
 
@@ -123,7 +125,6 @@ CREATE TABLE IF NOT EXISTS reviews (
     customer_email VARCHAR(255),
     rating INT,
     description VARCHAR(500),
-    image VARCHAR(255),
     date DATETIME,
     FOREIGN KEY (customer_email) REFERENCES users(email)
 );
@@ -413,3 +414,16 @@ VALUES 																			-- phys and precalc all discounted
     (10, 100219, 1, 9499), -- chair mat (45x53) x1 => 9499
     (10, 100210, 1, 2999); -- 12-pack notebooks x1 => 2999
     -- ^ total = 2649 + 32999 + 299 + 95000 + 9499 + 2999 = 143445
+
+-- reviews with images on shipped orders
+INSERT INTO reviews (customer_email, rating, description, date)
+VALUES
+	('c_ramos@outlook.com', 42, 'I ordered this chemistry textbook after transfering to a chem class mid semester. It shipped quickly and the cover had some slight dents in it but otherwise in good condition.', '2025-03-20 11:15:36'),
+    ('j_prescott@gmail.com', 35, 'Got this textbook at a discount. Its Precalculus by Holt. The corner of the cover had some damage which was annoying.', '2025-03-22 13:57:04'),
+    ('s_teller@gmail.com', 50, 'These are my favorite mechanical pencils. Super reliable and smooth, I dont buy any other brand. 100% recommend!', '2025-03-24 10:32:45');
+INSERT INTO images (review_id, file_path, alt_text)
+VALUES
+	(1, '/images/chem_text_review_good', 'Chemistry textbook - Bottom Overhead View'),
+    (2, '/images/precalc_text_review_2', 'Precalc textbook - Left Diagonal View'),
+    (2, '/images/precalc_text_review_2a', 'Precalc textbook - Right Diagonal View'),
+    (3, 'https://i5.walmartimages.com/dfw/6e29e393-90fa/k2-_ebd07f4b-3753-4a6e-850b-1125d114586f.v1.jpg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF', 'BiC 10-Pack pencils review');
