@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS sizes(						-- product sizes
 CREATE TABLE IF NOT EXISTS product_variants (			-- product variants with each color / size / price combos
     variant_id INT PRIMARY KEY AUTO_INCREMENT,
     product_id INT NOT NULL,
-    color_id INT NOT NULL,
-    size_id INT NOT NULL,
+    color_id INT,
+    size_id INT,
     price INT NOT NULL,
     current_inventory INT NOT NULL,
     FOREIGN KEY (product_id) REFERENCES products(product_id),
@@ -103,31 +103,33 @@ CREATE TABLE IF NOT EXISTS complaints ( 									-- join tables using complaint_
 	title VARCHAR(50),
     description VARCHAR(500),
     demand ENUM('return', 'refund', 'warranty claim'),
-    status ENUM('pending', 'rejected', 'confirmed', 'processing', 'complete'),
-    date DATETIME
+    status ENUM('pending', 'rejected', 'confirmed', 'processing', 'complete') NOT NULL,
+    date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- chats
 CREATE TABLE IF NOT EXISTS chats (
-	chat_id INT PRIMARY KEY AUTO_INCREMENT,
+	  chat_id INT PRIMARY KEY AUTO_INCREMENT,
     related_id INT,
     related_id_type ENUM('review_id', 'product_id', 'complaint_id'),
-	text VARCHAR(500),
-	image_id INT,
-    user_from VARCHAR(50),													-- person sending message
-    user_to VARCHAR(50),													-- person receiving message
-    date_time DATETIME DEFAULT CURRENT_TIMESTAMP,							-- to keep track of when chats were sent to display in proper order
+	  text VARCHAR(500),
+	  image_id INT,
+    user_from VARCHAR(50),													          -- person sending message
+    user_to VARCHAR(50),													            -- person receiving message
+    date_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,							-- to keep track of when chats were sent to display in proper order
     FOREIGN KEY (user_from) REFERENCES users(email),
-    FOREIGN KEY (user_to) REFERENCES users(email)
+    FOREIGN KEY (user_to) REFERENCES users(email),
+    FOREIGN KEY (image_id) REFERENCES images(image_id)
 ); 
 
 -- reviews
 CREATE TABLE IF NOT EXISTS reviews (
 	review_id INT PRIMARY KEY AUTO_INCREMENT,
     customer_email VARCHAR(255),
-    rating INT,
+    rating INT NOT NULL,
     description VARCHAR(500),
-    date DATETIME,
+    image VARCHAR(255),
+    date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (customer_email) REFERENCES users(email)
 );
 
