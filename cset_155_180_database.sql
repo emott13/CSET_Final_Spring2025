@@ -175,7 +175,7 @@ ALTER TABLE product_variants AUTO_INCREMENT=100200;
 -- orders should have multiple products from different vendors **DONE**
 -- meaningful reviews with images from customers on all shipped orders **DONE**
 -- one return and one warranty application in progress **DONE**
--- meaningful chat messages regarding these requests
+-- meaningful chat messages regarding these requests **DONE**
 -- meaningful chat messages from all customers to different vendors
 -- any additional information necessary to model a running ecommerce website
 
@@ -479,11 +479,11 @@ VALUES
 INSERT INTO images (chat_id, file_path, alt_text)
 VALUES
 	(2, 'https://www.reddit.com/media?url=https%3A%2F%2Fi.redd.it%2F976ux5ctckwz.jpg', 'Customer submitted image');
-INSERT INTO chats (text, related_id, related_id_type, image_id, user_from, user_to, date_time)
+INSERT INTO chats (text, complaint_id, product_id, image_id, user_from, user_to, date_time)
 VALUES
     ('Okay here is the photo:', 2, NULL, NULL, 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:49:12'),
     (NULL, 2, NULL, 32, 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:49:28');
-INSERT INTO chats (text, related_id, related_id_type, user_from, user_to, date_time)
+INSERT INTO chats (text, complaint_id, product_id, user_from, user_to, date_time)
 VALUES
     ('Thank you, Mr. Teller. I see the issue. I will submit the warranty claim for you. It can take up to 7 business days to be processed.', 2, NULL, 'i_tombolli@study_space.com', 's_teller@gmail.com', '2025-04-08 11:50:00'),
     ('You will receive an email when the replacement part has been shipped.', 2, NULL, 'i_tombolli@study_space.com', 's_teller@gmail.com', '2025-04-08 11:50:19'),
