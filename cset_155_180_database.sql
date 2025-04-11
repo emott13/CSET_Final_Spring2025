@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS order_items (
 -- complaints
 CREATE TABLE IF NOT EXISTS complaints ( 									-- join tables using complaint_id to get images 
 	complaint_id INT PRIMARY KEY AUTO_INCREMENT,
-	title VARCHAR(30),
+	title VARCHAR(50),
     description VARCHAR(500),
     demand ENUM('return', 'refund', 'warranty claim'),
     status ENUM('pending', 'rejected', 'confirmed', 'processing', 'complete'),
@@ -110,10 +110,12 @@ CREATE TABLE IF NOT EXISTS complaints ( 									-- join tables using complaint_
 -- chats
 CREATE TABLE IF NOT EXISTS chats (
 	chat_id INT PRIMARY KEY AUTO_INCREMENT,
+    related_id INT,
+    related_id_type ENUM('review_id', 'product_id', 'complaint_id'),
 	text VARCHAR(500),
 	image_id INT,
-    user_from VARCHAR(50),													-- customer user sending chat
-    user_to VARCHAR(50),													-- vendor user replying to chat
+    user_from VARCHAR(50),													-- person sending message
+    user_to VARCHAR(50),													-- person receiving message
     date_time DATETIME DEFAULT CURRENT_TIMESTAMP,							-- to keep track of when chats were sent to display in proper order
     FOREIGN KEY (user_from) REFERENCES users(email),
     FOREIGN KEY (user_to) REFERENCES users(email)
@@ -161,8 +163,8 @@ ALTER TABLE product_variants AUTO_INCREMENT=100200;
 -- items in cart from 3 customer accounts **DONE**
 -- at least 7 orders of various statuses and 3 shipped orders from 3 customers **DONE**
 -- orders should have multiple products from different vendors **DONE**
--- meaningful reviews with images from customers on all shipped orders
--- one return and one warranty application in progress
+-- meaningful reviews with images from customers on all shipped orders **DONE**
+-- one return and one warranty application in progress **DONE**
 -- meaningful chat messages regarding these requests
 -- meaningful chat messages from all customers to different vendors
 -- any additional information necessary to model a running ecommerce website
@@ -347,7 +349,7 @@ VALUES
 	('c_ramos@outlook.com', 'pending', '2025-04-06 10:26:54', 55669), -- chair discounted
     ('c_ramos@outlook.com', 'complete', '2025-03-12 14:35:22', 64870),
     ('s_petocs@gmail.com', 'pending', '2025-04-06 16:39:12', 36246), 
-    ('s_teller@gmail.com', 'confirmed', '2025-04-01 22:11:00', 51496), -- chair discounted
+    ('s_teller@gmail.com', 'complete', '2025-04-01 22:11:00', 51496), -- chair discounted
     ('d_giant@outlook.com', 'processing', '2025-03-25 12:05:59', 144900), 
     ('d_giant@outlook.com', 'processing', '2025-03-30 17:03:36', 188497),
     ('s_petocs@gmail.com', 'processing', '2025-03-27 08:22:13', 62646),
@@ -427,3 +429,54 @@ VALUES
     (2, '/images/precalc_text_review_2', 'Precalc textbook - Left Diagonal View'),
     (2, '/images/precalc_text_review_2a', 'Precalc textbook - Right Diagonal View'),
     (3, 'https://i5.walmartimages.com/dfw/6e29e393-90fa/k2-_ebd07f4b-3753-4a6e-850b-1125d114586f.v1.jpg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF', 'BiC 10-Pack pencils review');
+
+-- one warranty claim and one return
+INSERT INTO complaints (title, description, demand, status, date)
+VALUES
+	('Received wrong item.', 'I ordered the 48-pack of the BiC mechanical pencils but was sent a 10-pack instead?? I would like a refund.', 'refund', 'complete', '2025-03-16 16:37:49'),
+    ('Chair broke within 2 days of receiving', 'I got the Uline brand mesh office chair recently. After only two days, two of the wheels snapped off. I would like a replacement part to fix the chair.', 'warranty claim', 'pending', '2025-04-08 11:13:41');
+INSERT INTO images (complaint_id, file_path, alt_text)
+VALUES
+	(1, 'https://i5.walmartimages.com/dfw/6e29e393-e1a6/k2-_3afbd2e8-6936-4d46-bc55-094bacdff1e0.v1.jpg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF', 'BiC 10-pack mech pencils - Customer photo');
+
+-- chats about complaints
+INSERT INTO chats (text, related_id, related_id_type, user_from, user_to, date_time)
+VALUES
+	-- chats for refund complaint
+	('Hello Ms. Ramos, we have recieved your refund ticket. An associate will be with you shortly to discuss solving this issue.', 1, 'complaint_id', 'g_pitts@supplies4school.org', 'c_ramos@outlook.com', '2025-03-16 16:41:00'),
+    ('Good afternoon, Ms. Ramos. My name is Gebhard. I have reviewed your refund request and I am very sorry for the mix up. We will refund you for the BiC mechanical pencils 48-pack that you did not receive.', 1, 'complaint_id', 'g_pitts@supplies4school.org', 'c_ramos@outlook.com', '2025-03-16 16:42:07'),
+    ('We are very sorry for the inconvenience and appreciate the opportunity to make this right for you.', 1, 'complaint_id', 'g_pitts@supplies4school.org', 'c_ramos@outlook.com', '2025-03-16 16:42:31'),
+    ('Thank you for handling this quickly. How long until I get the money back?', 1, 'complaint_id', 'c_ramos@outlook.com', 'g_pitts@supplies4school.org', '2025-03-16 16:44:22'),
+    ('Of course, it is our please. Refunds can take up to 30 business days to process, but most often you will see the chargeback within 7-10 business days.', 1, 'complaint_id', 'g_pitts@supplies4school.org', 'c_ramos@outlook.com', '2025-03-16 16:44:49'),
+    ('Can I answer any other questions for you?', 1, 'complaint_id', 'g_pitts@supplies4school.org', 'c_ramos@outlook.com', '2025-03-16 16:45:03'),
+    ('No, thanks for the help.', 1, 'complaint_id', 'c_ramos@outlook.com', 'g_pitts@supplies4school.org', '2025-03-16 16:48:32'),
+    ('Absolutely, Ms. Ramos. Thank you for choosing Supplies4School and have a wonderful day.', 1, 'complaint_id', 'g_pitts@supplies4school.org', 'c_ramos@outlook.com', '2025-03-16 16:50:03'),
+    -- chats for warranty complaint
+    ('Hello Mr. Teller. Thank you for choosing Study Space! We have received your ticket and an associate will contact you shortly regarding this matter.', 2, 'complaint_id', 'i_tombolli@study_space.com', 's_teller@gmail.com', '2025-04-08 11:15:00'),
+    ('Hello and thank you for reaching out. My name is Isabella, how can I assist you today?', 2, 'complaint_id', 'i_tombolli@study_space.com', 's_teller@gmail.com', '2025-04-08 11:16:21'),
+    ('I would like to submit a warranty claim for a chair I bought from you guys recently.', 2, 'complaint_id', 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:17:11'),
+    ('Absolutely, I would be happy to help you with that. Can you tell me the product name so I can find your order information?', 2, 'complaint_id', 'i_tombolli@study_space.com', 's_teller@gmail.com', '2025-04-08 11:17:58'),
+    ('Sure, I think it was called a Mesh Task Chair? Maybe something like that.', 2, 'complaint_id', 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:18:33'),
+    ('Okay, give me one moment to locate your order details.', 2, 'complaint_id', 'i_tombolli@study_space.com', 's_teller@gmail.com', '2025-04-08 11:19:06'),
+    ('I have found a product "ULINE Mesh Task Chair" from your order on April 1st. Is this the correct item?', 2, 'complaint_id', 'i_tombolli@study_space.com', 's_teller@gmail.com', '2025-04-08 11:22:37'),
+    ('Yeah thats it.', 2, 'complaint_id', 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:23:09'),
+    ('Great! Can you please describe the issue so I can see if it is covered under the warranty?', 2, 'complaint_id', 'i_tombolli@study_space.com', 's_teller@gmail.com', '2025-04-08 11:23:41'),
+    ('Yeah I mean I just sat on the chair and it broke.', 2, 'complaint_id', 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:43:46'),
+    ('Two of the wheels snapped off from the base. I put it together based on the instructions so I dont even know how it happened.', 2, 'complaint_id', 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:44:05'),
+    ('I tried to fix it but part where the wheels go into the base is broken.', 2, 'complaint_id', 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:44:27'),
+    ('I am very sorry for the inconvenience. Can you please attach a photo of the damaged part?', 2, 'complaint_id', 'i_tombolli@study_space.com', 's_teller@gmail.com', '2025-04-08 11:45:23'),
+    ('Sure one sec.', 2, 'complaint_id', 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:45:51');
+INSERT INTO images (chat_id, file_path, alt_text)
+VALUES
+	(2, 'https://www.reddit.com/media?url=https%3A%2F%2Fi.redd.it%2F976ux5ctckwz.jpg', 'Customer submitted image');
+INSERT INTO chats (text, related_id, related_id_type, image_id, user_from, user_to, date_time)
+VALUES
+    ('Okay here is the photo:', 2, 'complaint_id', NULL, 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:49:12'),
+    (NULL, 2, 'complaint_id', 32, 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:49:28');
+INSERT INTO chats (text, related_id, related_id_type, user_from, user_to, date_time)
+VALUES
+    ('Thank you, Mr. Teller. I see the issue. I will submit the warranty claim for you. It can take up to 7 business days to be processed.', 2, 'complaint_id', 'i_tombolli@study_space.com', 's_teller@gmail.com', '2025-04-08 11:50:00'),
+    ('You will receive an email when the replacement part has been shipped.', 2, 'complaint_id', 'i_tombolli@study_space.com', 's_teller@gmail.com', '2025-04-08 11:50:19'),
+    ('Is there anything else I can help you with before closing the support ticket?', 2, 'complaint_id', 'i_tombolli@study_space.com', 's_teller@gmail.com', '2025-04-08 11:50:31'),
+    ('Not right now, I appreciate the help.', 2, 'complaint_id', 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:52:36'),
+	('It is my pleasure. Thank you for choosing Study Space. Have a wonderful day.', 2, 'complaint_id', 'i_tombolli@study_space.com', 's_teller@gmail.com', '2025-04-08 11:53:14');
