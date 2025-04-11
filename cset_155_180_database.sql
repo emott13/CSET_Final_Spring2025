@@ -116,8 +116,8 @@ CREATE TABLE IF NOT EXISTS chats (
     product_id INT,
 	text VARCHAR(500),
 	image_id INT,
-    user_from VARCHAR(50),													    -- person sending message
-    user_to VARCHAR(50),													    -- person receiving message
+    user_from VARCHAR(255),													    -- person sending message
+    user_to VARCHAR(255),													    -- person receiving message
     date_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,						-- to keep track of when chats were sent to display in proper order
     FOREIGN KEY (user_from) REFERENCES users(email),
     FOREIGN KEY (user_to) REFERENCES users(email),
