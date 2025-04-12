@@ -101,12 +101,14 @@ CREATE TABLE IF NOT EXISTS order_items (
 CREATE TABLE IF NOT EXISTS complaints ( 									-- join tables using complaint_id to get images 
 	complaint_id INT PRIMARY KEY AUTO_INCREMENT,
     submitted_by VARCHAR(255),
+    reviewed_by VARCHAR(255),			-- email of admin who reviewed
 	title VARCHAR(50),
     description VARCHAR(500),
     demand ENUM('return', 'refund', 'warranty claim'),
     status ENUM('pending', 'rejected', 'confirmed', 'processing', 'complete') NOT NULL,
     date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (submitted_by) REFERENCES users(email)
+    FOREIGN KEY (submitted_by) REFERENCES users(email),
+    FOREIGN KEY (reviewed_by) REFERENCES users(email)
 );
 
 -- chats
@@ -328,7 +330,7 @@ VALUES
     (100213, 32999, NULL, NULL),
     (100214, 37599, NULL, NULL),
     (100217, 16599, '2025-04-01 21:59:59', '2025-04-15 21:59:59');
-select product_title, price, discount_price FROM products natural join product_variants natural join discounts WHERE variant_id IN(100211, 100213, 100214, 100217);
+
 INSERT INTO carts (customer_email)
 VALUES 
 		('d_giant@outlook.com'),
@@ -441,10 +443,10 @@ VALUES
     (3, 'https://i5.walmartimages.com/dfw/6e29e393-90fa/k2-_ebd07f4b-3753-4a6e-850b-1125d114586f.v1.jpg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF', 'BiC 10-Pack pencils review');
 
 -- one warranty claim and one return
-INSERT INTO complaints (title, submitted_by, description, demand, status, date)
+INSERT INTO complaints (title, submitted_by, reviewed_by, description, demand, status, date)
 VALUES
-	('Received wrong item.', 'c_ramos@outlook.com', 'I ordered the 48-pack of the BiC mechanical pencils but was sent a 10-pack instead?? I would like a refund.', 'refund', 'complete', '2025-03-16 16:37:49'),
-    ('Chair broke within 2 days of receiving', 's_teller@gmail.com', 'I got the Uline brand mesh office chair recently. After only two days, two of the wheels snapped off. I would like a replacement part to fix the chair.', 'warranty claim', 'pending', '2025-04-08 11:13:41');
+	('Received wrong item.', 'c_ramos@outlook.com', 'd_daedalus_admin@goods.com', 'I ordered the 48-pack of the BiC mechanical pencils but was sent a 10-pack instead?? I would like a refund.', 'refund', 'complete', '2025-03-16 16:37:49'),
+    ('Chair broke within 2 days of receiving', 's_teller@gmail.com', NULL, 'I got the Uline brand mesh office chair recently. After only two days, two of the wheels snapped off. I would like a replacement part to fix the chair.', 'warranty claim', 'pending', '2025-04-08 11:13:41');
 INSERT INTO images (complaint_id, file_path, alt_text)
 VALUES
 	(1, 'https://i5.walmartimages.com/dfw/6e29e393-e1a6/k2-_3afbd2e8-6936-4d46-bc55-094bacdff1e0.v1.jpg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF', 'BiC 10-pack mech pencils - Customer photo');
