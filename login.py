@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template, request, url_for, redirect
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from scripts.shhhh_its_a_secret import customHash
-# from werkzeug.security import generate_password_hash, check_password_hash
-from extensions import Users
+from extensions import Users, bcrypt
 
 login_bp = Blueprint("login", __name__, static_folder="static",
                   template_folder="templates")
@@ -21,10 +20,10 @@ def login():
         user_username = Users.query.filter_by(username=email).first()
 
         # first checks email, then checks username
-        if user and user.hashed_pswd == customHash(password):
+        if user and bcrypt.check_password_hash(user.hashed_pswd, password):
             login_user(user)
             return redirect(url_for("test"))
-        elif user_username and  user_username.hashed_pswd == customHash(password):
+        elif user_username and bcrypt.check_password_hash(user_username.hashed_pswd, password):
             login_user(user_username)
             return redirect(url_for("test"))
         

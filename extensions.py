@@ -2,8 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, text, insert, Table, MetaData, update
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
-from scripts.shhhh_its_a_secret import customHash
-# from werkzeug.security import generate_password_hash, check_password_hash
+from flask_bcrypt import Bcrypt
 
 
 # USEFUL flask_login COMMANDS
@@ -18,7 +17,10 @@ from scripts.shhhh_its_a_secret import customHash
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:cset155@localhost/goods"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SECRET_KEY"] = "i)\xe8\th\x89x9dZwP"
+app.config["SECRET_KEY"] = b'\xdak\xd2\xf7\x80,8\x0f\xbdG\xb7\x87\xe4h\xcf\xae'
+
+# Initialize bcrypt
+bcrypt = Bcrypt(app)
 
 # Initialize database and login manager
 db = SQLAlchemy(app)
