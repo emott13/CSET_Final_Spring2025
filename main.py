@@ -1,86 +1,13 @@
 from flask import Flask, render_template, request, url_for, redirect
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, text, insert, Table, MetaData, update
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from scripts.shhhh_its_a_secret import customHash
 # from werkzeug.security import generate_password_hash, check_password_hash
-
-
-# USEFUL flask_login COMMANDS
-# @app.route("/foo")
-# @login_required # (requires the user to be logged in. Redirects to login if not logged in)
-# def foo() ...
-#
-# current_user # (has current_user data like current_user.email or current_user.type)
-
-
-# Initialize Flask app
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:cset155@localhost/goods"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SECRET_KEY"] = "i)\xe8\th\x89x9dZwP"
-
-# Initialize database and login manager
-db = SQLAlchemy(app)
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = "login"
-
-# Initialize DB the way we did the other times
-conn_str = "mysql://root:cset155@localhost/cset170final"                                
-engine = create_engine(conn_str, echo=True)                                             
-conn = engine.connect()                                                                 
-
-# User model (required for flask-login)
-class Users(UserMixin, db.Model):
-    email = db.Column(db.String(255), primary_key=True)
-    username = db.Column(db.String(255), unique=False, nullable=False)
-    hashed_pswd = db.Column(db.String(300), nullable=False)
-    first_name = db.Column(db.String(60), nullable=False)
-    last_name = db.Column(db.String(60), nullable=False)
-    type = db.Column(db.Enum('vendor', 'admin', 'customer'), nullable=False)
-
-    def get_id(self):
-        return self.email
-
-    def get_email(self):
-        return self.email
-
-# Create database
-# with app.app_context():
-#     db.create_all()
-
-# Load user for Flask-Login
-@login_manager.user_loader
-def load_user(user_id):
-    return Users.query.get(user_id)
+from login import login_bp
+from extensions import *
 
 # -- LOGIN PAGE -- #
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        email = request.form.get("username")
-        password = request.form.get("password")
-
-        if not email or not password:
-            return render_template("login.html", error="Invalid input")
-
-        user = Users.query.filter_by(email=email).first()
-        user_username = Users.query.filter_by(username=email).first()
-
-        # first checks email, then checks username
-        if user and user.hashed_pswd == customHash(password):
-            login_user(user)
-            return redirect(url_for("test"))
-        elif user_username and  user_username.hashed_pswd == customHash(password):
-            login_user(user_username)
-            return redirect(url_for("test"))
-        
-        else:
-            return render_template("login.html", error="Invalid username or password")
-
-    return render_template("login.html")
-
+app.register_blueprint(login_bp)
 
 # -- SIGNUP PAGE -- #
 @app.route("/signup", methods=["GET", "POST"])
@@ -122,7 +49,7 @@ def test():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("login"))
+    return redirect(url_for("login.login"))
 
 
 if __name__ == '__main__':
