@@ -10,7 +10,10 @@
     --color-orange: #f3904b;
     --color-yellow: #f7c767;
     --color-purple: #b89dbb;
+    --color-dark-purple: hsl(294, 18%, 57%);
     --color-white: #cdc5ce;
+    --color-error-red: #D32F2F;
+    --color-blue: #197bff;
     --font-main: 'Lexend Deca'
 }
 
