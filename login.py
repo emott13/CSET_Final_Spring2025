@@ -18,6 +18,7 @@ def login():
 
         user = Users.query.filter_by(email=email).first()
         user_username = Users.query.filter_by(username=email).first()
+        print(bcrypt.generate_password_hash(password).decode('utf-8'))
 
         # first checks email, then checks username
         if user and bcrypt.check_password_hash(user.hashed_pswd, password):
