@@ -15,7 +15,7 @@
     </nav> -->
     <section class="login-container">
         <div class="login-inner">
-            <h1 class="login-h1">Login to your account</h1>
+            <h1 class="login-h1">Login</h1>
             
             {% if error %}
                 <p class="error">{{ error }}</p>
@@ -23,15 +23,15 @@
 
             <form class="login-form" action="/login" method="post">
                 <div class="input-row">
-                    <div class="fancy-input">
-                        <input type="text" name="username" placeholder="" required />
+                    <div class="fancy-input full-width">
+                        <input class="full-width" type="text" name="username" placeholder="" required />
                         <label for="username">Email or Username:</label>
                         <!-- <p class="error-message">Enter your email or username</p> -->
                     </div>
                 </div>
                 <div class="input-row">
-                    <div class="fancy-input">
-                        <input type="password" name="password" placeholder="" required />
+                    <div class="fancy-input full-width">
+                        <input class="full-width" type="password" name="password" placeholder="" required />
                         <label for="password">Password:</label>
                         <!-- <p class="error-message">Enter your password</p> -->
                     </div>

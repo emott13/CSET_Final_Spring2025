@@ -7,6 +7,11 @@ h1 {
 
 .error {
     color: var(--color-error-red);
+    margin-bottom: 20px;
+}
+
+.success {
+    color: var(--color-success-green)
 }
 
 .btn {
@@ -22,6 +27,14 @@ h1 {
 
 .btn:hover {
     background-color: var(--color-dark-purple);
+}
+
+.full-width {
+    width: 100%;
+}
+
+.space {
+    margin: 0 10px;
 }
 
 .input-row {
@@ -42,14 +55,13 @@ h1 {
 .fancy-input {
     display: flex;
     position: relative;
-    width: 100%;
     margin-bottom: 2rem;
 }
 
-.fancy-input input {
+.fancy-input input,
+.fancy-input select {
     z-index: 1;
     font-size: 1.1rem;
-    width: 100%;
     border: none;
     border-bottom: 2px solid var(--color-purple-red);
     background-color: transparent;
@@ -69,7 +81,8 @@ h1 {
 }
 
 .fancy-input input:focus + label,
-.fancy-input input:not(:placeholder-shown) + label {
+.fancy-input input:not(:placeholder-shown) + label,
+.label-shown {
     font-size: 90%;
     top: -15px;
 }
@@ -79,8 +92,8 @@ h1 {
 }
   
 
-/* ----------------- */
-/* -- LOGIN START -- */
+/* -------------------------- */
+/* -- LOGIN / SIGNUP START -- */
 
 .login-h1 {
     margin-bottom: 2rem;
@@ -90,7 +103,7 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     background-color: var(--color-purple);
 }
 
@@ -112,5 +125,5 @@ h1 {
     margin-bottom: .5rem;
 }
 
-/* -- LOGIN END -- */
-/* --------------- */
+/* -- LOGIN / SIGNUP END -- */
+/* ------------------------ */
