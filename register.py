@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, request, url_for, redirect
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
-from scripts.shhhh_its_a_secret import customHash
 from extensions import Users, db, bcrypt
 
 register_bp = Blueprint("register", __name__, static_folder="static",
