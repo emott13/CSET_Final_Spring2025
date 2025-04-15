@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/318fe15147.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/static/base.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
-    <title>Document</title>
+    <link rel="stylesheet" href="/static/styles/base.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
+    <title>The Study Stack</title>
+    <link rel="icon" type="image/png" href="/images/logo.png">
 </head>
 <body>
     <header class="headerWrapper">
@@ -17,47 +17,65 @@
             <div class="headerSection logo">
                 <!-- logo -->
                  <div class="headerItemLogo">
-                    <p>Logo</p>
+                    <img src="/images/logo.png" alt="Textbooks-icon" id="headerLogo">
+                    <a href="#">The Study Stack</a>
                  </div>
             </div>
             <div class="headerSection directory">
                 <!-- directory -->
                  <div class="headerItemDirectory">
-                    <p>Product categories dropdown</p>
+                    <select name="products" id="prodDirectory">
+                        <option value="">Textbooks</option>
+                        <option value="">School supplies</option>
+                        <option value="">Office furniture</option>
+                        <option value="">Classroom furniture</option>
+                    </select>
                  </div>
             </div>
             <div class="headerSection search">
                 <!-- search -->
                  <div class="headerItemSearch">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
                     <input type="text" name="product_search" id="search" placeholder="search">
-                    <i class="fa-regular fa-circle-xmark"></i> 
+                    <!-- <i class="fa-regular fa-circle-xmark"></i>  -->
                 </div>
             </div>
             <nav class="headerSection nav">
                 <ol class="navMenu">
                     <li class="navItem">
                         <a href="#">Home <i class="fa-solid fa-house"></i></a>
-                        
                     </li>
                     <li class="navItem">
                         <a href="#">Account <i class="fa-solid fa-circle-user"></i></a>
-                        
                     </li>
                     <li class="navItem">
                         <a href="#">Sign in <i class="fa-solid fa-arrow-right-to-bracket"></i></a>
-                        
                     </li>
                     <li class="navItem">
                         <a href="#">Cart <i class="fa-solid fa-cart-shopping"></i></a>
-                        
                     </li>
                 </ol>
             </nav>
         </div>
-        <div class="headerDirectory">
-            <!-- product categories -->
-        </div>
+        <nav class="headerDirectory">
+            <ol class="prodNavMenu">
+                <li class="prodNavItem">
+                    <a href="#" class="hoverAnimation">Textbooks</a>
+                </li>
+                <li class="prodNavItem">
+                    <a href="#" class="hoverAnimation">School supplies</a>
+                </li>
+                <li class="prodNavItem">
+                    <a href="#" class="hoverAnimation">Office furniture</a>
+                </li>
+                <li class="prodNavItem">
+                    <a href="#" class="hoverAnimation">Classroom furniture</a>
+                </li>
+                <li class="prodNavItem">
+                    <a href="#" class="hoverAnimation">Technology</a>
+                </li>
+            </ol>
+        </nav>
     </header>
 </body>
 </html>

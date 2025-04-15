@@ -11,7 +11,7 @@
     --color-yellow: #f7c767;
     --color-purple: #b89dbb;
     --color-white: #cdc5ce;
-    --font-main: 'Lexend Deca'
+    --font-main: 'Zain'
 }
 
 /* Order properties:
@@ -51,8 +51,8 @@
     width: 100%;
     text-transform: uppercase;
     font-family: var(--font-main);
-    font-weight: 300;
-    font-size: 25px;
+    font-weight: 600;
+    font-size: 28px;
 }
 
 /* -- header container styles -- */
@@ -74,7 +74,7 @@
 
 .logo{
     padding: 0 5px;
-    width: 15%;
+    width: 20%;
 }
 .directory{
     padding: 0 5px;
@@ -82,7 +82,7 @@
 }
 .search{
     padding: 0 5px;
-    width: 35%;
+    width: 30%;
 }
 .nav{
     display: flex;
@@ -93,15 +93,36 @@
 }
 
 .headerItemLogo{
-    background-color: var(--color-rust);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+.headerItemLogo > a{
+    text-decoration: none;
+    color: var(--color-white);
+    font-size: 40px;
+    font-weight: 800;
+}
+.headerItemLogo > a:hover{
+    color: var(--color-rust);
+}
+
+#headerLogo{
+    height: 50px;
+}
+
+.headerItemDirectory{
     height: 100%;
     width: 100%;
 }
 
-.headerItemDirectory{
-    background-color: var(--color-yellow);
+#prodDirectory{
     height: 100%;
     width: 100%;
+    font-size: 20px;
 }
 
 /* -- begin search bar styles-- */
@@ -109,7 +130,6 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: var(--color-purple);
     height: 100%;
     width: 100%;
 }
@@ -124,7 +144,7 @@
 .fa-magnifying-glass{
     position: fixed;
     top: 25px;
-    left: 640px;
+    left: 730px;
     transform: translate(-50%);
     color: var(--color-purple);
 }
@@ -148,12 +168,12 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color: var(--color-rust);
     margin: 0 20px;
     width: fit-content;
     list-style: none;
     text-transform: uppercase;
     color: var(--color-white);
+    font-weight: 500;
 }
 
 .navItem > a{
@@ -162,11 +182,63 @@
 }
 
 .navItem > a:hover{
-    color: var(--color-purple);
+    color: var(--color-rust);
+}
+
+.fa-house,
+.fa-circle-user,
+.fa-arrow-right-to-bracket,
+.fa-cart-shopping{
+    font-size: 19px;
 }
 
 /* -- header directory styles -- */
 .headerDirectory{
     background-color: #b89dbb;
     height: 50px;
+}
+
+/* -- subheader styles -- */
+.prodNavMenu{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100%;
+    font-size: 25px;
+}
+
+.prodNavItem{
+    list-style: none;
+    font-weight: 300;
+}
+
+.hoverAnimation{
+    display: inline-block;
+    position: relative;
+}
+.hoverAnimation::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: scaleX(0);
+    height: 2px;
+    width: 100%;
+    background-color: var(--color-rust);
+    transform-origin: bottom center;
+    transition: transform 0.25s ease-out;
+}
+.hoverAnimation:hover::after{
+    transform: scaleX(1);
+    transform-origin: bottom center;
+}
+
+.prodNavItem > a{
+    text-decoration: none;
+    color: var(--color-purple-red);
+}
+.prodNavItem > a:hover{
+    color: var(--color-rust);
+    transition: transform 0.25s ease-out;
 }
