@@ -22,7 +22,7 @@
             {% endif %}
             {% if success %}
                 {% autoescape false %}
-                <h1>{{ success }}</h1>
+                <h2>{{ success }}</h2>
                 {% endautoescape %}
             {% endif %}
 
@@ -68,6 +68,9 @@
                         <select class="full-width" for="type" name="type">
                             <option value="customer" selected>Customer</option>
                             <option value="vendor">Vendor</option>
+                            {% if isAdmin %}
+                                <option value="admin">Admin</option>
+                            {% endif %}
                         </select>
                         <input class="full-width" style="display: none">
                         <label class="label-shown" for="type">Type</label>
