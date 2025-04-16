@@ -18,25 +18,35 @@ def register():
         last_name = request.form.get('last_name')
         type = request.form.get('type')
 
+        error = ""
         # Check if the values are not null (tampered with website)
         if not email or not username or not password \
             or not first_name or not last_name or not type:
-            return render_template("register.html", error="Error: Invalid input", isAdmin=isAdmin)
+            error = "Error: Invalid input"
         elif Users.query.filter_by(email=email).first():
-            return render_template("register.html", error="Error: Email already exists", isAdmin=isAdmin)
+            error = "Error: Email already exists"
         elif email.find('@') == -1 or email.find('.') == -1:
-            return render_template("register.html", error="Error: Invalid email", isAdmin=isAdmin)
+            error = "Error: Invalid email"
         elif Users.query.filter_by(username=username).first():
-            return render_template("register.html", error="Error: Username already exists", isAdmin=isAdmin)
+            error = "Error: Username already exists"
         elif password != repassword:
-            return render_template("register.html", error="Error: Passwords do not match", isAdmin=isAdmin)
+            error = "Error: Passwords do not match"
+        elif not isAdmin and type == 'admin':
+            error = "Error: Insufficient permissions"
 
-        hashed_pswd = bcrypt.generate_password_hash(request.form.get('password')).decode('utf-8')
-        new_user = Users(email=email, username=username, hashed_pswd=hashed_pswd, 
-                        first_name=first_name, last_name=last_name, type=type)
-        db.session.add(new_user)
-        db.session.commit()
+        if error:
+            return render_template("register.html", error=error, isAdmin=isAdmin)
 
-        return render_template("register.html", success="Created account. <a href=\"/login\">Login</a>", isAdmin=isAdmin) 
+        # if there is still an error after the checks
+        try:
+            hashed_pswd = bcrypt.generate_password_hash(request.form.get('password')).decode('utf-8')
+            new_user = Users(email=email, username=username, hashed_pswd=hashed_pswd, 
+                            first_name=first_name, last_name=last_name, type=type)
+            db.session.add(new_user)
+            db.session.commit()
+
+            return render_template("register.html", success="Created account. <a href=\"/login\">Login</a>", isAdmin=isAdmin) 
+        except:
+            return render_template("register.html", error="Error", isAdmin=isAdmin)
 
     return render_template("register.html", isAdmin = isAdmin)
