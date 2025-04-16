@@ -15,7 +15,8 @@
     --color-error-red: #D32F2F;
     --color-success-green: green;
     --color-blue: #197bff;
-    --font-main: 'Lexend Deca'
+    --color-white: #cdc5ce;
+    --font-main: 'Zain';
 }
 
 /* Order properties:
@@ -55,8 +56,8 @@
     width: 100%;
     text-transform: uppercase;
     font-family: var(--font-main);
-    font-weight: 300;
-    font-size: 25px;
+    font-weight: 600;
+    font-size: 28px;
 }
 
 /* -- header container styles -- */
@@ -78,7 +79,7 @@
 
 .logo{
     padding: 0 5px;
-    width: 15%;
+    width: 20%;
 }
 .directory{
     padding: 0 5px;
@@ -86,34 +87,55 @@
 }
 .search{
     padding: 0 5px;
-    width: 35%;
+    width: 30%;
 }
 .nav{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
-    width: 40%;
 }
 
 .headerItemLogo{
-    background-color: var(--color-rust);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+.headerItemLogo > a{
+    text-decoration: none;
+    color: var(--color-white);
+    font-size: 40px;
+    font-weight: 800;
+}
+.headerItemLogo > a:hover{
+    color: var(--color-rust);
+}
+
+#headerLogo{
+    height: 50px;
+}
+
+.headerItemDirectory{
     height: 100%;
     width: 100%;
 }
 
-.headerItemDirectory{
-    background-color: var(--color-yellow);
-    height: 100%;
+#prodDirectory{
+    height: 85%;
     width: 100%;
+    font-family: var(--font-main);
+    font-size: 25px;
 }
 
 /* -- begin search bar styles-- */
 .headerItemSearch{
-    display: flex;
+    display: block;
+    position: relative;
     justify-content: space-around;
     align-items: center;
-    background-color: var(--color-purple);
     height: 100%;
     width: 100%;
 }
@@ -121,21 +143,21 @@
     border: none;
     border-radius: 25px;
     padding: 0 40px;
-    height: 100%;
+    height: 85%;
     width: 100%;
     font-size: 20px;
 }
 .fa-magnifying-glass{
-    position: fixed;
-    top: 25px;
-    left: 640px;
+    position: absolute;
+    top: 10px;
+    left: 25px;
     transform: translate(-50%);
     color: var(--color-purple);
 }
 .fa-circle-xmark{
-    position: fixed;
-    top: 25px;
-    right: 700px;
+    position: absolute;
+    top: 10px;
+    right: 0;
     transform: translate(-50%);
     color: var(--color-purple);
 }
@@ -152,12 +174,12 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color: var(--color-rust);
     margin: 0 20px;
     width: fit-content;
     list-style: none;
     text-transform: uppercase;
     color: var(--color-white);
+    font-weight: 500;
 }
 
 .navItem > a{
@@ -166,7 +188,14 @@
 }
 
 .navItem > a:hover{
-    color: var(--color-purple);
+    color: var(--color-rust);
+}
+
+.fa-house,
+.fa-circle-user,
+.fa-arrow-right-to-bracket,
+.fa-cart-shopping{
+    font-size: 19px;
 }
 
 /* -- header directory styles -- */
@@ -174,3 +203,164 @@
     background-color: #b89dbb;
     height: 50px;
 }
+
+/* -- subheader styles -- */
+.prodNavMenu{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100%;
+    font-size: 25px;
+}
+
+.prodNavItem{
+    list-style: none;
+    font-weight: 300;
+}
+
+.hoverAnimation{
+    display: inline-block;
+    position: relative;
+}
+.hoverAnimation::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: scaleX(0);
+    height: 2px;
+    width: 100%;
+    background-color: var(--color-rust);
+    transform-origin: bottom center;
+    transition: transform 0.25s ease-out;
+}
+.hoverAnimation:hover::after{
+    transform: scaleX(1);
+    transform-origin: bottom center;
+}
+
+.prodNavItem > a{
+    text-decoration: none;
+    color: var(--color-purple-red);
+}
+.prodNavItem > a:hover{
+    color: var(--color-rust);
+    transition: transform 0.25s ease-out;
+}
+
+
+/* ------------------- */
+/* -- FOOTER STYLES -- */
+/* ------------------- */
+
+.footerWrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--color-purple-red);
+    padding: 25px 50px;
+    height: fit-content;
+    width: 100%;
+    font-family: var(--font-main);
+}
+
+/* -- start social styles -- */
+.footerSocial{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+}
+
+.footerContact{
+    display: flex;
+    align-self: center;
+    margin: auto;
+    width: fit-content;
+    color: #b89dbb;
+}
+.footerContact > h5{
+    font-size: 20px;
+    font-weight: 300;
+}
+#email{
+    width: 100%;
+    color: var(--color-rust);
+}
+.contactIcons{
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    justify-content: space-between;
+    width: 55%;
+}
+
+.fa-facebook,
+.fa-twitter,
+.fa-instagram,
+.fa-threads,
+.fa-google,
+.fa-youtube{
+    color: var(--color-purple);
+    font-size: 20px;
+}
+.fa-facebook:hover,
+.fa-twitter:hover,
+.fa-instagram:hover,
+.fa-threads:hover,
+.fa-google:hover,
+.fa-youtube:hover{
+    color: var(--color-rust);
+    transition: transform 1s;
+}
+/* -- end social styles -- */
+
+/* -- start container styles --  */
+.footerContainer{
+    display: grid;
+    grid-template-columns: 500px;
+    justify-content: space-around;
+    align-items: center;
+    width: 40%;
+}
+
+.footerDirectory{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: auto;
+}
+
+.footerNavMenu{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.footerNavItem{
+    list-style: none;
+}
+
+.footerNavItem > a{
+    text-decoration: none;
+    color: var(--color-purple);
+}
+.footerNavItem > a:hover{
+    color: var(--color-rust);
+}
+
+.footerLegal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-rust);
+    font-size: 18px;
+    font-weight: 500;
+}
+/* -- end container styles -- */
