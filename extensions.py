@@ -9,8 +9,9 @@ from flask_bcrypt import Bcrypt
 # @app.route("/foo")
 # @login_required # (requires the user to be logged in. Redirects to login if not logged in)
 # def foo() ...
-#
 # current_user # (has current_user data like current_user.email or current_user.type)
+# current_user.is_authenticated
+# getCurrentType() # gets the current type. Is None if the user isn't signed in
 
 
 # Initialize Flask app
@@ -51,6 +52,10 @@ class Users(UserMixin, db.Model):
 
     def get_email(self):
         return self.email
+
+def getCurrentType():
+    """Returns the current_user type. Returns None if the user isn't logged in"""
+    return None if not current_user.is_authenticated else current_user.type
 
 # Load user for Flask-Login
 @login_manager.user_loader
