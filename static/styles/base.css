@@ -17,6 +17,7 @@
     --color-blue: #197bff;
     --color-white: #cdc5ce;
     --font-main: 'Zain';
+    --page-height: calc(100vh - 125px - 103px);
 }
 
 /* Order properties:
