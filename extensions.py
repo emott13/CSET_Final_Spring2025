@@ -15,8 +15,9 @@ from flask_bcrypt import Bcrypt
 
 
 # Initialize Flask app
+conn_str = "mysql://root:cset155@localhost/goods"
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:cset155@localhost/goods"
+app.config["SQLALCHEMY_DATABASE_URI"] = conn_str
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = b'\xdak\xd2\xf7\x80,8\x0f\xbdG\xb7\x87\xe4h\xcf\xae'
 
@@ -30,7 +31,6 @@ login_manager.init_app(app)
 login_manager.login_view = "login.login"
 
 # Initialize DB the way we did the other times
-conn_str = "mysql://root:cset155@localhost/cset170final"                                
 engine = create_engine(conn_str, echo=True)                                             
 conn = engine.connect()                                                                 
 
@@ -38,6 +38,13 @@ conn = engine.connect()
 # Create database
 # with app.app_context():
 #     db.create_all()
+
+# class Products(UserMixin, db.Model):
+#     product_id = db.Column(db.Integer, primary_key=True)
+#     vendor_id = db.Column(db.String(255), ForeignKey("users.email"), nullable=False)
+#     product_title = db.Column(db.String(255), nullable=False)
+#     product_description = db.Column(db.String(500), nullable=False)
+#     warranty_months = db.Column(db.Integer, nullable=False)
 
 class Users(UserMixin, db.Model):
     email = db.Column(db.String(255), primary_key=True)

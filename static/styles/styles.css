@@ -1,5 +1,9 @@
 @import url(base.css);
 
+.flex {
+    display: flex;
+}
+
 h1 {
     font-family: var(--font-main);
     font-size: 2rem;
@@ -28,6 +32,10 @@ h1 {
 
 .btn:hover {
     background-color: var(--color-dark-purple);
+}
+
+.full-height {
+    min-height: var(--page-height);
 }
 
 .full-width {

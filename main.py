@@ -4,12 +4,16 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, login_
 from extensions import *
 from login import login_bp
 from register import register_bp
+from product import product_bp
 
 # -- LOGIN PAGE -- #
 app.register_blueprint(login_bp)
 
 # -- SIGNUP PAGE -- #
 app.register_blueprint(register_bp)
+
+# -- PRODUCT PAGE -- #
+app.register_blueprint(product_bp)
 
 # -- TEST PAGE -- #
 # Shows current_user data (whoever is logged in)
