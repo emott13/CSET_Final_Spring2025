@@ -1,8 +1,60 @@
-@import url(/static/styles/base.css);
+@import url(base.css);
 
 main{
-    min-height:calc(100vh - 215px);
+    margin: 0 auto;
+    min-height: calc(100vh - 215px);
+    max-width: 1200px;
+    font-family: var(--font-main);
 }
-main > h2{
-    min-height: 90px;
+
+.productsTitle{
+    font-size: 28px;
 }
+
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    border: var(--color-purple-red) 1px solid;
+    border-radius: 5px;
+    height: 80vh;
+    width: 90%;
+    padding: 2vh 0;
+}
+
+.productWrapper{
+    display: grid;
+    grid-template-columns: 290px 290px 290px;
+    grid-template-rows: 200px 200px 200px;
+    grid-template-areas: 
+        'a b b'
+        'a c d'
+        'e e d';
+    gap: 10px;
+    margin: 0 auto;
+    height: 600px;
+    width: 900px;
+}
+
+.prodTextbooks{
+    grid-area: c;
+    background-color: var(--color-white);
+}
+.prodSchSupplies{
+    grid-area: a;
+    background-color: var(--color-purple);
+}
+.prodOffFurniture{
+    grid-area: b;
+    background-color: var(--color-rust);
+}
+.prodClssFurniture{
+    grid-area: e;
+    background-color: var(--color-purple-red);
+}
+.prodTech{
+    grid-area: d;
+    background-color: var(--color-purple);
+}
+
