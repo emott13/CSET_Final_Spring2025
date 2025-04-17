@@ -9,7 +9,7 @@ product_bp = Blueprint("product", __name__, static_folder="static",
 
 @product_bp.route("/product/<int:productId>", methods=["GET", "POST"])
 def product(productId):
-    error_404 = True
+    error_404 = False
     pi = { # product indexes
         'product_id': 0,
         'vendor_id': 1,
@@ -29,19 +29,20 @@ def product(productId):
     }
     productData = conn.execute(text(
         "SELECT product_id, vendor_id, product_title, "
-        "product_description, warranty_months FROM products")).all()
+        "product_description, warranty_months FROM products "
+        f"WHERE product_id = {productId}")).all()
     variantData = conn.execute(text(
         "SELECT variant_id, product_id, color_id, size_id, "
         "price, current_inventory, color_name, size_description "
-        "FROM product_variants NATURAL JOIN colors NATURAL JOIN sizes")).all()
+        "FROM product_variants NATURAL JOIN colors NATURAL JOIN sizes " \
+        f"WHERE product_id = {productId}")).all()
 
     print(productData)
     print(variantData)
 
-    for product in productData:
-        if product[pi['product_id']] == productId:
-            error_404 = False
-            break
+    if productData == []:
+        error_404 = True
+
     if error_404:
         return "Page not found :("
     if request.method == "POST":
