@@ -1,0 +1,138 @@
+@import url(base.css);
+
+.flex {
+    display: flex;
+}
+
+h1 {
+    font-family: var(--font-main);
+    font-size: 2rem;
+}
+
+.error {
+    color: var(--color-error-red);
+    margin-bottom: 20px;
+}
+
+.success {
+    color: var(--color-success-green);
+    margin-bottom: 20px;
+}
+
+.btn {
+    background-color: var(--color-purple);
+    text-decoration: none;
+    padding: .5rem .5rem;
+    border-top: 1px solid var(--color-purple);
+    border-left: 1px solid var(--color-purple);
+    border-right: 1px solid var(--color-dark-purple);
+    border-bottom: 1px solid var(--color-dark-purple);
+    cursor: pointer
+}
+
+.btn:hover {
+    background-color: var(--color-dark-purple);
+}
+
+.full-height {
+    min-height: var(--page-height);
+}
+
+.full-width {
+    width: 100%;
+}
+
+.space {
+    margin: 0 10px;
+}
+
+.input-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* error-message probably not needed (for fancy-input) */
+.error-message {
+    position: absolute;
+    display: none;
+    font-size: .7rem;
+    top: 30px;
+    color: var(--color-error-red);
+}
+
+.fancy-input {
+    display: flex;
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.fancy-input input,
+.fancy-input select {
+    z-index: 1;
+    font-size: 1.1rem;
+    border: none;
+    border-bottom: 2px solid var(--color-purple-red);
+    background-color: transparent;
+    transition: 0.2s;
+}
+
+.fancy-input input:focus {
+    outline: none;
+    border-color: var(--color-blue);
+}
+
+.fancy-input label {
+    position: absolute;
+    top: 0;
+    left: 0px;
+    transition: 0.2s;
+}
+
+.fancy-input input:focus + label,
+.fancy-input input:not(:placeholder-shown) + label,
+.label-shown {
+    font-size: 90%;
+    top: -15px;
+}
+
+.fancy-input input:focus + label {
+    color: var(--blue);
+}
+  
+
+/* -------------------------- */
+/* -- LOGIN / SIGNUP START -- */
+
+.login-h1 {
+    margin-bottom: 2rem;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: var(--page-height);
+    background-color: var(--color-purple);
+}
+
+.login-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-white);
+    padding: 2rem;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.login-form button[type='submit'] {
+    width: 100%;
+}
+
+.to-register {
+    margin-bottom: .5rem;
+}
+
+/* -- LOGIN / SIGNUP END -- */
+/* ------------------------ */
