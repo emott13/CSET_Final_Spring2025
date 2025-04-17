@@ -29,6 +29,11 @@ def logout():
     logout_user()
     return redirect(url_for("login.login"))
 
+# -- HOME PAGE -- #
+@app.route('/home')
+def home():
+    return render_template('home.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
