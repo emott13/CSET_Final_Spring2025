@@ -101,7 +101,6 @@ h1 {
 }
   
 
-/* -------------------------- */
 /* -- LOGIN / SIGNUP START -- */
 
 .login-h1 {
@@ -135,4 +134,78 @@ h1 {
 }
 
 /* -- LOGIN / SIGNUP END -- */
-/* ------------------------ */
+
+
+/* -- PRODUCT PAGE START -- */
+
+.product-container {
+    display: flex;
+    justify-content: center;
+    background-color: #333;
+}
+
+.product-image-container {
+    display: flex;
+    flex-direction: column;
+    background-color: blue;
+    flex-shrink: 1;
+    max-width: 500px;
+}
+
+.product-img {
+    margin: auto;
+    max-width: 500px;
+    max-height: 500px;
+    /* background-size: contain; */
+}
+
+.product-img-select {
+    display: flex;
+    background-color: green;
+    overflow-x: auto;
+    /* height: 100px; */
+}
+
+.product-img-small {
+    flex: 0 0 auto;
+    background-color: lightgreen;
+    width: 100px;
+    height: 100px;
+    margin-right: 4px;
+}
+
+.product-info-container {
+    background-color: var(--color-white);
+    height: 400px;
+    width: 600px;
+    padding: .5rem;
+}
+
+.product-title {}
+
+.vendor-username {
+    margin-bottom: .4rem;
+}
+
+.product-rating {
+    display: flex;
+}
+
+.product-rating .fa-star {
+    color: orange;
+    padding: 1px;
+}
+
+.product-rating-num {
+
+}
+
+.product-separator {
+    margin: .25rem auto 1rem auto;
+    height: 1px;
+    width: 100%;
+    background-color: var(--color-purple);
+}
+
+/* -- PRODUCT PAGE END -- */
+

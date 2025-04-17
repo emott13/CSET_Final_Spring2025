@@ -2,6 +2,43 @@
 {% extends 'base.html' %}
 {% block body %}
     <div class="full-height full-width">
+        <div class="product-container">
 
+            <div class="product-image-container">
+                <img class="product-img" src="{{imageData[0][ii['file_path']]}}">
+                <div class="product-img-select">
+                    {% for image in imageData %}
+                        <img class="product-img-small" src="{{image[ii['file_path']]}}">
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="product-info-container">
+                <h1 class="product-title">{{productData[pi['product_title']]}}</h1>
+                <p class="vendor-username">Vendor: {{productData[pi['username']]}}</p>
+                <div class="product-rating">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                    <p class="product-rating-num">3.2</p>
+                </div>
+
+                <div class="product-separator"></div> 
+
+                <h3 class="product-price">$12.99</h3>
+                <p class="product-list-price"><s>List Price: $13.99</s></p>
+
+                <p class="product-size-selected"></p>
+                <div class="product-sizes-container">
+                    <div class="variant-size-container">
+                        <p class="variant-size"></p>
+                        <p class="variant-price"></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 {% endblock %}
