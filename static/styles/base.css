@@ -18,6 +18,9 @@
     --color-white: #cdc5ce;
     --font-main: 'Zain';
     --page-height: calc(100vh - 125px - 103px);
+    --color-purple-white: #F0E0F2;
+    --color-white: #fffaf4;
+    --font-main: 'Zain';
 }
 
 /* Order properties:
@@ -217,7 +220,7 @@
 
 .prodNavItem{
     list-style: none;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 .hoverAnimation{
