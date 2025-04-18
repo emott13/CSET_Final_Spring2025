@@ -6,7 +6,7 @@ from extensions import Users, bcrypt, conn
 product_bp = Blueprint("product", __name__, static_folder="static",
                   template_folder="templates")
 
-def isValidProductURL(productId, variantId=None, sizeId=None, colorId=None):
+def isValidProductURL(productId, variantId=None):
     """
     Checks to make sure the product URL is correct. 
     If not, it either returns 404, the correct link, or None (link is correct)
@@ -19,7 +19,7 @@ def isValidProductURL(productId, variantId=None, sizeId=None, colorId=None):
 
     isValid = True
     productVariants =  conn.execute(text(
-        f"SELECT variant_id, size_id, color_id FROM product_variants "
+        f"SELECT variant_id FROM product_variants "
         f"WHERE product_id = {productId}")
         ).all()
 
@@ -42,67 +42,18 @@ def isValidProductURL(productId, variantId=None, sizeId=None, colorId=None):
         isValid = False
         variantValue = productVariants[0][0] # sets the variable to the first variant
 
-    sizeValue = sizeId
-    # if sizeId and variantId exist. Sets sizeValue to either the 
-    # current sizeId (if valid), or a valid sizeId
-    if sizeId:
-        # checks if the sizeId is in the sizes table with the correct product ID
-        sizeExists = False
-        for variant in productVariants:
-            if sizeId == variant[1]:
-                sizeExists = True
-                break
-
-        if not sizeExists:
-            sizeValue = productVariants[0][1] # sets the variable to the first variant
-            isValid = False
-    else:
-        isValid = False
-        sizeValue = productVariants[0][1] # sets the variable to the first variant
-
-    colorValue = colorId
-    # if colorId and variantId exist. Sets colorValue to either the 
-    # current colorId (if valid), or a valid colorId
-    if colorId:
-        # checks if the colorId is in the colors table with the correct product ID
-        colorExists = False
-        for variant in productVariants:
-            if colorId == variant[2]:
-                colorExists = True
-                break
-
-        if not colorExists:
-            colorValue = productVariants[0][2] # sets the variable to the first variant
-            isValid = False
-    else:
-        isValid = False
-        colorValue = productVariants[0][2] # sets the variable to the first variant
-    
-    print("variantValue")
-    print(variantValue)
-    print("sizeValue")
-    print(sizeValue)
-    print("sizeId")
-    print(sizeId)
-    print("colorValue")
-    print(colorValue)
-
     if isValid:
         return None
     else:
-        return f"/product/{productId}/{variantValue}/{sizeValue}/{colorValue}"
+        return f"/product/{productId}/{variantValue}"
         
 
 @product_bp.route("/product/<int:productId>/", methods=["GET", "POST"])
-@product_bp.route("/product/<int:productId>/<int:variantId>/", methods=["GET", "POST"])
-@product_bp.route("/product/<int:productId>/<int:variantId>/<int:sizeId>/", methods=["GET", "POST"])
-@product_bp.route("/product/<int:productId>/<int:variantId>/<int:sizeId>/<int:colorId>", 
-                  methods=["GET", "POST"])
-def product(productId, variantId=None, sizeId=None, colorId=None):
+@product_bp.route("/product/<int:productId>/<int:variantId>", methods=["GET", "POST"])
+def product(productId, variantId=None):
     # Returns 404 (productId doesn't exist), new URL (if the parameters are invalid),
     # or None (parameters are already fine)
-    invalidURL = isValidProductURL(productId, variantId, sizeId, colorId)
-    print(f"invalidURL: {invalidURL}")
+    invalidURL = isValidProductURL(productId, variantId)
     if invalidURL == 404:
         return "Error: Page not found :("
     elif invalidURL:
@@ -142,6 +93,7 @@ def product(productId, variantId=None, sizeId=None, colorId=None):
         "price, current_inventory, color_name, size_description "
         "FROM product_variants NATURAL JOIN colors NATURAL JOIN sizes " \
         f"WHERE product_id = {productId} AND variant_id = {variantId}")).first()
+    # all variant data. Index like this variantData[<index>][vi['price']]
     allVariantData = conn.execute(text(
         "SELECT variant_id, product_id, color_id, size_id, "
         "price, current_inventory, color_name, size_description "
