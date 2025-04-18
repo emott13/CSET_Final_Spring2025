@@ -182,7 +182,7 @@ ALTER TABLE product_variants AUTO_INCREMENT=100200;
 -- any additional information necessary to model a running ecommerce website
 
 INSERT INTO users (email, username, hashed_pswd, first_name, last_name, type)
-VALUES
+VALUES											
 	('d_daedalus_admin@goods.com', 'dd_admin', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Daedalus', 'Dzidzic', 'admin'), -- admin
 	('m_malova_admin@goods.com', 'mm_admin', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Maya', 'Malova', 'admin'), -- admin
 	('s_teller@gmail.com', 'steller', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Simpson', 'Teller', 'customer'), -- customer
@@ -517,3 +517,87 @@ VALUES
 	('Thanks for the info! For 10 or more 12-packs, I can offer them at $26.99 per pack instead of $29.99.', 850556, 'g_pitts@supplies4school.org', 'd_giant@outlook.com', '2025-04-09 11:01:12'),
 	('That’s a fair offer. If I go with 15 packs, could you do $25 each?', 850556, 'd_giant@outlook.com', 'g_pitts@supplies4school.org', '2025-04-09 11:03:44'),
 	('For 15 packs, I can meet you halfway at $25.99 per pack. Let me know if that works for you.', 850556, 'g_pitts@supplies4school.org', 'd_giant@outlook.com', '2025-04-09 11:06:10');
+    
+    
+-- select * from products;
+-- select * from products natural join images;
+-- select * from images;
+
+-- updated products for cset 180 final
+INSERT INTO products (vendor_id, product_title, product_description, warranty_months)
+VALUES
+	-- 850565
+    ('i_tombolli@study_space.com', 'Metro Office Desks', 'Strong, sleek design. For ad agencies, design studios, and urban office spaces. Durable 1 1/2" thick laminate top with PVC edges and cable grommets. 30" height. Heavy-duty steel frame with rectangle tube legs and full-length modest panel.', 12),
+	-- 850566
+    ('i_tombolli@study_space.com', 'Metro Mobile Pedestal File - 2 Drawer', 'Companion storage fits under Metro Office Desks. Durable laminate surface resists scratches, stains and spills. 2 file drawers. 5 swivel casters, 2locking. Includes lock and 2 keys.', 12),
+	-- 850567
+    ('i_tombolli@study_space.com', 'Metro Mobile Pedestal File - 3 Drawer', 'Companion storage fits under Metro Office Desks. Durable laminate surface resists scratches, stains and spills. 1 file drawer, 2 box drawers. 5 swivel casters, 2locking. Includes lock and 2 keys.', 12);
+--  select * from product_variants;
+INSERT INTO sizes (size_description)
+VALUES
+	('48L X 24W Inches'), -- 28
+    ('60L X 24W Inches'), -- 29
+    ('72L X 24W Inches'), -- 30
+    ('60W x 30L Inches'), -- 31
+    ('72W X 30L Inches'), -- 32
+    ('16W X 22D X 28L Inches'); -- 33
+    
+ INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory)
+ VALUES -- color: 19787
+	(850565, 19787, 28, 44900, 20), -- desk
+    (850565, 19787, 29, 48900, 20), -- desk
+    (850565, 19787, 30, 52900, 20), -- desk
+    (850565, 19787, 31, 53900, 20), -- desk
+    (850565, 19787, 32, 57900, 15), -- desk
+    (850566, 19787, 33, 26900, 32), -- pedestal file 2-drawer
+    (850567, 19787, 33, 27900, 31); -- pedestal file 3-drawer
+-- select * from images where variant_id in(100220, 100221, 100222, 100223, 100224, 100225, 100226);
+INSERT INTO images (variant_id, file_path, alt_text)
+VALUES
+	-- H-10353
+	(100220, '/static/images/metro_collection/H-10353-A.png', 'Front View'), 
+    (100220, '/static/images/metro_collection/H-10353-B.png', 'Back View'), 
+    (100220, '/static/images/metro_collection/H-10353-C.png', 'Front View With Office Items'), 
+    (100220, '/static/images/metro_collection/H-10353-D.png', 'Back View With Office Items'), 
+    (100220, '/static/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
+    (100220, '/static/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
+    -- H-9778
+    (100221, '/static/images/metro_collection/H-9778-A.png', 'Front View'), 
+    (100221, '/static/images/metro_collection/H-9778-B.png', 'Back View'), 
+    (100221, '/static/images/metro_collection/H-9778-C.png', 'Front View With Office Items'), 
+    (100221, '/static/images/metro_collection/H-9778-D.png', 'Back View With Office Items'), 
+    (100221, '/static/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
+    (100221, '/static/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
+    -- H-10355
+    (100222, '/static/images/metro_collection/H-10355-A.png', 'Front View'), 
+    (100222, '/static/images/metro_collection/H-10355-B.png', 'Back View'), 
+    (100222, '/static/images/metro_collection/H-10355-C.png', 'Front View With Office Items'), 
+    (100222, '/static/images/metro_collection/H-10355-D.png', 'Back View With Office Items'), 
+    (100222, '/static/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
+    (100222, '/static/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
+    -- H-10354
+    (100223, '/static/images/metro_collection/H-10355-A.png', 'Front View'), 
+    (100223, '/static/images/metro_collection/H-10355-B.png', 'Back View'), 
+    (100223, '/static/images/metro_collection/H-10355-C.png', 'Front View With Office Items'), 
+    (100223, '/static/images/metro_collection/H-10355-D.png', 'Back View With Office Items'), 
+    (100223, '/static/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
+    (100223, '/static/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
+    -- H-9779
+    (100224, '/static/images/metro_collection/H-10355-A.png', 'Front View'), 
+    (100224, '/static/images/metro_collection/H-10355-B.png', 'Back View'), 
+    (100224, '/static/images/metro_collection/H-10355-C.png', 'Front View With Office Items'), 
+    (100224, '/static/images/metro_collection/H-10355-D.png', 'Back View With Office Items'), 
+    (100224, '/static/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
+    (100224, '/static/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
+    -- H-9784
+    (100225, '/static/images/metro_collection/H-9784-A.png', 'Front View'), 
+    (100225, '/static/images/metro_collection/H-9784-B.png', 'File Drawer Open'), 
+    (100225, '/static/images/metro_collection/laminate-edge.png', 'Laminate Corner'), 
+    (100225, '/static/images/metro_collection/lock-keys.png', 'Front - keys in keyhole'), 
+    -- H-9785
+    (100226, '/static/images/metro_collection/H-9784-A.png', 'Front View'),
+    (100226, '/static/images/metro_collection/H-9784-B.png', 'File Drawer Open'),
+    (100226, '/static/images/metro_collection/H-9784-C.png', 'Box Drawer Open'),
+    (100226, '/static/images/metro_collection/laminate-edge.png', 'Laminate Corner'),
+    (100226, '/static/images/metro_collection/lock-keys.png', 'Front - keys in keyhole'); 
+-- select * from products natural join product_variants where vendor_id = 'i_tombolli@study_space.com' and product_id in(850565, 850566, 850567) order by product_id;

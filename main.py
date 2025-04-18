@@ -32,7 +32,17 @@ def logout():
 # -- HOME PAGE -- #
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    officeProdIDs = [100220, 100221, 100222, 100223, 100224, 100225, 100226]
+    officePhotos = []
+    for id in officeProdIDs:
+        photo = conn.execute(
+        text('SELECT product_title, size_description, file_path, alt_text ' \
+        'FROM products natural join product_variants natural join sizes natural join images ' \
+        'WHERE product_id IN(850565, 850566, 850567) ' \
+        'AND variant_id=:id LIMIT 1'), {'id': id}).fetchone()
+        officePhotos.append(photo)
+    print('Office products: ', officePhotos)
+    return render_template('home.html', officePhotos = officePhotos)
 
 
 if __name__ == '__main__':
