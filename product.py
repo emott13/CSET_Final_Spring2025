@@ -103,10 +103,6 @@ def product(productId, variantId=None):
     # image data. Index like this imageData[0][ii['file_path']]
     imageData = conn.execute(text(f"SELECT variant_id, file_path FROM images WHERE variant_id = {variantId}")).all()
 
-    # print(f"productData: i\n{productData}")
-    # print(f"variantData: \n{variantData}")
-    # print(f"imageData: \n{imageData}")
-
 
     if request.method == "POST":
         return

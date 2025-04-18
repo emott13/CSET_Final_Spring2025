@@ -217,5 +217,27 @@ h1 {
     font-weight: 800;
 }
 
+.product-sizes-container {
+    display: flex;
+}
+
+.variant-size-container {
+    margin: .25rem;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.variant-size,
+.variant-price {
+    margin: .25rem;
+}
+.variant-separator {
+    display: inline-block;
+    content: "";
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+
+
 /* -- PRODUCT PAGE END -- */
 

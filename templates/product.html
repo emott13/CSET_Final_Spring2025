@@ -27,16 +27,16 @@
 
                 <div class="product-separator"></div> 
 
-                <h3 class="product-price">$12.99</h3>
-                <p class="product-list-price">List Price: <s>$13.99</s></p>
+                <h3 class="product-price">${{ variantData[vi['price']]|priceFormat }}</h3>
+                <!-- <p class="product-list-price">List Price: <s>${{ variantData[vi['price']]|priceFormat }}</s></p> -->
 
                 <p class="product-size-selected">Size: <a id="size-selected">{{variantData[vi['size_description']]}}</a></p>
                 <div class="product-sizes-container">
                     {% for variant in allVariantData %}
                     <div class="variant-size-container">
                         <p class="variant-size">{{variant[vi['size_description']]}}</p>
+                        <div class="variant-separator"></div>
                         <p class="variant-price">${{ variant[vi['price']]|priceFormat }}</p>
-                        <!-- <p class="variant-price">${{ "%.2f"|format( ( variant[vi['price']]/100 )|round(2) ) }}</p> -->
                     </div>
                     {% endfor %}
                 </div>
