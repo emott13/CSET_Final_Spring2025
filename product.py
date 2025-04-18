@@ -6,36 +6,107 @@ from extensions import Users, bcrypt, conn
 product_bp = Blueprint("product", __name__, static_folder="static",
                   template_folder="templates")
 
-
-@product_bp.route("/product/<int:productId>/", methods=["GET", "POST"])
-@product_bp.route("/product/<int:productId>/<int:variantId>/", methods=["GET", "POST"])
-def product(productId, variantId=None):
-    error_404 = False
-    variantExists = False
-    productVariants =  conn.execute(text(
-        f"SELECT variant_id FROM product_variants "
-        f"WHERE product_id = {productId}")
-        ).all()
-
+def isValidProductURL(productId, variantId=None, sizeId=None, colorId=None):
+    """
+    Checks to make sure the product URL is correct. 
+    If not, it either returns 404, the correct link, or None (link is correct)
+    """
     # check if the product ID exists
     if conn.execute(text(
         f"SELECT product_id FROM products WHERE product_id = {productId}")
         ).all() == []:
-        error_404 = True
+        return 404
 
-    if error_404:
-        return "Page not found :("
-        
-    # checks if the variantId is in the variants table with the correct product ID
-    for variant in productVariants:
-        if variantId == variant[0]:
-            variantExists = True
-            break
+    isValid = True
+    productVariants =  conn.execute(text(
+        f"SELECT variant_id, size_id, color_id FROM product_variants "
+        f"WHERE product_id = {productId}")
+        ).all()
 
-    # If the variantId doesn't exist (or empty)
-    if not variantExists:
-        return redirect(f"/product/{productId}/{productVariants[0][0]}")
+
+    variantValue = variantId
+    # if variantId exists. Sets variantValue to either the current 
+    # variantId (if valid), or a valid variantId
+    if variantId:
+        # checks if the variantId is in the variants table with the correct product ID
+        variantExists = False
+        for variant in productVariants:
+            if variantId == variant[0]:
+                variantExists = True
+                break
+
+        if not variantExists:
+            variantValue = productVariants[0][0] # sets the variable to the first variant
+            isValid = False
+    else:
+        isValid = False
+        variantValue = productVariants[0][0] # sets the variable to the first variant
+
+    sizeValue = sizeId
+    # if sizeId and variantId exist. Sets sizeValue to either the 
+    # current sizeId (if valid), or a valid sizeId
+    if sizeId:
+        # checks if the sizeId is in the sizes table with the correct product ID
+        sizeExists = False
+        for variant in productVariants:
+            if sizeId == variant[1]:
+                sizeExists = True
+                break
+
+        if not sizeExists:
+            sizeValue = productVariants[0][1] # sets the variable to the first variant
+            isValid = False
+    else:
+        isValid = False
+        sizeValue = productVariants[0][1] # sets the variable to the first variant
+
+    colorValue = colorId
+    # if colorId and variantId exist. Sets colorValue to either the 
+    # current colorId (if valid), or a valid colorId
+    if colorId:
+        # checks if the colorId is in the colors table with the correct product ID
+        colorExists = False
+        for variant in productVariants:
+            if colorId == variant[2]:
+                colorExists = True
+                break
+
+        if not colorExists:
+            colorValue = productVariants[0][2] # sets the variable to the first variant
+            isValid = False
+    else:
+        isValid = False
+        colorValue = productVariants[0][2] # sets the variable to the first variant
+    
+    print("variantValue")
+    print(variantValue)
+    print("sizeValue")
+    print(sizeValue)
+    print("sizeId")
+    print(sizeId)
+    print("colorValue")
+    print(colorValue)
+
+    if isValid:
+        return None
+    else:
+        return f"/product/{productId}/{variantValue}/{sizeValue}/{colorValue}"
         
+
+@product_bp.route("/product/<int:productId>/", methods=["GET", "POST"])
+@product_bp.route("/product/<int:productId>/<int:variantId>/", methods=["GET", "POST"])
+@product_bp.route("/product/<int:productId>/<int:variantId>/<int:sizeId>/", methods=["GET", "POST"])
+@product_bp.route("/product/<int:productId>/<int:variantId>/<int:sizeId>/<int:colorId>", 
+                  methods=["GET", "POST"])
+def product(productId, variantId=None, sizeId=None, colorId=None):
+    # Returns 404 (productId doesn't exist), new URL (if the parameters are invalid),
+    # or None (parameters are already fine)
+    invalidURL = isValidProductURL(productId, variantId, sizeId, colorId)
+    print(f"invalidURL: {invalidURL}")
+    if invalidURL == 404:
+        return "Error: Page not found :("
+    elif invalidURL:
+        return redirect(invalidURL)
 
     pi = { # product indexes
         'product_id': 0,
@@ -65,22 +136,29 @@ def product(productId, variantId=None):
         "product_description, warranty_months, username FROM products "
         "JOIN users ON products.vendor_id = users.email "
         f"WHERE product_id = {productId}")).first()
-    # variant data. Index like this variantData[0][vi['price']]
+    # variant data. Index like this variantData[vi['price']]
     variantData = conn.execute(text(
         "SELECT variant_id, product_id, color_id, size_id, "
         "price, current_inventory, color_name, size_description "
         "FROM product_variants NATURAL JOIN colors NATURAL JOIN sizes " \
-        f"WHERE product_id = {productId} AND variant_id = {variantId}")).all()
+        f"WHERE product_id = {productId} AND variant_id = {variantId}")).first()
+    allVariantData = conn.execute(text(
+        "SELECT variant_id, product_id, color_id, size_id, "
+        "price, current_inventory, color_name, size_description "
+        "FROM product_variants NATURAL JOIN colors NATURAL JOIN sizes " \
+        f"WHERE product_id = {productId}")).all()
 
     # image data. Index like this imageData[0][ii['file_path']]
     imageData = conn.execute(text(f"SELECT variant_id, file_path FROM images WHERE variant_id = {variantId}")).all()
 
-    print(f"productData: i\n{productData}")
-    print(f"variantData: \n{variantData}")
-    print(f"imageData: \n{imageData}")
+    # print(f"productData: i\n{productData}")
+    # print(f"variantData: \n{variantData}")
+    # print(f"imageData: \n{imageData}")
 
 
     if request.method == "POST":
         return
     return render_template("product.html", productId=productId, productData=productData, pi=pi,
-                           variantData=variantData, vi=vi, imageData=imageData, ii=ii)
+                           variantData=variantData, vi=vi, imageData=imageData, ii=ii,
+                           allVariantData=allVariantData)
+
