@@ -3,7 +3,7 @@
 main{
     margin: 0 auto;
     min-height: calc(100vh - 215px);
-    max-width: 1200px;
+    max-width: 1400px;
     font-family: var(--font-main);
 }
 
@@ -15,46 +15,149 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     margin: 0 auto;
-    border: var(--color-purple-red) 1px solid;
-    border-radius: 5px;
-    height: 80vh;
-    width: 90%;
-    padding: 2vh 0;
+    min-height: 80vh;
+    width: 1285px;
 }
 
 .productWrapper{
-    display: grid;
-    grid-template-columns: 290px 290px 290px;
-    grid-template-rows: 200px 200px 200px;
-    grid-template-areas: 
-        'a b b'
-        'a c d'
-        'e e d';
-    gap: 10px;
     margin: 0 auto;
-    height: 600px;
-    width: 900px;
+    min-height: fit-content;
+    width: fit-content;
+}
+
+.floatItem{
+    margin: 10px;
 }
 
 .prodTextbooks{
-    grid-area: c;
-    background-color: var(--color-white);
+    display: block;
+    float: right;
+    height: 440px;
+    width: 300px;
+    border-radius: 15px;
+    /* background-image: url(https://assets.blog.engoo.com/wp-content/uploads/sites/9/2020/08/28023237/english_textbooks.jpg), */
+    /* background-image: url(https://hips.hearstapps.com/hmg-prod/images/world-book-day-1551950741.jpg?crop=0.746xw:1.00xh;0.254xw,0&resize=640:*), */
+    /* background-image: url(https://static.vecteezy.com/system/resources/thumbnails/044/280/984/small_2x/stack-of-books-on-a-brown-background-concept-for-world-book-day-photo.jpg), */
+    /* background-image: url(https://t3.ftcdn.net/jpg/01/18/67/46/360_F_118674630_ct8BMi4p95r67QZ217nvEO3o2YlDZta2.jpg), */
+    background-image: url(https://img.freepik.com/free-photo/arrangement-with-books-stack-indoors_23-2148882745.jpg),
+        linear-gradient(#642f374d, #642f3728);
+    background-size: cover;
+    background-position: right;
 }
 .prodSchSupplies{
-    grid-area: a;
-    background-color: var(--color-purple);
+    display: block;
+    float: left;
+    height: 340px;
+    width: 300px;
+    border-radius: 15px;
+    /* background-image: url(https://media.istockphoto.com/id/171152675/photo/students-desk-with-blank-books.jpg?s=612x612&w=0&k=20&c=x_70ciE5dHkArqXZPqQ--Dr4OCjV25JJiaQmK-pxYFE=), */
+    /* background-image: url(https://img.freepik.com/premium-photo/backpack-with-school-supplies-wooden-table_392895-87170.jpg), */
+    /* background-image: url(https://img.freepik.com/premium-photo/school-backpack-stationery-bright-room_441923-10564.jpg?semt=ais_hybrid&w=740), */
+    /* background-image: url(https://aws.cricketmedia.com/media/20160829165439/shutterstock_303049892-e1472489720964.jpg), */
+    /* background-image: url(https://media.istockphoto.com/id/182828491/photo/school-supplies.jpg?s=612x612&w=0&k=20&c=Jx13sEQbTQ1R6Ca39CwEaoaD3L_l0xJ913gE1EPV7CM=), */
+    /* background-image: url(https://media.istockphoto.com/id/543570666/photo/school-and-office-supplies.jpg?s=170667a&w=0&k=20&c=U3hTu8JeViFksKuwK28MyZcw5irpgPWl_2lqLfHN1II=), */
+    /* background-image: url(https://www.holmesmurphy.com/wp-content/uploads/2022/08/School-Supplies_no-filter.jpg), */
+    /* background-image: url(https://townsquare.media/site/717/files/2019/08/RS11757_154124140.jpg), */
+    background-image: url(https://img.freepik.com/premium-photo/backpack-with-school-supplies-wooden-table_392895-87170.jpg),
+        linear-gradient(#642f374d, #642f3728);
+    background-size: cover;
+    background-position: center;
 }
 .prodOffFurniture{
-    grid-area: b;
-    background-color: var(--color-rust);
+    display: block;
+    float: left;
+    height: 350px;
+    width: 300px;
+    border-radius: 15px;
+    /* background-image: url(https://www.sierralivingconcepts.com/images/thumbs/0411980_bloomfield-solid-wood-home-office-furniture-set.jpeg), */
+    /* background-image: url(https://www.shutterstock.com/image-illustration/modern-mock-decor-interior-design-260nw-1917693782.jpg), */
+    background-image: url(https://media.istockphoto.com/id/971381536/photo/real-photo-of-a-workplace-interior-with-a-computer-on-a-desk-next-to-a-chair-and-a-shelf-with.jpg?s=612x612&w=0&k=20&c=0gH-S6s5TgOwLfvMFWEFCURiX5YVmB8Y6kt16OTalwk=),
+        linear-gradient(#642f374d, #642f3728);;
+    background-size: cover;
+    background-position-x: right;
 }
-.prodClssFurniture{
-    grid-area: e;
-    background-color: var(--color-purple-red);
+.extra{
+    display: block;
+    float: left;
+    height: 250px;
+    width: 300px;
+    border-radius: 15px;
+    /* background-image: url(https://s.yimg.com/ny/api/res/1.2/8LDOhDD1_wO6VZW0jy2nzg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyNDI7aD04Mjg-/https://media.zenfs.com/en/wpix_new_york_city_ny_articles_672/7d691e48c67a077cb5712d643cdb16b7), */
+    /* background-image: url(https://media.istockphoto.com/id/624652586/photo/computers-in-classroom-on-high-school.jpg?s=612x612&w=0&k=20&c=33sWvB34qocGvcAoPzPR1OAB2nMbiruCxdox5sNIruQ=), */
+    background-image: url(https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1656367802/grantspassk12orus/sa36hxfbivqkqblgb4a4/schoolsupplies1.png),
+        linear-gradient(#642f374d, #642f3728);
+    background-size: cover;
 }
 .prodTech{
-    grid-area: d;
+    display: block;
+    float: left;
+    height: 250px;
+    width: 620px;
+    border-radius: 15px;
+    /* background-image: url(https://img.freepik.com/premium-photo/modern-workspace-with-desktop-computer-laptop-wireless-mouse-wooden-desk_885831-165808.jpg), */
+    /* background-image: url(https://i.pinimg.com/236x/e6/8c/31/e68c316dce1aac7fe52495e0be9283f1.jpg), */
+    /* background-image: url(https://m.media-amazon.com/images/S/aplus-media-library-service-media/ddc6894b-cdae-4dfc-b55f-561d3d204f8b.__CR0,0,970,600_PT0_SX970_V1___.jpg), */
+    /* background-image: url(https://media.istockphoto.com/id/1157335160/photo/computer-room-for-pupils-and-students-in-a-school-computer-lab.jpg?s=170667a&w=0&k=20&c=Toep-ATaDlTK_a6vGnOUF7iyhMXmI-jbvov7YTwQlnU=), */
+    /* background-image: url(https://gridfiti.com/wp-content/uploads/2021/10/Gridfiti_Blog_CollegeDeskSetup_Standing.jpg), */
+    background-image: url(https://theworkspacehero.com/wp-content/uploads/2023/09/Workspace-Image-30-of-108-1024x683.jpg),
+        linear-gradient(#642f374d, #642f3728);
+    background-size: cover;
+    background-position: center;
+}
+.prodClssFurniture{
+    display: block;
+    float: right;
+    height: 440px;
+    width: 620px;
+    border-radius: 15px;
     background-color: var(--color-purple);
+    /* background-image: url(https://pbs.twimg.com/media/D6F2Of-X4AAi0eY.jpg), -- do not remove without saving url*/ 
+    background-image: url(https://www.acmebrooklyn.com/wp-content/uploads/2022/08/TB305-S2_C-1024x1280.jpg),
+        linear-gradient(#642f374d, #642f3728);
+    background-size: cover;
+    /* background-position: center; */
 }
 
+/* -- product titles/subtitles -- */
+.prodHeadline{
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background: linear-gradient(var(--color-purple-red), #642f37d2);
+    padding: 6px;
+    height: 40px;
+    font-size: 35px;
+    font-weight: 300;
+    color: var(--color-white);
+}
+.prodSubCTA{
+    display: flex;
+    flex-direction: row;
+    background: linear-gradient(#642f37d2, #642f3700, #642f3700);
+    padding-left: 6px;
+    height: 100%;
+    text-decoration: none;
+    color: var(--color-white);
+    font-size: 25px;
+    font-weight: 200;
+}
+.arrow{
+    display: block;
+    background-image: url(../images/right-arrow-short-white.png);
+    background-size: cover;
+    background-position: center;
+    /* padding-left: 4px; */
+    height: 30px;
+    width: 70px;
+    /* transition: background-image 0.5s ease-in-out; */
+}
+.prodSubCTA:hover{
+    color: var(--color-yellow);
+    .arrow{
+        background-image: url(../images/right-arrow-long-purple.png);
+        height: 30px;
+        width: 80px;
+        transition: background-image 0.04s ease-out;
+    }
+}

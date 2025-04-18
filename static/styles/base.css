@@ -10,13 +10,14 @@
     --color-orange: #f3904b;
     --color-yellow: #f7c767;
     --color-purple: #b89dbb;
-    --color-dark-purple: hsl(294, 18%, 57%);
-    --color-error-red: #D32F2F;
-    --color-success-green: green;
+    --color-dark-purple: #a17ea5;
+    --color-error-red: #9b0120;
+    --color-success-green: #28b40d;
     --color-blue: #197bff;
     --page-height: calc(100vh - 125px - 103px);
     --color-purple-white: #F0E0F2;
     --color-white: #fffaf4;
+    --font-header: 'Lexend Deca';
     --font-main: 'Zain';
 }
 
@@ -52,11 +53,13 @@
 /* -- HEADER STYLES -- */
 /* ------------------- */
 
+/* -- @media monitor / wide screen -- */
 .headerWrapper{
+    margin-bottom: 20px;
     height: fit-content;
     width: 100%;
     text-transform: uppercase;
-    font-family: var(--font-main);
+    font-family: var(--font-header);
     font-weight: 600;
     font-size: 28px;
 }
@@ -127,7 +130,7 @@
 #prodDirectory{
     height: 85%;
     width: 100%;
-    font-family: var(--font-main);
+    font-family: var(--font-header);
     font-size: 25px;
 }
 
@@ -260,11 +263,12 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    margin-top: 20px;
     background-color: var(--color-purple-red);
     padding: 25px 50px;
     height: fit-content;
     width: 100%;
-    font-family: var(--font-main);
+    font-family: var(--font-header);
 }
 
 /* -- start social styles -- */
@@ -365,3 +369,88 @@
     font-weight: 500;
 }
 /* -- end container styles -- */
+
+/* -- @media laptop / small screen -- */
+@media screen and (max-width: 1540px){
+    .headerWrapper{
+        font-family: var(--font-header);
+        font-weight: 500;
+        font-size: 18px;
+    }
+    
+    .logo{
+        width: 25%;
+    }
+    .directory{
+        width: 15%;
+    }
+    .search{
+        width: 25%;
+    }
+
+    /* -- header logo -- */
+    .headerItemLogo > a{
+        font-size: 28px;
+        font-weight: 700;
+    }
+    
+    /* -- directory -- */
+    #prodDirectory{
+        font-size: 20px;
+    }
+    /* -- search bar -- */
+    .fa-magnifying-glass{
+        top: 15px;
+        font-size: 20px;
+    }
+    .fa-circle-xmark{
+        top: 15px;
+        font-size: 20px;
+    }
+    .navItem{
+        margin: 0 10px;
+    }
+    /* -- sub header -- */
+    .prodNavMenu{
+        font-size: 20px;
+    }
+    
+    /* -- FOOTER STYLES -- */
+    /* -- start social styles -- */
+    .footerSocial{
+        width: 50%;
+    }
+    
+    .footerContact > h5{
+        margin-bottom: 5px;
+        font-size: 17px;
+    }
+    .contactIcons{
+        width: 55%;
+    }
+    
+    .fa-facebook,
+    .fa-twitter,
+    .fa-instagram,
+    .fa-threads,
+    .fa-google,
+    .fa-youtube{
+        font-size: 19px;
+    }
+    /* -- end social styles -- */
+    
+    /* -- start container styles --  */
+    .footerContainer{
+        grid-template-columns: 540px;
+        row-gap: 5px;
+        width: 50%;
+    }
+    
+    .footerNavMenu{
+        font-size: 17px;
+    }
+    
+    .footerLegal{
+        font-size: 14px;
+    }
+}
