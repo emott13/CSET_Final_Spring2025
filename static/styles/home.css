@@ -211,13 +211,21 @@ main{
     margin: auto;
     height: 130px;
 }
-.slick-next, 
-.slick-prev{
-    display: block;
-    background-color: var(--color-purple-white) !important;
-    /* color: var(--color-purple) !important; */
-    font-size: 30px;
-    height: 40px !important;
-    width: 20px !important;
+
+.slick-prev:before{
+    position: absolute !important;
+    left: -25px !important;
+}
+.slick-next:before, 
+.slick-prev:before{
+    position: absolute !important;
+    top: 45% !important;
+    display: block !important;
+    border-radius: 0 !important;
+    color: var(--color-purple) !important;
+    font-size: 45px !important;
+    height: 46px !important;
+    width: 46px !important;
     line-height: normal !important;
+    z-index: 2 !important;
 }
