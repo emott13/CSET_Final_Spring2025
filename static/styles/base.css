@@ -61,7 +61,7 @@
     text-transform: uppercase;
     font-family: var(--font-header);
     font-weight: 600;
-    font-size: 28px;
+    font-size: 20px;
 }
 
 /* -- header container styles -- */
@@ -91,7 +91,7 @@
 }
 .search{
     padding: 0 5px;
-    width: 30%;
+    width: 25%;
 }
 .nav{
     display: flex;
@@ -111,7 +111,7 @@
 .headerItemLogo > a{
     text-decoration: none;
     color: var(--color-white);
-    font-size: 40px;
+    font-size: 32px;
     font-weight: 800;
 }
 .headerItemLogo > a:hover{
@@ -131,7 +131,7 @@
     height: 85%;
     width: 100%;
     font-family: var(--font-header);
-    font-size: 25px;
+    font-size: 20px;
 }
 
 /* -- begin search bar styles-- */
@@ -153,14 +153,14 @@
 }
 .fa-magnifying-glass{
     position: absolute;
-    top: 10px;
+    top: 15px;
     left: 25px;
     transform: translate(-50%);
     color: var(--color-purple);
 }
 .fa-circle-xmark{
     position: absolute;
-    top: 10px;
+    top: 15px;
     right: 0;
     transform: translate(-50%);
     color: var(--color-purple);
@@ -215,7 +215,7 @@
     justify-content: space-evenly;
     align-items: center;
     height: 100%;
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .prodNavItem{
@@ -287,7 +287,7 @@
     color: #b89dbb;
 }
 .footerContact > h5{
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 300;
 }
 #email{
@@ -325,10 +325,11 @@
 /* -- start container styles --  */
 .footerContainer{
     display: grid;
-    grid-template-columns: 500px;
+    grid-template-columns: 580px;
+    row-gap: 5px;
     justify-content: space-around;
     align-items: center;
-    width: 40%;
+    width: 50%;
 }
 
 .footerDirectory{
@@ -344,7 +345,7 @@
     justify-content: space-evenly;
     align-items: center;
     width: 100%;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 300;
 }
 
@@ -365,7 +366,7 @@
     justify-content: center;
     align-items: center;
     color: var(--color-rust);
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 500;
 }
 /* -- end container styles -- */
