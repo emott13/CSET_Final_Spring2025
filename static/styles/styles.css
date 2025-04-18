@@ -141,6 +141,8 @@ h1 {
 .product-container {
     display: flex;
     justify-content: center;
+    font-family: var(--font-main);
+    font-size: 20px;
 }
 
 .product-image-container {
@@ -190,12 +192,13 @@ h1 {
 }
 
 .product-rating .fa-star {
+    font-size: 18px;
     color: orange;
     padding: 1px;
 }
 
 .product-rating-num {
-
+    margin-left: .5rem;
 }
 
 .product-separator {
@@ -203,6 +206,15 @@ h1 {
     height: 1px;
     width: 100%;
     background-color: var(--color-purple);
+}
+
+
+.product-size-selected {
+    margin-top: 1rem;
+}
+
+#size-selected {
+    font-weight: 800;
 }
 
 /* -- PRODUCT PAGE END -- */
