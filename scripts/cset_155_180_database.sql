@@ -551,7 +551,7 @@ VALUES
     (850565, 19787, 32, 57900, 15), -- desk
     (850566, 19787, 33, 26900, 32), -- pedestal file 2-drawer
     (850567, 19787, 33, 27900, 31); -- pedestal file 3-drawer
--- select * from images where variant_id in(100220, 100221, 100222, 100223, 100224, 100225, 100226);
+-- select * from images where variant_id in(100227, 100227, 100239, 100240);
 INSERT INTO images (variant_id, file_path, alt_text)
 VALUES
 	-- H-10353
@@ -600,4 +600,148 @@ VALUES
     (100226, '/static/images/metro_collection/H-9784-C.png', 'Box Drawer Open'),
     (100226, '/static/images/metro_collection/laminate-edge.png', 'Laminate Corner'),
     (100226, '/static/images/metro_collection/lock-keys.png', 'Front - keys in keyhole'); 
--- select * from products natural join product_variants where vendor_id = 'i_tombolli@study_space.com' and product_id in(850565, 850566, 850567) order by product_id;
+-- select * from products natural join product_variants where vendor_id = 'i_tombolli@study_space.com' and product_id in(850565, 850566, 850567, 850568, 850569, 850570) order by product_id;
+
+INSERT INTO products (vendor_id, product_title, product_description, warranty_months)
+VALUES
+-- 850568
+	('i_tombolli@study_space.com', 'Designer Office Desks', 'Brighten up your workplace. Minimalist style for modern and trendy offices. 1" thick elevated laminate top with PVC edges and 2 cable grommets. 30" height. Durable white steel frame with beveled legs and hanging modesty panel.', 12),
+-- 850569
+	('i_tombolli@study_space.com', 'Designer Office L-Desks', 'Brighten up your workplace. Minimalist style for modern and trendy offices. 1" thick elevated laminate top with PVC edges and 2 cable grommets. 30" height. Durable white steel frame with beveled legs and hanging modesty panel. L-Desk has extra space to get work done. Spread out your projects, reports, or creative materials.', 12),
+-- 850570    
+	('i_tombolli@study_space.com', 'Designer Mobile Pedestal File - 3 Drawer', 'Companion storage tucks away neatly and underneath Designer Office Desks. Durable laminate surface resists scratches, stains and spills. 1 file drawer, 2 box drawers. 5 swivel casters, 2 locking. Includes lock and two keys.', 12);
+
+INSERT INTO colors (color_name)
+VALUES
+	('white'), -- 19790
+    ('maple'); -- 19791
+INSERT INTO sizes (size_description)
+VALUES
+	('60W X 66L Inches'), -- 34
+    ('72W X 66L Inches'), -- 35
+    ('16W X 18D X 26L Inches'); -- 36
+-- SELECT * FROM sizes;
+ INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory)
+ VALUES
+	-- 100227
+	(850568, 19790, 28, 36900, 15),
+    -- 100228
+    (850568, 19791, 28, 36900, 15),
+    -- 100229
+	(850568, 19790, 29, 41900, 15),
+    -- 100230
+    (850568, 19791, 29, 41900, 15),
+    -- 100231
+    (850568, 19790, 22, 45900, 15),
+    -- 100232
+    (850568, 19791, 22, 45900, 15),
+    -- 100233
+    (850568, 19790, 32, 48900, 15),
+    -- 100234
+    (850568, 19791, 32, 48900, 15),
+    -- 100235
+    (850569, 19790, 34, 64900, 15),
+    -- 100236
+    (850569, 19791, 34, 64900, 15),
+    -- 100237
+    (850569, 19790, 35, 72900, 15),
+    -- 100238
+    (850569, 19791, 35, 72900, 15),
+    -- 100239
+    (850570, 19790, 36, 25900, 10),
+    -- 100240
+    (850570, 19791, 36, 25900, 10);
+select * from images where variant_id between 100227 AND 100240;
+INSERT INTO images (variant_id, file_path, alt_text)
+VALUES
+	(100227, '/static/images/designer_collection/H-9790-WHITE-A.png', 'Front View'),
+    (100227, '/static/images/designer_collection/H-9790-WHITE-B.png', 'Back View'),
+    (100227, '/static/images/designer_collection/H-9790-WHITE-C.png', 'Front View - Office Items'),
+    (100227, '/static/images/designer_collection/H-9790-WHITE-D.png', 'Back View -- Office Items'),
+	(100227, '/static/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
+    (100227, '/static/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
+    
+    (100228, '/static/images/designer_collection/H-9790-MAPLE-A.png', 'Front View'),
+    (100228, '/static/images/designer_collection/H-9790-MAPLE-B.png', 'Back View'),
+    (100228, '/static/images/designer_collection/H-9790-MAPLE-C.png', 'Front View - Office Items'),
+    (100228, '/static/images/designer_collection/H-9790-MAPLE-D.png', 'Back View -- Office Items'),
+    (100228, '/static/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
+    (100228, '/static/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
+    
+    (100229, '/static/images/designer_collection/H-10260-WHITE-A.png', 'Front View'),
+    (100229, '/static/images/designer_collection/H-10260-WHITE-B.png', 'Back View'),
+    (100229, '/static/images/designer_collection/H-10260-WHITE-C.png', 'Front View - Office Items'),
+    (100229, '/static/images/designer_collection/H-10260-WHITE-D.png', 'Back View -- Office Items'),
+    (100229, '/static/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
+    (100229, '/static/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
+    
+    (100230, '/static/images/designer_collection/H-10260-MAPLE-A.png', 'Front View'),
+    (100230, '/static/images/designer_collection/H-10260-MAPLE-B.png', 'Back View'),
+    (100230, '/static/images/designer_collection/H-10260-MAPLE-C.png', 'Front View - Office Items'),
+    (100230, '/static/images/designer_collection/H-10260-MAPLE-D.png', 'Back View -- Office Items'),
+    (100230, '/static/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
+    (100230, '/static/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
+    
+    (100231, '/static/images/designer_collection/H-10260-WHITE-A.png', 'Front View'),
+    (100231, '/static/images/designer_collection/H-10260-WHITE-B.png', 'Back View'),
+    (100231, '/static/images/designer_collection/H-10260-WHITE-C.png', 'Front View - Office Items'),
+    (100231, '/static/images/designer_collection/H-10260-WHITE-D.png', 'Back View -- Office Items'),
+    (100231, '/static/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
+    (100231, '/static/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
+    
+    (100232, '/static/images/designer_collection/H-10260-MAPLE-A.png', 'Front View'),
+    (100232, '/static/images/designer_collection/H-10260-MAPLE-B.png', 'Back View'),
+    (100232, '/static/images/designer_collection/H-10260-MAPLE-C.png', 'Front View - Office Items'),
+    (100232, '/static/images/designer_collection/H-10260-MAPLE-D.png', 'Back View -- Office Items'),
+    (100232, '/static/images/designer_collectiongrommet-maple.png', 'Desktop Grommet with Cord'),
+    (100232, '/static/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
+    
+    (100233, '/static/images/designer_collection/H-10261-WHITE-A.png', 'Front View'),
+    (100233, '/static/images/designer_collection/H-10261-WHITE-B.png', 'Back View'),
+    (100233, '/static/images/designer_collection/H-10261-WHITE-C.png', 'Front View - Office Items'),
+    (100233, '/static/images/designer_collection/H-10261-WHITE-D.png', 'Back View -- Office Items'),
+    (100233, '/static/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
+    (100233, '/static/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
+    
+    (100234, '/static/images/designer_collection/H-10261-MAPLE-A.png', 'Front View'),
+    (100234, '/static/images/designer_collection/H-10261-MAPLE-B.png', 'Back View'),
+    (100234, '/static/images/designer_collection/H-10261-MAPLE-C.png', 'Front View - Office Items'),
+    (100234, '/static/images/designer_collection/H-10261-MAPLE-D.png', 'Back View -- Office Items'),
+    (100234, '/static/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
+    (100234, '/static/images/designer_collection/laminate-corner-maple.png', 'Back View -- Office Items'),
+    
+    (100235, '/static/images/designer_collection/H-9800-WHITE-A.png', 'Front View'),
+    (100235, '/static/images/designer_collection/H-9800-WHITE-B.png', 'Back View'),
+    (100235, '/static/images/designer_collection/H-9800-WHITE-C.png', 'Front View - Office Items'),
+    (100235, '/static/images/designer_collection/H-9800-WHITE-D.png', 'Back View -- Office Items'),
+    (100235, '/static/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
+    (100235, '/static/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
+    
+    (100236, '/static/images/designer_collection/H-9800-MAPLE-A.png', 'Front View'),
+    (100236, '/static/images/designer_collection/H-9800-MAPLE-B.png', 'Back View'),
+    (100236, '/static/images/designer_collection/H-9800-MAPLE-C.png', 'Front View - Office Items'),
+    (100236, '/static/images/designer_collection/H-9800-MAPLE-D.png', 'Back View -- Office Items'),
+    (100236, '/static/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
+    (100236, '/static/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
+    
+--     (100237, '/static/images/designer_collection/H-10262-WHITE-', 'Front View'),
+--     (100237, '/static/images/designer_collection/H-10262-WHITE-', 'Back View'),
+--     (100237, '/static/images/designer_collection/H-10262-WHITE-', 'Front View - Office Items'),
+--     (100237, '/static/images/designer_collection/H-10262-WHITE-', 'Back View -- Office Items'),
+--     
+--     (100238, '/static/images/designer_collection/H-10262-MAPLE-', 'Front View'),
+--     (100238, '/static/images/designer_collection/H-10262-MAPLE-', 'Back View'),
+--     (100238, '/static/images/designer_collection/H-10262-MAPLE-', 'Front View - Office Items'),
+--     (100238, '/static/images/designer_collection/H-10262-MAPLE-', 'Back View -- Office Items'),
+    
+    (100239, '/static/images/designer_collection/H-9806-WHITE-A.png', 'Front View'),
+    (100239, '/static/images/designer_collection/H-9806-WHITE-B.png', 'File Drawer Open'),
+    (100239, '/static/images/designer_collection/H-9806-WHITE-C.png', 'Block Drawer Open'),
+    (100239, '/static/images/designer_collection/lock-keys-white.png', 'Front - keys in keyhole'),
+    (100239, '/static/images/designer_collection/pedestal-wheel-white.png', 'Front Corner - Wheel'),
+    
+    (100240, '/static/images/designer_collection/H-9806-MAPLE-A.png', 'Front View'),
+    (100240, '/static/images/designer_collection/H-9806-MAPLE-B.png', 'File Drawer Open'),
+    (100240, '/static/images/designer_collection/H-9806-MAPLE-C.png', 'Block Drawer Open'),
+    (100240, '/static/images/designer_collection/lock-keys-maple.png', 'Front - keys in keyhole'),
+    (100240, '/static/images/designer_collection/pedestal-wheel-maple.png', 'Front Corner - Wheel');
