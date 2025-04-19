@@ -181,12 +181,12 @@ main{
 /* -- hover styles -- */
 .prodSubCTA:hover{
     color: var(--color-yellow); 
-    transition: color 0.04s ease-out 0.3s;
+    transition: color 0.04s ease-out 0.1s;
     .arrow{
         background-image: url(../images/right-arrow-long-purple.png);
         margin-left: 5px;
-        transition: background-image 0.04s ease-out 0.3s,
-                    margin-left 0.04s ease-out 0.3s;
+        transition: background-image 0.04s ease-out 0.1s,
+                    margin-left 0.04s ease-out 0.1s;
     }
 }
 
