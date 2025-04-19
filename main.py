@@ -57,6 +57,9 @@ def home():
     print('sixth:', schoolSupplyProd[5])
     return render_template('home.html', officePhotos = officePhotos, schoolSupplies = schoolSupplyProd)
 
+@app.route('/search')
+def search():
+    return render_template('search.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

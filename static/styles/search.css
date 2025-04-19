@@ -1,0 +1,132 @@
+@import url(/static/styles/base.css);
+@import url(/static/styles/ionicons.css);
+
+main{
+    margin: 0 auto;
+    min-height: calc(100vh - 215px);
+    max-width: 1400px;
+    font-family: var(--font-main);
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    margin: 0 auto;
+    min-height: 80vh;
+    width: 1285px;
+}
+
+.searchWrapper{
+    margin: 0 auto;
+    min-height: fit-content;
+    width: fit-content;
+}
+
+.searchTitle{
+    font-size: 38px;
+    color: var(--color-purple-red);
+}
+
+.prodResult{
+    display: grid;
+    grid-template-columns: 320px 320px 320px;
+    background-color: var(--color-purple-red);
+    width: 960px;
+    min-height: 200px;
+}
+
+.resultCard{
+    margin: 10px;
+    border-radius: 15px;
+    background-color: var(--color-purple-white);
+    height: 250px;
+    width: 300px;
+}
+
+/* -- side menu styles -- */
+
+.sideMenu{
+    position: absolute;
+    top: 125px;
+    left: 0;
+    background-color: var(--color-purple-white);
+    padding: 10px;
+    height: 800px;
+    width: 280px;
+}
+
+/* .vendors,
+.categories{
+    display: flex;
+    flex-direction: column;
+    font-size: 25px;
+} */
+/* .vendor-options{
+    display: flex;
+    flex-direction: row;
+
+} */
+.category,
+.vendor{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    margin-bottom: 14px;
+    border: none;
+    background-color: transparent;
+    width: fit-content;
+    font-size: 25px;
+    text-align: center;
+}
+
+.dropdown{
+    display: none;
+    flex-direction: column;
+    padding-left: 8px;
+}
+.second-drop{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    margin: 6px 0;
+    font-size: 20px;
+}
+
+.category-dropdown{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 4px;
+    margin-bottom: 10px;
+    border: none;
+    background-color: transparent;
+    width: 220px;
+    text-align: center;
+}
+
+.input-container{
+    display: grid;
+    grid-template-columns: 15px 220px;
+    gap: 10px;
+    font-size: 20px;
+    text-align: start;
+}
+
+/* -- ion-icon styles -- */
+.ion-chevron-down:before{
+    content: '\f123';
+}
+.ion-chevron-down{
+    margin-left: 5px;
+    height: fit-content;
+    font-size: 20px;
+    color: var(--color-rust);
+}
+/* -- end ion-icon styles -- */
