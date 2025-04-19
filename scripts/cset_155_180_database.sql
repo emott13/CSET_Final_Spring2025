@@ -180,6 +180,10 @@ ALTER TABLE product_variants AUTO_INCREMENT=100200;
 -- meaningful chat messages regarding these requests **DONE**
 -- meaningful chat messages from all customers to different vendors
 -- any additional information necessary to model a running ecommerce website
+-- select product_title, size_description, file_path, alt_text from products natural join product_variants natural join sizes natural join images where vendor_id = 'g_pitts@supplies4school.org' and image_id IN(1,3,5,7,19,21);
+SELECT product_title, size_description, file_path, alt_text
+        FROM products NATURAL JOIN product_variants NATURAL JOIN sizes NATURAL JOIN images
+        WHERE vendor_id = 'g_pitts@supplies4school.org' and image_id IN(1, 3, 5, 7, 19, 21); 
 
 INSERT INTO users (email, username, hashed_pswd, first_name, last_name, type)
 VALUES											

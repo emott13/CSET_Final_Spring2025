@@ -1,6 +1,8 @@
 
 <link rel="stylesheet" href="/static/styles/home.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css" integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 {% extends 'base.html' %}
 {% block body %}
@@ -9,28 +11,77 @@
         <section class="productsContainer">
             <div class="productWrapper">
                 <div class="prodTextbooks floatItem">
-                    <h3 class="prodHeadline">Fastrack learning</h3>
-                    <a href="#" class="prodSubCTA">Explore textbooks <span class="arrow"></span></a>
+                    <h3 class="prodHeadline pos-text">
+                        <pre>Fastrack learning</pre>
+                        <p>
+                            Hit the books and stay ahead.
+                            From algebra to zoology &mdash; textbooks for every subject and schedule.
+                        </p>
+                        <a href="#" class="prodSubCTA">
+                            Explore textbooks <span class="arrow"></span>
+                        </a>
+                    </h3>
+                    
                 </div>
                 <div class="prodClssFurniture floatItem">
-                    <h3 class="prodHeadline">Create the perfect learning space</h3>
-                    <a href="#" class="prodSubCTA">Explore classroom furniture <span class="arrow"></span></a>
+                    <h3 class="prodHeadline pos-cls-furn">
+                        <pre>Create the perfect learning space</pre>
+                        <p>
+                            Design the ultimate classroom with just a few clicks.
+                            From seating to storage, and so much more: we've got you covered.
+                        </p>
+                        <a href="#" class="prodSubCTA">
+                            Explore classroom furniture <span class="arrow"></span>
+                        </a>
+                    </h3>
                 </div>
                 <div class="prodSchSupplies floatItem">
-                    <h3 class="prodHeadline">Shop learning supplies </h3>
-                    <a href="#" class="prodSubCTA">Explore school essentials <span class="arrow"></span></a>
+                    <h3 class="prodHeadline pos-supplies">
+                        <pre>Shop learning supplies</pre>
+                        <p>
+                            Stock up on classroom essentials in a snap.
+                            From notebooks to name tags, everything you need is right here.
+                        </p>
+                        <a href="#" class="prodSubCTA">
+                            Explore school essentials <span class="arrow"></span>
+                        </a>
+                    </h3>
                 </div>
                 <div class="prodOffFurniture floatItem">
-                    <h3 class="prodHeadline">Search office upgrades</h3>
-                    <a href="#" class="prodSubCTA">Explore office furniture <span class="arrow"></span></a>
+                    <h3 class="prodHeadline pos-off-furn">
+                        <pre>Search office upgrades</pre>
+                        <p>
+                            Refresh your workspace without the hassle.
+                            Desks, chairs, and storage solutions &mdash; all just a click away.
+                        </p>
+                        <a href="#" class="prodSubCTA">
+                            Explore office furniture <span class="arrow"></span>
+                        </a>
+                    </h3>
                 </div>
                 <div class="extra floatItem">
-                    <h3 class="prodHeadline">Shop smart - save more</h3>
-                    <a href="#" class="prodSubCTA">Explore discounts <span class="arrow"></span></a>
+                    <h3 class="prodHeadline pos-discount">
+                        <pre>Shop smart &mdash; save more</pre>
+                        <p>
+                            Big savings made simple.
+                            Explore deals and discounts on top products from every category.
+                        </p>
+                        <a href="#" class="prodSubCTA">
+                            Explore discounts <span class="arrow"></span>
+                        </a>
+                    </h3>
                 </div>
                 <div class="prodTech floatItem">
-                    <h3 class="prodHeadline">Power up with the latest tech</h3>
-                    <a href="#" class="prodSubCTA">Explore classroom and office electronics <span class="arrow"></span></a>
+                    <h3 class="prodHeadline pos-tech">
+                        <pre>Power up with the latest tech</pre>
+                        <p>
+                            Boost productivity with gear that keeps up.
+                            Laptops, accessories, and gadgets to power every task.
+                        </p>
+                        <a href="#" class="prodSubCTA">
+                            Explore classroom and office electronics <span class="arrow"></span>
+                        </a>
+                    </h3>
                 </div>
             </div>
         </section>
@@ -40,20 +91,28 @@
                 <h2>School & Office supplies</h2>
                 <div class="autoplay" id="prodSuppliesCarousel">
                     <div class="carouselItem">
-                        <img src="https://m.media-amazon.com/images/I/81y2PkckqSL._AC_SL1500_.jpg" alt="Assorted 6 Pack - Front View" class="carouselImg">
-                        <h3>Apex Spiral Notebooks - 6 pack</h3>
+                        <img style="object-fit: cover;" src="{{ schoolSupplies[0][2] }}" alt="{{ schoolSupplies[0][3] }}" class="carouselImg">
+                        <h3>{{ schoolSupplies[0][0] }} &mdash; {{ schoolSupplies[0][1] }}</h3>
                     </div>
                     <div class="carouselItem">
-                        <img src="https://i5.walmartimages.com/seo/BIC-Xtra-Smooth-2-Mechanical-Pencil-Black-Medium-Point-0-7-mm-48-Count_effc7018-d8e3-4f21-9919-517baae13efd_1.d4b16ba3223f42852420d2dfd7971946.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF" alt="Assorted 48 Pack - Front View" class="carouselImg">
-                        <h3>BiC Xtra-Smooth Mechanical Pencils - 48 pack</h3>
+                        <img style="object-fit: cover;" src="{{ schoolSupplies[1][2] }}" alt="{{ schoolSupplies[1][3] }}" class="carouselImg">
+                        <h3>{{ schoolSupplies[1][0] }} &mdash; {{ schoolSupplies[1][1] }}</h3>
                     </div>
                     <div class="carouselItem">
-                        <img src="https://i5.walmartimages.com/asr/a5a532f2-8ad9-4b60-9e4e-5cdd439ce47f.d8217e8b065113176b8fd5325d6d0a14.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF" alt="Single Notebook - Inside View" class="carouselImg">
-                        <h3>Apex Spiral Notebook</h3>
+                        <img style="object-fit: cover;" src="{{ schoolSupplies[2][2] }}" alt="{{ schoolSupplies[2][3] }}" class="carouselImg">
+                        <h3>{{ schoolSupplies[2][0] }} &mdash; {{ schoolSupplies[2][1] }}</h3>
                     </div>
                     <div class="carouselItem">
-                        <img src="https://i5.walmartimages.com/seo/BIC-Xtra-Smooth-Mechanical-Pencils-0-7mm-Point-10-Count-Pack-Mechanical-Pencils-for-School_7a1df234-c72e-4549-a80f-92e1c2e0b557.6e46388b39294d44bb018d522a55dd08.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF" alt="Assorted 10 Pack - Front View" class="carouselImg">
-                        <h3>BiC Xtra-Smooth Mechanical Pencils - 10 pack</h3>
+                        <img style="object-fit: cover;" src="{{ schoolSupplies[3][2] }}" alt="{{ schoolSupplies[3][3] }}" class="carouselImg">
+                        <h3>{{ schoolSupplies[3][0] }} &mdash; {{ schoolSupplies[3][1] }}</h3>
+                    </div>
+                    <div class="carouselItem">
+                        <img style="object-fit: cover;" src="{{ schoolSupplies[4][2] }}" alt="{{ schoolSupplies[4][3] }}" class="carouselImg">
+                        <h3>{{ schoolSupplies[4][0] }} &mdash; {{ schoolSupplies[4][1] }}</h3>
+                    </div>
+                    <div class="carouselItem">
+                        <img style="object-fit: cover;" src="{{ schoolSupplies[5][2] }}" alt="{{ schoolSupplies[5][3] }}" class="carouselImg">
+                        <h3>{{ schoolSupplies[5][0] }} &mdash; {{ schoolSupplies[5][1] }}</h3>
                     </div>
                 </div>
             </div>
@@ -62,7 +121,7 @@
                 <h2>Classroom & Office Furniture</h2>
                 <div class="autoplay" id="prodFurnitureCarousel">
                     <div class="carouselItem">
-                        <img style="object-fit: cover;" src="{{ officePhotos[0][2] }}" alt="{{ officePhotos[0][3] }}" class="carouselImg">
+                        <img style="object-fit: contain;" src="{{ officePhotos[0][2] }}" alt="{{ officePhotos[0][3] }}" class="carouselImg">
                         <h3>{{ officePhotos[0][0] }}</h3>
                     </div>
                     <div class="carouselItem">
@@ -119,6 +178,8 @@
             </div> -->
         </section>
     </div>
+    <!-- <button class="slick-next"></button> -->
+    <!-- <button class="slick-prev"></button> -->
 </main>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js" integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -127,9 +188,12 @@
         $('.autoplay').slick({
             accessibility: true,
             arrows: true,
+            nextArrow: '<ion-icon name="chevron-forward-outline" class="slick-next"></ion-icon>',
+            prevArrow: '<ion-icon name="chevron-back-outline" class="slick-prev"></ion-icon>',
             dots: true,
-            slidesToShow: 3,
+            slidesToShow: 4,
             slidesToScroll: 1,
+            variableWidth: true,
             autoplay: true,
             autoplaySpeed: 3000,
         });

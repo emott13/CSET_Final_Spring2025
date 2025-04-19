@@ -42,7 +42,20 @@ def home():
         'AND variant_id=:id LIMIT 1'), {'id': id}).fetchone()
         officePhotos.append(photo)
     print('Office products: ', officePhotos)
-    return render_template('home.html', officePhotos = officePhotos)
+    schoolSupplyProd = conn.execute(
+            text('SELECT product_title, size_description, file_path, alt_text ' \
+            'FROM products natural join product_variants natural join sizes natural join images ' \
+            'WHERE vendor_id="g_pitts@supplies4school.org" and image_id IN(1, 3, 5, 7, 19, 21);'),
+            {'id': id}).fetchall()
+    
+    print('school supplies:', schoolSupplyProd)
+    print('first:', schoolSupplyProd[0])
+    print('second:', schoolSupplyProd[1])
+    print('third:', schoolSupplyProd[2])
+    print('fourth:', schoolSupplyProd[3])
+    print('fifth:', schoolSupplyProd[4])
+    print('sixth:', schoolSupplyProd[5])
+    return render_template('home.html', officePhotos = officePhotos, schoolSupplies = schoolSupplyProd)
 
 
 if __name__ == '__main__':

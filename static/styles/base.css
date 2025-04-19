@@ -16,7 +16,10 @@
     --color-blue: #197bff;
     --page-height: calc(100vh - 125px - 103px);
     --color-purple-white: #f7f2f7;
+    --color-red-white: #dbc0c0;
     --color-white: #fffaf4;
+    /* --color-purple-transparent: #b89dbbc0; */
+    /* --color-red-transparent: #642f37c0; */
     --font-header: 'Lexend Deca';
     --font-main: 'Zain';
 }

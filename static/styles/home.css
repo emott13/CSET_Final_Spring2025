@@ -1,4 +1,5 @@
 @import url(base.css);
+@import url(ionicons.css);
 
 main{
     margin: 0 auto;
@@ -6,6 +7,15 @@ main{
     max-width: 1400px;
     font-family: var(--font-main);
 }
+
+@font-face {
+    font-family: 'Ionicons';
+    src: url(../fonts/ionicons.ttf);
+}
+
+/* -------------------------------- */
+/* -- PRODUCT FLOAT GRID DISPLAY -- */
+/* -------------------------------- */
 
 .productsTitle{
     font-size: 28px;
@@ -27,20 +37,13 @@ main{
     width: fit-content;
 }
 
-.floatItem{
-    margin: 10px;
-}
-
+/* -- category cards -- */
 .prodTextbooks{
     display: block;
     float: right;
     height: 440px;
     width: 300px;
     border-radius: 15px;
-    /* background-image: url(https://assets.blog.engoo.com/wp-content/uploads/sites/9/2020/08/28023237/english_textbooks.jpg), */
-    /* background-image: url(https://hips.hearstapps.com/hmg-prod/images/world-book-day-1551950741.jpg?crop=0.746xw:1.00xh;0.254xw,0&resize=640:*), */
-    /* background-image: url(https://static.vecteezy.com/system/resources/thumbnails/044/280/984/small_2x/stack-of-books-on-a-brown-background-concept-for-world-book-day-photo.jpg), */
-    /* background-image: url(https://t3.ftcdn.net/jpg/01/18/67/46/360_F_118674630_ct8BMi4p95r67QZ217nvEO3o2YlDZta2.jpg), */
     background-image: url(https://img.freepik.com/free-photo/arrangement-with-books-stack-indoors_23-2148882745.jpg),
         linear-gradient(#642f374d, #642f3728);
     background-size: cover;
@@ -52,14 +55,6 @@ main{
     height: 340px;
     width: 300px;
     border-radius: 15px;
-    /* background-image: url(https://media.istockphoto.com/id/171152675/photo/students-desk-with-blank-books.jpg?s=612x612&w=0&k=20&c=x_70ciE5dHkArqXZPqQ--Dr4OCjV25JJiaQmK-pxYFE=), */
-    /* background-image: url(https://img.freepik.com/premium-photo/backpack-with-school-supplies-wooden-table_392895-87170.jpg), */
-    /* background-image: url(https://img.freepik.com/premium-photo/school-backpack-stationery-bright-room_441923-10564.jpg?semt=ais_hybrid&w=740), */
-    /* background-image: url(https://aws.cricketmedia.com/media/20160829165439/shutterstock_303049892-e1472489720964.jpg), */
-    /* background-image: url(https://media.istockphoto.com/id/182828491/photo/school-supplies.jpg?s=612x612&w=0&k=20&c=Jx13sEQbTQ1R6Ca39CwEaoaD3L_l0xJ913gE1EPV7CM=), */
-    /* background-image: url(https://media.istockphoto.com/id/543570666/photo/school-and-office-supplies.jpg?s=170667a&w=0&k=20&c=U3hTu8JeViFksKuwK28MyZcw5irpgPWl_2lqLfHN1II=), */
-    /* background-image: url(https://www.holmesmurphy.com/wp-content/uploads/2022/08/School-Supplies_no-filter.jpg), */
-    /* background-image: url(https://townsquare.media/site/717/files/2019/08/RS11757_154124140.jpg), */
     background-image: url(https://img.freepik.com/premium-photo/backpack-with-school-supplies-wooden-table_392895-87170.jpg),
         linear-gradient(#642f374d, #642f3728);
     background-size: cover;
@@ -68,11 +63,9 @@ main{
 .prodOffFurniture{
     display: block;
     float: left;
-    height: 350px;
+    height: 370px;
     width: 300px;
     border-radius: 15px;
-    /* background-image: url(https://www.sierralivingconcepts.com/images/thumbs/0411980_bloomfield-solid-wood-home-office-furniture-set.jpeg), */
-    /* background-image: url(https://www.shutterstock.com/image-illustration/modern-mock-decor-interior-design-260nw-1917693782.jpg), */
     background-image: url(https://media.istockphoto.com/id/971381536/photo/real-photo-of-a-workplace-interior-with-a-computer-on-a-desk-next-to-a-chair-and-a-shelf-with.jpg?s=612x612&w=0&k=20&c=0gH-S6s5TgOwLfvMFWEFCURiX5YVmB8Y6kt16OTalwk=),
         linear-gradient(#642f374d, #642f3728);;
     background-size: cover;
@@ -81,11 +74,9 @@ main{
 .extra{
     display: block;
     float: left;
-    height: 250px;
-    width: 300px;
+    height: 270px;
+    width: 410px;
     border-radius: 15px;
-    /* background-image: url(https://s.yimg.com/ny/api/res/1.2/8LDOhDD1_wO6VZW0jy2nzg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyNDI7aD04Mjg-/https://media.zenfs.com/en/wpix_new_york_city_ny_articles_672/7d691e48c67a077cb5712d643cdb16b7), */
-    /* background-image: url(https://media.istockphoto.com/id/624652586/photo/computers-in-classroom-on-high-school.jpg?s=612x612&w=0&k=20&c=33sWvB34qocGvcAoPzPR1OAB2nMbiruCxdox5sNIruQ=), */
     background-image: url(https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1656367802/grantspassk12orus/sa36hxfbivqkqblgb4a4/schoolsupplies1.png),
         linear-gradient(#642f374d, #642f3728);
     background-size: cover;
@@ -93,14 +84,9 @@ main{
 .prodTech{
     display: block;
     float: left;
-    height: 250px;
-    width: 620px;
+    height: 270px;
+    width: 510px;
     border-radius: 15px;
-    /* background-image: url(https://img.freepik.com/premium-photo/modern-workspace-with-desktop-computer-laptop-wireless-mouse-wooden-desk_885831-165808.jpg), */
-    /* background-image: url(https://i.pinimg.com/236x/e6/8c/31/e68c316dce1aac7fe52495e0be9283f1.jpg), */
-    /* background-image: url(https://m.media-amazon.com/images/S/aplus-media-library-service-media/ddc6894b-cdae-4dfc-b55f-561d3d204f8b.__CR0,0,970,600_PT0_SX970_V1___.jpg), */
-    /* background-image: url(https://media.istockphoto.com/id/1157335160/photo/computer-room-for-pupils-and-students-in-a-school-computer-lab.jpg?s=170667a&w=0&k=20&c=Toep-ATaDlTK_a6vGnOUF7iyhMXmI-jbvov7YTwQlnU=), */
-    /* background-image: url(https://gridfiti.com/wp-content/uploads/2021/10/Gridfiti_Blog_CollegeDeskSetup_Standing.jpg), */
     background-image: url(https://theworkspacehero.com/wp-content/uploads/2023/09/Workspace-Image-30-of-108-1024x683.jpg),
         linear-gradient(#642f374d, #642f3728);
     background-size: cover;
@@ -113,28 +99,69 @@ main{
     width: 620px;
     border-radius: 15px;
     background-color: var(--color-purple);
-    /* background-image: url(https://pbs.twimg.com/media/D6F2Of-X4AAi0eY.jpg), -- do not remove without saving url*/ 
     background-image: url(https://www.acmebrooklyn.com/wp-content/uploads/2022/08/TB305-S2_C-1024x1280.jpg),
         linear-gradient(#642f374d, #642f3728);
     background-size: cover;
-    /* background-position: center; */
+    background-position-y: 30%;
+}
+.floatItem{
+    margin: 10px;
+    overflow-y: hidden;
 }
 
 /* -- product titles/subtitles -- */
+.pos-off-furn{
+    position: relative;
+    bottom: -290px;
+    transition: bottom 0.3s ease-out;
+}
+.pos-text,
+.pos-cls-furn{
+    position: relative;
+    bottom: -360px;
+    transition: bottom 0.3s ease-out;
+}
+.pos-tech,
+.pos-discount{
+    position: relative;
+    bottom: -190px;
+    transition: bottom 0.3s ease-out;
+}
+.pos-supplies{
+    position: relative;
+    bottom: -260px;
+    transition: bottom 0.3s ease-out;
+}
+
 .prodHeadline{
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    background: linear-gradient(var(--color-purple-red), #642f37d2);
-    padding: 6px;
-    height: 40px;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+    border-radius: 15px;
+}
+.prodHeadline > pre{
+    background: linear-gradient(#642f3700, #642f37c0, #642f37ec, var(--color-purple-red));
+    padding-left: 6px;
+    padding-top: 30px;
+    height: 90px;
+    font-family: var(--font-main);
     font-size: 35px;
     font-weight: 300;
+    color: var(--color-white);
+}
+.prodHeadline > p{
+    background: linear-gradient(#642f37, #642f37f4);
+    padding: 6px;
+    height: fit-content;
+    font-family: var(--font-main);
+    font-size: 25px;
+    font-weight: 200;
     color: var(--color-white);
 }
 .prodSubCTA{
     display: flex;
     flex-direction: row;
-    background: linear-gradient(#642f37d2, #642f3700, #642f3700);
+    background: linear-gradient(#642f37f4,  #b89dbbf4, #b89dbbe2);
     padding-left: 6px;
     height: 100%;
     text-decoration: none;
@@ -147,31 +174,56 @@ main{
     background-image: url(../images/right-arrow-short-white.png);
     background-size: cover;
     background-position: center;
-    /* padding-left: 4px; */
     height: 30px;
     width: 70px;
-    /* transition: background-image 0.5s ease-in-out; */
 }
+
+/* -- hover styles -- */
 .prodSubCTA:hover{
-    color: var(--color-yellow);
+    color: var(--color-yellow); 
+    transition: color 0.04s ease-out 0.3s;
     .arrow{
         background-image: url(../images/right-arrow-long-purple.png);
-        height: 30px;
-        width: 80px;
-        transition: background-image 0.04s ease-out;
+        margin-left: 5px;
+        transition: background-image 0.04s ease-out 0.3s,
+                    margin-left 0.04s ease-out 0.3s;
     }
 }
 
+.prodClssFurniture:hover .pos-cls-furn,
+.prodTextbooks:hover .pos-text,
+.prodOffFurniture:hover .pos-off-furn,
+.prodSchSupplies:hover .pos-supplies,
+.prodTech:hover .pos-tech,
+.extra:hover .pos-discount{
+    bottom: 0px;
+}
+.prodClssFurniture:hover .prodSubCTA,
+.prodTextbooks:hover .prodSubCTA,
+.prodOffFurniture:hover .prodSubCTA,
+.prodSchSupplies:hover .prodSubCTA,
+.prodTech:hover .prodSubCTA,
+.extra:hover .prodSubCTA{
+    height: 348px;
+}
 
-/* -- slick carousel -- */
+
+/* --------------------------- */
+/* -- SLICK CAROUSEL STYLES -- */
+/* --------------------------- */
+
 .c{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 0 auto;
+    margin: 20px auto;
+    border-radius: 15px;
+    padding-bottom: 40px;
+    /* background: linear-gradient(var(--color-purple-white), #642f37f4); */
+    background: radial-gradient(circle at 0%, var(--color-purple-white), var(--color-purple-white) 50%, var(--color-purple-red) 75%, var(--color-purple-white) 75%);
     min-height: 20vh;
-    width: 1285px;
+    width: 1262px;
 }
 .carouselSectionTitle{
     margin-top: 30px;
@@ -182,50 +234,84 @@ main{
     font-size: 35px;
     font-weight: 600;
 }
+.carouselContainer{
+    margin-bottom: 40px;
+    background-color: var(--color-purple);
+    border: 3px solid var(--color-purple);
+    border-radius: 15px;
+}
 .carouselContainer h2{
-    color: var(--color-purple);
-    font-size: 28px;
+    margin-left: 6px;
+    color: var(--color-purple-red);
+    font-size: 35px;
     font-weight: 400;
 }
 .carouselItem h3{
     color: var(--color-purple-red);
     font-size: 20px;
     font-weight: 300;
+    width: 200px;
 }
 .carouselItem{
     background-color: white;
-    height: 206px;
+    height: 250px;
 }
+
 .autoplay{
     margin-bottom: 10px;
     background: var(--color-purple-white);
-    width: 800px;
+    width: 975px;
 }
 .autoplay div{
     border-radius: 15px;
     padding: 10px;
     text-align: center;
-    color: var(--color-rust);
+    color: var(--color-purple-red);
 }
 .carouselImg{
     margin: auto;
-    height: 130px;
+    height: 170px;
 }
-
+/* !import property overrides the jquery slick default css styles */
+.slick-next,
+.slick-prev{
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    padding: 0 auto !important;
+    background-color: var(--color-purple-red) !important;
+    height: 100px !important;
+    width: 40px !important;
+    text-align: center !important;
+}
+.slick-next{
+    right: -2px !important;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    z-index: 6 !important;
+}
+.slick-prev{
+    left: -2px !important;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    z-index: 6 !important;
+}
 .slick-prev:before{
-    position: absolute !important;
-    left: -25px !important;
+    content: '\f124' !important;
+}
+.slick-next:before{
+    content: '\f125' !important;
 }
 .slick-next:before, 
 .slick-prev:before{
     position: absolute !important;
-    top: 45% !important;
     display: block !important;
+    margin-left: 10px !important;
     border-radius: 0 !important;
     color: var(--color-purple) !important;
-    font-size: 45px !important;
-    height: 46px !important;
-    width: 46px !important;
+    opacity: 100% !important;
+    font-family: 'Ionicons' !important;
+    font-size: 40px !important;
     line-height: normal !important;
     z-index: 2 !important;
 }
