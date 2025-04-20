@@ -2,11 +2,13 @@
 {% extends 'base.html' %}
 {% block body %}
 
+<!-- prodIDs, prodOpts, prodPRs, prodTDs -->
+
 <main>
     <div class="main">
         <section class="searchResults">
             <div class="searchWrapper">
-                <h2 class="searchTitle">Search results for: </h2>
+                <h2 class="searchTitle">Results for: <span>placeholder</span></h2>
                 <h5 class="message"></h5>
                 <div class="sideMenu">
                     <div class="vendors">
@@ -24,7 +26,7 @@
                     </div>
                     <div class="categories">
                         <button class="category initiate-drop">Categories <i class="ion-chevron-down"></i></button>
-                        <div class="category-dropdown dropdown">
+                        <div class="dropdown">
                             <div class="furniture-drop">
                                 <button class="initiate-drop second-drop">Furniture <i class="ion-chevron-down"></i></button>
                                 <div class="furniture dropdown">
@@ -77,27 +79,36 @@
                             </div>      
                         </div>
                     </div>
+                    <div class="prices">
+                        <button class="price initiate-drop">Price <i class="ion-chevron-down"></i></button>
+                        <div class="price-dropdown dropdown">
+                            <div class="price-slider">
+                                <p id="price-display"></p>
+                                <input type="range" min="0" max="1000" value="1000" class="slider" id="price">
+                            </div>
+                        </div>
+                    </div>
                     <div class="colors"></div>
                     <div class="sizes"></div>
                 </div>
-                <div class="prodResult">
-                    <div class="resultCard">
-                        
-                    </div>
-                    <div class="resultCard">
-                        
-                    </div>
-                    <div class="resultCard">
-                        
-                    </div>
-                    <div class="resultCard">
-                        
-                    </div>
-                    <div class="resultCard">
-                        
-                    </div>
-                    <div class="resultCard">
-                        
+                <div class="resultWrapper">
+                    <div class="prodResult">
+                        {% for product in products %}
+                        <div class="resultCard {{ product.id }}">
+                            <div class="imgWrapper">
+                                <div class="iconWrapper">
+                                    <i class="ion-search"></i>
+                                </div>
+                                <img style="object-fit: cover;" src="../static/images/product_id_images/{{product.id}}.png" alt="" class="cardImg">
+                            </div>
+                            <div class="prodInfo">
+                                <p style="font-weight: 800;">{{ product.title }}</p>
+                                <p>{{ product.size }}</p>
+                                <p>{{ product.options }} options</p>
+                                <p>{{ product.price }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -105,16 +116,23 @@
     </div>
 </main>
 <script>
-    document.addEventListener('DOMContentLoaded', ()=>{
+    document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.initiate-drop').forEach(button => {
             button.addEventListener('click', () => {
                 let dropdown = button.parentElement.querySelector('.dropdown');
+                // let catDrop = button.className('category-dropdown');
                 if (dropdown) {
-                    const isVisible = dropdown.style.display === 'grid';
+                    let isVisible = dropdown.style.display === 'grid';
                     dropdown.style.display = isVisible ? 'none' : 'grid';
                 }
             });
         });
+        let slider = document.querySelector('#price');
+        let display = document.querySelector('#price-display');
+        display.innerHTML = `$${slider.value}`;
+        slider.addEventListener('input', slider => {
+            display.innerHTML = `$${slider.target.value}`
+        })
     });
 </script>
 {% endblock %}

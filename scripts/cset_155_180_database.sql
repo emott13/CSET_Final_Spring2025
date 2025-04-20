@@ -749,3 +749,34 @@ VALUES
     (100240, '/static/images/designer_collection/H-9806-MAPLE-C.png', 'Block Drawer Open'),
     (100240, '/static/images/designer_collection/lock-keys-maple.png', 'Front - keys in keyhole'),
     (100240, '/static/images/designer_collection/pedestal-wheel-maple.png', 'Front Corner - Wheel');
+    
+select * from users;
+select variant_id from product_variants where product_id = 850555;
+select product_title, product_description from products where product_id = 850555;
+select product_id, COUNT(variant_id) from product_variants group by product_id order by product_id;
+select MIN(price), MAX(price) from product_variants where product_id = 850555;
+select product_id, product_title, size_description from products natural join product_variants natural join sizes where product_id = 850555 and variant_id IN(100200, 100201, 100202);
+
+-- SELECT products.product_id, products.product_title, sizes.size_description
+-- 	FROM products INNER JOIN product_variants
+-- 	INNER JOIN sizes ON products.product_id = product_variants.product_id
+-- 	AND product_variants.size_id = sizes.size_id
+--     WHERE products.product_id = :id AND variant_id = :vid;
+
+
+SELECT variant_id, COUNT(color_name), COUNT(size_description)
+FROM product_variants
+NATURAL JOIN colors
+NATURAL JOIN sizes
+GROUP BY variant_id
+ORDER BY variant_id;
+
+select
+-- SELECT product_id FROM products;
+-- SELECT product_title, product_description FROM products WHERE product_id = :id;
+-- SELECT variant_id, price FROM product_variants WHERE product_id = :id;
+-- SELECT size_description FROM sizes WHERE variant_id = :id;
+-- SELECT color_name FROM colors WHERE varian_id = :id;
+SELECT product_title, product_description, size_description, price, warranty_months, current_inventory, product_id, variant_id 
+FROM products NATURAL JOIN product_variants NATURAL JOIN sizes;
+-- SELECT color_description FROM colors NATURAL JOIN product_variants WHERE product_id = AND variant_id = ;
