@@ -222,18 +222,18 @@ VALUES
 	-- 850564
     ('i_tombolli@study_space.com', 'Anti-Static Carpet Chair Mat', 'Anti-skid surface and straight edges. Vinyl construction. Cleared backing keeps chair mat firmly in place. Use on low pile carpeting - 3/8" thick or less.', 0);
 
-INSERT INTO colors (color_name)
+INSERT INTO colors (color_name, color_hex)
 VALUES
-	('Assorted'),	-- 19780
-    ('Red'),		-- 19781
-    ('Blue'),		-- 19782
-    ('Green'),		-- 19783
-    ('Yellow'),		-- 19784
-    ('Navy'),		-- 19785
-    ('Black'),		-- 19786
-	('Walnut'),		-- 19787
-    ('Clear'),		-- 19788
-    ('None');		-- 19789
+	('Assorted', NULL),		-- 19780
+    ('Red', '#ff0000'),		-- 19781
+    ('Blue', '#0000ff'),	-- 19782
+    ('Green', '#00ff00'),	-- 19783
+    ('Yellow', '#00ffff'),	-- 19784
+    ('Navy', '#000080'),	-- 19785
+    ('Black', '#000000'),	-- 19786
+	('Walnut', '#773f1a'), 	-- 19787
+    ('Clear', NULL),		-- 19788
+    ('None', NULL);			-- 19789
     
 INSERT INTO sizes (size_description)
 VALUES
@@ -772,12 +772,12 @@ NATURAL JOIN sizes
 GROUP BY variant_id
 ORDER BY variant_id;
 
-select
+-- select
 -- SELECT product_id FROM products;
 -- SELECT product_title, product_description FROM products WHERE product_id = :id;
 -- SELECT variant_id, price FROM product_variants WHERE product_id = :id;
 -- SELECT size_description FROM sizes WHERE variant_id = :id;
 -- SELECT color_name FROM colors WHERE varian_id = :id;
-SELECT product_title, product_description, size_description, price, warranty_months, current_inventory, product_id, variant_id 
-FROM products NATURAL JOIN product_variants NATURAL JOIN sizes;
+-- SELECT product_title, product_description, size_description, price, warranty_months, current_inventory, product_id, variant_id 
+-- FROM products NATURAL JOIN product_variants NATURAL JOIN sizes;
 -- SELECT color_description FROM colors NATURAL JOIN product_variants WHERE product_id = AND variant_id = ;

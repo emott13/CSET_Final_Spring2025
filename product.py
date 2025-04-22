@@ -75,7 +75,8 @@ def product(productId, variantId=None):
         'price': 4,
         'current_inventory': 5,
         'color_name': 6,
-        'size_description': 7
+        'color_hex': 7,
+        'size_description': 8
     }
     ii = { # image indexes
         'variant_id': 0,
@@ -90,19 +91,21 @@ def product(productId, variantId=None):
     # variant data. Index like this variantData[vi['price']]
     variantData = conn.execute(text(
         "SELECT variant_id, product_id, color_id, size_id, "
-        "price, current_inventory, color_name, size_description "
+        "price, current_inventory, color_name, color_hex, size_description "
         "FROM product_variants NATURAL JOIN colors NATURAL JOIN sizes " \
         f"WHERE product_id = {productId} AND variant_id = {variantId}")).first()
     # all variant data. Index like this variantData[<index>][vi['price']]
     allVariantData = conn.execute(text(
         "SELECT variant_id, product_id, color_id, size_id, "
-        "price, current_inventory, color_name, size_description "
+        "price, current_inventory, color_name, color_hex, size_description "
         "FROM product_variants NATURAL JOIN colors NATURAL JOIN sizes " \
         f"WHERE product_id = {productId}")).all()
 
     # image data. Index like this imageData[0][ii['file_path']]
     imageData = conn.execute(text(f"SELECT variant_id, file_path FROM images WHERE variant_id = {variantId}")).all()
 
+    print("variantData data: ")
+    print(variantData)
 
     if request.method == "POST":
         return

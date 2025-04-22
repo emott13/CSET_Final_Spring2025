@@ -208,14 +208,25 @@ h1 {
     background-color: var(--color-purple);
 }
 
+.product-size-selected,
+.product-color-selected {
+    font-size: 1rem;
+}
 
 .product-size-selected {
-    font-size: 1rem;
     margin-top: 1rem;
 }
 
-#size-selected {
+#size-selected,
+#color-selected {
     font-weight: 800;
+}
+
+.product-color-box {
+    display: inline-block;
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 4px;
 }
 
 .product-sizes-container {

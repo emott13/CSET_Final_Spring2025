@@ -31,6 +31,12 @@
                 <!-- <p class="product-list-price">List Price: <s>${{ variantData[vi['price']]|priceFormat }}</s></p> -->
 
                 <p class="product-size-selected">Size: <a id="size-selected">{{variantData[vi['size_description']]}}</a></p>
+                <p class="product-color-selected">
+                    Color: <a id="color-selected">{{variantData[vi['color_name']]}}</a>
+                    {% if variantData['color_hex'] != 'NULL' %}
+                        <a class="product-color-box" style="background-color: {{variantData[vi['color_hex']]}}"></a>
+                    {% endif %}
+                </p>
                 <div class="product-sizes-container">
                     {% for variant in allVariantData %}
                     <a class="variant-size-container" href="/product/{{variant[vi['product_id']]}}/{{variant[vi['variant_id']]}}">
@@ -40,8 +46,24 @@
                     </a>
                     {% endfor %}
                 </div>
+
             </div>
 
         </div>
     </div>
+<script>
+    // let originalSize = document.getElementById("size-selected").text;
+    // let sizeContainers = document.getElementsByClassName("variant-size-container");
+    
+    // for (sizeContainer of sizeContainers) {
+    //     sizeContainer.addEventListener("mouseenter", (e) => {
+    //         console.log(sizeContainer);
+    //         document.getElementById("size-selected").text = sizeContainer.getElementsByClassName("variant-size")[0].textContent;
+    //     })
+
+    //     sizeContainer.addEventListener("mouseleave", (e) => {
+    //         document.getElementById("size-selected").text = originalSize;
+    //     })
+    // }
+</script>
 {% endblock %}
