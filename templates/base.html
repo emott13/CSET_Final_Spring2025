@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/318fe15147.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/static/styles/base.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fustat:wght@200..800&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mukta:wght@200;300;400;500;600;700;800&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
     <title>The Study Stack</title>
     <link rel="icon" type="image/png" href="/static/images/logo_multi_w_bckgr.png"/>
 </head>
@@ -34,11 +35,11 @@
             </div> -->
             <div class="headerSection search">
                 <!-- search -->
-                 <div class="headerItemSearch searchPosition">
+                 <form class="headerItemSearch searchPosition" id="search-form" method="POST" action="{{ url_for('search') }}">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" name="product_search" id="search" placeholder="search">
                     <i class="fa-regular fa-circle-xmark"></i> 
-                </div>
+                 </form>
             </div>
             <nav class="headerSection nav">
                 <ol class="navMenu">
@@ -84,7 +85,7 @@
             <nav class="footerDirectory">
                 <ol class="footerNavMenu">
                     <li class="footerNavItem"><a href="#">Careers</a></li>
-                    <li class="footerNavItem"><a href="#">Sell on The Study Stack</a></li>
+                    <li class="footerNavItem"><a href="#">Sell Your Products</a></li>
                     <li class="footerNavItem"><a href="#">Privacy Notice</a></li>
                     <li class="footerNavItem"><a href="#">Terms of Use</a></li>
                 </ol>

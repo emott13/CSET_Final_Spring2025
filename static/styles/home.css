@@ -4,7 +4,7 @@
 main{
     margin: 0 auto;
     min-height: calc(100vh - 215px);
-    max-width: 1400px;
+    max-width: 1600px;
     font-family: var(--font-main);
 }
 
@@ -28,9 +28,10 @@ main{
     justify-content: center;
     margin: 0 auto;
     min-height: 80vh;
-    width: 1285px;
+    width: 1585px;
 }
 
+.productsContainer,
 .productWrapper{
     margin: 0 auto;
     min-height: fit-content;
@@ -42,7 +43,7 @@ main{
     display: block;
     float: right;
     height: 440px;
-    width: 300px;
+    width: 400px;
     border-radius: 15px;
     background-image: url(https://img.freepik.com/free-photo/arrangement-with-books-stack-indoors_23-2148882745.jpg),
         linear-gradient(#642f374d, #642f3728);
@@ -53,7 +54,7 @@ main{
     display: block;
     float: left;
     height: 340px;
-    width: 300px;
+    width: 400px;
     border-radius: 15px;
     background-image: url(https://img.freepik.com/premium-photo/backpack-with-school-supplies-wooden-table_392895-87170.jpg),
         linear-gradient(#642f374d, #642f3728);
@@ -64,7 +65,7 @@ main{
     display: block;
     float: left;
     height: 370px;
-    width: 300px;
+    width: 400px;
     border-radius: 15px;
     background-image: url(https://media.istockphoto.com/id/971381536/photo/real-photo-of-a-workplace-interior-with-a-computer-on-a-desk-next-to-a-chair-and-a-shelf-with.jpg?s=612x612&w=0&k=20&c=0gH-S6s5TgOwLfvMFWEFCURiX5YVmB8Y6kt16OTalwk=),
         linear-gradient(#642f374d, #642f3728);;
@@ -75,7 +76,7 @@ main{
     display: block;
     float: left;
     height: 270px;
-    width: 410px;
+    width: 510px;
     border-radius: 15px;
     background-image: url(https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1656367802/grantspassk12orus/sa36hxfbivqkqblgb4a4/schoolsupplies1.png),
         linear-gradient(#642f374d, #642f3728);
@@ -85,7 +86,7 @@ main{
     display: block;
     float: left;
     height: 270px;
-    width: 510px;
+    width: 610px;
     border-radius: 15px;
     background-image: url(https://theworkspacehero.com/wp-content/uploads/2023/09/Workspace-Image-30-of-108-1024x683.jpg),
         linear-gradient(#642f374d, #642f3728);
@@ -96,7 +97,7 @@ main{
     display: block;
     float: right;
     height: 440px;
-    width: 620px;
+    width: 720px;
     border-radius: 15px;
     background-color: var(--color-purple);
     background-image: url(https://www.acmebrooklyn.com/wp-content/uploads/2022/08/TB305-S2_C-1024x1280.jpg),
@@ -140,23 +141,24 @@ main{
     border-radius: 15px;
 }
 .prodHeadline > pre{
-    background: linear-gradient(#642f3700, #642f37c0, #642f37ec, var(--color-purple-red));
+    background: linear-gradient(#642f3700, #642f37a0, #642f37e7, var(--color-purple-red));
     padding-left: 6px;
-    padding-top: 30px;
+    padding-top: 35px;
     height: 90px;
     font-family: var(--font-main);
-    font-size: 35px;
-    font-weight: 300;
+    font-size: 30px;
+    font-weight: 400;
     color: var(--color-white);
 }
 .prodHeadline > p{
     background: linear-gradient(#642f37, #642f37f4);
     padding: 6px;
     height: fit-content;
-    font-family: var(--font-main);
-    font-size: 25px;
-    font-weight: 200;
+    font-family: var(--font-small);
+    font-size: 22px;
+    font-weight: 400;
     color: var(--color-white);
+    /* letter-spacing: 0.2; */
 }
 .prodSubCTA{
     display: flex;
@@ -166,8 +168,9 @@ main{
     height: 100%;
     text-decoration: none;
     color: var(--color-white);
-    font-size: 25px;
-    font-weight: 200;
+    font-family: var(--font-small);
+    font-size: 21px;
+    font-weight: 400;
 }
 .arrow{
     display: block;

@@ -57,7 +57,8 @@ def home():
     print('sixth:', schoolSupplyProd[5])
     return render_template('home.html', officePhotos = officePhotos, schoolSupplies = schoolSupplyProd)
 
-@app.route('/search')
+# -- SEARCH PAGE -- #
+@app.route('/search', methods=['GET', 'POST'])
 def search():
     productIDs = conn.execute(
         text('SELECT product_id FROM products;')).fetchall()
@@ -67,11 +68,7 @@ def search():
             FROM product_variants GROUP BY product_id
             ORDER BY product_id;
             ''')).fetchall()
-    
-    print('options:', productOptions)
-    
     productPriceRange = []
-
     for id_tuple in productIDs:
         id = id_tuple[0]
         productTS = conn.execute(
@@ -83,10 +80,6 @@ def search():
             WHERE p.product_id IN :ids;
         '''),
         {'ids': tuple(pid[0] for pid in productIDs)}).fetchall()
-
-        # if result is not None:
-            # productTS.append((result[0], result[1], result[2]))
-
         prodPR = conn.execute(
             text('''
                 SELECT MIN(price), MAX(price)
@@ -106,17 +99,10 @@ def search():
     }
 
     products = []
-
     for id_tuple in productIDs:
         pid = int(id_tuple[0])
-
-        # Get title and description
         title = productTS_map.get(pid, ('No title'))
-
-        # Get number of options
         options = productOptions_map.get(pid, 0)
-
-        # Get price or price range
         if pid in productPrice_map:
             min_price, max_price = productPrice_map[pid]
             min_price, max_price = min_price / 100, max_price / 100
@@ -131,43 +117,12 @@ def search():
                 'price': price
             })
 
-
-
-
-    # productVarIDsPrice = []
-    # productNameDescrptVar = []
-    # for id_tuple in productIDs:
-    #     id = id_tuple[0]
-    #     prodNameDescrpt = conn.execute(
-    #         text('SELECT product_title, product_description ' \
-    #         'FROM products WHERE product_id = :id;'),
-    #         {'id': id}).fetchone()
-    #     prodVarPrice = conn.execute(
-    #         text('SELECT variant_id, price ' \
-    #         'FROM product_variants WHERE product_id = :id;'),
-    #         {'id': id}).fetchone()
-    #     productNameDescrptVar.append(prodNameDescrpt)
-    #     productVarIDsPrice.append(prodVarPrice)
-
-    # productSizes = []
-    # productColors = []
-    # for variant in productVarIDsPrice:
-    #     variant_id = variant[0]
-    #     prodSize = conn.execute(
-    #         text('SELECT size_description, variant_id FROM sizes NATURAL JOIN product_variants ' \
-    #         'WHERE variant_id = :id;'), {'id': variant_id}).fetchone()
-    #     prodColor = conn.execute(
-    #         text('SELECT color_name, variant_id FROM colors NATURAL JOIN product_variants ' \
-    #         'WHERE variant_id = :id;'), {'id': variant_id}).fetchone()
-    #     productSizes.append(prodSize)
-    #     productColors.append(prodColor)
-
-    # print('/n/nProduct ids:', productIDs)
-    # print('/n/nProduct names/descriptions:', productNameDescrptVar)
-    # print('/n/nProduct sizes:', productSizes)
-    # print('/n/nProduct colors:', productColors)
-
-    return render_template('search.html', products = products)
+    if request.method == 'POST':
+        searchInput = request.form['product_search']
+        print(searchInput)
+        return render_template('search.html', products = products)
+    if request.method == 'GET':
+        return render_template('search.html', products = products)
 
 if __name__ == '__main__':
     app.run(debug=True)
