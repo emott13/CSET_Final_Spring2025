@@ -1,0 +1,256 @@
+@import url(/static/styles/base.css);
+@import url(/static/styles/ionicons.css);
+
+main{
+    margin: 0 auto;
+    min-height: calc(100vh - 215px);
+    max-width: 1400px;
+    font-family: var(--font-main);
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    min-height: 80vh;
+    width: 1285px;
+}
+
+.searchWrapper{
+    position: relative;
+    left: 100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    min-height: fit-content;
+    width: fit-content;
+}
+
+.searchTitle{
+    font-size: 38px;
+    color: var(--color-purple-red);
+}
+
+.prodResult{
+    display: grid;
+    grid-template-columns: 360px 360px 360px;
+    background: radial-gradient(circle at 0%, var(--color-purple-white), var(--color-purple-white) 50%, var(--color-yellow) 75%, var(--color-purple-white) 75%);
+    padding: 20px;
+    width: 1120px;
+    min-height: 200px;
+}
+
+.resultCard{
+    margin: 10px;
+    border-radius: 15px;
+    border: none;
+    background-color: var(--color-purple-red);
+    height: 340px;
+    width: 340px;
+    color: var(--color-purple-white);
+}
+
+.imgWrapper{
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    height: 200px;
+    background-color: white;
+}
+
+img.cardImg{
+    height: 100%;
+}
+
+.prodInfo{
+    padding: 10px;
+    font-size: 23px;
+}
+
+/* -- side menu styles -- */
+
+.sideMenu{
+    position: absolute;
+    top: -20px;
+    left: -280px;
+    background-color: var(--color-purple-white);
+    padding: 20px;
+    height: fit-content;
+    width: 280px;
+}
+
+.category,
+.vendor,
+.price{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    margin-bottom: 14px;
+    border: none;
+    background-color: transparent;
+    width: fit-content;
+    font-size: 25px;
+    color: var(--color-purple-red);
+    text-align: center;
+}
+
+.dropdown{
+    display: none;
+    flex-direction: column;
+    padding-left: 8px;
+}
+.second-drop{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    margin: 6px 0;
+    font-size: 20px;
+    color: var(--color-purple-red);
+}
+
+.input-container{
+    display: grid;
+    grid-template-columns: 15px 220px;
+    gap: 10px;
+    font-size: 20px;
+    color: var(--color-purple-red);
+    text-align: start;
+}
+
+/* -- price slider styles -- */
+#price-display{
+    font-size: 25px;
+    color: var(--color-purple-red);
+}
+.slider{
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 10px;
+    background-color: var(--color-rust);
+    height: 10px;
+    width: 100%;
+    opacity: 0.8;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+.slider:hover{
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 15px;
+    background: var(--color-rust);
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+}
+.slider::-moz-range-thumb{
+    background: var(--color-rust);
+    width: 25px; 
+    height: 25px;
+    cursor: pointer;
+}
+
+/* -- ion-icon styles -- */
+.ion-chevron-down:before{
+    content: '\f123';
+}
+.ion-chevron-down{
+    margin-left: 5px;
+    height: fit-content;
+    font-size: 20px;
+    color: var(--color-rust);
+}
+
+.iconWrapper{
+    position: relative;
+    top: 0;
+    width: 200px;
+}
+.ion-search{
+    position: absolute;
+    top: 5;
+    left: 215px;
+    right: transform;
+    transform: translate(50%);
+    height: 45px;
+    width: 45px;
+    font-size: 35px;
+    font-weight: 100 !important;
+    color: transparent;
+}
+
+.resultCard:hover .ion-search{
+    animation: textGradiant 0.5s;
+    color: var(--color-yellow);
+}
+/* -- end ion-icon styles -- */
+
+
+/* -- keyframes animations -- */
+@keyframes textGradiant {
+    0% {
+        background: -webkit-linear-gradient(bottom left, var(--color-yellow), var(--color-yellow));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    10% {
+        background: -webkit-linear-gradient(bottom left, var(--color-rust), var(--color-yellow), var(--color-yellow), var(--color-yellow), var(--color-yellow));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    20% {
+        background: -webkit-linear-gradient(bottom left, var(--color-rust), var(--color-rust), var(--color-yellow), var(--color-yellow), var(--color-yellow));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    30% {
+        background: -webkit-linear-gradient(bottom left, var(--color-rust), var(--color-rust), var(--color-rust), var(--color-yellow), var(--color-yellow));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    40% {
+        background: -webkit-linear-gradient(bottom left, var(--color-rust), var(--color-rust), var(--color-rust), var(--color-rust), var(--color-yellow));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    50% {
+        background: -webkit-linear-gradient(bottom left, var(--color-rust), var(--color-rust));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    60% {
+        background: -webkit-linear-gradient(bottom left, var(--color-yellow), var(--color-rust), var(--color-rust), var(--color-rust), var(--color-rust));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    70% {
+        background: -webkit-linear-gradient(bottom left, var(--color-yellow), var(--color-yellow), var(--color-rust), var(--color-rust), var(--color-rust));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    80% {
+        background: -webkit-linear-gradient(bottom left, var(--color-yellow), var(--color-yellow), var(--color-yellow), var(--color-rust), var(--color-rust));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    90% {
+        background: -webkit-linear-gradient(bottom left, var(--color-yellow), var(--color-yellow), var(--color-yellow), var(--color-yellow), var(--color-rust));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    100% {
+        background: -webkit-linear-gradient(bottom left, var(--color-yellow), var(--color-yellow));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}

@@ -1,0 +1,138 @@
+<link rel="stylesheet" href="/static/styles/search.css">
+{% extends 'base.html' %}
+{% block body %}
+
+<!-- prodIDs, prodOpts, prodPRs, prodTDs -->
+
+<main>
+    <div class="main">
+        <section class="searchResults">
+            <div class="searchWrapper">
+                <h2 class="searchTitle">Results for: <span>placeholder</span></h2>
+                <h5 class="message"></h5>
+                <div class="sideMenu">
+                    <div class="vendors">
+                        <button class="vendor initiate-drop">Vendors <i class="ion-chevron-down"></i></button>
+                        <div class="vendor-dropdown dropdown">
+                            <div class="input-container">
+                                <input name="vendor-options" type="checkbox" id="vendor-space" class="vendor-options">
+                                <label for="vendor-space">Study Space</label>
+                                <input name="vendor-options" type="checkbox" id="vendor-textbook" class="vendor-options">
+                                <label for="vendor-textbook">Textbooks Made Easy</label>
+                                <input name="vendor-options" type="checkbox" id="vendor-school" class="vendor-options">
+                                <label for="vendor-school">Supplies 4 School</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="categories">
+                        <button class="category initiate-drop">Categories <i class="ion-chevron-down"></i></button>
+                        <div class="dropdown">
+                            <div class="furniture-drop">
+                                <button class="initiate-drop second-drop">Furniture <i class="ion-chevron-down"></i></button>
+                                <div class="furniture dropdown">
+                                    <div class="input-container">
+                                        <input type="checkbox" name="furniture" id="chairs">
+                                        <label for="">Chairs</label>
+                                        <input type="checkbox" name="furniture" id="mats">
+                                        <label for="">Chair Mats</label>
+                                        <input type="checkbox" name="furniture" id="desks">
+                                        <label for="">Desks</label>
+                                        <input type="checkbox" name="furniture" id="storage">
+                                        <label for="">Storage</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="supplies-drop">    
+                                <button class="initiate-drop second-drop">School supplies <i class="ion-chevron-down"></i></button>
+                                <div class="dropdown">
+                                    <div class="input-container">
+                                        <input type="checkbox" name="supplies" id="backpacks">
+                                        <label for="backpacks">Backpacks</label>
+                                        <input type="checkbox" name="supplies" id="binders">
+                                        <label for="binders">Binders</label>
+                                        <input type="checkbox" name="supplies" id="erasers">
+                                        <label for="erasers">Erasers</label>
+                                        <input type="checkbox" name="supplies" id="pencils">
+                                        <label for="pencils">Pencils</label>
+                                        <input type="checkbox" name="supplies" id="pens">
+                                        <label for="pens">Pens</label>
+                                        <input type="checkbox" name="supplies" id="scissors">
+                                        <label for="scissors">Scissors</label>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="technology-drop">
+                                <button class="initiate-drop second-drop">Technology <i class="ion-chevron-down"></i></button>
+                                <div class="dropdown">
+                                    <div class="input-container">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="textbook-drop">
+                                <button class="initiate-drop second-drop">Textbooks <i class="ion-chevron-down"></i></button>
+                                <div class="dropdown">
+                                    <div class="input-container">
+                                        
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>
+                    </div>
+                    <div class="prices">
+                        <button class="price initiate-drop">Price <i class="ion-chevron-down"></i></button>
+                        <div class="price-dropdown dropdown">
+                            <div class="price-slider">
+                                <p id="price-display"></p>
+                                <input type="range" min="0" max="1000" value="1000" class="slider" id="price">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="colors"></div>
+                    <div class="sizes"></div>
+                </div>
+                <div class="resultWrapper">
+                    <div class="prodResult">
+                        {% for product in products %}
+                        <div class="resultCard {{ product.id }}">
+                            <div class="imgWrapper">
+                                <div class="iconWrapper">
+                                    <i class="ion-search"></i>
+                                </div>
+                                <img style="object-fit: cover;" src="../static/images/product_id_images/{{product.id}}.png" alt="" class="cardImg">
+                            </div>
+                            <div class="prodInfo">
+                                <p style="font-weight: 800;">{{ product.title }}</p>
+                                <p>{{ product.size }}</p>
+                                <p>{{ product.options }} options</p>
+                                <p>{{ product.price }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.initiate-drop').forEach(button => {
+            button.addEventListener('click', () => {
+                let dropdown = button.parentElement.querySelector('.dropdown');
+                // let catDrop = button.className('category-dropdown');
+                if (dropdown) {
+                    let isVisible = dropdown.style.display === 'grid';
+                    dropdown.style.display = isVisible ? 'none' : 'grid';
+                }
+            });
+        });
+        let slider = document.querySelector('#price');
+        let display = document.querySelector('#price-display');
+        display.innerHTML = `$${slider.value}`;
+        slider.addEventListener('input', slider => {
+            display.innerHTML = `$${slider.target.value}`
+        })
+    });
+</script>
+{% endblock %}
