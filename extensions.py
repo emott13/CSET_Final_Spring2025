@@ -64,6 +64,12 @@ def getCurrentType():
     """Returns the current_user type. Returns None if the user isn't logged in"""
     return None if not current_user.is_authenticated else current_user.type
 
+# price formatter for jinja template. call like {{154|priceFormat}}
+@app.template_filter()
+def priceFormat(value):
+    return str(value)[:-2] + "." + str(value)[-2:]
+    # return f"{ round( int(value)/100, 2):.2f }"
+
 # Load user for Flask-Login
 @login_manager.user_loader
 def load_user(user_id):
