@@ -25,7 +25,8 @@ CREATE TABLE IF NOT EXISTS products (
 );
 CREATE TABLE IF NOT EXISTS colors (						-- product colors
     color_id INT PRIMARY KEY AUTO_INCREMENT,
-    color_name VARCHAR(50) UNIQUE NOT NULL
+    color_name VARCHAR(50) UNIQUE NOT NULL,
+    color_hex VARCHAR(9) 
 );
 CREATE TABLE IF NOT EXISTS sizes(						-- product sizes
     size_id INT PRIMARY KEY AUTO_INCREMENT,
