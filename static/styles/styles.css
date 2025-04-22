@@ -222,15 +222,31 @@ h1 {
 }
 
 .variant-size-container {
+    text-decoration: none;
+    color: black;
     margin: .25rem;
     border: 1px solid black;
     border-radius: 10px;
 }
 
+.variant-size {
+    font-size: .8rem;
+    /* display: inline-block; */
+    overflow: hidden;
+    font-weight: 700;
+}
+
+.variant-price {
+    font-size: .8rem;
+}
+
 .variant-size,
 .variant-price {
     margin: .25rem;
+    width: 75;
+    height: 35;
 }
+
 .variant-separator {
     display: inline-block;
     content: "";
