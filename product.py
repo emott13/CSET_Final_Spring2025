@@ -110,48 +110,51 @@ def product(productId, variantId=None, error=None):
         print("POST")
         amount = request.form.get("number")
         if not current_user.is_authenticated:
-            error = "Error: You must be signed in to add to cart"
+            error = "You must be signed in to add to cart"
+        elif current_user.type != 'customer':
+            error = "You must be signed in as a customer"
         elif not amount.isdigit():
-            error = "Error: Amount value is invalid"
+            error = "Amount value is invalid"
         elif int(amount) < 1 or int(amount) > 100:
-            error = "Error: Amount value is invalid"
+            error = "Amount value is invalid"
 
-        email = current_user.get_email()
-        cartId = conn.execute(text(
-            f"SELECT cart_id FROM carts WHERE customer_email = '{email}'"
-        )).first()
+        if not error:
+            email = current_user.get_email()
+            cartId = conn.execute(text(
+                f"SELECT cart_id FROM carts WHERE customer_email = '{email}'"
+            )).first()
 
-        if not cartId:
-            conn.execute(text(f"INSERT INTO carts (customer_email) VALUES ('{email}')"))
+            if not cartId:
+                conn.execute(text(f"INSERT INTO carts (customer_email) VALUES ('{email}')"))
+                conn.commit()
+
+            cartId = conn.execute(text(
+                f"SELECT cart_id FROM carts WHERE customer_email = '{email}'"
+            )).first()[0]
+
+            cartItemVariants = conn.execute(text(
+                f"SELECT variant_id FROM cart_items WHERE cart_id = {cartId}")).all()
+            print(cartItemVariants)
+            
+            inCart = False
+            for variant in cartItemVariants:
+                if variant[0] == variantId:
+                    inCart = True
+                    break
+
+
+            if not inCart:
+                print("Variant_id not in cartItemsVariants")
+                conn.execute(text(
+                    "INSERT INTO cart_items (cart_id, variant_id, quantity)"
+                f"VALUES ({cartId}, {variantId}, {amount})"))
+            else:
+                conn.execute(text("UPDATE cart_items "
+                                f"SET quantity = (quantity + {amount})"
+                                f"WHERE cart_id = {cartId} AND variant_id = {variantId}"))
             conn.commit()
 
-        cartId = conn.execute(text(
-            f"SELECT cart_id FROM carts WHERE customer_email = '{email}'"
-        )).first()[0]
-
-        cartItemVariants = conn.execute(text(
-            f"SELECT variant_id FROM cart_items WHERE cart_id = {cartId}")).all()
-        print(cartItemVariants)
-        
-        inCart = False
-        for variant in cartItemVariants:
-            if variant[0] == variantId:
-                inCart = True
-                break
-
-
-        if not inCart:
-            print("Variant_id not in cartItemsVariants")
-            conn.execute(text(
-                "INSERT INTO cart_items (cart_id, variant_id, quantity)"
-               f"VALUES ({cartId}, {variantId}, {amount})"))
-        else:
-            conn.execute(text("UPDATE cart_items "
-                              f"SET quantity = (quantity + {amount})"
-                              f"WHERE cart_id = {cartId} AND variant_id = {variantId}"))
-        conn.commit()
-
-        print(cartItemVariants)
+            print(cartItemVariants)
         print(error)
         return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
                             variantData=variantData, vi=vi, imageData=imageData, ii=ii,
