@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/static/styles/styles.css">
+<script src="/static/scripts/product.js" defer></script>
 {% extends 'base.html' %}
 {% block body %}
     <div class="full-height full-width">
@@ -8,7 +9,9 @@
                 <img class="product-img" src="{{imageData[0][ii['file_path']]}}">
                 <div class="product-img-select">
                     {% for image in imageData %}
-                        <img class="product-img-small" src="{{image[ii['file_path']]}}">
+                        <div class="product-img-small">
+                            <img src="{{image[ii['file_path']]}}">
+                        </div>
                     {% endfor %}
                 </div>
             </div>
@@ -27,43 +30,45 @@
 
                 <div class="product-separator"></div> 
 
-                <h3 class="product-price">${{ variantData[vi['price']]|priceFormat }}</h3>
+                <div class="flex flex-between">
+                    <h3 class="product-price">${{ variantData[vi['price']]|priceFormat }}</h3>
+                    <button class="btn">Add To Cart</button>
+                </div>
                 <!-- <p class="product-list-price">List Price: <s>${{ variantData[vi['price']]|priceFormat }}</s></p> -->
 
-                <p class="product-size-selected">Size: <a id="size-selected">{{variantData[vi['size_description']]}}</a></p>
-                <p class="product-color-selected">
+                <p class="product-size-selected product-small-font">Size: <a id="size-selected">{{variantData[vi['size_description']]}}</a></p>
+                <p class="product-color-selected product-small-font">
                     Color: <a id="color-selected">{{variantData[vi['color_name']]}}</a>
-                    {% if variantData['color_hex'] != 'NULL' %}
+                    {% if variantData[vi['color_hex']] != 'NULL' %}
                         <a class="product-color-box" style="background-color: {{variantData[vi['color_hex']]}}"></a>
                     {% endif %}
                 </p>
                 <div class="product-sizes-container">
                     {% for variant in allVariantData %}
                     <a class="variant-size-container" href="/product/{{variant[vi['product_id']]}}/{{variant[vi['variant_id']]}}">
-                        <p class="variant-size">{{variant[vi['size_description']]}}</p>
+                        <div class="variant-color-size">
+                            <p class="variant-size">{{variant[vi['size_description']]}}</p>
+                            <p class="variant-color">{{variant[vi['color_name']]}}</p>
+                        </div>
+                        <div class="variant-separator"></div>
+                    {% if variantData[vi['color_hex']] != 'NULL' %}
+                        <p class="variant-color-back" style="background-color: {{variant[vi['color_hex']]}}"></p>
+                    {% endif %}
                         <div class="variant-separator"></div>
                         <p class="variant-price">${{ variant[vi['price']]|priceFormat }}</p>
                     </a>
                     {% endfor %}
                 </div>
 
+                <h2 class="product-description-h2 top-margin">Description</h2>
+                <p class="product-description top-margin product-small-font">{{productData[pi['product_description']]}}</p>
+                {% if productData[pi['warranty_months']] > 0 %}
+                    <p class="product-warranty top-margin product-small">
+                        This product has a {{productData[pi['warranty_months']]}} month warranty
+                    </p>
+                {% endif %}
             </div>
 
         </div>
     </div>
-<script>
-    // let originalSize = document.getElementById("size-selected").text;
-    // let sizeContainers = document.getElementsByClassName("variant-size-container");
-    
-    // for (sizeContainer of sizeContainers) {
-    //     sizeContainer.addEventListener("mouseenter", (e) => {
-    //         console.log(sizeContainer);
-    //         document.getElementById("size-selected").text = sizeContainer.getElementsByClassName("variant-size")[0].textContent;
-    //     })
-
-    //     sizeContainer.addEventListener("mouseleave", (e) => {
-    //         document.getElementById("size-selected").text = originalSize;
-    //     })
-    // }
-</script>
 {% endblock %}
