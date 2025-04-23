@@ -50,7 +50,8 @@ def isValidProductURL(productId, variantId=None):
 
 @product_bp.route("/product/<int:productId>/", methods=["GET", "POST"])
 @product_bp.route("/product/<int:productId>/<int:variantId>", methods=["GET", "POST"])
-def product(productId, variantId=None):
+def product(productId, variantId=None, error=None):
+    print(error)
     # Returns 404 (productId doesn't exist), new URL (if the parameters are invalid),
     # or None (parameters are already fine)
     invalidURL = isValidProductURL(productId, variantId)
@@ -104,12 +105,58 @@ def product(productId, variantId=None):
     # image data. Index like this imageData[0][ii['file_path']]
     imageData = conn.execute(text(f"SELECT variant_id, file_path FROM images WHERE variant_id = {variantId}")).all()
 
-    print("variantData data: ")
-    print(variantData)
 
     if request.method == "POST":
-        return
-    return render_template("product.html", productId=productId, productData=productData, pi=pi,
+        print("POST")
+        amount = request.form.get("number")
+        if not current_user.is_authenticated:
+            error = "Error: You must be signed in to add to cart"
+        elif not amount.isdigit():
+            error = "Error: Amount value is invalid"
+        elif int(amount) < 1 or int(amount) > 100:
+            error = "Error: Amount value is invalid"
+
+        email = current_user.get_email()
+        cartId = conn.execute(text(
+            f"SELECT cart_id FROM carts WHERE customer_email = '{email}'"
+        )).first()
+
+        if not cartId:
+            conn.execute(text(f"INSERT INTO carts (customer_email) VALUES ('{email}')"))
+            conn.commit()
+
+        cartId = conn.execute(text(
+            f"SELECT cart_id FROM carts WHERE customer_email = '{email}'"
+        )).first()[0]
+
+        cartItemVariants = conn.execute(text(
+            f"SELECT variant_id FROM cart_items WHERE cart_id = {cartId}")).all()
+        print(cartItemVariants)
+        
+        inCart = False
+        for variant in cartItemVariants:
+            if variant[0] == variantId:
+                inCart = True
+                break
+
+
+        if not inCart:
+            print("Variant_id not in cartItemsVariants")
+            conn.execute(text(
+                "INSERT INTO cart_items (cart_id, variant_id, quantity)"
+               f"VALUES ({cartId}, {variantId}, {amount})"))
+        else:
+            conn.execute(text("UPDATE cart_items "
+                              f"SET quantity = (quantity + {amount})"
+                              f"WHERE cart_id = {cartId} AND variant_id = {variantId}"))
+        conn.commit()
+
+        print(cartItemVariants)
+        print(error)
+        return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
+                            variantData=variantData, vi=vi, imageData=imageData, ii=ii,
+                            allVariantData=allVariantData)
+    return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
                            variantData=variantData, vi=vi, imageData=imageData, ii=ii,
                            allVariantData=allVariantData)
 

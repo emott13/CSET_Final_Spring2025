@@ -8,6 +8,19 @@ document.addEventListener("click", (e) => {
     
 });
 
+if (window.history.replaceState)
+    window.history.replaceState( null, null, window.location.href );
+
+function checkNum(data) {
+    if (isNaN(data.value))
+        data.value = 1;
+    else if (Number(data.value) < Number(data.min))
+        data.value = 1;
+    else if (Number(data.value) > Number(data.max))
+        data.value = data.max;
+
+}
+
 // let originalSize = document.getElementById("size-selected").text;
 // let sizeContainers = document.getElementsByClassName("variant-size-container");
 
