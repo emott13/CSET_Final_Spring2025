@@ -228,13 +228,13 @@ VALUES
     ('Red', '#ff0000'),		-- 19781
     ('Blue', '#0000ff'),	-- 19782
     ('Green', '#00ff00'),	-- 19783
-    ('Yellow', '#00ffff'),	-- 19784
+    ('Yellow', '#ffff00'),	-- 19784
     ('Navy', '#000080'),	-- 19785
     ('Black', '#000000'),	-- 19786
 	('Walnut', '#773f1a'), 	-- 19787
     ('Clear', NULL),		-- 19788
     ('None', NULL);			-- 19789
-    
+
 INSERT INTO sizes (size_description)
 VALUES
 	('Single'), 			-- 15
