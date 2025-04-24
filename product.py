@@ -101,12 +101,28 @@ def product(productId, variantId=None, error=None):
         "price, current_inventory, color_name, color_hex, size_description "
         "FROM product_variants NATURAL JOIN colors NATURAL JOIN sizes " \
         f"WHERE product_id = {productId}")).all()
+    allDiscountData = dict( conn.execute(text(
+        "SELECT variant_id, MIN(discount_price) FROM discounts " \
+        "NATURAL JOIN product_variants " \
+        "WHERE (start_date <= NOW() OR start_date IS NULL) AND (end_date >= NOW() OR end_date IS NULL) " \
+       f"AND (product_id = {productId}) " \
+        "GROUP BY variant_id;"
+    )).all() )
 
     # image data. Index like this imageData[0][ii['file_path']]
     imageData = conn.execute(text(f"SELECT variant_id, file_path FROM images WHERE variant_id = {variantId}")).all()
+    print("Discount Data:")
+    print(allDiscountData)
+    if variantData[vi['variant_id']] in allDiscountData.keys():
+        print(allDiscountData[ variantData[vi['variant_id']] ])
+        print(variantData[vi['price']])
 
 
-    if request.method == "POST":
+    if request.method == "GET":
+        return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
+                            variantData=variantData, vi=vi, imageData=imageData, ii=ii,
+                            allVariantData=allVariantData, allDiscountData=allDiscountData)
+    elif request.method == "POST":
         print("POST")
         amount = request.form.get("number")
         if not current_user.is_authenticated:
@@ -158,8 +174,5 @@ def product(productId, variantId=None, error=None):
         print(error)
         return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
                             variantData=variantData, vi=vi, imageData=imageData, ii=ii,
-                            allVariantData=allVariantData)
-    return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
-                           variantData=variantData, vi=vi, imageData=imageData, ii=ii,
-                           allVariantData=allVariantData)
+                            allVariantData=allVariantData, allDiscountData=allDiscountData)
 

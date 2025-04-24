@@ -32,7 +32,12 @@
 
 
                 <div class="flex flex-between">
-                    <h3 class="product-price">${{ variantData[vi['price']]|priceFormat }}</h3>
+                    {% if allDiscountData[variantData['variant_id']] and 
+                        allDiscountData[variantData['variant_id']] < variantData[vi['price']] %}
+                        <h3 class="product-price">${{ allDiscountData[variantData['variant_id']]|priceFormat }}</h3>
+                    {% else %}
+                        <h3 class="product-price">${{ variantData[vi['price']]|priceFormat }}</h3>
+                    {% endif %}
                     {% if error %}
                         <p class="error product-small-font">{{error}}</p>
                     {% endif %}
@@ -41,7 +46,10 @@
                         <input type="submit" class="btn" value="Add To Cart">
                     </form>
                 </div>
-                <!-- <p class="product-list-price">List Price: <s>${{ variantData[vi['price']]|priceFormat }}</s></p> -->
+                {% if allDiscountData[variantData['variant_id']] and 
+                    allDiscountData[variantData['variant_id']] < variantData[vi['price']] %}
+                    <p class="product-list-price">List Price: <s>${{ variantData[vi['price']]|priceFormat }}</s></p>
+                {% endif %}
 
                 <p class="product-size-selected product-small-font">Size: <a id="size-selected">{{variantData[vi['size_description']]}}</a></p>
                 <p class="product-color-selected product-small-font">
