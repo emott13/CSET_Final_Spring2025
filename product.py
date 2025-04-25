@@ -83,6 +83,16 @@ def product(productId, variantId=None, error=None):
         'variant_id': 0,
         'file_path': 1
     }
+    ri = { # review indexes
+        'review_id': 0,
+        'customer_email': 1,
+        'product_id': 2,
+        'rating': 3,
+        'description': 4,
+        'image': 5,
+        'date': 6,
+        'full_name': 7
+    }
     # product data. Index like this productData[pi['product_title']]
     productData = conn.execute(text(
         "SELECT product_id, vendor_id, product_title, "
@@ -107,21 +117,24 @@ def product(productId, variantId=None, error=None):
         "WHERE (start_date <= NOW() OR start_date IS NULL) AND (end_date >= NOW() OR end_date IS NULL) " \
        f"AND (product_id = {productId}) " \
         "GROUP BY variant_id;"
+
     )).all() )
+    reviewsData = conn.execute(text("SELECT review_id, customer_email, product_id, rating, description, "
+        "image, date(date), CONCAT(first_name, ' ', last_name) AS 'full_name' "
+       f"FROM reviews JOIN users ON reviews.customer_email = users.email WHERE product_id = {productId}")).all()
+    reviewsAvg = conn.execute(text(f"SELECT ROUND(AVG(rating), 1) FROM reviews WHERE product_id = {productId}")).first()[0]
 
     # image data. Index like this imageData[0][ii['file_path']]
     imageData = conn.execute(text(f"SELECT variant_id, file_path FROM images WHERE variant_id = {variantId}")).all()
-    print("Discount Data:")
-    print(allDiscountData)
-    if variantData[vi['variant_id']] in allDiscountData.keys():
-        print(allDiscountData[ variantData[vi['variant_id']] ])
-        print(variantData[vi['price']])
+
+    print(reviewsData)
 
 
     if request.method == "GET":
         return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
                             variantData=variantData, vi=vi, imageData=imageData, ii=ii,
-                            allVariantData=allVariantData, allDiscountData=allDiscountData)
+                            allVariantData=allVariantData, allDiscountData=allDiscountData, reviewsAvg=reviewsAvg,
+                            reviewsData=reviewsData, ri=ri)
 
     elif request.method == "POST":
         print("POST")
@@ -175,5 +188,6 @@ def product(productId, variantId=None, error=None):
         print(error)
         return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
                             variantData=variantData, vi=vi, imageData=imageData, ii=ii,
-                            allVariantData=allVariantData, allDiscountData=allDiscountData)
+                            allVariantData=allVariantData, allDiscountData=allDiscountData, reviewsAvg=reviewsAvg,
+                            reviewsData=reviewsData, ri=ri)
 

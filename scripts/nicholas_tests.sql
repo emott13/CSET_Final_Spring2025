@@ -1,16 +1,28 @@
 USE goods;
 
 SELECT * FROM carts;
-SELECT * FROM cart_items;
+SELECT * FROM cart_items WHERE cart_id = (SELECT cart_id FROM carts WHERE customer_email = "bluemario812@gmail.com");
 SELECT * FROM users;
 SELECT * FROM products;
 SELECT * FROM discounts;
 SELECT * FROM product_variants;
 SELECT * FROM colors;
 SELECT * FROM sizes;
-DESC product_variants;
+SELECT * FROM reviews 
+JOIN users ON reviews.customer_email = users.email
+WHERE product_id = 850556;
 
-SELECT * FROM reviews;
+DESC product_variants;
+DELETE FROM cart_items WHERE cart_id = (SELECT cart_id FROM carts WHERE customer_email = "bluemario812@gmail.com");
+DELETE FROM carts WHERE customer_email = "bluemario812@gmail.com";
+
+INSERT INTO reviews (customer_email, product_id, rating, description, image)
+VALUES 
+	("bluemario812@gmail.com", 850556, 4, "Product worked great. Had slight issues as the pages were a little stuck together but after that it worked perfectly", "https://m.media-amazon.com/images/I/81y2PkckqSL._AC_SL1500_.jpg")
+-- 	("bluemario812@gmail.com", 850556, 5, NULL, NULL),
+-- 	("bluemario812@gmail.com", 850556, 3, NULL, NULL)
+;
+DELETE FROM reviews WHERE customer_email = "bluemario812@gmail.com";
 
 SELECT * FROM products
 NATURAL JOIN product_variants
@@ -19,7 +31,7 @@ NATURAL JOIN sizes
 ORDER BY product_id;           
 
 INSERT INTO discounts (variant_id, discount_price, start_date)
-VALUES (100210, 1999, NOW());
+VALUES (100204, 149, NOW());
 SELECT * FROM discounts
 NATURAL JOIN product_variants;
 

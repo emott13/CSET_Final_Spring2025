@@ -20,12 +20,36 @@
                 <h1 class="product-title">{{productData[pi['product_title']]}}</h1>
                 <p class="vendor-username">Vendor: {{productData[pi['username']]}}</p>
                 <div class="product-rating">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-regular fa-star"></i>
-                    <i class="fa-regular fa-star"></i>
-                    <p class="product-rating-num">3.2</p>
+                    {% if reviewsAvg %}
+                        {% if reviewsAvg > 0.7 %}
+                            <i class="fa-solid fa-star star-orange"></i>
+                        {% else %}
+                            <i class="fa-regular fa-star star-orange"></i>
+                        {% endif %}
+                        {% if reviewsAvg > 1.7 %}
+                            <i class="fa-solid fa-star star-orange"></i>
+                        {% else %}
+                            <i class="fa-regular fa-star star-orange"></i>
+                        {% endif %}
+                        {% if reviewsAvg > 2.7 %}
+                            <i class="fa-solid fa-star star-orange"></i>
+                        {% else %}
+                            <i class="fa-regular fa-star star-orange"></i>
+                        {% endif %}
+                        {% if reviewsAvg > 3.7 %}
+                            <i class="fa-solid fa-star star-orange"></i>
+                        {% else %}
+                            <i class="fa-regular fa-star"></i>
+                        {% endif %}
+                        {% if reviewsAvg > 4.7 %}
+                            <i class="fa-solid fa-star star-orange"></i>
+                        {% else %}
+                            <i class="fa-regular fa-star star-orange"></i>
+                        {% endif %}
+                        <p class="product-rating-num">{{reviewsAvg}}</p>
+                    {% else %}
+                        <p class="">No reviews</p>
+                    {% endif %}
                 </div>
 
                 <div class="product-separator"></div> 
@@ -93,5 +117,63 @@
             </div>
 
         </div>
+
+        <section class="product-reviews-section">
+            <div class="product-reviews-container">
+                <h1 class="reviews-h">Reviews</h1>
+
+                <div class="product-reviews-arrange product-reviews-background">
+                    <div class="product-reviews-filter">
+                        <label class="product-filter">Filter</label>
+                        <select id="product-sort">
+                            <option value="all">All Stars</option>
+                            <option value="5">5 Star</option>
+                            <option value="4">4 Star</option>
+                            <option value="3">3 Star</option>
+                            <option value="2">2 Star</option>
+                            <option value="1">1 Star</option>
+                            <option value="pos">Positive Reviews</option>
+                            <option value="crit">Critical Reviews</option>
+                        </select> 
+                    </div>
+                    <div class="product-reviews-sort">
+                        <label class="product-sort">Sort</label>
+                        <select id="product-sort">
+                            <option value="recent">Recent First</option>
+                            <option value="pos">Positive Reviews First</option>
+                            <option value="crit">Critical Reviews First</option>
+                        </select> 
+                    </div>
+                </div>
+
+                {% for review in reviewsData %}
+                    <div class="product-review product-reviews-background">
+                        <div class="product-review-row1">
+                            <p class="product-review-name product-reviews-inner-background">By: {{review[ri['full_name']]}}</p>
+                            <div class="product-review-stars product-reviews-inner-background">
+                                {% for i in range(1, 6) %}
+                                    {% if i <= review[ri['rating']] %}
+                                        <i class="fa-solid fa-star star-orange"></i>
+                                    {% else %}
+                                        <i class="fa-regular fa-star star-orange"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <p class="product-review-date product-reviews-inner-background">{{review[ri['date']]}}</p>
+                        </div>
+                        {% if review[ri['description']] %}
+                            <div class="product-review-description product-reviews-inner-background">
+                                <p>{{review[ri['description']]}}</p>
+                            </div>
+                        {% endif %}
+                        {% if review[ri['image']] %}
+                            <div class="product-review-image">
+                                <img src="{{review[ri['image']]}}" class="product-reviews-inner-background">
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
     </div>
 {% endblock %}
