@@ -41,6 +41,7 @@ main{
 }
 
 .resultCard{
+    display: block;
     margin: 10px;
     border-radius: 15px;
     border: none;
@@ -80,6 +81,19 @@ img.cardImg{
     padding: 20px;
     height: fit-content;
     width: 280px;
+}
+.clearBtn{
+    border: none;
+    border-radius: 15px;
+    background-color: var(--color-rust);
+    padding: 3px 8px;
+    color: var(--color-purple-white);
+    font-size: 20px;
+}
+
+.clearFilters{
+    margin-top: 8px;
+    margin-bottom: 14px;
 }
 
 .category,
@@ -159,6 +173,25 @@ img.cardImg{
     height: 25px;
     cursor: pointer;
 }
+
+.submit-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    margin-right: 20%;
+}
+
+.submit-apply{
+    border: none;
+    border-radius: 15px;
+    background-color: var(--color-rust);
+    padding: 5px 12px;
+    font-size: 15px;
+    font-family: var(--font-small);
+    color: var(--color-purple-white);
+}
+
 
 /* -- ion-icon styles -- */
 .ion-chevron-down:before{

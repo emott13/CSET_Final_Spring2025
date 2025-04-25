@@ -25,8 +25,7 @@ CREATE TABLE IF NOT EXISTS products (
 );
 CREATE TABLE IF NOT EXISTS colors (						-- product colors
     color_id INT PRIMARY KEY AUTO_INCREMENT,
-    color_name VARCHAR(50) UNIQUE NOT NULL,
-    color_hex VARCHAR(9) 
+    color_name VARCHAR(50) UNIQUE NOT NULL
 );
 CREATE TABLE IF NOT EXISTS sizes(						-- product sizes
     size_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -169,19 +168,7 @@ ALTER TABLE product_variants AUTO_INCREMENT=100200;
 -- INSERT STATEMENTS --
 -- ----------------- --
 
--- data needed: 2 admin accounts, 5 customer accounts, 3 vendor accounts **DONE**
--- 10 products from the 3 vendors **DONE**
--- untimed discount on 2 products **DONE**
--- timed discount on 2 products **DONE**
--- items in cart from 3 customer accounts **DONE**
--- at least 7 orders of various statuses and 3 shipped orders from 3 customers **DONE**
--- orders should have multiple products from different vendors **DONE**
--- meaningful reviews with images from customers on all shipped orders **DONE**
--- one return and one warranty application in progress **DONE**
--- meaningful chat messages regarding these requests **DONE**
--- meaningful chat messages from all customers to different vendors
--- any additional information necessary to model a running ecommerce website
--- select product_title, size_description, file_path, alt_text from products natural join product_variants natural join sizes natural join images where vendor_id = 'g_pitts@supplies4school.org' and image_id IN(1,3,5,7,19,21);
+
 SELECT product_title, size_description, file_path, alt_text
         FROM products NATURAL JOIN product_variants NATURAL JOIN sizes NATURAL JOIN images
         WHERE vendor_id = 'g_pitts@supplies4school.org' and image_id IN(1, 3, 5, 7, 19, 21); 
@@ -195,9 +182,9 @@ VALUES
 	('d_giant@outlook.com', 'dgiant', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Damien', 'Giant', 'customer'), -- customer
 	('c_ramos@outlook.com', 'cramos', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Celia', 'Ramos', 'customer'), -- customer
 	('j_prescott@gmail.com', 'jprescott', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Jean', 'Prescott', 'customer'), -- customer
-	('a_batts@textbooksmadeeasy.org', 'abatts_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Annemarie', 'Batts', 'vendor'), -- vendor
-	('g_pitts@supplies4school.org', 'gpitts_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Gebhard', 'Pitts', 'vendor'), -- vendor
-	('i_tombolli@study_space.com', 'itombolli_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Isabella', 'Tomboli', 'vendor'); -- vendor
+	('a_batts@textbooksmadeeasy.org', 'abatts_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Textbooks', 'Made Easy', 'vendor'), -- vendor
+	('g_pitts@supplies4school.org', 'gpitts_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Supplies', '4 School', 'vendor'), -- vendor
+	('i_tombolli@study_space.com', 'itombolli_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Study', 'Space', 'vendor'); -- vendor
 
 INSERT INTO products (vendor_id, product_title, product_description, warranty_months)
 VALUES
@@ -523,10 +510,6 @@ VALUES
 	('That’s a fair offer. If I go with 15 packs, could you do $25 each?', 850556, 'd_giant@outlook.com', 'g_pitts@supplies4school.org', '2025-04-09 11:03:44'),
 	('For 15 packs, I can meet you halfway at $25.99 per pack. Let me know if that works for you.', 850556, 'g_pitts@supplies4school.org', 'd_giant@outlook.com', '2025-04-09 11:06:10');
     
-    
--- select * from products;
--- select * from products natural join images;
--- select * from images;
 
 -- updated products for cset 180 final
 INSERT INTO products (vendor_id, product_title, product_description, warranty_months)
@@ -556,7 +539,7 @@ VALUES
     (850565, 19787, 32, 57900, 15), -- desk
     (850566, 19787, 33, 26900, 32), -- pedestal file 2-drawer
     (850567, 19787, 33, 27900, 31); -- pedestal file 3-drawer
--- select * from images where variant_id in(100227, 100227, 100239, 100240);
+
 INSERT INTO images (variant_id, file_path, alt_text)
 VALUES
 	-- H-10353
@@ -605,7 +588,7 @@ VALUES
     (100226, '/static/images/metro_collection/H-9784-C.png', 'Box Drawer Open'),
     (100226, '/static/images/metro_collection/laminate-edge.png', 'Laminate Corner'),
     (100226, '/static/images/metro_collection/lock-keys.png', 'Front - keys in keyhole'); 
--- select * from products natural join product_variants where vendor_id = 'i_tombolli@study_space.com' and product_id in(850565, 850566, 850567, 850568, 850569, 850570) order by product_id;
+
 
 INSERT INTO products (vendor_id, product_title, product_description, warranty_months)
 VALUES
@@ -625,7 +608,7 @@ VALUES
 	('60W X 66L Inches'), -- 34
     ('72W X 66L Inches'), -- 35
     ('16W X 18D X 26L Inches'); -- 36
--- SELECT * FROM sizes;
+
  INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory)
  VALUES
 	-- 100227
@@ -656,7 +639,7 @@ VALUES
     (850570, 19790, 36, 25900, 10),
     -- 100240
     (850570, 19791, 36, 25900, 10);
-select * from images where variant_id between 100227 AND 100240;
+
 INSERT INTO images (variant_id, file_path, alt_text)
 VALUES
 	(100227, '/static/images/designer_collection/H-9790-WHITE-A.png', 'Front View'),
@@ -751,33 +734,3 @@ VALUES
     (100240, '/static/images/designer_collection/lock-keys-maple.png', 'Front - keys in keyhole'),
     (100240, '/static/images/designer_collection/pedestal-wheel-maple.png', 'Front Corner - Wheel');
     
-select * from users;
-select variant_id from product_variants where product_id = 850555;
-select product_title, product_description from products where product_id = 850555;
-select product_id, COUNT(variant_id) from product_variants group by product_id order by product_id;
-select MIN(price), MAX(price) from product_variants where product_id = 850555;
-select product_id, product_title, size_description from products natural join product_variants natural join sizes where product_id = 850555 and variant_id IN(100200, 100201, 100202);
-
--- SELECT products.product_id, products.product_title, sizes.size_description
--- 	FROM products INNER JOIN product_variants
--- 	INNER JOIN sizes ON products.product_id = product_variants.product_id
--- 	AND product_variants.size_id = sizes.size_id
---     WHERE products.product_id = :id AND variant_id = :vid;
-
-
-SELECT variant_id, COUNT(color_name), COUNT(size_description)
-FROM product_variants
-NATURAL JOIN colors
-NATURAL JOIN sizes
-GROUP BY variant_id
-ORDER BY variant_id;
-
-select
--- SELECT product_id FROM products;
--- SELECT product_title, product_description FROM products WHERE product_id = :id;
--- SELECT variant_id, price FROM product_variants WHERE product_id = :id;
--- SELECT size_description FROM sizes WHERE variant_id = :id;
--- SELECT color_name FROM colors WHERE varian_id = :id;
-SELECT product_title, product_description, size_description, price, warranty_months, current_inventory, product_id, variant_id 
-FROM products NATURAL JOIN product_variants NATURAL JOIN sizes;
--- SELECT color_description FROM colors NATURAL JOIN product_variants WHERE product_id = AND variant_id = ;

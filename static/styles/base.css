@@ -162,10 +162,13 @@
 .fa-magnifying-glass{
     position: absolute;
     top: 28px !important;
-    left: 24.5%;
+    left: 24%;
     transform: translate(-50%);
     color: var(--color-purple);
 }
+/* @media screen and (max-width: ) {
+    
+} */
 .fa-circle-xmark{
     position: absolute;
     top: 28px !important;

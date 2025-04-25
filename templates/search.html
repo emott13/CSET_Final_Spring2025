@@ -11,16 +11,20 @@
                 <h2 class="searchTitle">Results for: <span>placeholder</span></h2>
                 <h5 class="message"></h5>
                 <div class="sideMenu">
+                    <form action="{{ url_for('search')}}" method="GET" class="clearFilters" style="display: {{ clearDisplay }};">
+                        <button type="submit" class="clearBtn">Clear Filters</button>               <!-- shows error lines but still works-->
+                    </form>
                     <div class="vendors">
                         <button class="vendor initiate-drop">Vendors <i class="ion-chevron-down"></i></button>
                         <div class="vendor-dropdown dropdown">
-                            <div class="input-container">
-                                <input name="vendor-options" type="checkbox" id="vendor-space" class="vendor-options">
-                                <label for="vendor-space">Study Space</label>
-                                <input name="vendor-options" type="checkbox" id="vendor-textbook" class="vendor-options">
-                                <label for="vendor-textbook">Textbooks Made Easy</label>
-                                <input name="vendor-options" type="checkbox" id="vendor-school" class="vendor-options">
-                                <label for="vendor-school">Supplies 4 School</label>
+                            <form class="input-container" action="{{ url_for('search') }}" method="POST" name="vendor" id="vendor-search">
+                                {% for vendor in vendors %}
+                                    <input name="vendor-options" type="checkbox" id="{{ vendor[0] }}" class="vendor-options" value="{{ vendor[0] }}">
+                                    <label for="{{ vendor[0] }}">{{ vendor[1] }}</label>
+                                {% endfor %}
+                            </form>
+                            <div class="submit-wrapper">
+                                <input type="submit" class="submit-apply" form="vendor-search" value="Apply">
                             </div>
                         </div>
                     </div>
@@ -82,9 +86,12 @@
                     <div class="prices">
                         <button class="price initiate-drop">Price <i class="ion-chevron-down"></i></button>
                         <div class="price-dropdown dropdown">
-                            <div class="price-slider">
+                            <form class="price-slider" action="{{ url_for('search') }}" name="price-form" method="POST" id="price-form">
                                 <p id="price-display"></p>
-                                <input type="range" min="0" max="1000" value="1000" class="slider" id="price">
+                                <input type="range" min="0" max="1000" value="{{ priceValue }}" class="slider" id="price" name="price">
+                            </form>
+                            <div class="submit-wrapper">
+                                <input type="submit" class="submit-apply" form="price-form" value="Apply">
                             </div>
                         </div>
                     </div>
@@ -94,20 +101,22 @@
                 <div class="resultWrapper">
                     <div class="prodResult">
                         {% for product in products %}
-                        <div class="resultCard {{ product.id }}">
-                            <div class="imgWrapper">
-                                <div class="iconWrapper">
-                                    <i class="ion-search"></i>
+                            {% if product.display == True %}
+                                <div class="resultCard {{ product.id }} {{ product.vendor }}">
+                                    <div class="imgWrapper">
+                                        <div class="iconWrapper">
+                                            <i class="ion-search"></i>
+                                        </div>
+                                        <img style="object-fit: cover;" src="../static/images/product_id_images/{{product.id}}.png" alt="" class="cardImg">
+                                    </div>
+                                    <div class="prodInfo">
+                                        <p style="font-weight: 800;">{{ product.title }}</p>
+                                        <p>{{ product.size }}</p>
+                                        <p>{{ product.options }} options</p>
+                                        <p>{{ product.price }}</p>
+                                    </div>
                                 </div>
-                                <img style="object-fit: cover;" src="../static/images/product_id_images/{{product.id}}.png" alt="" class="cardImg">
-                            </div>
-                            <div class="prodInfo">
-                                <p style="font-weight: 800;">{{ product.title }}</p>
-                                <p>{{ product.size }}</p>
-                                <p>{{ product.options }} options</p>
-                                <p>{{ product.price }}</p>
-                            </div>
-                        </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>
@@ -117,22 +126,46 @@
 </main>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // search dropdowns
         document.querySelectorAll('.initiate-drop').forEach(button => {
             button.addEventListener('click', () => {
                 let dropdown = button.parentElement.querySelector('.dropdown');
-                // let catDrop = button.className('category-dropdown');
                 if (dropdown) {
                     let isVisible = dropdown.style.display === 'grid';
                     dropdown.style.display = isVisible ? 'none' : 'grid';
                 }
             });
         });
+
+        // price slider
         let slider = document.querySelector('#price');
         let display = document.querySelector('#price-display');
         display.innerHTML = `$${slider.value}`;
         slider.addEventListener('input', slider => {
             display.innerHTML = `$${slider.target.value}`
         })
+
+        // vendor checkboxes
+
+        // vendorChecks = document.querySelectorAll('.vendor-options')
+        // vendorChecks.forEach(checkbox => {
+        //     checkbox.addEventListener('change', event => {
+        //         vendor = event.target.value
+        //         console.log(vendor)
+        //         products = document.querySelectorAll('.resultCard')
+        //         products.forEach(product => {
+        //             if(product.classList.contains(vendor)){
+        //                 let isVisible = product.style.display === 'block';
+        //                 product.style.display = isVisible ? 'none' : 'block';
+        //             }
+        //             else{
+        //                 let isVisible = product.style.display === 'none';
+        //                 product.style.display = isVisible ? 'block' : 'none';
+        //             }
+        //         });
+        //     })
+        // });
+        // document.querySelectorAll('.resultCard')
     });
 </script>
 {% endblock %}
