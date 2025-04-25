@@ -25,7 +25,8 @@ CREATE TABLE IF NOT EXISTS products (
 );
 CREATE TABLE IF NOT EXISTS colors (						-- product colors
     color_id INT PRIMARY KEY AUTO_INCREMENT,
-    color_name VARCHAR(50) UNIQUE NOT NULL
+    color_name VARCHAR(50) UNIQUE NOT NULL,
+    color_hex VARCHAR(9)
 );
 CREATE TABLE IF NOT EXISTS sizes(						-- product sizes
     size_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -166,14 +167,10 @@ ALTER TABLE colors AUTO_INCREMENT=19780;
 ALTER TABLE sizes AUTO_INCREMENT=15;
 ALTER TABLE product_variants AUTO_INCREMENT=100200;
 
+
 -- ----------------- --
 -- INSERT STATEMENTS --
 -- ----------------- --
-
-
-SELECT product_title, size_description, file_path, alt_text
-        FROM products NATURAL JOIN product_variants NATURAL JOIN sizes NATURAL JOIN images
-        WHERE vendor_id = 'g_pitts@supplies4school.org' and image_id IN(1, 3, 5, 7, 19, 21); 
 
 INSERT INTO users (email, username, hashed_pswd, first_name, last_name, type)
 VALUES											
@@ -209,73 +206,135 @@ VALUES
 	-- 850563
     ('i_tombolli@study_space.com', 'Mesh Task Chair', 'Hi-tech design with ventilated mesh fabric - keeps you cool an comfortable. 3 1/2" thick seat. Standard tilt with adjustable tension. Fixed armrests.', 6),
 	-- 850564
-    ('i_tombolli@study_space.com', 'Anti-Static Carpet Chair Mat', 'Anti-skid surface and straight edges. Vinyl construction. Cleared backing keeps chair mat firmly in place. Use on low pile carpeting - 3/8" thick or less.', 0);
+    ('i_tombolli@study_space.com', 'Anti-Static Carpet Chair Mat', 'Anti-skid surface and straight edges. Vinyl construction. Cleared backing keeps chair mat firmly in place. Use on low pile carpeting - 3/8" thick or less.', 0),
+	-- 850565
+    ('i_tombolli@study_space.com', 'Metro Office Desks', 'Strong, sleek design. For ad agencies, design studios, and urban office spaces. Durable 1 1/2" thick laminate top with PVC edges and cable grommets. 30" height. Heavy-duty steel frame with rectangle tube legs and full-length modest panel.', 12),
+	-- 850566
+    ('i_tombolli@study_space.com', 'Metro Mobile Pedestal File - 2 Drawer', 'Companion storage fits under Metro Office Desks. Durable laminate surface resists scratches, stains and spills. 2 file drawers. 5 swivel casters, 2locking. Includes lock and 2 keys.', 12),
+	-- 850567
+    ('i_tombolli@study_space.com', 'Metro Mobile Pedestal File - 3 Drawer', 'Companion storage fits under Metro Office Desks. Durable laminate surface resists scratches, stains and spills. 1 file drawer, 2 box drawers. 5 swivel casters, 2locking. Includes lock and 2 keys.', 12),
+	-- 850568
+	('i_tombolli@study_space.com', 'Designer Office Desks', 'Brighten up your workplace. Minimalist style for modern and trendy offices. 1" thick elevated laminate top with PVC edges and 2 cable grommets. 30" height. Durable white steel frame with beveled legs and hanging modesty panel.', 12),
+	-- 850569
+	('i_tombolli@study_space.com', 'Designer Office L-Desks', 'Brighten up your workplace. Minimalist style for modern and trendy offices. 1" thick elevated laminate top with PVC edges and 2 cable grommets. 30" height. Durable white steel frame with beveled legs and hanging modesty panel. L-Desk has extra space to get work done. Spread out your projects, reports, or creative materials.', 12),
+	-- 850570    
+	('i_tombolli@study_space.com', 'Designer Mobile Pedestal File - 3 Drawer', 'Companion storage tucks away neatly and underneath Designer Office Desks. Durable laminate surface resists scratches, stains and spills. 1 file drawer, 2 box drawers. 5 swivel casters, 2 locking. Includes lock and two keys.', 12),
+	-- 850571
+	('g_pitts@supplies4school.org', 'JanSport Big Student Backpacks', 'The JanSport Big Student backpack is perfect for carrying all of your supplies. The backpack is made of 100% recycled polyester and features a dedicated 15" padded laptop compartment. Features two large main compartments, one front utility pocket with organizer, one pleated front stash pocket, and one zippered front stash pocket. Includes a side water bottle pocket, ergonomic S-curve shoulder straps,  and a fully padded back panel.', 0),
+	-- 850572
+	('g_pitts@supplies4school.org', 'JanSport Big Student Patterned Backpacks', 'The JanSport Big Student backpack is perfect for carrying all of your supplies. The backpack is made of 100% recycled polyester and features a dedicated 15" padded laptop compartment. Features two large main compartments, one front utility pocket with organizer, one pleated front stash pocket, and one zippered front stash pocket. Includes a side water bottle pocket, ergonomic S-curve shoulder straps,  and a fully padded back panel.', 0);
+
 
 INSERT INTO colors (color_name, color_hex)
 VALUES
-	('Assorted', NULL),		-- 19780
-    ('Red', '#ff0000'),		-- 19781
-    ('Blue', '#0000ff'),	-- 19782
-    ('Green', '#00ff00'),	-- 19783
-    ('Yellow', '#ffff00'),	-- 19784
-    ('Navy', '#000080'),	-- 19785
-    ('Black', '#000000'),	-- 19786
-	('Walnut', '#773f1a'), 	-- 19787
-    ('Clear', NULL),		-- 19788
-    ('None', NULL);			-- 19789
-
+	('Assorted', NULL),			-- 19780
+    ('Red', '#ff0000'),			-- 19781
+    ('Blue', '#0000ff'),		-- 19782
+    ('Green', '#00ff00'),		-- 19783
+    ('Yellow', '#ffff00'),		-- 19784
+    ('Navy', '#000080'),		-- 19785
+    ('Black', '#000000'),		-- 19786
+	('Walnut', '#773f1a'), 		-- 19787
+    ('Clear', NULL),			-- 19788
+    ('None', NULL),				-- 19789
+	('White', '#ffffff'),		-- 19790
+    ('Maple', '#bb9351'), 		-- 19791
+	('Lilac', '#c8a2c8'), 		-- 19792
+    ('Dark blue', '#06065c'), 	-- 19793
+    ('Rose pink', '#f0afc1'), 	-- 19794
+    ('Sky blue', '#1a6bb8'), 	-- 19795
+    ('Dark red', '#8b0000'), 	-- 19796
+    ('Floral pink/purple', NULL), -- 19797
+    ('Galaxy blue', NULL), 		-- 19798
+    ('Multicolor', NULL); 		-- 19799
+    -- black 19786
 INSERT INTO sizes (size_description)
 VALUES
-	('Single'), 			-- 15
-	('6-Pack'), 			-- 16
-	('10-Pack'), 			-- 17
-    ('12-Pack'), 			-- 18
-	('24-Pack'), 			-- 19
-	('48-Pack'), 			-- 20
-    ('60-Pack'), 			-- 21
-    ('60L X 30W Inches'),	-- 22
-    ('72L X 78W Inches'),	-- 23
-    ('36L X 48W Inches'),	-- 24
-    ('45L X 53W Inches'),	-- 25
+	('Single'), 				-- 15
+	('6-Pack'), 				-- 16
+	('10-Pack'), 				-- 17
+    ('12-Pack'), 				-- 18
+	('24-Pack'), 				-- 19
+	('48-Pack'), 				-- 20
+    ('60-Pack'), 				-- 21
+    ('60L X 30W Inches'),		-- 22
+    ('72L X 78W Inches'),		-- 23
+    ('36L X 48W Inches'),		-- 24
+    ('45L X 53W Inches'),		-- 25
     ('20W X 19D X 18-22H Inches'), -- 26
-    ('Standard');			-- 27
-
+    ('Standard'),				-- 27
+	('48L X 24W Inches'), 		-- 28
+    ('60L X 24W Inches'), 		-- 29
+    ('72L X 24W Inches'), 		-- 30
+    ('60W x 30L Inches'), 		-- 31
+    ('72W X 30L Inches'), 		-- 32
+    ('16W X 22D X 28L Inches'), -- 33
+	('60W X 66L Inches'), 		-- 34
+    ('72W X 66L Inches'), 		-- 35
+    ('16W X 18D X 26L Inches'), -- 36
+	('13W X 10D X 17.5H Inches'); -- 37
+    
 INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory)
 VALUES
 	-- Mechanical Pencils
-	(850555, 19780, 17, 474, 150),  -- 10 Count Pack
-	(850555, 19780, 20, 2274, 50), 	-- 48 Count Pack
-    (850555, 19780, 21, 2649, 18), 	-- 60 Count Pack
-    -- Single Notebooks
-	(850556, 19781, 15, 299, 100),  -- Red Single Notebook - $2.99
-	(850556, 19782, 15, 299, 100),  -- Blue Single Notebook - $2.99
-	(850556, 19783, 15, 299, 100),  -- Green Single Notebook - $2.99
-	(850556, 19784, 15, 299, 100),  -- Yellow Single Notebook - $2.99
-	(850556, 19785, 15, 299, 100),  -- Navy Single Notebook - $2.99
-	(850556, 19786, 15, 299, 100),  -- Black Single Notebook - $2.99
-	-- 6-Pack Notebooks Assortment
-	(850556, 19780, 16, 1599, 50),  -- Assorted Colors 6-Pack - $15.99
-	-- 12-Pack Notebooks Assortment
-	(850556, 19780, 18, 2999, 25),  -- Assorted Colors 12-Pack - $29.99
-    
-    -- Chem textbook
-    (850557, 19789, 27, 42999, 16),
-    -- Comp textbook
-    (850558, 19789, 27, 34999, 11),
-    -- Phys textbook
-    (850559, 19789, 27, 36949, 21),
-    -- Precalc textbook
-    (850560, 19789, 27, 39500, 9),
-    
-    -- Adjustable height desk
-    (850561, 19787, 22, 95000, 9),
-    -- Adjustable height L-shaped desk
-    (850562, 19787, 23, 144900, 7),
-    -- Mesh office chair
-    (850563, 19786, 26, 18999, 16),
-    -- Anti-static chair mat
-    (850564, 19788, 24, 7999, 25),
-    (850564, 19788, 25, 9499, 19);
+	(850555, 19780, 17, 474, 150),		-- 100200
+	(850555, 19780, 20, 2274, 50),		-- 100201
+    (850555, 19780, 21, 2649, 18),		-- 100202
+	(850556, 19781, 15, 299, 100),		-- 100203
+	(850556, 19782, 15, 299, 100),		-- 100204
+	(850556, 19783, 15, 299, 100),		-- 100205
+	(850556, 19784, 15, 299, 100),		-- 100206
+	(850556, 19785, 15, 299, 100),		-- 100207
+	(850556, 19786, 15, 299, 100),		-- 100208
+	(850556, 19780, 16, 1599, 50),		-- 100209
+	(850556, 19780, 18, 2999, 25),		-- 100210
+    -- Chem textbook 
+    (850557, 19789, 27, 42999, 16), 	-- 100211
+    -- Comp textbook 
+    (850558, 19789, 27, 34999, 11),		-- 100212
+    -- Phys textbook 
+    (850559, 19789, 27, 36949, 21),		-- 100213
+    -- Precalc textbook 
+    (850560, 19789, 27, 39500, 9),		-- 100214
+    -- Adjustable height desk 
+    (850561, 19787, 22, 95000, 9),		-- 100215
+    -- Adjustable height L-shaped desk 
+    (850562, 19787, 23, 144900, 7),		-- 100216
+    -- Mesh office chair 
+    (850563, 19786, 26, 18999, 16),		-- 100217
+    -- Anti-static chair mat 
+    (850564, 19788, 24, 7999, 25),		-- 100218
+    (850564, 19788, 25, 9499, 19),		-- 100219
+	(850565, 19787, 28, 44900, 20),		-- 100220
+    (850565, 19787, 29, 48900, 20),		-- 100221
+    (850565, 19787, 30, 52900, 20),		-- 100222
+    (850565, 19787, 31, 53900, 20),		-- 100223
+    (850565, 19787, 32, 57900, 15),		-- 100224
+    (850566, 19787, 33, 26900, 32),		-- 100225
+    (850567, 19787, 33, 27900, 31),		-- 100226
+	(850568, 19790, 28, 36900, 15),		-- 100227
+    (850568, 19791, 28, 36900, 15),		-- 100228
+	(850568, 19790, 29, 41900, 15),    	-- 100229
+    (850568, 19791, 29, 41900, 15),    	-- 100230
+    (850568, 19790, 22, 45900, 15),    	-- 100231
+    (850568, 19791, 22, 45900, 15),    	-- 100232
+    (850568, 19790, 32, 48900, 15),    	-- 100233
+    (850568, 19791, 32, 48900, 15),    	-- 100234
+    (850569, 19790, 34, 64900, 15),    	-- 100235
+    (850569, 19791, 34, 64900, 15),    	-- 100236
+    (850569, 19790, 35, 72900, 15),    	-- 100237
+    (850569, 19791, 35, 72900, 15),    	-- 100238
+    (850570, 19790, 36, 25900, 10),    	-- 100239
+    (850570, 19791, 36, 25900, 10),    	-- 100240
+	(850571, 19792, 37, 5499, 15),		-- 100241
+	(850571, 19786, 37, 5499, 20),		-- 100242
+	(850571, 19793, 37, 5499, 25),		-- 100243
+	(850571, 19794, 37, 5499, 20),    	-- 100244
+	(850571, 19795, 37, 5499, 20),		-- 100245
+	(850571, 19796, 37, 5499, 15),		-- 100246
+	(850572, 19797, 37, 5999, 7),		-- 100247
+	(850572, 19798, 37, 5999, 6),		-- 100248
+	(850572, 19799, 37, 5999, 12);		-- 100249
 
 INSERT INTO images (variant_id, file_path, alt_text)
 VALUES 
@@ -511,36 +570,7 @@ VALUES
 	('Thanks for the info! For 10 or more 12-packs, I can offer them at $26.99 per pack instead of $29.99.', 850556, 'g_pitts@supplies4school.org', 'd_giant@outlook.com', '2025-04-09 11:01:12'),
 	('That’s a fair offer. If I go with 15 packs, could you do $25 each?', 850556, 'd_giant@outlook.com', 'g_pitts@supplies4school.org', '2025-04-09 11:03:44'),
 	('For 15 packs, I can meet you halfway at $25.99 per pack. Let me know if that works for you.', 850556, 'g_pitts@supplies4school.org', 'd_giant@outlook.com', '2025-04-09 11:06:10');
-    
 
--- updated products for cset 180 final
-INSERT INTO products (vendor_id, product_title, product_description, warranty_months)
-VALUES
-	-- 850565
-    ('i_tombolli@study_space.com', 'Metro Office Desks', 'Strong, sleek design. For ad agencies, design studios, and urban office spaces. Durable 1 1/2" thick laminate top with PVC edges and cable grommets. 30" height. Heavy-duty steel frame with rectangle tube legs and full-length modest panel.', 12),
-	-- 850566
-    ('i_tombolli@study_space.com', 'Metro Mobile Pedestal File - 2 Drawer', 'Companion storage fits under Metro Office Desks. Durable laminate surface resists scratches, stains and spills. 2 file drawers. 5 swivel casters, 2locking. Includes lock and 2 keys.', 12),
-	-- 850567
-    ('i_tombolli@study_space.com', 'Metro Mobile Pedestal File - 3 Drawer', 'Companion storage fits under Metro Office Desks. Durable laminate surface resists scratches, stains and spills. 1 file drawer, 2 box drawers. 5 swivel casters, 2locking. Includes lock and 2 keys.', 12);
---  select * from product_variants;
-INSERT INTO sizes (size_description)
-VALUES
-	('48L X 24W Inches'), -- 28
-    ('60L X 24W Inches'), -- 29
-    ('72L X 24W Inches'), -- 30
-    ('60W x 30L Inches'), -- 31
-    ('72W X 30L Inches'), -- 32
-    ('16W X 22D X 28L Inches'); -- 33
-    
- INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory)
- VALUES -- color: 19787
-	(850565, 19787, 28, 44900, 20), -- desk
-    (850565, 19787, 29, 48900, 20), -- desk
-    (850565, 19787, 30, 52900, 20), -- desk
-    (850565, 19787, 31, 53900, 20), -- desk
-    (850565, 19787, 32, 57900, 15), -- desk
-    (850566, 19787, 33, 26900, 32), -- pedestal file 2-drawer
-    (850567, 19787, 33, 27900, 31); -- pedestal file 3-drawer
 
 INSERT INTO images (variant_id, file_path, alt_text)
 VALUES
@@ -589,61 +619,8 @@ VALUES
     (100226, '/static/images/metro_collection/H-9784-B.png', 'File Drawer Open'),
     (100226, '/static/images/metro_collection/H-9784-C.png', 'Box Drawer Open'),
     (100226, '/static/images/metro_collection/laminate-edge.png', 'Laminate Corner'),
-    (100226, '/static/images/metro_collection/lock-keys.png', 'Front - keys in keyhole'); 
-
-
-INSERT INTO products (vendor_id, product_title, product_description, warranty_months)
-VALUES
--- 850568
-	('i_tombolli@study_space.com', 'Designer Office Desks', 'Brighten up your workplace. Minimalist style for modern and trendy offices. 1" thick elevated laminate top with PVC edges and 2 cable grommets. 30" height. Durable white steel frame with beveled legs and hanging modesty panel.', 12),
--- 850569
-	('i_tombolli@study_space.com', 'Designer Office L-Desks', 'Brighten up your workplace. Minimalist style for modern and trendy offices. 1" thick elevated laminate top with PVC edges and 2 cable grommets. 30" height. Durable white steel frame with beveled legs and hanging modesty panel. L-Desk has extra space to get work done. Spread out your projects, reports, or creative materials.', 12),
--- 850570    
-	('i_tombolli@study_space.com', 'Designer Mobile Pedestal File - 3 Drawer', 'Companion storage tucks away neatly and underneath Designer Office Desks. Durable laminate surface resists scratches, stains and spills. 1 file drawer, 2 box drawers. 5 swivel casters, 2 locking. Includes lock and two keys.', 12);
-
-INSERT INTO colors (color_name)
-VALUES
-	('white'), -- 19790
-    ('maple'); -- 19791
-INSERT INTO sizes (size_description)
-VALUES
-	('60W X 66L Inches'), -- 34
-    ('72W X 66L Inches'), -- 35
-    ('16W X 18D X 26L Inches'); -- 36
-
- INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory)
- VALUES
-	-- 100227
-	(850568, 19790, 28, 36900, 15),
-    -- 100228
-    (850568, 19791, 28, 36900, 15),
-    -- 100229
-	(850568, 19790, 29, 41900, 15),
-    -- 100230
-    (850568, 19791, 29, 41900, 15),
-    -- 100231
-    (850568, 19790, 22, 45900, 15),
-    -- 100232
-    (850568, 19791, 22, 45900, 15),
-    -- 100233
-    (850568, 19790, 32, 48900, 15),
-    -- 100234
-    (850568, 19791, 32, 48900, 15),
-    -- 100235
-    (850569, 19790, 34, 64900, 15),
-    -- 100236
-    (850569, 19791, 34, 64900, 15),
-    -- 100237
-    (850569, 19790, 35, 72900, 15),
-    -- 100238
-    (850569, 19791, 35, 72900, 15),
-    -- 100239
-    (850570, 19790, 36, 25900, 10),
-    -- 100240
-    (850570, 19791, 36, 25900, 10);
-
-INSERT INTO images (variant_id, file_path, alt_text)
-VALUES
+    (100226, '/static/images/metro_collection/lock-keys.png', 'Front - keys in keyhole'),
+    
 	(100227, '/static/images/designer_collection/H-9790-WHITE-A.png', 'Front View'),
     (100227, '/static/images/designer_collection/H-9790-WHITE-B.png', 'Back View'),
     (100227, '/static/images/designer_collection/H-9790-WHITE-C.png', 'Front View - Office Items'),
@@ -734,58 +711,7 @@ VALUES
     (100240, '/static/images/designer_collection/H-9806-MAPLE-B.png', 'File Drawer Open'),
     (100240, '/static/images/designer_collection/H-9806-MAPLE-C.png', 'Block Drawer Open'),
     (100240, '/static/images/designer_collection/lock-keys-maple.png', 'Front - keys in keyhole'),
-    (100240, '/static/images/designer_collection/pedestal-wheel-maple.png', 'Front Corner - Wheel');
-select * from colors order by color_id;
-INSERT INTO products (vendor_id, product_title, product_description, warranty_months)
-VALUES 
-	-- 850571
-	('g_pitts@supplies4school.org', 'JanSport Big Student Backpacks', 'The JanSport Big Student backpack is perfect for carrying all of your supplies. The backpack is made of 100% recycled polyester and features a dedicated 15" padded laptop compartment. Features two large main compartments, one front utility pocket with organizer, one pleated front stash pocket, and one zippered front stash pocket. Includes a side water bottle pocket, ergonomic S-curve shoulder straps,  and a fully padded back panel.', 0),
-	-- 850572
-	('g_pitts@supplies4school.org', 'JanSport Big Student Patterned Backpacks', 'The JanSport Big Student backpack is perfect for carrying all of your supplies. The backpack is made of 100% recycled polyester and features a dedicated 15" padded laptop compartment. Features two large main compartments, one front utility pocket with organizer, one pleated front stash pocket, and one zippered front stash pocket. Includes a side water bottle pocket, ergonomic S-curve shoulder straps,  and a fully padded back panel.', 0);
-
-INSERT INTO sizes (size_description)
-VALUES
-	('13W X 10D X 17.5H Inches'); -- 37
-select * from colors order by color_id;
-INSERT INTO colors (color_name)
-VALUES
-	('lilac'), -- 19792
-    ('dark blue'), -- 19793
-    ('rose pink'), -- 19794
-    ('sky blue'), -- 19795
-    ('dark red'), -- 19796
-    ('floral pink/purple'), -- 19797
-    ('galaxy blue'), -- 19798
-    ('multicolor'); -- 19799
-    -- black 19786
-    -- 
-select * from product_variants WHERE variant_id between 100241 and 100249 order by variant_id;
-
-INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory)
-VALUES 
-	-- 100241
-	(850571, 19792, 37, 5499, 15),
-    -- 100242
-	(850571, 19786, 37, 5499, 20),
-    -- 100243
-	(850571, 19793, 37, 5499, 25),
-    -- 100244
-	(850571, 19794, 37, 5499, 20),
-    -- 100245
-	(850571, 19795, 37, 5499, 20),
-    -- 100246
-	(850571, 19796, 37, 5499, 15),
-     
-     -- 100247
-	(850572, 19797, 37, 5999, 7),
-    -- 100248
-	(850572, 19798, 37, 5999, 6),
-    -- 100249
-	(850572, 19799, 37, 5999, 12);
-
-select * from images;
-INSERT INTO images (variant_id, file_path, alt_text)
-VALUES
+    (100240, '/static/images/designer_collection/pedestal-wheel-maple.png', 'Front Corner - Wheel'),
 	-- 100241
 	(100241, '../static/images/school_supplies/backpacks/JS0A47JK5M9-A', ''),
     (100241, '../static/images/school_supplies/backpacks/JS0A47JK5M9-B', ''),
