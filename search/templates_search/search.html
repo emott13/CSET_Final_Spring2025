@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/static/styles/search.css">
+<link rel="stylesheet" href="../static_search/styles/search.css">
 {% extends 'base.html' %}
 {% block body %}
 <main>
@@ -16,7 +16,7 @@
                         <div class="filter-item">$0 &mdash; ${{ priceValue }}</div>
                         <button class="clearBtn" type="submit" form="clear">Clear Filters</button>               <!-- shows error lines but still works-->
                     </form>
-                    <form action="{{ url_for('search') }}" method="POST" id="formSearch">    
+                    <form action="{{ url_for('search.search') }}" method="POST" id="formSearch">    
                         <div class="vendors">
                             <button class="vendor initiate-drop">Vendors <i class="ion-chevron-down"></i></button>
                             <div class="vendor-dropdown dropdown">
@@ -111,7 +111,7 @@
                                         <div class="iconWrapper">
                                             <i class="ion-search"></i>
                                         </div>
-                                        <img style="object-fit: cover;" src="../static/images/product_id_images/{{product.id}}.png" alt="" class="cardImg">
+                                        <img style="object-fit: cover;" src="../static_search/images/product_id_images/{{ product.id }}.png" alt="" class="cardImg">
                                     </div>
                                     <div class="prodInfo">
                                         <p style="font-weight: 800;">{{ product.title }}</p>

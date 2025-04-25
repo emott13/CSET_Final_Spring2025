@@ -1,5 +1,5 @@
-@import url(base.css);
-@import url(ionicons.css);
+@import url(/static/styles/base.css);
+@import url(/static/styles/ionicons.css);
 
 main{
     margin: 0 auto;
@@ -10,7 +10,7 @@ main{
 
 @font-face {
     font-family: 'Ionicons';
-    src: url(../fonts/ionicons.ttf);
+    src: url(/static/fonts/ionicons.ttf);
 }
 
 /* -------------------------------- */

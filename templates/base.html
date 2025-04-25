@@ -6,8 +6,8 @@
     <script src="https://kit.fontawesome.com/318fe15147.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/static/styles/base.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fustat:wght@200..800&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mukta:wght@200;300;400;500;600;700;800&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fustat:wght@200..800&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mukta:wght@200;300;400;500;600;700;800&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
     <title>The Study Stack</title>
     <link rel="icon" type="image/png" href="/static/images/logo_multi_w_bckgr.png"/>
 </head>
@@ -19,7 +19,7 @@
                 <!-- logo -->
                  <div class="headerItemLogo">
                     <img src="/static/images/logo-multi.png" alt="Textbooks-icon" id="headerLogo">
-                    <a href="/home">The Study Stack</a>
+                    <a href="{{ url_for('home.home')}}">The Study Stack</a>
                  </div>
             </div>
             <!-- <div class="headerSection directory">
@@ -35,7 +35,7 @@
             </div> -->
             <div class="headerSection search">
                 <!-- search -->
-                 <form class="headerItemSearch searchPosition" id="search-form" method="POST" action="{{ url_for('search') }}">
+                 <form class="headerItemSearch searchPosition" id="search-form" method="POST" action="{{ url_for('search.search')}}">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" name="product_search" id="search" placeholder="search">
                     <i class="fa-regular fa-circle-xmark"></i> 
@@ -44,7 +44,7 @@
             <nav class="headerSection nav">
                 <ol class="navMenu">
                     <li class="navItem">
-                        <a href="/home">Home <i class="fa-solid fa-house"></i></a>
+                        <a href="{{ url_for('home.home')}}">Home <i class="fa-solid fa-house"></i></a>
                     </li>
                     <li class="navItem">
                         <a href="#">Account <i class="fa-solid fa-circle-user"></i></a>
