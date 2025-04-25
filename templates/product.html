@@ -32,8 +32,8 @@
 
 
                 <div class="flex flex-between">
-                    {% if allDiscountData[variantData['variant_id']] and 
-                        allDiscountData[variantData['variant_id']] < variantData[vi['price']] %}
+                    {% if allDiscountData[variantData[vi['variant_id']]] and 
+                        allDiscountData[variantData[vi['variant_id']]] < variantData[vi['price']] %}
                         <h3 class="product-price">${{ allDiscountData[variantData['variant_id']]|priceFormat }}</h3>
                     {% else %}
                         <h3 class="product-price">${{ variantData[vi['price']]|priceFormat }}</h3>
@@ -46,8 +46,8 @@
                         <input type="submit" class="btn" value="Add To Cart">
                     </form>
                 </div>
-                {% if allDiscountData[variantData['variant_id']] and 
-                    allDiscountData[variantData['variant_id']] < variantData[vi['price']] %}
+                {% if allDiscountData[variantData[vi['variant_id']]] and 
+                    allDiscountData[variantData[vi['variant_id']]] < variantData[vi['price']] %}
                     <p class="product-list-price">List Price: <s>${{ variantData[vi['price']]|priceFormat }}</s></p>
                 {% endif %}
 
@@ -66,11 +66,19 @@
                             <p class="variant-color">{{variant[vi['color_name']]}}</p>
                         </div>
                         <div class="variant-separator"></div>
-                    {% if variantData[vi['color_hex']] != 'NULL' %}
-                        <p class="variant-color-back" style="background-color: {{variant[vi['color_hex']]}}"></p>
-                    {% endif %}
+                        {% if variantData[vi['color_hex']] != 'NULL' %}
+                            <p class="variant-color-back" style="background-color: {{variant[vi['color_hex']]}}"></p>
+                        {% endif %}
                         <div class="variant-separator"></div>
-                        <p class="variant-price">${{ variant[vi['price']]|priceFormat }}</p>
+                        <div class="variant-price">
+                            {% if allDiscountData[variant[vi['variant_id']]] and 
+                                allDiscountData[variant[vi['variant_id']]] < variant[vi['price']] %}
+                                    <p class="">${{ allDiscountData[variant[vi['variant_id']]]|priceFormat }}</p>
+                                    <p class=""><s>${{ variant[vi['price']]|priceFormat }}</s></p>
+                            {% else %}
+                                <p class="">${{ variant[vi['price']]|priceFormat }}</p>
+                            {% endif %}
+                        </div>
                     </a>
                     {% endfor %}
                 </div>

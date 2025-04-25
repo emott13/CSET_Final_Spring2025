@@ -122,6 +122,7 @@ def product(productId, variantId=None, error=None):
         return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
                             variantData=variantData, vi=vi, imageData=imageData, ii=ii,
                             allVariantData=allVariantData, allDiscountData=allDiscountData)
+
     elif request.method == "POST":
         print("POST")
         amount = request.form.get("number")
