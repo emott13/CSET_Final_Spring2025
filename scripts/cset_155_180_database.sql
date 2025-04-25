@@ -733,4 +733,85 @@ VALUES
     (100240, '/static/images/designer_collection/H-9806-MAPLE-C.png', 'Block Drawer Open'),
     (100240, '/static/images/designer_collection/lock-keys-maple.png', 'Front - keys in keyhole'),
     (100240, '/static/images/designer_collection/pedestal-wheel-maple.png', 'Front Corner - Wheel');
+select * from colors order by color_id;
+INSERT INTO products (vendor_id, product_title, product_description, warranty_months)
+VALUES 
+	-- 850571
+	('g_pitts@supplies4school.org', 'JanSport Big Student Backpacks', 'The JanSport Big Student backpack is perfect for carrying all of your supplies. The backpack is made of 100% recycled polyester and features a dedicated 15" padded laptop compartment. Features two large main compartments, one front utility pocket with organizer, one pleated front stash pocket, and one zippered front stash pocket. Includes a side water bottle pocket, ergonomic S-curve shoulder straps,  and a fully padded back panel.', 0),
+	-- 850572
+	('g_pitts@supplies4school.org', 'JanSport Big Student Patterned Backpacks', 'The JanSport Big Student backpack is perfect for carrying all of your supplies. The backpack is made of 100% recycled polyester and features a dedicated 15" padded laptop compartment. Features two large main compartments, one front utility pocket with organizer, one pleated front stash pocket, and one zippered front stash pocket. Includes a side water bottle pocket, ergonomic S-curve shoulder straps,  and a fully padded back panel.', 0);
+
+INSERT INTO sizes (size_description)
+VALUES
+	('13W X 10D X 17.5H Inches'); -- 37
+select * from colors order by color_id;
+INSERT INTO colors (color_name)
+VALUES
+	('lilac'), -- 19792
+    ('dark blue'), -- 19793
+    ('rose pink'), -- 19794
+    ('sky blue'), -- 19795
+    ('dark red'), -- 19796
+    ('floral pink/purple'), -- 19797
+    ('galaxy blue'), -- 19798
+    ('multicolor'); -- 19799
+    -- black 19786
+    -- 
+select * from product_variants WHERE variant_id between 100241 and 100249 order by variant_id;
+
+INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory)
+VALUES 
+	-- 100241
+	(850571, 19792, 37, 5499, 15),
+    -- 100242
+	(850571, 19786, 37, 5499, 20),
+    -- 100243
+	(850571, 19793, 37, 5499, 25),
+    -- 100244
+	(850571, 19794, 37, 5499, 20),
+    -- 100245
+	(850571, 19795, 37, 5499, 20),
+    -- 100246
+	(850571, 19796, 37, 5499, 15),
+     
+     -- 100247
+	(850572, 19797, 37, 5999, 7),
+    -- 100248
+	(850572, 19798, 37, 5999, 6),
+    -- 100249
+	(850572, 19799, 37, 5999, 12);
+
+select * from images;
+INSERT INTO images (variant_id, file_path, alt_text)
+VALUES
+	-- 100241
+	(100241, '../static/images/school_supplies/backpacks/JS0A47JK5M9-A', ''),
+    (100241, '../static/images/school_supplies/backpacks/JS0A47JK5M9-B', ''),
+    (100241, '../static/images/school_supplies/backpacks/JS0A47JK5M9-C', ''),
     
+    (100242, '../static/images/school_supplies/backpacks/TDN7008JAN-A', ''),
+    (100242, '../static/images/school_supplies/backpacks/TDN7008JAN-B', ''),
+    (100242, '../static/images/school_supplies/backpacks/TDN7008JAN-C', ''),
+    
+    (100243, '../static/images/school_supplies/backpacks/JS00TDN7003-A', ''),
+    
+    (100244, '../static/images/school_supplies/backpacks/JS0A47JK7N8-A', ''),
+    (100244, '../static/images/school_supplies/backpacks/JS0A47JK7N8-B', ''),
+    (100244, '../static/images/school_supplies/backpacks/JS0A47JK7N8-C', ''),
+    
+    (100245, '../static/images/school_supplies/backpacks/JS0A47JKZ70-A', ''),
+    (100245, '../static/images/school_supplies/backpacks/JS0A47JKZ70-B', ''),
+    
+    (100246, '../static/images/school_supplies/backpacks/JS0A47JK04S-A', ''),
+    (100246, '../static/images/school_supplies/backpacks/JS0A47JK04S-B', ''),
+    (100246, '../static/images/school_supplies/backpacks/JS0A47JK04S-C', ''),
+    
+    (100247, '../static/images/school_supplies/backpacks/JS0A47JKAO5-A', ''),
+    (100247, '../static/images/school_supplies/backpacks/JS0A47JKAO5-B', ''),
+    
+    (100248, '../static/images/school_supplies/backpacks/JS0A47JKAO3-A', ''),
+    (100248, '../static/images/school_supplies/backpacks/JS0A47JKAO3-B', ''),
+    
+    (100249, '../static/images/school_supplies/backpacks/JS0A47JKZ47-A', ''),
+    (100249, '../static/images/school_supplies/backpacks/JS0A47JKZ47-B', ''),
+    (100249, '../static/images/school_supplies/backpacks/JS0A47JKZ47-C', '');
