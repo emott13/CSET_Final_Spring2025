@@ -1,102 +1,106 @@
 <link rel="stylesheet" href="/static/styles/search.css">
 {% extends 'base.html' %}
 {% block body %}
-
-<!-- prodIDs, prodOpts, prodPRs, prodTDs -->
-
 <main>
+    <!-- price override vendor issue could potentially be solved by using one form and one submit button -->
     <div class="main">
         <section class="searchResults">
             <div class="searchWrapper">
                 <h2 class="searchTitle">Results for: <span>placeholder</span></h2>
                 <h5 class="message"></h5>
                 <div class="sideMenu">
-                    <form action="{{ url_for('search')}}" method="GET" class="clearFilters" style="display: {{ clearDisplay }};">
-                        <button type="submit" class="clearBtn">Clear Filters</button>               <!-- shows error lines but still works-->
+                    <form class="clearFilters" style="display: {{ clearDisplay }};" id="clear">
+                        {% for vendor in checkedVendors %}
+                            <div class="filter-item">{{ vendor[1] }}</div>
+                        {% endfor %}
+                        <div class="filter-item">$0 &mdash; ${{ priceValue }}</div>
+                        <button class="clearBtn" type="submit" form="clear">Clear Filters</button>               <!-- shows error lines but still works-->
                     </form>
-                    <div class="vendors">
-                        <button class="vendor initiate-drop">Vendors <i class="ion-chevron-down"></i></button>
-                        <div class="vendor-dropdown dropdown">
-                            <form class="input-container" action="{{ url_for('search') }}" method="POST" name="vendor" id="vendor-search">
-                                {% for vendor in vendors %}
-                                    <input name="vendor-options" type="checkbox" id="{{ vendor[0] }}" class="vendor-options" value="{{ vendor[0] }}">
-                                    <label for="{{ vendor[0] }}">{{ vendor[1] }}</label>
-                                {% endfor %}
-                            </form>
-                            <div class="submit-wrapper">
-                                <input type="submit" class="submit-apply" form="vendor-search" value="Apply">
+                    <form action="{{ url_for('search') }}" method="POST" id="formSearch">    
+                        <div class="vendors">
+                            <button class="vendor initiate-drop">Vendors <i class="ion-chevron-down"></i></button>
+                            <div class="vendor-dropdown dropdown">
+                                <div class="input-container" name="vendor" id="vendor-search">
+                                    {% for vendor in vendors %}
+                                        <input name="vendor-options" type="checkbox" id="{{ vendor[0] }}" class="vendor-options" value="{{ vendor[0] }}">
+                                        <label for="{{ vendor[0] }}">{{ vendor[1] }}</label>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="categories">
-                        <button class="category initiate-drop">Categories <i class="ion-chevron-down"></i></button>
-                        <div class="dropdown">
-                            <div class="furniture-drop">
-                                <button class="initiate-drop second-drop">Furniture <i class="ion-chevron-down"></i></button>
-                                <div class="furniture dropdown">
-                                    <div class="input-container">
-                                        <input type="checkbox" name="furniture" id="chairs">
-                                        <label for="">Chairs</label>
-                                        <input type="checkbox" name="furniture" id="mats">
-                                        <label for="">Chair Mats</label>
-                                        <input type="checkbox" name="furniture" id="desks">
-                                        <label for="">Desks</label>
-                                        <input type="checkbox" name="furniture" id="storage">
-                                        <label for="">Storage</label>
+                        <div class="categories">
+                            <button class="category initiate-drop">Categories <i class="ion-chevron-down"></i></button>
+                            <div class="dropdown">
+                                <div class="furniture-drop">
+                                    <button class="initiate-drop second-drop">Furniture <i class="ion-chevron-down"></i></button>
+                                    <div class="furniture dropdown">
+                                        <div class="input-container">
+                                            <input type="checkbox" name="furniture" id="chairs">
+                                            <label for="">Chairs</label>
+                                            <input type="checkbox" name="furniture" id="mats">
+                                            <label for="">Chair Mats</label>
+                                            <input type="checkbox" name="furniture" id="desks">
+                                            <label for="">Desks</label>
+                                            <input type="checkbox" name="furniture" id="storage">
+                                            <label for="">Storage</label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="supplies-drop">    
-                                <button class="initiate-drop second-drop">School supplies <i class="ion-chevron-down"></i></button>
-                                <div class="dropdown">
-                                    <div class="input-container">
-                                        <input type="checkbox" name="supplies" id="backpacks">
-                                        <label for="backpacks">Backpacks</label>
-                                        <input type="checkbox" name="supplies" id="binders">
-                                        <label for="binders">Binders</label>
-                                        <input type="checkbox" name="supplies" id="erasers">
-                                        <label for="erasers">Erasers</label>
-                                        <input type="checkbox" name="supplies" id="pencils">
-                                        <label for="pencils">Pencils</label>
-                                        <input type="checkbox" name="supplies" id="pens">
-                                        <label for="pens">Pens</label>
-                                        <input type="checkbox" name="supplies" id="scissors">
-                                        <label for="scissors">Scissors</label>
+                                <div class="supplies-drop">    
+                                    <button class="initiate-drop second-drop">School supplies <i class="ion-chevron-down"></i></button>
+                                    <div class="dropdown">
+                                        <div class="input-container">
+                                            <input type="checkbox" name="supplies" id="backpacks">
+                                            <label for="backpacks">Backpacks</label>
+                                            <input type="checkbox" name="supplies" id="binders">
+                                            <label for="binders">Binders</label>
+                                            <input type="checkbox" name="supplies" id="erasers">
+                                            <label for="erasers">Erasers</label>
+                                            <input type="checkbox" name="supplies" id="pencils">
+                                            <label for="pencils">Pencils</label>
+                                            <input type="checkbox" name="supplies" id="pens">
+                                            <label for="pens">Pens</label>
+                                            <input type="checkbox" name="supplies" id="scissors">
+                                            <label for="scissors">Scissors</label>
+                                        </div>
+                                    </div>
+                                </div>    
+                                <div class="technology-drop">
+                                    <button class="initiate-drop second-drop">Technology <i class="ion-chevron-down"></i></button>
+                                    <div class="dropdown">
+                                        <div class="input-container">
+                                            
+                                        </div>
                                     </div>
                                 </div>
-                            </div>    
-                            <div class="technology-drop">
-                                <button class="initiate-drop second-drop">Technology <i class="ion-chevron-down"></i></button>
-                                <div class="dropdown">
-                                    <div class="input-container">
-                                        
+                                <div class="textbook-drop">
+                                    <button class="initiate-drop second-drop">Textbooks <i class="ion-chevron-down"></i></button>
+                                    <div class="dropdown">
+                                        <div class="input-container">
+                                            
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="textbook-drop">
-                                <button class="initiate-drop second-drop">Textbooks <i class="ion-chevron-down"></i></button>
-                                <div class="dropdown">
-                                    <div class="input-container">
-                                        
-                                    </div>
-                                </div>
-                            </div>      
-                        </div>
-                    </div>
-                    <div class="prices">
-                        <button class="price initiate-drop">Price <i class="ion-chevron-down"></i></button>
-                        <div class="price-dropdown dropdown">
-                            <form class="price-slider" action="{{ url_for('search') }}" name="price-form" method="POST" id="price-form">
-                                <p id="price-display"></p>
-                                <input type="range" min="0" max="1000" value="{{ priceValue }}" class="slider" id="price" name="price">
-                            </form>
-                            <div class="submit-wrapper">
-                                <input type="submit" class="submit-apply" form="price-form" value="Apply">
+                                </div>      
                             </div>
                         </div>
-                    </div>
-                    <div class="colors"></div>
-                    <div class="sizes"></div>
+                        <div class="prices">
+                            <button class="price initiate-drop">Price <i class="ion-chevron-down"></i></button>
+                            <div class="price-dropdown dropdown">
+                                <div class="price-slider" name="price-form" id="price-form">
+                                    <p id="price-display"></p>
+                                    <input type="range" min="0" max="1000" value="{{ priceValue }}" class="slider" id="price" name="price">
+                                </div>
+                                <!-- <div class="submit-wrapper">
+                                    <input type="submit" class="submit-apply" form="price-form" value="Apply">
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="colors"></div>
+                        <div class="sizes"></div>
+                        <div class="submit-wrapper">
+                            <input type="submit" class="submit-apply" form="formSearch" value="Apply">
+                        </div>
+                    </form>
                 </div>
                 <div class="resultWrapper">
                     <div class="prodResult">
@@ -128,7 +132,8 @@
     document.addEventListener('DOMContentLoaded', () => {
         // search dropdowns
         document.querySelectorAll('.initiate-drop').forEach(button => {
-            button.addEventListener('click', () => {
+            button.addEventListener('click', event => {
+                event.preventDefault()
                 let dropdown = button.parentElement.querySelector('.dropdown');
                 if (dropdown) {
                     let isVisible = dropdown.style.display === 'grid';

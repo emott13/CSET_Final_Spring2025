@@ -96,6 +96,16 @@ img.cardImg{
     margin-bottom: 14px;
 }
 
+.filter-item{
+    margin: 5px;
+    background-color: var(--color-yellow);
+    width: fit-content;
+    padding: 3px 8px;
+    color: var(--color-purple-red);
+    font-size: 16px;
+    font-weight: 400;
+}
+
 .category,
 .vendor,
 .price{

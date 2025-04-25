@@ -137,12 +137,16 @@ def search():
         formName_map = []
 
         for name in formName:
-            print('Name', name)
-            formName_map.append({name, 'True'})
+            for vendor in vendors:
+                if vendor[0] == name:
+                    brand = vendor[1]
+            print('Name', name, 'Brand:', brand)
+            formName_map.append((name, brand))
 
         return render_template(
             'search.html', 
-            products = products, 
+            products = products,
+            checkedVendors = formName_map,
             vendors = vendors, 
             priceValue = toDollar(formPrice, html=True),
             clearDisplay = 'block'
