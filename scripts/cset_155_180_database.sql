@@ -137,11 +137,13 @@ CREATE TABLE IF NOT EXISTS chats (
 CREATE TABLE IF NOT EXISTS reviews (
 	review_id INT PRIMARY KEY AUTO_INCREMENT,
     customer_email VARCHAR(255),
+    product_id int NOT NULL,
     rating INT NOT NULL,
     description VARCHAR(500),
     image VARCHAR(255),
     date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (customer_email) REFERENCES users(email)
+    FOREIGN KEY (customer_email) REFERENCES users(email),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
 -- discounts
@@ -435,11 +437,11 @@ VALUES 																			-- phys and precalc all discounted
     -- ^ total = 2649 + 32999 + 299 + 95000 + 9499 + 2999 = 143445
 
 -- reviews with images on shipped orders
-INSERT INTO reviews (customer_email, rating, description, date)
+INSERT INTO reviews (customer_email, product_id, rating, description, date)
 VALUES
-	('c_ramos@outlook.com', 42, 'I ordered this chemistry textbook after transfering to a chem class mid semester. It shipped quickly and the cover had some slight dents in it but otherwise in good condition.', '2025-03-20 11:15:36'),
-    ('j_prescott@gmail.com', 35, 'Got this textbook at a discount. Its Precalculus by Holt. The corner of the cover had some damage which was annoying.', '2025-03-22 13:57:04'),
-    ('s_teller@gmail.com', 50, 'These are my favorite mechanical pencils. Super reliable and smooth, I dont buy any other brand. 100% recommend!', '2025-03-24 10:32:45');
+	('c_ramos@outlook.com', 850557, 4, 'I ordered this chemistry textbook after transfering to a chem class mid semester. It shipped quickly and the cover had some slight dents in it but otherwise in good condition.', '2025-03-20 11:15:36'),
+    ('j_prescott@gmail.com', 850560, 3, 'Got this textbook at a discount. Its Precalculus by Holt. The corner of the cover had some damage which was annoying.', '2025-03-22 13:57:04'),
+    ('s_teller@gmail.com', 850555, 5, 'These are my favorite mechanical pencils. Super reliable and smooth, I dont buy any other brand. 100% recommend!', '2025-03-24 10:32:45');
 INSERT INTO images (review_id, file_path, alt_text)
 VALUES
 	(1, '/images/chem_text_review_good', 'Chemistry textbook - Bottom Overhead View'),
