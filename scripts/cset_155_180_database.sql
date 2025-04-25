@@ -136,11 +136,13 @@ CREATE TABLE IF NOT EXISTS chats (
 CREATE TABLE IF NOT EXISTS reviews (
 	review_id INT PRIMARY KEY AUTO_INCREMENT,
     customer_email VARCHAR(255),
+    product_id int NOT NULL,
     rating INT NOT NULL,
     description VARCHAR(500),
     image VARCHAR(255),
     date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (customer_email) REFERENCES users(email)
+    FOREIGN KEY (customer_email) REFERENCES users(email),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
 -- discounts
@@ -209,19 +211,19 @@ VALUES
 	-- 850564
     ('i_tombolli@study_space.com', 'Anti-Static Carpet Chair Mat', 'Anti-skid surface and straight edges. Vinyl construction. Cleared backing keeps chair mat firmly in place. Use on low pile carpeting - 3/8" thick or less.', 0);
 
-INSERT INTO colors (color_name)
+INSERT INTO colors (color_name, color_hex)
 VALUES
-	('Assorted'),	-- 19780
-    ('Red'),		-- 19781
-    ('Blue'),		-- 19782
-    ('Green'),		-- 19783
-    ('Yellow'),		-- 19784
-    ('Navy'),		-- 19785
-    ('Black'),		-- 19786
-	('Walnut'),		-- 19787
-    ('Clear'),		-- 19788
-    ('None');		-- 19789
-    
+	('Assorted', NULL),		-- 19780
+    ('Red', '#ff0000'),		-- 19781
+    ('Blue', '#0000ff'),	-- 19782
+    ('Green', '#00ff00'),	-- 19783
+    ('Yellow', '#ffff00'),	-- 19784
+    ('Navy', '#000080'),	-- 19785
+    ('Black', '#000000'),	-- 19786
+	('Walnut', '#773f1a'), 	-- 19787
+    ('Clear', NULL),		-- 19788
+    ('None', NULL);			-- 19789
+
 INSERT INTO sizes (size_description)
 VALUES
 	('Single'), 			-- 15
@@ -422,11 +424,11 @@ VALUES 																			-- phys and precalc all discounted
     -- ^ total = 2649 + 32999 + 299 + 95000 + 9499 + 2999 = 143445
 
 -- reviews with images on shipped orders
-INSERT INTO reviews (customer_email, rating, description, date)
+INSERT INTO reviews (customer_email, product_id, rating, description, date)
 VALUES
-	('c_ramos@outlook.com', 42, 'I ordered this chemistry textbook after transfering to a chem class mid semester. It shipped quickly and the cover had some slight dents in it but otherwise in good condition.', '2025-03-20 11:15:36'),
-    ('j_prescott@gmail.com', 35, 'Got this textbook at a discount. Its Precalculus by Holt. The corner of the cover had some damage which was annoying.', '2025-03-22 13:57:04'),
-    ('s_teller@gmail.com', 50, 'These are my favorite mechanical pencils. Super reliable and smooth, I dont buy any other brand. 100% recommend!', '2025-03-24 10:32:45');
+	('c_ramos@outlook.com', 850557, 4, 'I ordered this chemistry textbook after transfering to a chem class mid semester. It shipped quickly and the cover had some slight dents in it but otherwise in good condition.', '2025-03-20 11:15:36'),
+    ('j_prescott@gmail.com', 850560, 3, 'Got this textbook at a discount. Its Precalculus by Holt. The corner of the cover had some damage which was annoying.', '2025-03-22 13:57:04'),
+    ('s_teller@gmail.com', 850555, 5, 'These are my favorite mechanical pencils. Super reliable and smooth, I dont buy any other brand. 100% recommend!', '2025-03-24 10:32:45');
 INSERT INTO images (review_id, file_path, alt_text)
 VALUES
 	(1, '/images/chem_text_review_good', 'Chemistry textbook - Bottom Overhead View'),

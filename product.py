@@ -50,7 +50,8 @@ def isValidProductURL(productId, variantId=None):
 
 @product_bp.route("/product/<int:productId>/", methods=["GET", "POST"])
 @product_bp.route("/product/<int:productId>/<int:variantId>", methods=["GET", "POST"])
-def product(productId, variantId=None):
+def product(productId, variantId=None, error=None):
+    print(error)
     # Returns 404 (productId doesn't exist), new URL (if the parameters are invalid),
     # or None (parameters are already fine)
     invalidURL = isValidProductURL(productId, variantId)
@@ -75,11 +76,22 @@ def product(productId, variantId=None):
         'price': 4,
         'current_inventory': 5,
         'color_name': 6,
-        'size_description': 7
+        'color_hex': 7,
+        'size_description': 8
     }
     ii = { # image indexes
         'variant_id': 0,
         'file_path': 1
+    }
+    ri = { # review indexes
+        'review_id': 0,
+        'customer_email': 1,
+        'product_id': 2,
+        'rating': 3,
+        'description': 4,
+        'image': 5,
+        'date': 6,
+        'full_name': 7
     }
     # product data. Index like this productData[pi['product_title']]
     productData = conn.execute(text(
@@ -90,23 +102,92 @@ def product(productId, variantId=None):
     # variant data. Index like this variantData[vi['price']]
     variantData = conn.execute(text(
         "SELECT variant_id, product_id, color_id, size_id, "
-        "price, current_inventory, color_name, size_description "
+        "price, current_inventory, color_name, color_hex, size_description "
         "FROM product_variants NATURAL JOIN colors NATURAL JOIN sizes " \
         f"WHERE product_id = {productId} AND variant_id = {variantId}")).first()
     # all variant data. Index like this variantData[<index>][vi['price']]
     allVariantData = conn.execute(text(
         "SELECT variant_id, product_id, color_id, size_id, "
-        "price, current_inventory, color_name, size_description "
+        "price, current_inventory, color_name, color_hex, size_description "
         "FROM product_variants NATURAL JOIN colors NATURAL JOIN sizes " \
         f"WHERE product_id = {productId}")).all()
+    allDiscountData = dict( conn.execute(text(
+        "SELECT variant_id, MIN(discount_price) FROM discounts " \
+        "NATURAL JOIN product_variants " \
+        "WHERE (start_date <= NOW() OR start_date IS NULL) AND (end_date >= NOW() OR end_date IS NULL) " \
+       f"AND (product_id = {productId}) " \
+        "GROUP BY variant_id;"
+
+    )).all() )
+    reviewsData = conn.execute(text("SELECT review_id, customer_email, product_id, rating, description, "
+        "image, date(date), CONCAT(first_name, ' ', last_name) AS 'full_name' "
+       f"FROM reviews JOIN users ON reviews.customer_email = users.email WHERE product_id = {productId}")).all()
+    reviewsAvg = conn.execute(text(f"SELECT ROUND(AVG(rating), 1) FROM reviews WHERE product_id = {productId}")).first()[0]
 
     # image data. Index like this imageData[0][ii['file_path']]
     imageData = conn.execute(text(f"SELECT variant_id, file_path FROM images WHERE variant_id = {variantId}")).all()
 
+    print(reviewsData)
 
-    if request.method == "POST":
-        return
-    return render_template("product.html", productId=productId, productData=productData, pi=pi,
-                           variantData=variantData, vi=vi, imageData=imageData, ii=ii,
-                           allVariantData=allVariantData)
+
+    if request.method == "GET":
+        return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
+                            variantData=variantData, vi=vi, imageData=imageData, ii=ii,
+                            allVariantData=allVariantData, allDiscountData=allDiscountData, reviewsAvg=reviewsAvg,
+                            reviewsData=reviewsData, ri=ri)
+
+    elif request.method == "POST":
+        print("POST")
+        amount = request.form.get("number")
+        if not current_user.is_authenticated:
+            error = "You must be signed in to add to cart"
+        elif current_user.type != 'customer':
+            error = "You must be signed in as a customer"
+        elif not amount.isdigit():
+            error = "Amount value is invalid"
+        elif int(amount) < 1 or int(amount) > 100:
+            error = "Amount value is invalid"
+
+        if not error:
+            email = current_user.get_email()
+            cartId = conn.execute(text(
+                f"SELECT cart_id FROM carts WHERE customer_email = '{email}'"
+            )).first()
+
+            if not cartId:
+                conn.execute(text(f"INSERT INTO carts (customer_email) VALUES ('{email}')"))
+                conn.commit()
+
+            cartId = conn.execute(text(
+                f"SELECT cart_id FROM carts WHERE customer_email = '{email}'"
+            )).first()[0]
+
+            cartItemVariants = conn.execute(text(
+                f"SELECT variant_id FROM cart_items WHERE cart_id = {cartId}")).all()
+            print(cartItemVariants)
+            
+            inCart = False
+            for variant in cartItemVariants:
+                if variant[0] == variantId:
+                    inCart = True
+                    break
+
+
+            if not inCart:
+                print("Variant_id not in cartItemsVariants")
+                conn.execute(text(
+                    "INSERT INTO cart_items (cart_id, variant_id, quantity)"
+                f"VALUES ({cartId}, {variantId}, {amount})"))
+            else:
+                conn.execute(text("UPDATE cart_items "
+                                f"SET quantity = (quantity + {amount})"
+                                f"WHERE cart_id = {cartId} AND variant_id = {variantId}"))
+            conn.commit()
+
+            print(cartItemVariants)
+        print(error)
+        return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
+                            variantData=variantData, vi=vi, imageData=imageData, ii=ii,
+                            allVariantData=allVariantData, allDiscountData=allDiscountData, reviewsAvg=reviewsAvg,
+                            reviewsData=reviewsData, ri=ri)
 
