@@ -10,16 +10,14 @@
     --color-orange: #f3904b;
     --color-yellow: #f7c767;
     --color-purple: #b89dbb;
-    --color-dark-purple: #a17ea5;
-    --color-error-red: #9b0120;
-    --color-success-green: #28b40d;
-    --color-blue: #197bff;
+    --color-dark-purple: #a887ab;
+    --color-error-red: #ed4112;
+    --color-success-green: #53ac54;
+    --color-blue: #3776eb;
     --page-height: calc(100vh - 125px - 103px);
     --color-purple-white: #f7f2f7;
     --color-red-white: #dbc0c0;
     --color-white: #fffaf4;
-    /* --color-purple-transparent: #b89dbbc0; */
-    /* --color-red-transparent: #642f37c0; */
     --font-header: 'Montserrat';
     --font-main: 'Montserrat';
     --font-small: 'Montserrat';
