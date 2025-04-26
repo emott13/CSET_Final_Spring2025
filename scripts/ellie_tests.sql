@@ -44,3 +44,7 @@ select * from transactions where acc_num = 578066;
 -- VENDORS 
 SELECT email, CONCAT(first_name, ' ', last_name) FROM users WHERE type = 'vendor';
 select * from products;
+select * from product_variants;
+select * from colors;
+select * from images;
+select * from users;

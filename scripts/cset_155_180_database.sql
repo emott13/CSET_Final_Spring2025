@@ -231,8 +231,13 @@ VALUES
     -- 850575
     ('g_pitts@supplies4school.org', 'Post-It Durable Tabs', 'Durable Tabs are extra thick and strong to stand up to long-term wear and tear. Great for dividing notes, expanding files and project files. Sticks securely, removes cleanly.', 0),
 	-- 850576
-    ('f_craft@techtime.com', 'HP OfficeJet Pro Wireless Color All-In-One Printers', "FROM AMERICA'S MOST TRUSTED PRINTER BRAND – The OfficeJet Pro Printers are perfect for offices printing professional-quality color documents like presentations, brochures and flyers. The HP OfficeJet Pro Printers deliver fast color printing. They include wireless and printer security capabilities to keep your multifunction printers up to date and secure. Compatible ink cartridges – works with HP 936 ink cartridges to deliver bold, high quality color. Plus, get 2X more pages with the HP EvoMore 936e high yield ink cartridges, HP's most sustainable ink cartridges.", 12);
-
+    ('f_craft@techtime.com', 'HP OfficeJet Pro Wireless Color All-In-One Printers', "FROM AMERICA'S MOST TRUSTED PRINTER BRAND – The OfficeJet Pro Printers are perfect for offices printing professional-quality color documents like presentations, brochures and flyers. The HP OfficeJet Pro Printers deliver fast color printing. They include wireless and printer security capabilities to keep your multifunction printers up to date and secure. Compatible ink cartridges – works with HP 936 ink cartridges to deliver bold, high quality color. Plus, get 2X more pages with the HP EvoMore 936e high yield ink cartridges, HP's most sustainable ink cartridges.", 12),
+    -- 850577
+    ('f_craft@techtime.com', 'HP 936 Ink Cartridges', 'Ensure your printing is right the first time and every time with HP 936 Ink Cartridges, which provide precision output so you can take pride in fade-resistant documents and brilliant images. HP 936 cartridges work with: HP OfficeJet 9122e, HP OfficeJet Pro 9110b, 9125e, 9128e, 9130b, 9135e, HP OfficeJet Pro Wide Format 9730e. Cartridges yeild approx 1,250 pages for black ink, or approx. 800 pages with magenta, yellow, or cyan ink.', 0),
+	-- 850578
+    ('f_craft@techtime.com', 'Canon MegaTank MAXIFY GX Series Printers', "Designed for small- and medium‐size businesses, the Canon MegaTank MAXIFY GX Series Printers balance speedy performance and minimal maintenance. The maintenance cartridges in the MAXIFY GX Series Printers are easily replaceable should the need arise. No service visit calls required. With a four-color pigment ink system, you'll get crisp color and black-and-white documents, along with sharp highlighter-resistant text. Create and print professional posters, banners, and signage with the PosterArtist online version.", 24),
+    -- 850579
+    ('f_craft@techtime.com', 'Canon 26 High Yield Ink Bottle', 'The Canon ink refill produces superior quality for a wide array of printing needs. Features an easy-to-use no-squeeze bottle design. 132mL capacity. Compatible with: GX3020, GX4020, & GX5020 printers. Prints up to 6000 pages with black ink bottle, up to 14000 with magenta, yellow, or cyan ink bottle.', 0);
 INSERT INTO colors (color_name, color_hex)
 VALUES
 	('Assorted', NULL),			-- 19780
@@ -258,8 +263,9 @@ VALUES
     ('Supernova Neons', NULL),	-- 19800
     ('Energy Boost', NULL),		-- 19801
     ('Summer Joy', NULL),		-- 19802
-    ('Playful Primaries', NULL);-- 19803
-    -- black 19786
+    ('Playful Primaries', NULL),-- 19803
+    ('Magenta', '#ff33cc'),		-- 19804
+    ('Cyan', '#00bfff');		-- 19805
 INSERT INTO sizes (size_description)
 VALUES
 	('Single'), 				-- 15
@@ -291,7 +297,14 @@ VALUES
     ('1"W 66Tabs/Pack'),		-- 41
     ('2"W 24 Tabs/Pack'),		-- 42
     ('9125e: 250 Sheet Input/60 Sheet Output'), -- 43
-    ('9135e: 500 Sheet Input/100 Sheet Output'); -- 44
+    ('9135e: 500 Sheet Input/100 Sheet Output'), -- 44
+    ('1 Pack/1250 Pages'),		-- 45
+    ('1 Pack/800 Pages'),		-- 46
+    ('4 Pack/3650 Pages'),		-- 47
+    ('GX3020: 250 Sheet Input/100 Sheet Output'), -- 48
+    ('GX4020: 250 Sheet Input/100 Sheet Output'), -- 49
+    ('GX5020: 350 Sheet Input'), -- 50
+    ('132mL capacity');			-- 51
     
 INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory)
 VALUES
@@ -371,7 +384,24 @@ VALUES
     (850575, 19780, 42, 429, 8),		-- 100260
     -- hp officejet pro printers
     (850576, 19799, 43, 32999, 15),		-- 100261
-    (850576, 19799, 44, 40999, 12); 	-- 100262
+    (850576, 19799, 44, 40999, 12), 	-- 100262
+    -- hp ink cartridges
+    (850577, 19786, 45, 4299, 18),		-- 100263
+	(850577, 19804, 46, 2499, 9),		-- 100264
+	(850577, 19784, 46, 2499, 9),		-- 100265
+	(850577, 19805, 46, 2499, 6),		-- 100266
+	(850577, 19780, 47, 10999, 11),		-- 100267
+    
+    (850578, 19799, 48, 34999, 10),		-- 100268
+    (850578, 19799, 49, 44999, 10),		-- 100269
+    (850578, 19799, 50, 52999, 10),		-- 100270
+    
+    (850579, 19786, 51, 2949, 15),		-- 100271
+    (850579, 19804, 51, 3629, 20),		-- 100272
+    (850579, 19784, 51, 3629, 20),		-- 100273
+    (850579, 19805, 51, 3629, 20);		-- 100274
+    
+    
 
 INSERT INTO images (variant_id, file_path, alt_text)
 VALUES 
@@ -612,218 +642,259 @@ VALUES
 INSERT INTO images (variant_id, file_path, alt_text)
 VALUES
 	-- H-10353
-	(100220, '/static/images/metro_collection/H-10353-A.png', 'Front View'), 
-    (100220, '/static/images/metro_collection/H-10353-B.png', 'Back View'), 
-    (100220, '/static/images/metro_collection/H-10353-C.png', 'Front View With Office Items'), 
-    (100220, '/static/images/metro_collection/H-10353-D.png', 'Back View With Office Items'), 
-    (100220, '/static/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
-    (100220, '/static/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
+	(100220, '/static_product/images/metro_collection/H-10353-A.png', 'Front View'), 
+    (100220, '/static_product/images/metro_collection/H-10353-B.png', 'Back View'), 
+    (100220, '/static_product/images/metro_collection/H-10353-C.png', 'Front View With Office Items'), 
+    (100220, '/static_product/images/metro_collection/H-10353-D.png', 'Back View With Office Items'), 
+    (100220, '/static_product/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
+    (100220, '/static_product/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
     -- H-9778
-    (100221, '/static/images/metro_collection/H-9778-A.png', 'Front View'), 
-    (100221, '/static/images/metro_collection/H-9778-B.png', 'Back View'), 
-    (100221, '/static/images/metro_collection/H-9778-C.png', 'Front View With Office Items'), 
-    (100221, '/static/images/metro_collection/H-9778-D.png', 'Back View With Office Items'), 
-    (100221, '/static/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
-    (100221, '/static/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
+    (100221, '/static_product/images/metro_collection/H-9778-A.png', 'Front View'), 
+    (100221, '/static_product/images/metro_collection/H-9778-B.png', 'Back View'), 
+    (100221, '/static_product/images/metro_collection/H-9778-C.png', 'Front View With Office Items'), 
+    (100221, '/static_product/images/metro_collection/H-9778-D.png', 'Back View With Office Items'), 
+    (100221, '/static_product/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
+    (100221, '/static_product/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
     -- H-10355
-    (100222, '/static/images/metro_collection/H-10355-A.png', 'Front View'), 
-    (100222, '/static/images/metro_collection/H-10355-B.png', 'Back View'), 
-    (100222, '/static/images/metro_collection/H-10355-C.png', 'Front View With Office Items'), 
-    (100222, '/static/images/metro_collection/H-10355-D.png', 'Back View With Office Items'), 
-    (100222, '/static/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
-    (100222, '/static/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
+    (100222, '/static_product/images/metro_collection/H-10355-A.png', 'Front View'), 
+    (100222, '/static_product/images/metro_collection/H-10355-B.png', 'Back View'), 
+    (100222, '/static_product/images/metro_collection/H-10355-C.png', 'Front View With Office Items'), 
+    (100222, '/static_product/images/metro_collection/H-10355-D.png', 'Back View With Office Items'), 
+    (100222, '/static_product/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
+    (100222, '/static_product/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
     -- H-10354
-    (100223, '/static/images/metro_collection/H-10355-A.png', 'Front View'), 
-    (100223, '/static/images/metro_collection/H-10355-B.png', 'Back View'), 
-    (100223, '/static/images/metro_collection/H-10355-C.png', 'Front View With Office Items'), 
-    (100223, '/static/images/metro_collection/H-10355-D.png', 'Back View With Office Items'), 
-    (100223, '/static/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
-    (100223, '/static/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
+    (100223, '/static_product/images/metro_collection/H-10355-A.png', 'Front View'), 
+    (100223, '/static_product/images/metro_collection/H-10355-B.png', 'Back View'), 
+    (100223, '/static_product/images/metro_collection/H-10355-C.png', 'Front View With Office Items'), 
+    (100223, '/static_product/images/metro_collection/H-10355-D.png', 'Back View With Office Items'), 
+    (100223, '/static_product/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
+    (100223, '/static_product/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
     -- H-9779
-    (100224, '/static/images/metro_collection/H-10355-A.png', 'Front View'), 
-    (100224, '/static/images/metro_collection/H-10355-B.png', 'Back View'), 
-    (100224, '/static/images/metro_collection/H-10355-C.png', 'Front View With Office Items'), 
-    (100224, '/static/images/metro_collection/H-10355-D.png', 'Back View With Office Items'), 
-    (100224, '/static/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
-    (100224, '/static/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
+    (100224, '/static_product/images/metro_collection/H-10355-A.png', 'Front View'), 
+    (100224, '/static_product/images/metro_collection/H-10355-B.png', 'Back View'), 
+    (100224, '/static_product/images/metro_collection/H-10355-C.png', 'Front View With Office Items'), 
+    (100224, '/static_product/images/metro_collection/H-10355-D.png', 'Back View With Office Items'), 
+    (100224, '/static_product/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
+    (100224, '/static_product/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
     -- H-9784
-    (100225, '/static/images/metro_collection/H-9784-A.png', 'Front View'), 
-    (100225, '/static/images/metro_collection/H-9784-B.png', 'File Drawer Open'), 
-    (100225, '/static/images/metro_collection/laminate-edge.png', 'Laminate Corner'), 
-    (100225, '/static/images/metro_collection/lock-keys.png', 'Front - keys in keyhole'), 
+    (100225, '/static_product/images/metro_collection/H-9784-A.png', 'Front View'), 
+    (100225, '/static_product/images/metro_collection/H-9784-B.png', 'File Drawer Open'), 
+    (100225, '/static_product/images/metro_collection/laminate-edge.png', 'Laminate Corner'), 
+    (100225, '/static_product/images/metro_collection/lock-keys.png', 'Front - keys in keyhole'), 
     -- H-9785
-    (100226, '/static/images/metro_collection/H-9784-A.png', 'Front View'),
-    (100226, '/static/images/metro_collection/H-9784-B.png', 'File Drawer Open'),
-    (100226, '/static/images/metro_collection/H-9784-C.png', 'Box Drawer Open'),
-    (100226, '/static/images/metro_collection/laminate-edge.png', 'Laminate Corner'),
-    (100226, '/static/images/metro_collection/lock-keys.png', 'Front - keys in keyhole'),
+    (100226, '/static_product/images/metro_collection/H-9784-A.png', 'Front View'),
+    (100226, '/static_product/images/metro_collection/H-9784-B.png', 'File Drawer Open'),
+    (100226, '/static_product/images/metro_collection/H-9784-C.png', 'Box Drawer Open'),
+    (100226, '/static_product/images/metro_collection/laminate-edge.png', 'Laminate Corner'),
+    (100226, '/static_product/images/metro_collection/lock-keys.png', 'Front - keys in keyhole'),
     
-	(100227, '/static/images/designer_collection/H-9790-WHITE-A.png', 'Front View'),
-    (100227, '/static/images/designer_collection/H-9790-WHITE-B.png', 'Back View'),
-    (100227, '/static/images/designer_collection/H-9790-WHITE-C.png', 'Front View - Office Items'),
-    (100227, '/static/images/designer_collection/H-9790-WHITE-D.png', 'Back View -- Office Items'),
-	(100227, '/static/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
-    (100227, '/static/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
+	(100227, '/static_product/images/designer_collection/H-9790-WHITE-A.png', 'Front View'),
+    (100227, '/static_product/images/designer_collection/H-9790-WHITE-B.png', 'Back View'),
+    (100227, '/static_product/images/designer_collection/H-9790-WHITE-C.png', 'Front View - Office Items'),
+    (100227, '/static_product/images/designer_collection/H-9790-WHITE-D.png', 'Back View -- Office Items'),
+	(100227, '/static_product/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
+    (100227, '/static_product/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
     
-    (100228, '/static/images/designer_collection/H-9790-MAPLE-A.png', 'Front View'),
-    (100228, '/static/images/designer_collection/H-9790-MAPLE-B.png', 'Back View'),
-    (100228, '/static/images/designer_collection/H-9790-MAPLE-C.png', 'Front View - Office Items'),
-    (100228, '/static/images/designer_collection/H-9790-MAPLE-D.png', 'Back View -- Office Items'),
-    (100228, '/static/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
-    (100228, '/static/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
+    (100228, '/static_product/images/designer_collection/H-9790-MAPLE-A.png', 'Front View'),
+    (100228, '/static_product/images/designer_collection/H-9790-MAPLE-B.png', 'Back View'),
+    (100228, '/static_product/images/designer_collection/H-9790-MAPLE-C.png', 'Front View - Office Items'),
+    (100228, '/static_product/images/designer_collection/H-9790-MAPLE-D.png', 'Back View -- Office Items'),
+    (100228, '/static_product/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
+    (100228, '/static_product/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
     
-    (100229, '/static/images/designer_collection/H-10260-WHITE-A.png', 'Front View'),
-    (100229, '/static/images/designer_collection/H-10260-WHITE-B.png', 'Back View'),
-    (100229, '/static/images/designer_collection/H-10260-WHITE-C.png', 'Front View - Office Items'),
-    (100229, '/static/images/designer_collection/H-10260-WHITE-D.png', 'Back View -- Office Items'),
-    (100229, '/static/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
-    (100229, '/static/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
+    (100229, '/static_product/images/designer_collection/H-10260-WHITE-A.png', 'Front View'),
+    (100229, '/static_product/images/designer_collection/H-10260-WHITE-B.png', 'Back View'),
+    (100229, '/static_product/images/designer_collection/H-10260-WHITE-C.png', 'Front View - Office Items'),
+    (100229, '/static_product/images/designer_collection/H-10260-WHITE-D.png', 'Back View -- Office Items'),
+    (100229, '/static_product/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
+    (100229, '/static_product/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
     
-    (100230, '/static/images/designer_collection/H-10260-MAPLE-A.png', 'Front View'),
-    (100230, '/static/images/designer_collection/H-10260-MAPLE-B.png', 'Back View'),
-    (100230, '/static/images/designer_collection/H-10260-MAPLE-C.png', 'Front View - Office Items'),
-    (100230, '/static/images/designer_collection/H-10260-MAPLE-D.png', 'Back View -- Office Items'),
-    (100230, '/static/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
-    (100230, '/static/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
+    (100230, '/static_product/images/designer_collection/H-10260-MAPLE-A.png', 'Front View'),
+    (100230, '/static_product/images/designer_collection/H-10260-MAPLE-B.png', 'Back View'),
+    (100230, '/static_product/images/designer_collection/H-10260-MAPLE-C.png', 'Front View - Office Items'),
+    (100230, '/static_product/images/designer_collection/H-10260-MAPLE-D.png', 'Back View -- Office Items'),
+    (100230, '/static_product/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
+    (100230, '/static_product/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
     
-    (100231, '/static/images/designer_collection/H-10260-WHITE-A.png', 'Front View'),
-    (100231, '/static/images/designer_collection/H-10260-WHITE-B.png', 'Back View'),
-    (100231, '/static/images/designer_collection/H-10260-WHITE-C.png', 'Front View - Office Items'),
-    (100231, '/static/images/designer_collection/H-10260-WHITE-D.png', 'Back View -- Office Items'),
-    (100231, '/static/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
-    (100231, '/static/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
+    (100231, '/static_product/images/designer_collection/H-10260-WHITE-A.png', 'Front View'),
+    (100231, '/static_product/images/designer_collection/H-10260-WHITE-B.png', 'Back View'),
+    (100231, '/static_product/images/designer_collection/H-10260-WHITE-C.png', 'Front View - Office Items'),
+    (100231, '/static_product/images/designer_collection/H-10260-WHITE-D.png', 'Back View -- Office Items'),
+    (100231, '/static_product/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
+    (100231, '/static_product/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
     
-    (100232, '/static/images/designer_collection/H-10260-MAPLE-A.png', 'Front View'),
-    (100232, '/static/images/designer_collection/H-10260-MAPLE-B.png', 'Back View'),
-    (100232, '/static/images/designer_collection/H-10260-MAPLE-C.png', 'Front View - Office Items'),
-    (100232, '/static/images/designer_collection/H-10260-MAPLE-D.png', 'Back View -- Office Items'),
-    (100232, '/static/images/designer_collectiongrommet-maple.png', 'Desktop Grommet with Cord'),
-    (100232, '/static/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
+    (100232, '/static_product/images/designer_collection/H-10260-MAPLE-A.png', 'Front View'),
+    (100232, '/static_product/images/designer_collection/H-10260-MAPLE-B.png', 'Back View'),
+    (100232, '/static_product/images/designer_collection/H-10260-MAPLE-C.png', 'Front View - Office Items'),
+    (100232, '/static_product/images/designer_collection/H-10260-MAPLE-D.png', 'Back View -- Office Items'),
+    (100232, '/static_product/images/designer_collectiongrommet-maple.png', 'Desktop Grommet with Cord'),
+    (100232, '/static_product/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
     
-    (100233, '/static/images/designer_collection/H-10261-WHITE-A.png', 'Front View'),
-    (100233, '/static/images/designer_collection/H-10261-WHITE-B.png', 'Back View'),
-    (100233, '/static/images/designer_collection/H-10261-WHITE-C.png', 'Front View - Office Items'),
-    (100233, '/static/images/designer_collection/H-10261-WHITE-D.png', 'Back View -- Office Items'),
-    (100233, '/static/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
-    (100233, '/static/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
+    (100233, '/static_product/images/designer_collection/H-10261-WHITE-A.png', 'Front View'),
+    (100233, '/static_product/images/designer_collection/H-10261-WHITE-B.png', 'Back View'),
+    (100233, '/static_product/images/designer_collection/H-10261-WHITE-C.png', 'Front View - Office Items'),
+    (100233, '/static_product/images/designer_collection/H-10261-WHITE-D.png', 'Back View -- Office Items'),
+    (100233, '/static_product/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
+    (100233, '/static_product/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
     
-    (100234, '/static/images/designer_collection/H-10261-MAPLE-A.png', 'Front View'),
-    (100234, '/static/images/designer_collection/H-10261-MAPLE-B.png', 'Back View'),
-    (100234, '/static/images/designer_collection/H-10261-MAPLE-C.png', 'Front View - Office Items'),
-    (100234, '/static/images/designer_collection/H-10261-MAPLE-D.png', 'Back View -- Office Items'),
-    (100234, '/static/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
-    (100234, '/static/images/designer_collection/laminate-corner-maple.png', 'Back View -- Office Items'),
+    (100234, '/static_product/images/designer_collection/H-10261-MAPLE-A.png', 'Front View'),
+    (100234, '/static_product/images/designer_collection/H-10261-MAPLE-B.png', 'Back View'),
+    (100234, '/static_product/images/designer_collection/H-10261-MAPLE-C.png', 'Front View - Office Items'),
+    (100234, '/static_product/images/designer_collection/H-10261-MAPLE-D.png', 'Back View -- Office Items'),
+    (100234, '/static_product/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
+    (100234, '/static_product/images/designer_collection/laminate-corner-maple.png', 'Back View -- Office Items'),
     
-    (100235, '/static/images/designer_collection/H-9800-WHITE-A.png', 'Front View'),
-    (100235, '/static/images/designer_collection/H-9800-WHITE-B.png', 'Back View'),
-    (100235, '/static/images/designer_collection/H-9800-WHITE-C.png', 'Front View - Office Items'),
-    (100235, '/static/images/designer_collection/H-9800-WHITE-D.png', 'Back View -- Office Items'),
-    (100235, '/static/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
-    (100235, '/static/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
+    (100235, '/static_product/images/designer_collection/H-9800-WHITE-A.png', 'Front View'),
+    (100235, '/static_product/images/designer_collection/H-9800-WHITE-B.png', 'Back View'),
+    (100235, '/static_product/images/designer_collection/H-9800-WHITE-C.png', 'Front View - Office Items'),
+    (100235, '/static_product/images/designer_collection/H-9800-WHITE-D.png', 'Back View -- Office Items'),
+    (100235, '/static_product/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
+    (100235, '/static_product/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
     
-    (100236, '/static/images/designer_collection/H-9800-MAPLE-A.png', 'Front View'),
-    (100236, '/static/images/designer_collection/H-9800-MAPLE-B.png', 'Back View'),
-    (100236, '/static/images/designer_collection/H-9800-MAPLE-C.png', 'Front View - Office Items'),
-    (100236, '/static/images/designer_collection/H-9800-MAPLE-D.png', 'Back View -- Office Items'),
-    (100236, '/static/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
-    (100236, '/static/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
+    (100236, '/static_product/images/designer_collection/H-9800-MAPLE-A.png', 'Front View'),
+    (100236, '/static_product/images/designer_collection/H-9800-MAPLE-B.png', 'Back View'),
+    (100236, '/static_product/images/designer_collection/H-9800-MAPLE-C.png', 'Front View - Office Items'),
+    (100236, '/static_product/images/designer_collection/H-9800-MAPLE-D.png', 'Back View -- Office Items'),
+    (100236, '/static_product/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
+    (100236, '/static_product/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
     
---     (100237, '/static/images/designer_collection/H-10262-WHITE-', 'Front View'),
---     (100237, '/static/images/designer_collection/H-10262-WHITE-', 'Back View'),
---     (100237, '/static/images/designer_collection/H-10262-WHITE-', 'Front View - Office Items'),
---     (100237, '/static/images/designer_collection/H-10262-WHITE-', 'Back View -- Office Items'),
+--     (100237, '/static_product/images/designer_collection/H-10262-WHITE-', 'Front View'),
+--     (100237, '/static_product/images/designer_collection/H-10262-WHITE-', 'Back View'),
+--     (100237, '/static_product/images/designer_collection/H-10262-WHITE-', 'Front View - Office Items'),
+--     (100237, '/static_product/images/designer_collection/H-10262-WHITE-', 'Back View -- Office Items'),
 --     
---     (100238, '/static/images/designer_collection/H-10262-MAPLE-', 'Front View'),
---     (100238, '/static/images/designer_collection/H-10262-MAPLE-', 'Back View'),
---     (100238, '/static/images/designer_collection/H-10262-MAPLE-', 'Front View - Office Items'),
---     (100238, '/static/images/designer_collection/H-10262-MAPLE-', 'Back View -- Office Items'),
+--     (100238, '/static_product/images/designer_collection/H-10262-MAPLE-', 'Front View'),
+--     (100238, '/static_product/images/designer_collection/H-10262-MAPLE-', 'Back View'),
+--     (100238, '/static_product/images/designer_collection/H-10262-MAPLE-', 'Front View - Office Items'),
+--     (100238, '/static_product/images/designer_collection/H-10262-MAPLE-', 'Back View -- Office Items'),
     
-    (100239, '/static/images/designer_collection/H-9806-WHITE-A.png', 'Front View'),
-    (100239, '/static/images/designer_collection/H-9806-WHITE-B.png', 'File Drawer Open'),
-    (100239, '/static/images/designer_collection/H-9806-WHITE-C.png', 'Block Drawer Open'),
-    (100239, '/static/images/designer_collection/lock-keys-white.png', 'Front - keys in keyhole'),
-    (100239, '/static/images/designer_collection/pedestal-wheel-white.png', 'Front Corner - Wheel'),
+    (100239, '/static_product/images/designer_collection/H-9806-WHITE-A.png', 'Front View'),
+    (100239, '/static_product/images/designer_collection/H-9806-WHITE-B.png', 'File Drawer Open'),
+    (100239, '/static_product/images/designer_collection/H-9806-WHITE-C.png', 'Block Drawer Open'),
+    (100239, '/static_product/images/designer_collection/lock-keys-white.png', 'Front - keys in keyhole'),
+    (100239, '/static_product/images/designer_collection/pedestal-wheel-white.png', 'Front Corner - Wheel'),
     
-    (100240, '/static/images/designer_collection/H-9806-MAPLE-A.png', 'Front View'),
-    (100240, '/static/images/designer_collection/H-9806-MAPLE-B.png', 'File Drawer Open'),
-    (100240, '/static/images/designer_collection/H-9806-MAPLE-C.png', 'Block Drawer Open'),
-    (100240, '/static/images/designer_collection/lock-keys-maple.png', 'Front - keys in keyhole'),
-    (100240, '/static/images/designer_collection/pedestal-wheel-maple.png', 'Front Corner - Wheel'),
+    (100240, '/static_product/images/designer_collection/H-9806-MAPLE-A.png', 'Front View'),
+    (100240, '/static_product/images/designer_collection/H-9806-MAPLE-B.png', 'File Drawer Open'),
+    (100240, '/static_product/images/designer_collection/H-9806-MAPLE-C.png', 'Block Drawer Open'),
+    (100240, '/static_product/images/designer_collection/lock-keys-maple.png', 'Front - keys in keyhole'),
+    (100240, '/static_product/images/designer_collection/pedestal-wheel-maple.png', 'Front Corner - Wheel'),
 	-- 100241
-	(100241, '../static/images/school_supplies/backpacks/JS0A47JK5M9-A', ''),
-    (100241, '../static/images/school_supplies/backpacks/JS0A47JK5M9-B', ''),
-    (100241, '../static/images/school_supplies/backpacks/JS0A47JK5M9-C', ''),
+	(100241, '/static_product/images/school_supplies/backpacks/JS0A47JK5M9-A', ''),
+    (100241, '/static_product/images/school_supplies/backpacks/JS0A47JK5M9-B', ''),
+    (100241, '/static_product/images/school_supplies/backpacks/JS0A47JK5M9-C', ''),
     
-    (100242, '../static/images/school_supplies/backpacks/TDN7008JAN-A', ''),
-    (100242, '../static/images/school_supplies/backpacks/TDN7008JAN-B', ''),
-    (100242, '../static/images/school_supplies/backpacks/TDN7008JAN-C', ''),
+    (100242, '/static_product/images/school_supplies/backpacks/TDN7008JAN-A', ''),
+    (100242, '/static_product/images/school_supplies/backpacks/TDN7008JAN-B', ''),
+    (100242, '/static_product/images/school_supplies/backpacks/TDN7008JAN-C', ''),
     
-    (100243, '../static/images/school_supplies/backpacks/JS00TDN7003-A', ''),
+    (100243, '/static_product/images/school_supplies/backpacks/JS00TDN7003-A', ''),
     
-    (100244, '../static/images/school_supplies/backpacks/JS0A47JK7N8-A', ''),
-    (100244, '../static/images/school_supplies/backpacks/JS0A47JK7N8-B', ''),
-    (100244, '../static/images/school_supplies/backpacks/JS0A47JK7N8-C', ''),
+    (100244, '/static_product/images/school_supplies/backpacks/JS0A47JK7N8-A', ''),
+    (100244, '/static_product/images/school_supplies/backpacks/JS0A47JK7N8-B', ''),
+    (100244, '/static_product/images/school_supplies/backpacks/JS0A47JK7N8-C', ''),
     
-    (100245, '../static/images/school_supplies/backpacks/JS0A47JKZ70-A', ''),
-    (100245, '../static/images/school_supplies/backpacks/JS0A47JKZ70-B', ''),
+    (100245, '/static_product/images/school_supplies/backpacks/JS0A47JKZ70-A', ''),
+    (100245, '/static_product/images/school_supplies/backpacks/JS0A47JKZ70-B', ''),
     
-    (100246, '../static/images/school_supplies/backpacks/JS0A47JK04S-A', ''),
-    (100246, '../static/images/school_supplies/backpacks/JS0A47JK04S-B', ''),
-    (100246, '../static/images/school_supplies/backpacks/JS0A47JK04S-C', ''),
+    (100246, '/static_product/images/school_supplies/backpacks/JS0A47JK04S-A', ''),
+    (100246, '/static_product/images/school_supplies/backpacks/JS0A47JK04S-B', ''),
+    (100246, '/static_product/images/school_supplies/backpacks/JS0A47JK04S-C', ''),
     
-    (100247, '../static/images/school_supplies/backpacks/JS0A47JKAO5-A', ''),
-    (100247, '../static/images/school_supplies/backpacks/JS0A47JKAO5-B', ''),
+    (100247, '/static_product/images/school_supplies/backpacks/JS0A47JKAO5-A', ''),
+    (100247, '/static_product/images/school_supplies/backpacks/JS0A47JKAO5-B', ''),
     
-    (100248, '../static/images/school_supplies/backpacks/JS0A47JKAO3-A', ''),
-    (100248, '../static/images/school_supplies/backpacks/JS0A47JKAO3-B', ''),
+    (100248, '/static_product/images/school_supplies/backpacks/JS0A47JKAO3-A', ''),
+    (100248, '/static_product/images/school_supplies/backpacks/JS0A47JKAO3-B', ''),
     
-    (100249, '../static/images/school_supplies/backpacks/JS0A47JKZ47-A', ''),
-    (100249, '../static/images/school_supplies/backpacks/JS0A47JKZ47-B', ''),
-    (100249, '../static/images/school_supplies/backpacks/JS0A47JKZ47-C', ''),
+    (100249, '/static_product/images/school_supplies/backpacks/JS0A47JKZ47-A', ''),
+    (100249, '/static_product/images/school_supplies/backpacks/JS0A47JKZ47-B', ''),
+    (100249, '/static_product/images/school_supplies/backpacks/JS0A47JKZ47-C', ''),
     
-    (100250, '../static/images/school_supplies/2095545-A', ''),
-    (100250, '../static/images/school_supplies/2095545-B', ''),
-    (100250, '../static/images/school_supplies/POST-IT-C', ''),
+    (100250, '/static_product/images/school_supplies/2095545-A', ''),
+    (100250, '/static_product/images/school_supplies/2095545-B', ''),
+    (100250, '/static_product/images/school_supplies/POST-IT-C', ''),
     
-	(100251, '../static/images/school_supplies/77278-A', ''),
-    (100251, '../static/images/school_supplies/77278-B', ''),
-    (100251, '../static/images/school_supplies/POST-IT-C', ''),
+	(100251, '/static_product/images/school_supplies/77278-A', ''),
+    (100251, '/static_product/images/school_supplies/77278-B', ''),
+    (100251, '/static_product/images/school_supplies/POST-IT-C', ''),
     
-	(100252, '../static/images/school_supplies/24534139-A', ''),
-    (100252, '../static/images/school_supplies/24534139-B', ''),
-    (100252, '../static/images/school_supplies/POST-IT-C', ''),
+	(100252, '/static_product/images/school_supplies/24534139-A', ''),
+    (100252, '/static_product/images/school_supplies/24534139-B', ''),
+    (100252, '/static_product/images/school_supplies/POST-IT-C', ''),
     
-	(100253, '../static/images/school_supplies/77285-A', ''),
-    (100253, '../static/images/school_supplies/77285-B', ''),
-    (100253, '../static/images/school_supplies/POST-IT-C', ''),
+	(100253, '/static_product/images/school_supplies/77285-A', ''),
+    (100253, '/static_product/images/school_supplies/77285-B', ''),
+    (100253, '/static_product/images/school_supplies/POST-IT-C', ''),
     
-	(100254, '../static/images/school_supplies/2398220-A', ''),
-    (100254, '../static/images/school_supplies/2398220-B', ''),
-    (100254, '../static/images/school_supplies/POST-IT-C', ''),
+	(100254, '/static_product/images/school_supplies/2398220-A', ''),
+    (100254, '/static_product/images/school_supplies/2398220-B', ''),
+    (100254, '/static_product/images/school_supplies/POST-IT-C', ''),
     
-	(100255, '../static/images/school_supplies/586111-A', ''),
-    (100255, '../static/images/school_supplies/586111-B', ''),
-    (100255, '../static/images/school_supplies/POST-IT-C', ''),
+	(100255, '/static_product/images/school_supplies/586111-A', ''),
+    (100255, '/static_product/images/school_supplies/586111-B', ''),
+    (100255, '/static_product/images/school_supplies/POST-IT-C', ''),
     
-	(100256, '../static/images/school_supplies/562930-A', ''),
-    (100256, '../static/images/school_supplies/562930-B', ''),
-    (100256, '../static/images/school_supplies/POST-IT-C', ''),
+	(100256, '/static_product/images/school_supplies/562930-A', ''),
+    (100256, '/static_product/images/school_supplies/562930-B', ''),
+    (100256, '/static_product/images/school_supplies/POST-IT-C', ''),
     
-	(100257, '../static/images/school_supplies/24517481-A', ''),
-    (100257, '../static/images/school_supplies/24517481-B', ''),
-    (100257, '../static/images/school_supplies/POST-IT-C', ''),
+	(100257, '/static_product/images/school_supplies/24517481-A', ''),
+    (100257, '/static_product/images/school_supplies/24517481-B', ''),
+    (100257, '/static_product/images/school_supplies/POST-IT-C', ''),
     
-    (100258, '../static/images/school_supplies/575671-A', ''),
-    (100258, '../static/images/school_supplies/575671-B', ''),
+    (100258, '/static_product/images/school_supplies/575671-A', ''),
+    (100258, '/static_product/images/school_supplies/575671-B', ''),
     
-    (100259, '../static/images/school_supplies/663660-A', ''),
-    (100259, '../static/images/school_supplies/663660-B', ''),
+    (100259, '/static_product/images/school_supplies/663660-A', ''),
+    (100259, '/static_product/images/school_supplies/663660-B', ''),
     
-    (100260, '../static/images/school_supplies/751540-A', ''),
-    (100260, '../static/images/school_supplies/751540-B', ''),
+    (100260, '/static_product/images/school_supplies/751540-A', ''),
+    (100260, '/static_product/images/school_supplies/751540-B', ''),
     
-    (100261, '../static/images/school_supplies/24583386-A', ''),
-    (100261, '../static/images/school_supplies/24583386-B', ''),
+    (100261, '/static_product/images/school_supplies/24583386-A', ''),
+    (100261, '/static_product/images/school_supplies/24583386-B', ''),
     
-    (100262, '../static/images/school_supplies/24583387-A', ''),
-    (100262, '../static/images/school_supplies/24583387-B', '');
+    (100262, '/static_product/images/school_supplies/24583387-A', ''),
+    (100262, '/static_product/images/school_supplies/24583387-B', ''),
+    
+    (100263, '/static_product/images/technology/100263-A.png', ''), -- 850577
+    (100263, '/static_product/images/technology/100263-B.png', ''),
+    
+    (100264, '/static_product/images/technology/100264-A.png', ''),
+    (100264, '/static_product/images/technology/100264-B.png', ''),
+    
+    (100265, '/static_product/images/technology/100265-A.png', ''),
+    (100265, '/static_product/images/technology/100265-B.png', ''),
+    
+	(100266, '/static_product/images/technology/100266-A.png', ''),
+    (100266, '/static_product/images/technology/100266-B.png', ''),
+    
+    (100267, '/static_product/images/technology/100267-A.png', ''),
+    (100267, '/static_product/images/technology/100267-B.png', ''),
+    -- canon printers
+    (100268, 'https://i.ebayimg.com/images/g/yE0AAOSwN9Nm9eRW/s-l400.jpg', ''),
+    (100268, 'https://crdms.images.consumerreports.org/f_auto,w_600/prod/products/cr/models/408882-all-in-one-tank-inkjet-printers-canon-megatank-maxify-gx3020-10036450.png', ''),
+    
+    (100269, 'https://media.officedepot.com/images/f_auto,q_auto,e_sharpen,h_450/products/8426203/8426203_o51_canon_maxify_gx4020_wireless_megatank_small_office_all_in_one_color_printer/8426203', ''),
+    (100269, 'https://s7d1.scene7.com/is/image/canon/5779C002_GX4020_2?wid=800', ''),
+    
+    (100270, 'https://m.media-amazon.com/images/I/71gFWh3WhlL.jpg', ''),
+    (100270, 'https://webobjects2.cdw.com/is/image/CDW/7323310?$product-main$', ''),
+    
+    -- canon ink bottles
+    (100271, 'https://content.oppictures.com/Master_Images/Master_Variants/Variant_240/719466.JPG', ''),
+    (100271, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230822_sc7?wid=700&hei=700', ''),
+    (100271, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230823_sc7?wid=700&hei=700', ''),
+    
+    (100272, 'https://www.staples-3p.com/s7/is/image/Staples/sp172009163_sc7?wid=700&hei=700', ''),
+    (100272, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230828_sc7?wid=700&hei=700', ''),
+    (100272, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230829_sc7?wid=700&hei=700', ''),
+    
+    (100273, 'https://www.staples-3p.com/s7/is/image/Staples/sp172008526_sc7?wid=700&hei=700', ''),
+    (100273, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230824_sc7?wid=700&hei=700', ''),
+    (100273, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230825_sc7?wid=700&hei=700', ''),
+    
+    (100274, 'https://www.compandsave.com/media/catalog/product/cache/e4401aba6d3f9e552234272afd624a20/c/a/canon-gi-26-cyan-ink-bottle.JPG', ''),
+    (100274, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230826_sc7?wid=700&hei=700', ''),
+    (100274, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230827_sc7?wid=700&hei=700', '');
