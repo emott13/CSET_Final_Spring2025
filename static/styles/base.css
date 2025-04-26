@@ -160,7 +160,7 @@
 .fa-magnifying-glass{
     position: absolute;
     top: 28px !important;
-    left: 24%;
+    left: 24.5%;
     transform: translate(-50%);
     color: var(--color-purple);
 }
