@@ -11,14 +11,14 @@ def home():
     officePhotos = []
     for id in officeProdIDs:
         photo = conn.execute(
-        text('SELECT product_title, size_description, file_path, alt_text ' \
+        text('SELECT product_title, size_description, file_path, alt_text, product_id ' \
         'FROM products natural join product_variants natural join sizes natural join images ' \
         'WHERE product_id IN(850565, 850566, 850567, 850568, 850569, 850570) ' \
         'AND variant_id=:id LIMIT 1'), {'id': id}).fetchone()
         officePhotos.append(photo)
     print('Office products: ', officePhotos)
     schoolSupplyProd = conn.execute(
-            text('SELECT product_title, size_description, file_path, alt_text ' \
+            text('SELECT product_title, size_description, file_path, alt_text, product_id, variant_id ' \
             'FROM products natural join product_variants natural join sizes natural join images ' \
             'WHERE vendor_id="g_pitts@supplies4school.org" and image_id IN(1, 3, 5, 7, 19, 21);'),
             {'id': id}).fetchall()

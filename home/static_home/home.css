@@ -173,12 +173,21 @@ main{
     font-weight: 400;
 }
 .arrow{
-    display: block;
-    background-image: url(../images/right-arrow-short-white.png);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-size: cover;
     background-position: center;
-    height: 30px;
-    width: 70px;
+    height: 24px;
+    width: 30px;
+}
+.ion-arrow-right-c:before{
+    content: '\f10b';
+}
+.ion-arrow-right-c{
+    font-family: 'Ionicons';
+    font-size: 25px;
+    color: var(--color-purple-white);
 }
 
 /* -- hover styles -- */
@@ -186,10 +195,12 @@ main{
     color: var(--color-yellow); 
     transition: color 0.04s ease-out 0.1s;
     .arrow{
-        background-image: url(../images/right-arrow-long-purple.png);
         margin-left: 5px;
-        transition: background-image 0.04s ease-out 0.1s,
-                    margin-left 0.04s ease-out 0.1s;
+        transition: margin-left 0.04s ease-out 0.1s;
+    }
+    .ion-arrow-right-c{
+        color: var(--color-yellow);
+        transition: color 0.04s ease-out 0.1s
     }
 }
 
@@ -246,18 +257,19 @@ main{
 .carouselContainer h2{
     margin-left: 6px;
     color: var(--color-purple-red);
-    font-size: 35px;
+    font-size: 25px;
     font-weight: 400;
 }
 .carouselItem h3{
     color: var(--color-purple-red);
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 300;
     width: 200px;
 }
 .carouselItem{
     background-color: white;
     height: 250px;
+    text-decoration: none;
 }
 
 .autoplay{
