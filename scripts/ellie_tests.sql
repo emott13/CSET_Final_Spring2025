@@ -24,7 +24,7 @@
 -- SELECT product_title, product_description, size_description, price, warranty_months, current_inventory, product_id, variant_id 
 -- FROM products NATURAL JOIN product_variants NATURAL JOIN sizes;
 -- SELECT color_description FROM colors NATURAL JOIN product_variants WHERE product_id = AND variant_id = ;
-
+select * from transactions where acc_num = 578066;
 -- SELECT products.product_id, products.product_title, sizes.size_description
 -- 	FROM products INNER JOIN product_variants
 -- 	INNER JOIN sizes ON products.product_id = product_variants.product_id

@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS products (
     product_id INT PRIMARY KEY AUTO_INCREMENT,
     vendor_id VARCHAR(255) NOT NULL,
     product_title VARCHAR(255) NOT NULL,
-    product_description VARCHAR(500),
+    product_description VARCHAR(575),
     warranty_months INT,
     FOREIGN KEY (vendor_id) REFERENCES users(email)
 );
@@ -183,7 +183,8 @@ VALUES
 	('j_prescott@gmail.com', 'jprescott', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Jean', 'Prescott', 'customer'), -- customer
 	('a_batts@textbooksmadeeasy.org', 'abatts_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Textbooks', 'Made Easy', 'vendor'), -- vendor
 	('g_pitts@supplies4school.org', 'gpitts_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Supplies', '4 School', 'vendor'), -- vendor
-	('i_tombolli@study_space.com', 'itombolli_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Study', 'Space', 'vendor'); -- vendor
+	('i_tombolli@study_space.com', 'itombolli_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Study', 'Space', 'vendor'), -- vendor
+    ('f_craft@techtime.com', 'fcraft_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Tech', 'Time', 'vendor'); 
 
 INSERT INTO products (vendor_id, product_title, product_description, warranty_months)
 VALUES
@@ -222,8 +223,15 @@ VALUES
 	-- 850571
 	('g_pitts@supplies4school.org', 'JanSport Big Student Backpacks', 'The JanSport Big Student backpack is perfect for carrying all of your supplies. The backpack is made of 100% recycled polyester and features a dedicated 15" padded laptop compartment. Features two large main compartments, one front utility pocket with organizer, one pleated front stash pocket, and one zippered front stash pocket. Includes a side water bottle pocket, ergonomic S-curve shoulder straps,  and a fully padded back panel.', 0),
 	-- 850572
-	('g_pitts@supplies4school.org', 'JanSport Big Student Patterned Backpacks', 'The JanSport Big Student backpack is perfect for carrying all of your supplies. The backpack is made of 100% recycled polyester and features a dedicated 15" padded laptop compartment. Features two large main compartments, one front utility pocket with organizer, one pleated front stash pocket, and one zippered front stash pocket. Includes a side water bottle pocket, ergonomic S-curve shoulder straps,  and a fully padded back panel.', 0);
-
+	('g_pitts@supplies4school.org', 'JanSport Big Student Patterned Backpacks', 'The JanSport Big Student backpack is perfect for carrying all of your supplies. The backpack is made of 100% recycled polyester and features a dedicated 15" padded laptop compartment. Features two large main compartments, one front utility pocket with organizer, one pleated front stash pocket, and one zippered front stash pocket. Includes a side water bottle pocket, ergonomic S-curve shoulder straps,  and a fully padded back panel.', 0),
+	-- 850573
+    ('g_pitts@supplies4school.org', 'Post-It Super Sticky Notes 3" x 3"', "Post-it® Super Sticky Notes are the perfect solution for shopping lists, reminders, to-do lists, color-coding, labeling, family chore reminders, brainstorming, storyboarding, and quick notes. Post-it Super Sticky Notes offer twice the sticking power of basic sticky notes, ensuring they stay put and won't fall off.", 0),
+    -- 850574
+    ('g_pitts@supplies4school.org', 'Post-It Flags Combo Pack', 'Find it fast with Post-it® Flags in bright eye-catching colors that get noticed. They make it simple to mark or highlight important information in textbooks, calendars, notebooks, planners and more. They stick securely, remove cleanly and come in a wide variety of colors. Draw attention to critical items or use them to index, file or color code your work, either at home, work or in the classroom.', 0),
+    -- 850575
+    ('g_pitts@supplies4school.org', 'Post-It Durable Tabs', 'Durable Tabs are extra thick and strong to stand up to long-term wear and tear. Great for dividing notes, expanding files and project files. Sticks securely, removes cleanly.', 0),
+	-- 850576
+    ('f_craft@techtime.com', 'HP OfficeJet Pro Wireless Color All-In-One Printers', "FROM AMERICA'S MOST TRUSTED PRINTER BRAND – The OfficeJet Pro Printers are perfect for offices printing professional-quality color documents like presentations, brochures and flyers. The HP OfficeJet Pro Printers deliver fast color printing. They include wireless and printer security capabilities to keep your multifunction printers up to date and secure. Compatible ink cartridges – works with HP 936 ink cartridges to deliver bold, high quality color. Plus, get 2X more pages with the HP EvoMore 936e high yield ink cartridges, HP's most sustainable ink cartridges.", 12);
 
 INSERT INTO colors (color_name, color_hex)
 VALUES
@@ -246,7 +254,11 @@ VALUES
     ('Dark red', '#8b0000'), 	-- 19796
     ('Floral pink/purple', NULL), -- 19797
     ('Galaxy blue', NULL), 		-- 19798
-    ('Multicolor', NULL); 		-- 19799
+    ('Multicolor', NULL), 		-- 19799
+    ('Supernova Neons', NULL),	-- 19800
+    ('Energy Boost', NULL),		-- 19801
+    ('Summer Joy', NULL),		-- 19802
+    ('Playful Primaries', NULL);-- 19803
     -- black 19786
 INSERT INTO sizes (size_description)
 VALUES
@@ -272,7 +284,14 @@ VALUES
 	('60W X 66L Inches'), 		-- 34
     ('72W X 66L Inches'), 		-- 35
     ('16W X 18D X 26L Inches'), -- 36
-	('13W X 10D X 17.5H Inches'); -- 37
+	('13W X 10D X 17.5H Inches'), -- 37
+    ('70 Sheet/Pad, 24 Pads/Pack'),-- 38
+    ('90 Sheet/Pad, 5 Pads/Pack'),-- 39
+    ('320 Flags/Pack'),			-- 40
+    ('1"W 66Tabs/Pack'),		-- 41
+    ('2"W 24 Tabs/Pack'),		-- 42
+    ('9125e: 250 Sheet Input/60 Sheet Output'), -- 43
+    ('9135e: 500 Sheet Input/100 Sheet Output'); -- 44
     
 INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory)
 VALUES
@@ -334,7 +353,25 @@ VALUES
 	(850571, 19796, 37, 5499, 15),		-- 100246
 	(850572, 19797, 37, 5999, 7),		-- 100247
 	(850572, 19798, 37, 5999, 6),		-- 100248
-	(850572, 19799, 37, 5999, 12);		-- 100249
+	(850572, 19799, 37, 5999, 12),		-- 100249
+    -- postit notes large pack
+    (850573, 19800, 38, 2399, 5),		-- 100250
+    (850573, 19801, 38, 2399, 5),		-- 100251
+    (850573, 19802, 38, 2399, 5),		-- 100252
+    (850573, 19803, 38, 2399, 5),		-- 100253
+	-- post it notes small pack
+    (850573, 19800, 39, 699, 5),		-- 100254
+    (850573, 19801, 39, 699, 5),		-- 100255
+    (850573, 19802, 39, 699, 5),		-- 100256
+    (850573, 19803, 39, 699, 5),		-- 100257
+    -- post it flags combo
+    (850574, 19780, 40, 1329, 15),		-- 100258
+    -- post it tabs
+    (850575, 19780, 41, 789, 11),		-- 100259
+    (850575, 19780, 42, 429, 8),		-- 100260
+    -- hp officejet pro printers
+    (850576, 19799, 43, 32999, 15),		-- 100261
+    (850576, 19799, 44, 40999, 12); 	-- 100262
 
 INSERT INTO images (variant_id, file_path, alt_text)
 VALUES 
@@ -742,4 +779,52 @@ VALUES
     
     (100249, '../static/images/school_supplies/backpacks/JS0A47JKZ47-A', ''),
     (100249, '../static/images/school_supplies/backpacks/JS0A47JKZ47-B', ''),
-    (100249, '../static/images/school_supplies/backpacks/JS0A47JKZ47-C', '');
+    (100249, '../static/images/school_supplies/backpacks/JS0A47JKZ47-C', ''),
+    
+    (100250, '../static/images/school_supplies/2095545-A', ''),
+    (100250, '../static/images/school_supplies/2095545-B', ''),
+    (100250, '../static/images/school_supplies/POST-IT-C', ''),
+    
+	(100251, '../static/images/school_supplies/77278-A', ''),
+    (100251, '../static/images/school_supplies/77278-B', ''),
+    (100251, '../static/images/school_supplies/POST-IT-C', ''),
+    
+	(100252, '../static/images/school_supplies/24534139-A', ''),
+    (100252, '../static/images/school_supplies/24534139-B', ''),
+    (100252, '../static/images/school_supplies/POST-IT-C', ''),
+    
+	(100253, '../static/images/school_supplies/77285-A', ''),
+    (100253, '../static/images/school_supplies/77285-B', ''),
+    (100253, '../static/images/school_supplies/POST-IT-C', ''),
+    
+	(100254, '../static/images/school_supplies/2398220-A', ''),
+    (100254, '../static/images/school_supplies/2398220-B', ''),
+    (100254, '../static/images/school_supplies/POST-IT-C', ''),
+    
+	(100255, '../static/images/school_supplies/586111-A', ''),
+    (100255, '../static/images/school_supplies/586111-B', ''),
+    (100255, '../static/images/school_supplies/POST-IT-C', ''),
+    
+	(100256, '../static/images/school_supplies/562930-A', ''),
+    (100256, '../static/images/school_supplies/562930-B', ''),
+    (100256, '../static/images/school_supplies/POST-IT-C', ''),
+    
+	(100257, '../static/images/school_supplies/24517481-A', ''),
+    (100257, '../static/images/school_supplies/24517481-B', ''),
+    (100257, '../static/images/school_supplies/POST-IT-C', ''),
+    
+    (100258, '../static/images/school_supplies/575671-A', ''),
+    (100258, '../static/images/school_supplies/575671-B', ''),
+    
+    (100259, '../static/images/school_supplies/663660-A', ''),
+    (100259, '../static/images/school_supplies/663660-B', ''),
+    
+    (100260, '../static/images/school_supplies/751540-A', ''),
+    (100260, '../static/images/school_supplies/751540-B', ''),
+    
+    (100261, '../static/images/school_supplies/24583386-A', ''),
+    (100261, '../static/images/school_supplies/24583386-B', ''),
+    
+    (100262, '../static/images/school_supplies/24583387-A', ''),
+    (100262, '../static/images/school_supplies/24583387-B', '');
+    
