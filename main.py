@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import render_template, url_for, redirect
 # from sqlalchemy import create_engine, text, insert, Table, MetaData, update
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+from flask_login import logout_user, login_required, current_user
 from extensions import *
-from login import login_bp
-from register import register_bp
-from product import product_bp
+from login.login import login_bp
+from register.register import register_bp
+from product.product import product_bp
 from search.search import search_bp
 from home.home import home_bp
 

@@ -49,6 +49,7 @@ main{
     height: 340px;
     width: 340px;
     color: var(--color-purple-white);
+    text-decoration: none;
 }
 
 .imgWrapper{

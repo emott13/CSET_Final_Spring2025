@@ -3,7 +3,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, login_
 from extensions import Users, db, bcrypt, getCurrentType
 
 register_bp = Blueprint("register", __name__, static_folder="static",
-                  template_folder="templates")
+                  template_folder="templates_register")
 
 @register_bp.route("/register", methods=["GET", "POST"])
 def register():

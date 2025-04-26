@@ -4,6 +4,7 @@ from extensions import conn
 
 home_bp = Blueprint('home', __name__, static_folder='static_home', template_folder='templates_home')
 
+@home_bp.route('/')
 @home_bp.route('/home')
 def home():
     officeProdIDs = [100220, 100225, 100226, 100227, 100228, 100235, 100236, 100239, 100240]

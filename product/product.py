@@ -1,10 +1,10 @@
-from flask import Blueprint, render_template, request, url_for, redirect
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
-from sqlalchemy import text, insert, Table, MetaData, update
-from extensions import Users, bcrypt, conn
+from flask import Blueprint, render_template, request, redirect
+from flask_login import current_user
+from sqlalchemy import text
+from extensions import conn
 
-product_bp = Blueprint("product", __name__, static_folder="static",
-                  template_folder="templates")
+product_bp = Blueprint("product", __name__, static_folder="static_product",
+                        template_folder="templates_product")
 
 def isValidProductURL(productId, variantId=None):
     """

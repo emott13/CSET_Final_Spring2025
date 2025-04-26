@@ -1,5 +1,5 @@
 -- select * from images where variant_id between 100227 AND 100240;
-select image_id, file_path from images where variant_id <= 100241;
+select image_id, file_path from images where variant_id in (100261, 100262);
 select * from products;
 -- select * from users;
 -- select variant_id from product_variants where product_id = 850555;

@@ -106,7 +106,7 @@
                     <div class="prodResult">
                         {% for product in products %}
                             {% if product.display == True %}
-                                <div class="resultCard {{ product.id }} {{ product.vendor }}">
+                                <a href="{{ url_for('product.product', productId = product.id) }}" class="resultCard {{ product.id }} {{ product.vendor }}">
                                     <div class="imgWrapper">
                                         <div class="iconWrapper">
                                             <i class="ion-search"></i>
@@ -119,7 +119,7 @@
                                         <p>{{ product.options }} options</p>
                                         <p>{{ product.price }}</p>
                                     </div>
-                                </div>
+                                </a>
                             {% endif %}
                         {% endfor %}
                     </div>

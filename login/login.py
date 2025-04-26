@@ -3,7 +3,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, login_
 from extensions import Users, bcrypt
 
 login_bp = Blueprint("login", __name__, static_folder="static",
-                  template_folder="templates")
+                  template_folder="templates_login")
 
 
 @login_bp.route("/login", methods=["GET", "POST"])
