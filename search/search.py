@@ -97,13 +97,19 @@ def search():
             print('Name', name, 'Brand:', brand)
             formName_map.append((name, brand))
 
+        priceValue = toDollar(formPrice, html=True)
+        clearDisplay = 'block'
+        if formPrice is None:
+            priceValue = 1000
+            clearDisplay = 'none'
+
         return render_template(
             'search.html', 
             products = products,
             checkedVendors = formName_map,
             vendors = vendors, 
-            priceValue = toDollar(formPrice, html=True),
-            clearDisplay = 'block'
+            priceValue = priceValue,
+            clearDisplay = clearDisplay
         )
     
     else:

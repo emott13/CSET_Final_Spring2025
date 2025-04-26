@@ -827,4 +827,3 @@ VALUES
     
     (100262, '../static/images/school_supplies/24583387-A', ''),
     (100262, '../static/images/school_supplies/24583387-B', '');
-    
