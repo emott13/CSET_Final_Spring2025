@@ -127,7 +127,6 @@ def product(productId, variantId=None, error=None):
     # image data. Index like this imageData[0][ii['file_path']]
     imageData = conn.execute(text(f"SELECT variant_id, file_path FROM images WHERE variant_id = {variantId}")).all()
 
-    print(reviewsData)
 
 
     if request.method == "GET":

@@ -13,15 +13,20 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR(60) NOT NULL,
     type ENUM('vendor', 'admin', 'customer') NOT NULL
 );
-
--- products
+-- products related tables
+CREATE TABLE IF NOT EXISTS categories(					-- product categories for search / filter
+	cat_num INT PRIMARY KEY,
+    cat_name VARCHAR(255) UNIQUE NOT NULL
+);
 CREATE TABLE IF NOT EXISTS products (					
     product_id INT PRIMARY KEY AUTO_INCREMENT,
     vendor_id VARCHAR(255) NOT NULL,
     product_title VARCHAR(255) NOT NULL,
     product_description VARCHAR(575),
     warranty_months INT,
-    FOREIGN KEY (vendor_id) REFERENCES users(email)
+    cat_num INT NOT NULL,
+    FOREIGN KEY (vendor_id) REFERENCES users(email),
+    FOREIGN KEY (cat_num) REFERENCES categories(cat_num)
 );
 CREATE TABLE IF NOT EXISTS colors (						-- product colors
     color_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -42,7 +47,7 @@ CREATE TABLE IF NOT EXISTS product_variants (			-- product variants with each co
     FOREIGN KEY (product_id) REFERENCES products(product_id),
     FOREIGN KEY (color_id) REFERENCES colors(color_id),
     FOREIGN KEY (size_id) REFERENCES sizes(size_id),
-    UNIQUE(product_id, color_id, size_id) 				-- ensures no duplicate combos
+    UNIQUE(product_id, color_id, size_id) -- ensures no duplicate combos
 );
 
 -- images
@@ -184,60 +189,146 @@ VALUES
 	('a_batts@textbooksmadeeasy.org', 'abatts_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Textbooks', 'Made Easy', 'vendor'), -- vendor
 	('g_pitts@supplies4school.org', 'gpitts_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Supplies', '4 School', 'vendor'), -- vendor
 	('i_tombolli@study_space.com', 'itombolli_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Study', 'Space', 'vendor'), -- vendor
-    ('f_craft@techtime.com', 'fcraft_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Tech', 'Time', 'vendor'); 
+    ('f_craft@techtime.com', 'fcraft_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Tech', 'Time', 'vendor'),
+    ('c_simmons@worksmart.com', 'csimmons_vendor', '2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Work', 'Smart Co.', 'vendor'); 
 
-INSERT INTO products (vendor_id, product_title, product_description, warranty_months)
+INSERT INTO categories(cat_num, cat_name)
+VALUES
+-- school', 'office', 'textbook', 'furniture', 'technology'
+	-- school / office
+    (11, 'Writing Supplies'),
+    (12, 'Notetaking'),
+    (13, 'Folders & Filing'),
+    (14, 'Bags, Lunchboxes, & Backpacks'),
+    
+	-- school
+    (101, 'School Basics'),
+    (102, 'Calculators'),
+    (103, 'Art Supplies'),
+    
+    -- office
+    (201, 'Office Basics'),
+    (202, 'Paper & Mailing Supplies'),
+    
+    -- textbooks
+    (301, 'Art Textbooks'),
+    (302, 'Business & Economics Textbooks'),
+    (303, 'Computer Textbooks'),
+    (304, 'Design Textbooks'),
+    (305, 'English Textbooks'),
+    (306, 'Foreign Language Textbooks'),
+    (307, 'Health & Fitness Textbooks'),
+    (308, 'History Textbooks'),
+    (309, 'Law Textbooks'),
+    (310, 'Mathematics Textbooks'),
+    (311, 'Medical Textbooks'),
+    (312, 'Music Textbooks'),
+    (313, 'Philosophy Textbooks'),
+    (314, 'Photography Textbooks'),
+    (315, 'Science Textbooks'),
+    (316, 'Study Aids Textbooks'),
+    (317, 'Tech & Engineering Textbooks'),
+    
+    (401, 'Batteries'),
+    (402, 'Cables'),
+    (403, 'Computers'),
+    (404, 'Computer Accessories'),
+    (405, 'Computer Monitors'),
+    (406, 'Extension Cords'),
+    (407, 'External Device Storage'),
+    (408, 'Laptops'),
+    (409, 'Printers, Scanners & Accessories'),
+    (410, 'Projectors & Accessories'),
+    
+    -- furniture
+    (501, 'Classroom Chairs'),
+    (502, 'Classroom Desks'),
+    (503, 'Classroom Mats & Rugs'),
+    (504, 'Classroom Storage'),
+    (505, 'Office Chairs'),
+    (506, 'Office Desks'),
+    (507, 'Office Storage'),
+	(508, 'Office Mats & Rugs');
+
+INSERT INTO products (vendor_id, product_title, product_description, warranty_months, cat_num)
 VALUES
 	-- 850555
-	('g_pitts@supplies4school.org', 'BIC Xtra-Smooth Mechanical Pencils', 'BIC Xtra-Smooth Mechanical Pencils offer smooth, dark writing with a 0.7mm medium point. Each pencil comes with three pieces of No. 2 lead that doesn’t smudge and erases cleanly, making them ideal for standardized tests.', 0),
+	('g_pitts@supplies4school.org', 'BIC Xtra-Smooth Mechanical Pencils', 'BIC Xtra-Smooth Mechanical Pencils offer smooth, dark writing with a 0.7mm medium point. Each pencil comes with three pieces of No. 2 lead that doesn’t smudge and erases cleanly, making them ideal for standardized tests.', 0, 11),
 	-- 850556
-    ('g_pitts@supplies4school.org', 'APEX Spiral Notebook', 'APEX Spiral Notebooks feature 70 wide-ruled sheets, 1 subject, with 3-hole perforated sheets. Available as single notebook or in multi-packs.', 0),
+    ('g_pitts@supplies4school.org', 'APEX Spiral Notebook', 'APEX Spiral Notebooks feature 70 wide-ruled sheets, 1 subject, with 3-hole perforated sheets. Available as single notebook or in multi-packs.', 0, 12),
 	-- 850557
-	('a_batts@textbooksmadeeasy.org', 'Chemistry in Context', '"Applying Chemistry to Society." First edition textbook, new.', 0),
+	('a_batts@textbooksmadeeasy.org', 'Chemistry in Context', '"Applying Chemistry to Society." First edition textbook, new.', 0, 315),
 	-- 850558
-    ('a_batts@textbooksmadeeasy.org', 'The Language of Composition', '2nd edition textbook. Authors: Renee H. Shea, Lawrence Scanlon, and Robin Dissin Aufses.', 0),
+    ('a_batts@textbooksmadeeasy.org', 'The Language of Composition', '2nd edition textbook. Authors: Renee H. Shea, Lawrence Scanlon, and Robin Dissin Aufses.', 0, 305),
     -- 850559
-	('a_batts@textbooksmadeeasy.org', 'Advanced Pysics', '2nd edition textbook. Authors: Steve Adams and Jonathan Allday.', 0),
+	('a_batts@textbooksmadeeasy.org', 'Advanced Pysics', '2nd edition textbook. Authors: Steve Adams and Jonathan Allday.', 0, 315),
     -- 850560
-    ('a_batts@textbooksmadeeasy.org', 'Precalculus', '"A Graphing Approach. First edition textbook, used. Teacher\'s Edition"', 0),
+    ('a_batts@textbooksmadeeasy.org', 'Precalculus', '"A Graphing Approach. First edition textbook, used. Teacher\'s Edition"', 0, 310),
     -- 850561
-    ('i_tombolli@study_space.com', 'Metro Adjustable Height Desk - 60 x 30"', 'Simple-to-use push-button control with 4 programmable heights. Powered by quiet electric motors. 9\' power cord.', 12),
+    ('i_tombolli@study_space.com', 'Metro Adjustable Height Desk - 60 x 30"', 'Simple-to-use push-button control with 4 programmable heights. Powered by quiet electric motors. 9\' power cord.', 12, 506),
 	-- 850562
-    ('i_tombolli@study_space.com', 'Metro L-Desk with Adjustable Height - 72 x 78.', 'Simple-to-use push-button control with 4 programmable heights. Powered by 2 quiet electric motors. 9\' power cord.', 12),
+    ('i_tombolli@study_space.com', 'Metro L-Desk with Adjustable Height - 72 x 78.', 'Simple-to-use push-button control with 4 programmable heights. Powered by 2 quiet electric motors. 9\' power cord.', 12, 506),
 	-- 850563
-    ('i_tombolli@study_space.com', 'Mesh Task Chair', 'Hi-tech design with ventilated mesh fabric - keeps you cool an comfortable. 3 1/2" thick seat. Standard tilt with adjustable tension. Fixed armrests.', 6),
+    ('i_tombolli@study_space.com', 'Mesh Task Chair', 'Hi-tech design with ventilated mesh fabric - keeps you cool an comfortable. 3 1/2" thick seat. Standard tilt with adjustable tension. Fixed armrests.', 6, 505),
 	-- 850564
-    ('i_tombolli@study_space.com', 'Anti-Static Carpet Chair Mat', 'Anti-skid surface and straight edges. Vinyl construction. Cleared backing keeps chair mat firmly in place. Use on low pile carpeting - 3/8" thick or less.', 0),
+    ('i_tombolli@study_space.com', 'Anti-Static Carpet Chair Mat', 'Anti-skid surface and straight edges. Vinyl construction. Cleared backing keeps chair mat firmly in place. Use on low pile carpeting - 3/8" thick or less.', 0, 508),
 	-- 850565
-    ('i_tombolli@study_space.com', 'Metro Office Desks', 'Strong, sleek design. For ad agencies, design studios, and urban office spaces. Durable 1 1/2" thick laminate top with PVC edges and cable grommets. 30" height. Heavy-duty steel frame with rectangle tube legs and full-length modest panel.', 12),
+    ('i_tombolli@study_space.com', 'Metro Office Desks', 'Strong, sleek design. For ad agencies, design studios, and urban office spaces. Durable 1 1/2" thick laminate top with PVC edges and cable grommets. 30" height. Heavy-duty steel frame with rectangle tube legs and full-length modest panel.', 12, 506),
 	-- 850566
-    ('i_tombolli@study_space.com', 'Metro Mobile Pedestal File - 2 Drawer', 'Companion storage fits under Metro Office Desks. Durable laminate surface resists scratches, stains and spills. 2 file drawers. 5 swivel casters, 2locking. Includes lock and 2 keys.', 12),
+    ('i_tombolli@study_space.com', 'Metro Mobile Pedestal File - 2 Drawer', 'Companion storage fits under Metro Office Desks. Durable laminate surface resists scratches, stains and spills. 2 file drawers. 5 swivel casters, 2locking. Includes lock and 2 keys.', 12, 507),
 	-- 850567
-    ('i_tombolli@study_space.com', 'Metro Mobile Pedestal File - 3 Drawer', 'Companion storage fits under Metro Office Desks. Durable laminate surface resists scratches, stains and spills. 1 file drawer, 2 box drawers. 5 swivel casters, 2locking. Includes lock and 2 keys.', 12),
+    ('i_tombolli@study_space.com', 'Metro Mobile Pedestal File - 3 Drawer', 'Companion storage fits under Metro Office Desks. Durable laminate surface resists scratches, stains and spills. 1 file drawer, 2 box drawers. 5 swivel casters, 2locking. Includes lock and 2 keys.', 12, 507),
 	-- 850568
-	('i_tombolli@study_space.com', 'Designer Office Desks', 'Brighten up your workplace. Minimalist style for modern and trendy offices. 1" thick elevated laminate top with PVC edges and 2 cable grommets. 30" height. Durable white steel frame with beveled legs and hanging modesty panel.', 12),
+	('i_tombolli@study_space.com', 'Designer Office Desks', 'Brighten up your workplace. Minimalist style for modern and trendy offices. 1" thick elevated laminate top with PVC edges and 2 cable grommets. 30" height. Durable white steel frame with beveled legs and hanging modesty panel.', 12, 506),
 	-- 850569
-	('i_tombolli@study_space.com', 'Designer Office L-Desks', 'Brighten up your workplace. Minimalist style for modern and trendy offices. 1" thick elevated laminate top with PVC edges and 2 cable grommets. 30" height. Durable white steel frame with beveled legs and hanging modesty panel. L-Desk has extra space to get work done. Spread out your projects, reports, or creative materials.', 12),
+	('i_tombolli@study_space.com', 'Designer Office L-Desks', 'Brighten up your workplace. Minimalist style for modern and trendy offices. 1" thick elevated laminate top with PVC edges and 2 cable grommets. 30" height. Durable white steel frame with beveled legs and hanging modesty panel. L-Desk has extra space to get work done. Spread out your projects, reports, or creative materials.', 12, 506),
 	-- 850570    
-	('i_tombolli@study_space.com', 'Designer Mobile Pedestal File - 3 Drawer', 'Companion storage tucks away neatly and underneath Designer Office Desks. Durable laminate surface resists scratches, stains and spills. 1 file drawer, 2 box drawers. 5 swivel casters, 2 locking. Includes lock and two keys.', 12),
+	('i_tombolli@study_space.com', 'Designer Mobile Pedestal File - 3 Drawer', 'Companion storage tucks away neatly and underneath Designer Office Desks. Durable laminate surface resists scratches, stains and spills. 1 file drawer, 2 box drawers. 5 swivel casters, 2 locking. Includes lock and two keys.', 12, 507),
 	-- 850571
-	('g_pitts@supplies4school.org', 'JanSport Big Student Backpacks', 'The JanSport Big Student backpack is perfect for carrying all of your supplies. The backpack is made of 100% recycled polyester and features a dedicated 15" padded laptop compartment. Features two large main compartments, one front utility pocket with organizer, one pleated front stash pocket, and one zippered front stash pocket. Includes a side water bottle pocket, ergonomic S-curve shoulder straps,  and a fully padded back panel.', 0),
+	('g_pitts@supplies4school.org', 'JanSport Big Student Backpacks', 'The JanSport Big Student backpack is perfect for carrying all of your supplies. The backpack is made of 100% recycled polyester and features a dedicated 15" padded laptop compartment. Features two large main compartments, one front utility pocket with organizer, one pleated front stash pocket, and one zippered front stash pocket. Includes a side water bottle pocket, ergonomic S-curve shoulder straps, and a fully padded back panel.', 0, 14),
 	-- 850572
-	('g_pitts@supplies4school.org', 'JanSport Big Student Patterned Backpacks', 'The JanSport Big Student backpack is perfect for carrying all of your supplies. The backpack is made of 100% recycled polyester and features a dedicated 15" padded laptop compartment. Features two large main compartments, one front utility pocket with organizer, one pleated front stash pocket, and one zippered front stash pocket. Includes a side water bottle pocket, ergonomic S-curve shoulder straps,  and a fully padded back panel.', 0),
+	('g_pitts@supplies4school.org', 'JanSport Big Student Patterned Backpacks', 'The JanSport Big Student backpack is perfect for carrying all of your supplies. The backpack is made of 100% recycled polyester and features a dedicated 15" padded laptop compartment. Features two large main compartments, one front utility pocket with organizer, one pleated front stash pocket, and one zippered front stash pocket. Includes a side water bottle pocket, ergonomic S-curve shoulder straps,  and a fully padded back panel.', 0, 14),
 	-- 850573
-    ('g_pitts@supplies4school.org', 'Post-It Super Sticky Notes 3" x 3"', "Post-it® Super Sticky Notes are the perfect solution for shopping lists, reminders, to-do lists, color-coding, labeling, family chore reminders, brainstorming, storyboarding, and quick notes. Post-it Super Sticky Notes offer twice the sticking power of basic sticky notes, ensuring they stay put and won't fall off.", 0),
+    ('g_pitts@supplies4school.org', 'Post-It Super Sticky Notes 3" x 3"', "Post-it® Super Sticky Notes are the perfect solution for shopping lists, reminders, to-do lists, color-coding, labeling, family chore reminders, brainstorming, storyboarding, and quick notes. Post-it Super Sticky Notes offer twice the sticking power of basic sticky notes, ensuring they stay put and won't fall off.", 0, 12),
     -- 850574
-    ('g_pitts@supplies4school.org', 'Post-It Flags Combo Pack', 'Find it fast with Post-it® Flags in bright eye-catching colors that get noticed. They make it simple to mark or highlight important information in textbooks, calendars, notebooks, planners and more. They stick securely, remove cleanly and come in a wide variety of colors. Draw attention to critical items or use them to index, file or color code your work, either at home, work or in the classroom.', 0),
+    ('g_pitts@supplies4school.org', 'Post-It Flags Combo Pack', 'Find it fast with Post-it® Flags in bright eye-catching colors that get noticed. They make it simple to mark or highlight important information in textbooks, calendars, notebooks, planners and more. They stick securely, remove cleanly and come in a wide variety of colors. Draw attention to critical items or use them to index, file or color code your work, either at home, work or in the classroom.', 0, 12),
     -- 850575
-    ('g_pitts@supplies4school.org', 'Post-It Durable Tabs', 'Durable Tabs are extra thick and strong to stand up to long-term wear and tear. Great for dividing notes, expanding files and project files. Sticks securely, removes cleanly.', 0),
+    ('g_pitts@supplies4school.org', 'Post-It Durable Tabs', 'Durable Tabs are extra thick and strong to stand up to long-term wear and tear. Great for dividing notes, expanding files and project files. Sticks securely, removes cleanly.', 0, 13),
 	-- 850576
-    ('f_craft@techtime.com', 'HP OfficeJet Pro Wireless Color All-In-One Printers', "FROM AMERICA'S MOST TRUSTED PRINTER BRAND – The OfficeJet Pro Printers are perfect for offices printing professional-quality color documents like presentations, brochures and flyers. The HP OfficeJet Pro Printers deliver fast color printing. They include wireless and printer security capabilities to keep your multifunction printers up to date and secure. Compatible ink cartridges – works with HP 936 ink cartridges to deliver bold, high quality color. Plus, get 2X more pages with the HP EvoMore 936e high yield ink cartridges, HP's most sustainable ink cartridges.", 12),
+    ('f_craft@techtime.com', 'HP OfficeJet Pro Wireless Color All-In-One Printers', "FROM AMERICA'S MOST TRUSTED PRINTER BRAND – The OfficeJet Pro Printers are perfect for offices printing professional-quality color documents like presentations, brochures and flyers. The HP OfficeJet Pro Printers deliver fast color printing. They include wireless and printer security capabilities to keep your multifunction printers up to date and secure. Compatible ink cartridges – works with HP 936 ink cartridges to deliver bold, high quality color. Plus, get 2X more pages with the HP EvoMore 936e high yield ink cartridges, HP's most sustainable ink cartridges.", 12, 409),
     -- 850577
-    ('f_craft@techtime.com', 'HP 936 Ink Cartridges', 'Ensure your printing is right the first time and every time with HP 936 Ink Cartridges, which provide precision output so you can take pride in fade-resistant documents and brilliant images. HP 936 cartridges work with: HP OfficeJet 9122e, HP OfficeJet Pro 9110b, 9125e, 9128e, 9130b, 9135e, HP OfficeJet Pro Wide Format 9730e. Cartridges yeild approx 1,250 pages for black ink, or approx. 800 pages with magenta, yellow, or cyan ink.', 0),
+    ('f_craft@techtime.com', 'HP 936 Ink Cartridges', 'Ensure your printing is right the first time and every time with HP 936 Ink Cartridges, which provide precision output so you can take pride in fade-resistant documents and brilliant images. HP 936 cartridges work with: HP OfficeJet 9122e, HP OfficeJet Pro 9110b, 9125e, 9128e, 9130b, 9135e, HP OfficeJet Pro Wide Format 9730e. Cartridges yeild approx 1,250 pages for black ink, or approx. 800 pages with magenta, yellow, or cyan ink.', 0, 409),
 	-- 850578
-    ('f_craft@techtime.com', 'Canon MegaTank MAXIFY GX Series Printers', "Designed for small- and medium‐size businesses, the Canon MegaTank MAXIFY GX Series Printers balance speedy performance and minimal maintenance. The maintenance cartridges in the MAXIFY GX Series Printers are easily replaceable should the need arise. No service visit calls required. With a four-color pigment ink system, you'll get crisp color and black-and-white documents, along with sharp highlighter-resistant text. Create and print professional posters, banners, and signage with the PosterArtist online version.", 24),
+    ('f_craft@techtime.com', 'Canon MegaTank MAXIFY GX Series Printers', "Designed for small- and medium‐size businesses, the Canon MegaTank MAXIFY GX Series Printers balance speedy performance and minimal maintenance. The maintenance cartridges in the MAXIFY GX Series Printers are easily replaceable should the need arise. No service visit calls required. With a four-color pigment ink system, you'll get crisp color and black-and-white documents, along with sharp highlighter-resistant text. Create and print professional posters, banners, and signage with the PosterArtist online version.", 24, 409),
     -- 850579
-    ('f_craft@techtime.com', 'Canon 26 High Yield Ink Bottle', 'The Canon ink refill produces superior quality for a wide array of printing needs. Features an easy-to-use no-squeeze bottle design. 132mL capacity. Compatible with: GX3020, GX4020, & GX5020 printers. Prints up to 6000 pages with black ink bottle, up to 14000 with magenta, yellow, or cyan ink bottle.', 0);
+    ('f_craft@techtime.com', 'Canon 26 High Yield Ink Bottle', 'The Canon ink refill produces superior quality for a wide array of printing needs. Features an easy-to-use no-squeeze bottle design. 132mL capacity. Compatible with: GX3020, GX4020, & GX5020 printers. Prints up to 6000 pages with black ink bottle, up to 14000 with magenta, yellow, or cyan ink bottle.', 0, 409),
+    -- 850580
+    ('c_simmons@worksmart.com', 'Pilot G2 Retractable 0.7mm Fine Tip Gel Pens', 'Enjoy a smear-free writing experience by using Pilot G2 premium retractable gel roller pens. Improve handwriting, create drawings, and work on other projects worry free. With a convenient clip, these pens attach to binders, notebooks, and pockets, while the contoured grip offers increased support, making it easy to take on lengthy writing tasks. These Pilot G2 gel pens feature a retractable design, so you can tuck the tips away when not in use, preventing unintentional marks on documents.', 0, 11),
+    -- 850581
+    ('c_simmons@worksmart.com', 'BiC Round Stic Xtra-Life 1.0mm Ballpoint Pen', 'BIC Round Stic Xtra Life Ballpoint Pens are your go-to choice for reliable writing. These ball point pens feature a 1.0mm medium point, making them a great ballpoint pen for everyday use. With a comfortable, flexible round barrel, these medium point pens provide a smooth and controlled writing experience.', 0, 11),
+    -- 850582
+    ('c_simmons@worksmart.com', 'Paper Mate 0.7mm Flair Felt Pens', 'Make solid strokes in vibrant colors with this 12-pack of Flair medium-point felt pens in assorted Tropical Vacation colors. Add color to your calendar and all your general writing tasks with ease with these Paper Mate medium-point pens in assorted colors. The metal-reinforced felt tip delivers smooth, thick lines using long-lasting, water-based ink that dries quickly to resist smudges. These felt pens feature a plastic construction that matches the ink color and a secure cap with a pocket clip to prevent dry out.', 0, 11),
+    -- 850583
+    ('c_simmons@worksmart.com', 'Sharpie Permanent Fine Tip Markers', 'Sharpie fine point permanent markers write smoothly on a variety of surfaces. Create a bold, vibrant impression on metal, glass, plastic or cloth with Sharpie permanent markers. The resilient, quick-drying ink is waterproof, smudge-proof and doesn\'t wear, so your text stays clear over time. Fine-point tips make these markers a pleasure to use by ensuring your writing is legible and uniform. An AP nontoxic certification makes these markers perfect for use around coworkers or children.', 0, 11),
+    -- 850584
+    ('g_pitts@supplies4school.org', 'Expo Dry Erase Starter Set', 'Create eye-catching white board presentations and dry-erase them easily with the Expo dr-erase starter set. Produce colorful whiteboard presentations with the﻿ black, red, green and blue markers in this starter set. The nontoxic markers are made using a low-odor formula and feature a chisel tip for fine or bold markings. The cleaner solution in this Expo dry-erase starter set removes any stubborn markings or smudges from whiteboard surfaces.', 0, 11),
+    -- 850585
+    ('g_pitts@supplies4school.org', 'Expo Dry Erase Kit', 'This Expo Dry-Erase Kit contains low-odor ink and is everything you\'ll need to give effective and colorful presentations. This low-odor whiteboard kit comes in a durable storage case and offers contemporary designs to fit any decor. This whiteboard marker set includes four fine point markers, eight chisel tip markers, an eraser and an 8 oz. bottle of cleaner.', 0, 11),
+    -- 850586
+    ('c_simmons@worksmart.com', 'Expo Dry Erase Markers', 'Organize ideas on the boardroom whiteboard with this 12-pack of Expo low-odor chisel tip dry-erase markers. Brainstorm new concepts with your team and these Expo dry-erase markers. The bold pens come in a pack of 12 assorted colors, so it\'s easy to list ideas or notate diagrams clearly and the low odor makes these markers ideal for closed areas such as classrooms and offices. Chisel tips on these quick-drying Expo dry-erase markers let you write with broad, medium and fine lines.', 0, 11),
+    -- 850587 https://www.staples.com/pendaflex-double-stuff-3-tab-file-folder-letter-size-manila-50-box-ess54459/product_810520
+	('c_simmons@worksmart.com', 'Pendaflex Manila File Folders, 1/3-Cut Tab', 'Handle bulky paperwork with these Pendaflex Double Stuff three-tab standard file folders. Each file expands to hold up to 250 sheets of paper, helping you organize thick stacks of documents without overloading your files. A three-tab arrangement helps keep file titles visible, and each pack contains 50 folders to organize your archives or expand your existing filing system.', 0, 13),
+    -- 850588 https://www.staples.com/pendaflex-essentials-file-folders-1-3-cut-tab-letter-size-manila-100-box-752-1-3/product_33760
+	('c_simmons@worksmart.com', 'Pendaflex Essentials File Folders', 'Prepare files for customers or organize your office paperwork with these Pendaflex 1/3-cut tab assorted letter-size manila file folders. Eliminate piles of paperwork on your desk with these Pendaflex 1/3-cut tab manila file folders. The assorted position tab keeps each label visible as you sift through file cabinets, while durable 11-point stock offers strength for daily handling. Each of these Pendaflex 1/3-cut tab manila file folders accommodates letter-size sheets, offering a versatile document storage solution for your office.', 0, 13),
+    -- 850589 https://www.staples.com/pendaflex-glow-twisted-3-tab-file-folder-letter-size-multicolor-12-pack-40526/product_1075842
+    ('c_simmons@worksmart.com', 'Pendaflex Glow Tested Recycled File Folders', 'Expand your file cabinet\'s organization options with this these multicolor file folders; turn the folders inside-out to double your options! Brighten your desktop or filing system beyond standard hues. Top tabs stick out above the level of the papers so you can easily see custom-made labels, this overall system reduces: confusion, optimizes time when retrieving files and makes it easier to locate important records.', 0, 13),
+    -- 850590 https://www.staples.com/pendaflex-file-folder-1-tab-letter-size-assorted-100-box-02315/product_24607975
+    ('c_simmons@worksmart.com', 'Pendaflex File Folders', 'Pendaflex Two-Tone Color File Folders come in brilliant shades with lighter interiors to prevent time-wasting misfiles. Create bright, color-coded files for fast, efficient filing or reverse them for double the color options. 1/3-Cut tabs in assorted positions. Letter size, assorted colors: magenta, grey, purple, blue, teal. 100 Per box.', 0, 13), 
+    -- 850591 https://www.staples.com/storex-portable-file-storage-box-letter-black-stx61502u01c/product_1129608
+    ('c_simmons@worksmart.com', 'Storex Portable File Storage Box', 'Storex Portable storage box in black color offers a unique handle design which makes carrying and opening file box easy. Box has an organizer lid that allows for easy access to supplies. Latch lock accepts padlock (not included).', 0, 13),
+    -- 850592 https://www.staples.com/advantus-super-stacker-file-box-letter-legal-size-clear-36871/product_486085
+    ('c_simmons@worksmart.com', 'Advantus Super Stacker File Box', 'Protect stored files from water, dirt, dings and other damage with this Advantus Super Stacker clear file box. Keep files safe while storing or transporting them with this clear file box. The snap-tight handles hold contents securely inside while making this file box easy to carry, and it can hold letter-sized or legal-sized documents for versatility. This Advantus Super Stacker file box is made with transparent material, so you can see what\'s inside without having to open it.', 0, 13);
+    
 INSERT INTO colors (color_name, color_hex)
 VALUES
 	('Assorted', NULL),			-- 19780
@@ -265,7 +356,11 @@ VALUES
     ('Summer Joy', NULL),		-- 19802
     ('Playful Primaries', NULL),-- 19803
     ('Magenta', '#ff33cc'),		-- 19804
-    ('Cyan', '#00bfff');		-- 19805
+    ('Cyan', '#00bfff'),		-- 19805
+    ('Purple', '#800080'),		-- 19806
+    ('Silver', '#c0c0c0'),		-- 19807
+    ('Manila', '#e7c9a9');		-- 19808
+    
 INSERT INTO sizes (size_description)
 VALUES
 	('Single'), 				-- 15
@@ -304,7 +399,13 @@ VALUES
     ('GX3020: 250 Sheet Input/100 Sheet Output'), -- 48
     ('GX4020: 250 Sheet Input/100 Sheet Output'), -- 49
     ('GX5020: 350 Sheet Input'), -- 50
-    ('132mL capacity');			-- 51
+    ('132mL capacity'),			-- 51
+    ('36-Pack'),				-- 52
+    ('50-Pack'),				-- 53
+    ('100-Pack'),				-- 54
+    ('14.5H X 14W X 11.25D Inches'), -- 55
+    ('33.75H X 14.68W X 18.37L Inches'); -- 56
+    
     
 INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory)
 VALUES
@@ -399,9 +500,50 @@ VALUES
     (850579, 19786, 51, 2949, 15),		-- 100271
     (850579, 19804, 51, 3629, 20),		-- 100272
     (850579, 19784, 51, 3629, 20),		-- 100273
-    (850579, 19805, 51, 3629, 20);		-- 100274
-    
-    
+    (850579, 19805, 51, 3629, 20),		-- 100274
+    -- pilot g2 gel pens
+	(850580, 19786, 18, 1599, 30),	 	-- 100275 black
+    (850580, 19781, 18, 1599, 30), 		-- 100276 red
+    (850580, 19783, 18, 1599, 30), 		-- 100277 green
+    (850580, 19782, 18, 1599, 30), 		-- 100278 blue
+    (850580, 19785, 18, 1599, 30), 		-- 100279 navy blue
+    (850580, 19806, 18, 1599, 30), 		-- 100280 purple
+    -- bic round ballpoint pens
+    (850581, 19786, 21, 879, 25),		-- 100281 black
+    (850581, 19782, 21, 879, 25),		-- 100282 blue
+    -- paper mate felt pens
+    (850582, 19780, 18, 1149, 16),		-- 100283 assorted colors
+    -- sharpie permenant markers 
+    (850583, 19786, 52, 2599, 12),		-- 100284 black
+    (850583, 19781, 52, 2599, 12), 		-- 100285 red
+    (850583, 19782, 52, 2599, 12), 		-- 100286 blue
+    (850583, 19807, 52, 2599, 12), 		-- 100287 silver
+    (850583, 19780, 52, 2599, 12), 		-- 100288 assorted
+    (850583, 19780, 19, 1999, 16),		-- 100289 assorted 24 pack
+    -- dry erase starter set
+    (850584, 19780, 15, 799, 9),		-- 100290
+    -- dry erase kit
+    (850585, 19780, 15, 1999, 11),		-- 100291
+    -- dry erase markers 12-pack
+    (850586, 19780, 18, 1379, 10), 		-- 100292 assorted
+    (850586, 19786, 18, 1379, 10), 		-- 100293 black 
+    (850586, 19781, 18, 1379, 10),		-- 100294 red
+    (850586, 19783, 18, 1379, 10), 		-- 100295 green
+    (850586, 19782, 18, 1379, 10), 		-- 100296 blue
+    (850586, 19806, 18, 1379, 10), 		-- 100297 purple
+    -- file folders 850587
+    (850587, 19808, 53, 3369, 15),		-- 100298 manila
+    (850587, 19780, 53, 3369, 15),		-- 100299 assorted
+    -- file folders 850588
+    (850588, 19808, 54, 3249, 11),		-- 100300 manila
+    -- file folders glow multicolor
+    (850589, 19799, 18, 1349, 6),		-- 100301 multicolor
+    -- file folders assorted 100pack
+    (850590, 19780, 54, 3789, 18),		-- 100302 assorted
+    -- file storage box
+    (850591, 19786, 55, 3649, 8),		-- 100303 black
+    -- file stacker box
+    (850592, 19788, 56, 2869, 11);		-- 100304 clear
 
 INSERT INTO images (variant_id, file_path, alt_text)
 VALUES 
@@ -453,11 +595,11 @@ VALUES
 
 INSERT INTO carts (customer_email)
 VALUES 
-		('d_giant@outlook.com'),
-        ('j_prescott@gmail.com'),
-        ('s_teller@gmail.com'),
-        ('c_ramos@outlook.com'),
-        ('s_petocs@gmail.com');
+	('d_giant@outlook.com'),
+	('j_prescott@gmail.com'),
+	('s_teller@gmail.com'),
+	('c_ramos@outlook.com'),
+	('s_petocs@gmail.com');
 
 INSERT INTO cart_items (cart_id, variant_id, quantity)
 VALUES
@@ -897,4 +1039,126 @@ VALUES
     
     (100274, 'https://www.compandsave.com/media/catalog/product/cache/e4401aba6d3f9e552234272afd624a20/c/a/canon-gi-26-cyan-ink-bottle.JPG', ''),
     (100274, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230826_sc7?wid=700&hei=700', ''),
-    (100274, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230827_sc7?wid=700&hei=700', '');
+    (100274, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230827_sc7?wid=700&hei=700', ''),
+    
+    -- pilot g2 gel pens --
+	-- black
+    (100275, 'https://www.staples-3p.com/s7/is/image/Staples/sp130855922_sc7?wid=700&hei=700', ''),
+    (100275, 'https://www.staples-3p.com/s7/is/image/Staples/sp40286010_sc7?wid=700&hei=700', ''),
+    (100275, 'https://www.staples-3p.com/s7/is/image/Staples/sp130855909_sc7?wid=700&hei=700', ''),
+    -- red
+    (100276, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856306_sc7?wid=700&hei=700', ''),
+    (100276, 'https://www.staples-3p.com/s7/is/image/Staples/sp130855924_sc7?wid=700&hei=700', ''),
+    (100276, 'https://www.staples-3p.com/s7/is/image/Staples/sp130855909_sc7?wid=700&hei=700', ''),
+    -- green
+    (100277, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856294_sc7?wid=700&hei=700', ''),
+    (100277, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856295_sc7?wid=700&hei=700', ''),
+    (100277, 'https://www.staples-3p.com/s7/is/image/Staples/sp130855909_sc7?wid=700&hei=700', ''),
+	-- blue	
+    (100278, 'https://www.staples-3p.com/s7/is/image/Staples/sp138382946_sc7?wid=700&hei=700', ''),
+    (100278, 'https://www.staples-3p.com/s7/is/image/Staples/sp41817060_sc7?wid=700&hei=700', ''),
+    (100278, 'https://www.staples-3p.com/s7/is/image/Staples/sp130855909_sc7?wid=700&hei=700', ''),
+    -- navy
+    (100279, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856301_sc7?wid=700&hei=700', ''),
+    (100279, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856302_sc7?wid=700&hei=700', ''),
+    (100279, 'https://www.staples-3p.com/s7/is/image/Staples/sp130855909_sc7?wid=700&hei=700', ''),
+    -- purple
+    (100280, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856303_sc7?wid=700&hei=700', ''),
+    (100280, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856304_sc7?wid=700&hei=700', ''),
+    (100280, 'https://www.staples-3p.com/s7/is/image/Staples/sp130855909_sc7?wid=700&hei=700', ''),
+    -- bic round ballpoint pens 60 pack --
+    -- black
+    (100281, 'https://www.staples-3p.com/s7/is/image/Staples/AFD5FBB8-71A3-434C-989B74986834C3E5_sc7?wid=700&hei=700', ''),
+    (100281, 'https://www.staples-3p.com/s7/is/image/Staples/281C65AA-E03C-4165-BE0335374B5300D6_sc7?wid=700&hei=700', ''),
+    -- blue
+    (100282, 'https://www.staples-3p.com/s7/is/image/Staples/8FF19026-7FC9-49C6-945FC921B193E318_sc7?wid=700&hei=700', ''),
+    (100282, 'https://www.staples-3p.com/s7/is/image/Staples/0E907B5E-E49E-41E3-94C9770B386C4F22_sc7?wid=700&hei=700', ''),
+    -- paper mate felt pens --
+    (100283, 'https://www.staples-3p.com/s7/is/image/Staples/98C1DFBD-AFCE-488D-B080922050338AA7_sc7?wid=700&hei=700', ''),
+    (100283, 'https://www.staples-3p.com/s7/is/image/Staples/sp161466748_sc7?wid=700&hei=700', ''),
+    (100283, 'https://www.staples-3p.com/s7/is/image/Staples/sp161466749_sc7?wid=700&hei=700', ''),
+    -- sharpie permenant markers --
+    -- black
+    (100284, 'https://www.staples-3p.com/s7/is/image/Staples/D67EC31B-0DB3-45F9-BD62DC872D1ACBF1_sc7?wid=700&hei=700', ''),
+    (100284, 'https://www.staples-3p.com/s7/is/image/Staples/1BCDF1C0-5454-4A4A-A616BD9601C8C140_sc7?wid=700&hei=700', ''),
+    (100284, 'https://www.staples-3p.com/s7/is/image/Staples/DD9A5C21-9C21-4A0E-B3B6C1149A3D0399_sc7?wid=700&hei=700', ''),
+    -- red
+    (100285, 'https://www.staples-3p.com/s7/is/image/Staples/5CA98F6D-8D11-4886-B08C0CC322E38815_sc7?wid=700&hei=700', ''),
+    (100285, 'https://www.staples-3p.com/s7/is/image/Staples/sp89168542_sc7?wid=700&hei=700', ''),
+    (100285, 'https://www.staples-3p.com/s7/is/image/Staples/s0922441_sc7?wid=700&hei=700', ''),
+    -- blue
+    (100286, 'https://www.staples-3p.com/s7/is/image/Staples/1C929E3D-8BCF-48E2-A00933FB4AAD3B2D_sc7?wid=700&hei=700', ''),
+    (100286, 'https://www.staples-3p.com/s7/is/image/Staples/s0933668_sc7?wid=700&hei=700', ''),
+    (100286, 'https://www.staples-3p.com/s7/is/image/Staples/s0922442_sc7?wid=700&hei=700', ''),
+    -- silver
+    (100287, 'https://www.staples-3p.com/s7/is/image/Staples/m007068285_sc7?wid=700&hei=700', ''),
+    (100287, 'https://www.staples-3p.com/s7/is/image/Staples/m007068281_sc7?wid=700&hei=700', ''),
+    (100287, 'https://www.staples-3p.com/s7/is/image/Staples/m007068283_sc7?wid=700&hei=700', ''),
+    -- assorted
+    (100288, 'https://www.staples-3p.com/s7/is/image/Staples/s1189983_sc7?wid=700&hei=700', ''),
+    (100288, 'https://www.staples-3p.com/s7/is/image/Staples/m002908378_sc7?wid=700&hei=700', ''),
+    -- assorted 24 pack
+    (100289, 'https://www.staples-3p.com/s7/is/image/Staples/D5E6B1CA-30FC-4219-9BD4322085DCA998_sc7?wid=700&hei=700', ''),
+    (100289, 'https://www.staples-3p.com/s7/is/image/Staples/sp44335828_sc7?wid=700&hei=700', ''),
+    (100289, 'https://www.staples-3p.com/s7/is/image/Staples/sp44335829_sc7?wid=700&hei=700', ''),
+    -- dry erase starter set
+    (100290, 'https://www.staples-3p.com/s7/is/image/Staples/E1755194-7001-4CE3-93598F83B0079751_sc7?wid=700&hei=700', ''),
+    (100290, 'https://www.staples-3p.com/s7/is/image/Staples/sp40798560_sc7?wid=700&hei=700', ''),
+    (100290, 'https://www.staples-3p.com/s7/is/image/Staples/sp40798562_sc7?wid=700&hei=700', ''),
+    (100290, 'https://www.staples-3p.com/s7/is/image/Staples/sp40798565_sc7?wid=700&hei=700', ''),
+    -- dry erase kit
+    (100291, 'https://www.staples-3p.com/s7/is/image/Staples/m002304039_sc7?wid=700&hei=700', ''),
+    (100291, 'https://www.staples-3p.com/s7/is/image/Staples/m002304040_sc7?wid=700&hei=700https://www.staples-3p.com/s7/is/image/Staples/m002304040_sc7?wid=700&hei=700', ''),
+    (100291, 'https://www.staples-3p.com/s7/is/image/Staples/m002304041_sc7?wid=700&hei=700', ''),
+    (100291, 'https://www.staples-3p.com/s7/is/image/Staples/m002304042_sc7?wid=700&hei=700', ''),
+    -- dry erase markers
+    -- assorted
+    (100292, 'https://www.staples-3p.com/s7/is/image/Staples/1B6FF91A-3111-4FC5-993BBF7E44F1E0BE_sc7?wid=700&hei=700', ''),
+    (100292, 'https://www.staples-3p.com/s7/is/image/Staples/sp155560515_sc7?wid=700&hei=700', ''),
+    (100292, 'https://www.staples-3p.com/s7/is/image/Staples/sp155560516_sc7?wid=700&hei=700', ''),
+    -- black
+    (100293, 'https://www.staples-3p.com/s7/is/image/Staples/sp161387743_sc7?wid=700&hei=700', ''),
+    (100293, 'https://www.staples-3p.com/s7/is/image/Staples/sp161387838_sc7?wid=700&hei=700', ''),
+    (100293, 'https://www.staples-3p.com/s7/is/image/Staples/sp161387839_sc7?wid=700&hei=700', ''),
+    -- red
+    (100294, 'https://www.staples-3p.com/s7/is/image/Staples/sp102580415_sc7?wid=700&hei=700', ''),
+    (100294, 'https://www.staples-3p.com/s7/is/image/Staples/6E4861C8-7E9A-4E8F-9968DE672544E5AA_sc7?wid=700&hei=700', ''),
+    (100294, 'https://www.staples-3p.com/s7/is/image/Staples/sp102580416_sc7?wid=700&hei=700', ''),
+    -- green
+    (100295, 'https://www.staples-3p.com/s7/is/image/Staples/sp40888435_sc7?wid=700&hei=700', ''),
+    (100295, 'https://www.staples-3p.com/s7/is/image/Staples/sp40888433_sc7?wid=700&hei=700', ''),
+    (100295, 'https://www.staples-3p.com/s7/is/image/Staples/sp40888432_sc7?wid=700&hei=700', ''),
+    -- blue
+    (100296, 'https://www.staples-3p.com/s7/is/image/Staples/s1184756_sc7?wid=700&hei=700', ''),
+    (100296, 'https://www.staples-3p.com/s7/is/image/Staples/614B9DDE-27C9-41AE-89E590D1247EC18B_sc7?wid=700&hei=700', ''),
+    (100296, 'https://www.staples-3p.com/s7/is/image/Staples/sp57451607_sc7?wid=700&hei=700', ''),
+    -- purple
+    (100297, 'https://www.staples-3p.com/s7/is/image/Staples/s1192758_sc7?wid=700&hei=700', ''),
+    (100297, 'https://www.staples-3p.com/s7/is/image/Staples/sp49508023_sc7?wid=700&hei=700', ''),
+    -- manila folders
+    -- manila
+    (100298, 'https://www.staples-3p.com/s7/is/image/Staples/m005168086_sc7?wid=700&hei=700', ''),
+    (100298, 'https://www.staples-3p.com/s7/is/image/Staples/m005168088_sc7?wid=700&hei=700', ''),
+    -- assorted
+    (100299, 'https://www.staples-3p.com/s7/is/image/Staples/m005168092_sc7?wid=700&hei=700', ''),
+    (100299, 'https://www.staples-3p.com/s7/is/image/Staples/m005168094_sc7?wid=700&hei=700', ''),
+    -- manila folders 100pack
+    (100300, 'https://www.staples-3p.com/s7/is/image/Staples/D78FD954-11CF-41A0-A71BBCB7CCD8766E_sc7?wid=700&hei=700', ''),
+    (100300, 'https://www.staples-3p.com/s7/is/image/Staples/D11D58C3-46E6-43A7-9C047BE614DFC4D7_sc7?wid=700&hei=700', ''),
+    -- glow recycled folders
+    (100301, 'https://www.staples-3p.com/s7/is/image/Staples/A692FDEC-9287-4F04-82D5EB5EAB02A116_sc7?wid=700&hei=700', ''),
+    (100301, 'https://www.staples-3p.com/s7/is/image/Staples/m005168164_sc7?wid=700&hei=700', ''),
+    (100301, 'https://www.staples-3p.com/s7/is/image/Staples/m005168165_sc7?wid=700&hei=700', ''),
+    -- two toned file folders
+    (100302, 'https://www.staples-3p.com/s7/is/image/Staples/C1E78604-C620-441E-A279141C22632D96_sc7?wid=700&hei=700', ''),
+    (100302, 'https://www.staples-3p.com/s7/is/image/Staples/32EF3FA8-228A-4D80-A9D50D37769E6E94_sc7?wid=700&hei=700', ''),
+    (100302, 'https://www.staples-3p.com/s7/is/image/Staples/358543D3-5044-4F4E-B0844D7B6F1B81A6_sc7?wid=700&hei=700', ''),
+    -- storage lock box
+    (100303, 'https://www.staples-3p.com/s7/is/image/Staples/s1149303_sc7?wid=700&hei=700', ''),
+    (100303, 'https://www.staples-3p.com/s7/is/image/Staples/s1149302_sc7?wid=700&hei=700', ''),
+    (100303, 'https://www.staples-3p.com/s7/is/image/Staples/s1149299_sc7?wid=700&hei=700', ''),
+    -- storage bin
+    (100304, 'https://www.staples-3p.com/s7/is/image/Staples/0CE12CD8-6132-4072-B0831D74D6DFA3FA_sc7?wid=700&hei=700', ''),
+    (100304, 'https://www.staples-3p.com/s7/is/image/Staples/sp39611891_sc7?wid=700&hei=700', ''),
+    (100304, 'https://www.staples-3p.com/s7/is/image/Staples/sp39611893_sc7?wid=700&hei=700', '');
+    
