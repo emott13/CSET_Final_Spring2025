@@ -77,35 +77,47 @@ def search():
         formName = request.form.getlist('vendor-options')
 
         # -- handles navigation to page from search bar -- #
-        if not formPrice and not formName and not formCategories:   
+        if not formPrice and not formName and not formCategories: 
+            formSearch = request.form.get('product_search')
+            print('form search:', formSearch)
+            searchInput = formSearch.strip().replace(' ', '%')
+            searchInput = '%' + searchInput + '%'
+            print('search input:', searchInput)
+            searchMatches = []
+            searchInputMatches = conn.execute(
+                text('''
+                    SELECT product_id 
+                    FROM products
+                    WHERE product_title
+                        LIKE :input
+                    OR product_description
+                        LIKE :input;
+                '''), {'input': searchInput}).fetchall()
+            for input in searchInputMatches:
+                searchMatches.append(input[0])
+
+            filterProducts(products, formSearch=searchMatches)
+            if searchInput == '%%':
+                formSearch = None
             return render_template(                                 # this code can potentially be removed when search
-            'search.html',                                          # bar functionality has been completed
-            products=products,
-            vendors=vendors,
-            categories=categories,
-            priceValue=1000,
-            clearDisplay='none'
-        )
+                'search.html',                                          # bar functionality has been completed
+                products=products,
+                vendors=vendors,
+                categories=categories,
+                priceValue=1000,
+                clearDisplay='none',
+                userInput = formSearch 
+            )
         print('********** made to filter')
         # -- handles product filtering -- #
-        filterProducts(formName, formCategories, formPrice, products)
+        filterProducts(products, formVendors=formName, formCategories=formCategories, formPrice=formPrice)
 
         print('# # # # # FORMS')
         print(formCategories)
         print(formPrice)
         print(formName)
         
-        
-        flattened_categories = {                                    # flatten the categories and map each cat_num
-            num: catName
-            for key, catList in categories.items()                  # iterate over categories
-            for num, catName in catList                             # iterate over category numbers and names
-        }
-        checkedCategories = {}
-        for num, catName in flattened_categories.items():
-            print('num, catName in flattened_categories.items():', num, catName)
-            if str(num) in formCategories:
-                checkedCategories.update({num: catName})
+        checkedCategories = getCheckedCategories(formCategories, categories)
 
         formName_map = []                                                       # map selected vendors for checkbox pre-filling
         for name in formName:
@@ -128,14 +140,28 @@ def search():
         )
 
     # -- handles GET requests -- #
+
+    if formCategories == 0:
+        return render_template(
+            'search.html',
+            products=products,
+            vendors=vendors,
+            categories=categories,
+            priceValue=1000,
+            clearDisplay='none'
+        )
+    
+    checkedCategories = getCheckedCategories(formCategories, categories)
     return render_template(
         'search.html',
         products=products,
         vendors=vendors,
         categories=categories,
+        checkedCategories=checkedCategories,
         priceValue=1000,
         clearDisplay='none'
     )
+    
 
 # -- FUNCTIONS -- #
 
@@ -168,25 +194,41 @@ def getSecondPrice(string):
     except Exception:
         return '$00.00'
 
-def filterProducts(formVendors, formCategories, formPrice, products):
-    selected_vendors = set(formVendors)
-    selected_categories = set(formCategories)
-    max_price_cents = toCents(formPrice) if formPrice else None
-
+def filterProducts(products, formVendors=None, formCategories=None, formPrice=None, formSearch=None):
     for product in products:
         should_display = True                                                   # assume product should be displayed
+        
+        if formSearch:                                                          # filter by search input
+            if product.get('id') not in formSearch:
+                should_display = False
 
-        if selected_vendors:                                                    # filter by vendors
+        if formVendors:                                                         # filter by vendors
+            selected_vendors = set(formVendors)
             if product.get('vendor') not in selected_vendors:           
                 should_display = False
 
-        if selected_categories:                                                 # filter by category
+        if formCategories:                                                 # filter by category
+            selected_categories = set(formCategories)
             if str(product.get('category')) not in selected_categories:
                 should_display = False
 
+        max_price_cents = toCents(formPrice) if formPrice else None
         if max_price_cents is not None:                                         # filter by price
             product_price_cents = toCents(getSecondPrice(product['price']))
             if product_price_cents > max_price_cents:
                 should_display = False
 
         product['display'] = should_display                                     # set product display
+
+def getCheckedCategories(formCategories, categories):
+    flattened_categories = {                                    # flatten the categories and map each cat_num
+            num: catName
+            for key, catList in categories.items()                  # iterate over categories
+            for num, catName in catList                             # iterate over category numbers and names
+        }
+    checkedCategories = {}
+    for num, catName in flattened_categories.items():
+        print('num, catName in flattened_categories.items():', num, catName)
+        if str(num) in formCategories:
+            checkedCategories.update({num: catName})
+    return checkedCategories

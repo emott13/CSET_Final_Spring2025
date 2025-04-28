@@ -54,3 +54,5 @@ select * from users;
 -- ('c_simmons@worksmart.com', 'Pilot G2 Retractable Gel Pens', 'Enjoy a smear-free writing experience by using Pilot G2 premium retractable gel roller pens. Improve handwriting, create drawings, and work on other projects worry free. With a convenient clip, these pens attach to binders, notebooks, and pockets, while the contoured grip offers increased support, making it easy to take on lengthy writing tasks. These Pilot G2 gel pens feature a retractable design, so you can tuck the tips away when not in use, preventing unintentional marks on documents.', 0, 11),
 -- variants
 -- ()
+
+select * from products where product_title like '%office desk%' or product_description like '%office desk%';

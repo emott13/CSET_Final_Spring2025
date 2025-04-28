@@ -5,7 +5,12 @@
     <div class="main">
         <section class="searchResults">
             <div class="searchWrapper">
-                <h2 class="searchTitle">Results for: <span>placeholder</span></h2>
+                {% if userInput is not none %}
+                    <h2 class="searchTitle">Results for: {{ userInput }}</h2>
+                {% else %}
+                    <h2 class="searchTitle">No matches</h2>
+                    <h4 class="searchSubTitle">Try checking out some of our other products</h4>
+                {% endif %}
                 <h5 class="message"></h5>
                 <div class="sideMenu">
                     <form class="clearFilters" style="display: {{ clearDisplay }};" id="clear">
@@ -25,10 +30,12 @@
                             <button class="vendor initiate-drop">Vendors <i class="ion-chevron-down"></i></button>
                             <div class="vendor-dropdown dropdown">
                                 <div class="input-container" name="vendor" id="vendor-search">
+                                    <!-- {% if vendors %} -->
                                     {% for vendor in vendors %}
                                         <input name="vendor-options" type="checkbox" id="{{ vendor[0] }}" class="vendor-options" value="{{ vendor[0] }}">
                                         <label for="{{ vendor[0] }}">{{ vendor[1] }}</label>
                                     {% endfor %}
+                                    <!-- {% endif %} -->
                                 </div>
                             </div>
                         </div>
