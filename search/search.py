@@ -1,6 +1,4 @@
-from flask import Blueprint, render_template, request
-from sqlalchemy import text
-from extensions import conn
+from main import Blueprint, render_template, request, text, conn
 
 search_bp = Blueprint('search', __name__, static_folder='static_search', template_folder='templates_search')
 

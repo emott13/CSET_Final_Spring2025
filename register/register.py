@@ -1,6 +1,4 @@
-from flask import Blueprint, render_template, request, url_for, redirect
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
-from extensions import Users, db, bcrypt, getCurrentType
+from main import Blueprint, render_template, request, current_user, Users, db, bcrypt, getCurrentType
 
 register_bp = Blueprint("register", __name__, static_folder="static",
                   template_folder="templates_register")

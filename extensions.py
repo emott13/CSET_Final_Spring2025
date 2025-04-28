@@ -1,8 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine, text, insert, Table, MetaData, update
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
-from flask_bcrypt import Bcrypt
+from main import Flask, SQLAlchemy, create_engine, LoginManager, UserMixin, Bcrypt, current_user
 
 
 # USEFUL flask_login COMMANDS
