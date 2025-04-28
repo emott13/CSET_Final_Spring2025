@@ -1,4 +1,6 @@
-from main import Blueprint, render_template, request, redirect, current_user, text
+from flask import Blueprint, render_template, request, redirect
+from flask_login import current_user
+from sqlalchemy import text
 from extensions import conn
 
 product_bp = Blueprint("product", __name__, static_folder="static_product",

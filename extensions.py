@@ -1,5 +1,8 @@
-from main import Flask, SQLAlchemy, create_engine, LoginManager, UserMixin, Bcrypt, current_user
-
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+from flask_login import LoginManager, UserMixin, current_user
+from flask_bcrypt import Bcrypt
 
 # USEFUL flask_login COMMANDS
 # @app.route("/foo")

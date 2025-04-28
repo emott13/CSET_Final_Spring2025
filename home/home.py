@@ -1,4 +1,5 @@
-from main import Blueprint, render_template, text
+from flask import Blueprint, render_template
+from sqlalchemy import text
 from extensions import conn
 
 home_bp = Blueprint('home', __name__, static_folder='static_home', template_folder='templates_home')
