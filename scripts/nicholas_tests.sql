@@ -18,10 +18,14 @@ DELETE FROM carts WHERE customer_email = "bluemario812@gmail.com";
 
 INSERT INTO reviews (customer_email, product_id, rating, description, image)
 VALUES 
-	("bluemario812@gmail.com", 850556, 4, "Product worked great. Had slight issues as the pages were a little stuck together but after that it worked perfectly", "https://m.media-amazon.com/images/I/81y2PkckqSL._AC_SL1500_.jpg")
+-- 	("bluemario812@gmail.com", 850556, 4, "Product worked great. Had slight issues as the pages were a little stuck together but after that it worked perfectly", "https://m.media-amazon.com/images/I/81y2PkckqSL._AC_SL1500_.jpg"),
 -- 	("bluemario812@gmail.com", 850556, 5, NULL, NULL),
--- 	("bluemario812@gmail.com", 850556, 3, NULL, NULL)
+-- 	("bluemario812@gmail.com", 850556, 3, NULL, NULL),
+    ("bluemario812@gmail.com", 850556, 2, NULL, NULL)
 ;
+INSERT INTO reviews (customer_email, product_id, rating, description, image, date)
+VALUES ("bluemario812@gmail.com", 850556, 4, NULL, NULL, '2024-04-28 07:31:00');
+
 DELETE FROM reviews WHERE customer_email = "bluemario812@gmail.com";
 
 SELECT * FROM products

@@ -121,7 +121,8 @@ def product(productId, variantId=None, error=None):
     )).all() )
     reviewsData = conn.execute(text("SELECT review_id, customer_email, product_id, rating, description, "
         "image, date(date), CONCAT(first_name, ' ', last_name) AS 'full_name' "
-       f"FROM reviews JOIN users ON reviews.customer_email = users.email WHERE product_id = {productId}")).all()
+       f"FROM reviews JOIN users ON reviews.customer_email = users.email WHERE product_id = {productId} "
+        "ORDER BY date DESC")).all()
     reviewsAvg = conn.execute(text(f"SELECT ROUND(AVG(rating), 1) FROM reviews WHERE product_id = {productId}")).first()[0]
 
     # image data. Index like this imageData[0][ii['file_path']]
