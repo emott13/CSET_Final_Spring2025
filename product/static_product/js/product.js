@@ -1,11 +1,40 @@
 let mainImageDOM = document.getElementsByClassName("product-img")[0]
 let smallImagesDOM = document.getElementsByClassName("product-img-small")
+let productSortDOM = document.getElementById("product-sort")
+let productFilterDOM = document.getElementById("product-filter")
+let reviewsDOM = document.getElementsByClassName("product-review");
 
 document.addEventListener("click", (e) => {
     if(e.target.parentNode.className === "product-img-small") {
         mainImageDOM.src = e.target.src
     }
     
+});
+
+productFilterDOM.addEventListener("change", (e) => {
+    filter = productFilterDOM.value
+    console.log("Filter = " + filter);
+
+    for (let review of reviewsDOM) {
+        display = "none"
+        rating = review.getAttribute("rating")
+        if (filter === "all")
+            display = "block";
+        else if (filter === "pos") {
+            if (Number(rating) >= 4)
+                display = "block";
+        }
+        else if (filter === "crit") {
+            console.log("crit")
+            if (Number(rating) <= 2)
+                display = "block";
+        }
+        else if (rating === filter)
+            display = "block";
+            
+        
+        review.style.display = display
+    }
 });
 
 if (window.history.replaceState)

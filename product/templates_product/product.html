@@ -125,7 +125,7 @@
                 <div class="product-reviews-arrange product-reviews-background">
                     <div class="product-reviews-filter">
                         <label class="product-filter">Filter</label>
-                        <select id="product-sort">
+                        <select id="product-filter">
                             <option value="all">All Stars</option>
                             <option value="5">5 Star</option>
                             <option value="4">4 Star</option>
@@ -147,7 +147,7 @@
                 </div>
 
                 {% for review in reviewsData %}
-                    <div class="product-review product-reviews-background">
+                    <div class="product-review product-reviews-background" date="{{review[ri['date']]}}" rating="{{review[ri['rating']]}}">
                         <div class="product-review-row1">
                             <p class="product-review-name product-reviews-inner-background">By: {{review[ri['full_name']]}}</p>
                             <div class="product-review-stars product-reviews-inner-background">
