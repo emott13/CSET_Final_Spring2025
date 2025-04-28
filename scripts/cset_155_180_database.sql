@@ -13,20 +13,25 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR(60) NOT NULL,
     type ENUM('vendor', 'admin', 'customer') NOT NULL
 );
-
--- products
+-- products related tables
+CREATE TABLE IF NOT EXISTS categories(					-- product categories for search / filter
+	cat_num INT PRIMARY KEY,
+    cat_name VARCHAR(255) UNIQUE NOT NULL
+);
 CREATE TABLE IF NOT EXISTS products (					
     product_id INT PRIMARY KEY AUTO_INCREMENT,
     vendor_id VARCHAR(255) NOT NULL,
     product_title VARCHAR(255) NOT NULL,
-    product_description VARCHAR(500),
+    product_description VARCHAR(575),
     warranty_months INT,
-    FOREIGN KEY (vendor_id) REFERENCES users(email)
+    cat_num INT NOT NULL,
+    FOREIGN KEY (vendor_id) REFERENCES users(email),
+    FOREIGN KEY (cat_num) REFERENCES categories(cat_num)
 );
 CREATE TABLE IF NOT EXISTS colors (						-- product colors
     color_id INT PRIMARY KEY AUTO_INCREMENT,
     color_name VARCHAR(50) UNIQUE NOT NULL,
-    color_hex VARCHAR(9) 
+    color_hex VARCHAR(9)
 );
 CREATE TABLE IF NOT EXISTS sizes(						-- product sizes
     size_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -42,7 +47,7 @@ CREATE TABLE IF NOT EXISTS product_variants (			-- product variants with each co
     FOREIGN KEY (product_id) REFERENCES products(product_id),
     FOREIGN KEY (color_id) REFERENCES colors(color_id),
     FOREIGN KEY (size_id) REFERENCES sizes(size_id),
-    UNIQUE(product_id, color_id, size_id) 				-- ensures no duplicate combos
+    UNIQUE(product_id, color_id, size_id) -- ensures no duplicate combos
 );
 
 -- images
@@ -167,26 +172,10 @@ ALTER TABLE colors AUTO_INCREMENT=19780;
 ALTER TABLE sizes AUTO_INCREMENT=15;
 ALTER TABLE product_variants AUTO_INCREMENT=100200;
 
+
 -- ----------------- --
 -- INSERT STATEMENTS --
 -- ----------------- --
-
--- data needed: 2 admin accounts, 5 customer accounts, 3 vendor accounts **DONE**
--- 10 products from the 3 vendors **DONE**
--- untimed discount on 2 products **DONE**
--- timed discount on 2 products **DONE**
--- items in cart from 3 customer accounts **DONE**
--- at least 7 orders of various statuses and 3 shipped orders from 3 customers **DONE**
--- orders should have multiple products from different vendors **DONE**
--- meaningful reviews with images from customers on all shipped orders **DONE**
--- one return and one warranty application in progress **DONE**
--- meaningful chat messages regarding these requests **DONE**
--- meaningful chat messages from all customers to different vendors
--- any additional information necessary to model a running ecommerce website
--- select product_title, size_description, file_path, alt_text from products natural join product_variants natural join sizes natural join images where vendor_id = 'g_pitts@supplies4school.org' and image_id IN(1,3,5,7,19,21);
-SELECT product_title, size_description, file_path, alt_text
-        FROM products NATURAL JOIN product_variants NATURAL JOIN sizes NATURAL JOIN images
-        WHERE vendor_id = 'g_pitts@supplies4school.org' and image_id IN(1, 3, 5, 7, 19, 21); 
 
 INSERT INTO users (email, username, hashed_pswd, first_name, last_name, type)
 VALUES											
@@ -197,98 +186,364 @@ VALUES
 	('d_giant@outlook.com', 'dgiant', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Damien', 'Giant', 'customer'), -- customer
 	('c_ramos@outlook.com', 'cramos', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Celia', 'Ramos', 'customer'), -- customer
 	('j_prescott@gmail.com', 'jprescott', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Jean', 'Prescott', 'customer'), -- customer
-	('a_batts@textbooksmadeeasy.org', 'abatts_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Annemarie', 'Batts', 'vendor'), -- vendor
-	('g_pitts@supplies4school.org', 'gpitts_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Gebhard', 'Pitts', 'vendor'), -- vendor
-	('i_tombolli@study_space.com', 'itombolli_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Isabella', 'Tomboli', 'vendor'); -- vendor
+	('a_batts@textbooksmadeeasy.org', 'abatts_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Textbooks', 'Made Easy', 'vendor'), -- vendor
+	('g_pitts@supplies4school.org', 'gpitts_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Supplies', '4 School', 'vendor'), -- vendor
+	('i_tombolli@study_space.com', 'itombolli_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Study', 'Space', 'vendor'), -- vendor
+    ('f_craft@techtime.com', 'fcraft_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Tech', 'Time', 'vendor'),
+    ('c_simmons@worksmart.com', 'csimmons_vendor', '2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Work', 'Smart Co.', 'vendor'); 
 
-INSERT INTO products (vendor_id, product_title, product_description, warranty_months)
+INSERT INTO categories(cat_num, cat_name)
+VALUES
+-- school', 'office', 'textbook', 'furniture', 'technology'
+	-- school / office
+    (11, 'Writing Supplies'),
+    (12, 'Notetaking'),
+    (13, 'Folders & Filing'),
+    (14, 'Bags, Lunchboxes, & Backpacks'),
+    
+	-- school
+    (101, 'School Basics'),
+    (102, 'Calculators'),
+    (103, 'Art Supplies'),
+    
+    -- office
+    (201, 'Office Basics'),
+    (202, 'Paper & Mailing Supplies'),
+    
+    -- textbooks
+    (301, 'Art Textbooks'),
+    (302, 'Business & Economics Textbooks'),
+    (303, 'Computer Textbooks'),
+    (304, 'Design Textbooks'),
+    (305, 'English Textbooks'),
+    (306, 'Foreign Language Textbooks'),
+    (307, 'Health & Fitness Textbooks'),
+    (308, 'History Textbooks'),
+    (309, 'Law Textbooks'),
+    (310, 'Mathematics Textbooks'),
+    (311, 'Medical Textbooks'),
+    (312, 'Music Textbooks'),
+    (313, 'Philosophy Textbooks'),
+    (314, 'Photography Textbooks'),
+    (315, 'Science Textbooks'),
+    (316, 'Study Aids Textbooks'),
+    (317, 'Tech & Engineering Textbooks'),
+    
+    (401, 'Batteries'),
+    (402, 'Cables'),
+    (403, 'Computers'),
+    (404, 'Computer Accessories'),
+    (405, 'Computer Monitors'),
+    (406, 'Extension Cords'),
+    (407, 'External Device Storage'),
+    (408, 'Laptops'),
+    (409, 'Printers, Scanners & Accessories'),
+    (410, 'Projectors & Accessories'),
+    
+    -- furniture
+    (501, 'Classroom Chairs'),
+    (502, 'Classroom Desks'),
+    (503, 'Classroom Mats & Rugs'),
+    (504, 'Classroom Storage'),
+    (505, 'Office Chairs'),
+    (506, 'Office Desks'),
+    (507, 'Office Storage'),
+	(508, 'Office Mats & Rugs');
+
+INSERT INTO products (vendor_id, product_title, product_description, warranty_months, cat_num)
 VALUES
 	-- 850555
-	('g_pitts@supplies4school.org', 'BIC Xtra-Smooth Mechanical Pencils', 'BIC Xtra-Smooth Mechanical Pencils offer smooth, dark writing with a 0.7mm medium point. Each pencil comes with three pieces of No. 2 lead that doesn’t smudge and erases cleanly, making them ideal for standardized tests.', 0),
+	('g_pitts@supplies4school.org', 'BIC Xtra-Smooth Mechanical Pencils', 'BIC Xtra-Smooth Mechanical Pencils offer smooth, dark writing with a 0.7mm medium point. Each pencil comes with three pieces of No. 2 lead that doesn’t smudge and erases cleanly, making them ideal for standardized tests.', 0, 11),
 	-- 850556
-    ('g_pitts@supplies4school.org', 'APEX Spiral Notebook', 'APEX Spiral Notebooks feature 70 wide-ruled sheets, 1 subject, with 3-hole perforated sheets. Available as single notebook or in multi-packs.', 0),
+    ('g_pitts@supplies4school.org', 'APEX Spiral Notebook', 'APEX Spiral Notebooks feature 70 wide-ruled sheets, 1 subject, with 3-hole perforated sheets. Available as single notebook or in multi-packs.', 0, 12),
 	-- 850557
-	('a_batts@textbooksmadeeasy.org', 'Chemistry in Context', '"Applying Chemistry to Society." First edition textbook, new.', 0),
+	('a_batts@textbooksmadeeasy.org', 'Chemistry in Context', '"Applying Chemistry to Society." First edition textbook, new.', 0, 315),
 	-- 850558
-    ('a_batts@textbooksmadeeasy.org', 'The Language of Composition', '2nd edition textbook. Authors: Renee H. Shea, Lawrence Scanlon, and Robin Dissin Aufses.', 0),
+    ('a_batts@textbooksmadeeasy.org', 'The Language of Composition', '2nd edition textbook. Authors: Renee H. Shea, Lawrence Scanlon, and Robin Dissin Aufses.', 0, 305),
     -- 850559
-	('a_batts@textbooksmadeeasy.org', 'Advanced Pysics', '2nd edition textbook. Authors: Steve Adams and Jonathan Allday.', 0),
+	('a_batts@textbooksmadeeasy.org', 'Advanced Pysics', '2nd edition textbook. Authors: Steve Adams and Jonathan Allday.', 0, 315),
     -- 850560
-    ('a_batts@textbooksmadeeasy.org', 'Precalculus', '"A Graphing Approach. First edition textbook, used. Teacher\'s Edition"', 0),
+    ('a_batts@textbooksmadeeasy.org', 'Precalculus', '"A Graphing Approach. First edition textbook, used. Teacher\'s Edition"', 0, 310),
     -- 850561
-    ('i_tombolli@study_space.com', 'Metro Adjustable Height Desk - 60 x 30"', 'Simple-to-use push-button control with 4 programmable heights. Powered by quiet electric motors. 9\' power cord.', 12),
+    ('i_tombolli@study_space.com', 'Metro Adjustable Height Desk - 60 x 30"', 'Simple-to-use push-button control with 4 programmable heights. Powered by quiet electric motors. 9\' power cord.', 12, 506),
 	-- 850562
-    ('i_tombolli@study_space.com', 'Metro L-Desk with Adjustable Height - 72 x 78.', 'Simple-to-use push-button control with 4 programmable heights. Powered by 2 quiet electric motors. 9\' power cord.', 12),
+    ('i_tombolli@study_space.com', 'Metro L-Desk with Adjustable Height - 72 x 78.', 'Simple-to-use push-button control with 4 programmable heights. Powered by 2 quiet electric motors. 9\' power cord.', 12, 506),
 	-- 850563
-    ('i_tombolli@study_space.com', 'Mesh Task Chair', 'Hi-tech design with ventilated mesh fabric - keeps you cool an comfortable. 3 1/2" thick seat. Standard tilt with adjustable tension. Fixed armrests.', 6),
+    ('i_tombolli@study_space.com', 'Mesh Task Chair', 'Hi-tech design with ventilated mesh fabric - keeps you cool an comfortable. 3 1/2" thick seat. Standard tilt with adjustable tension. Fixed armrests.', 6, 505),
 	-- 850564
-    ('i_tombolli@study_space.com', 'Anti-Static Carpet Chair Mat', 'Anti-skid surface and straight edges. Vinyl construction. Cleared backing keeps chair mat firmly in place. Use on low pile carpeting - 3/8" thick or less.', 0);
-
+    ('i_tombolli@study_space.com', 'Anti-Static Carpet Chair Mat', 'Anti-skid surface and straight edges. Vinyl construction. Cleared backing keeps chair mat firmly in place. Use on low pile carpeting - 3/8" thick or less.', 0, 508),
+	-- 850565
+    ('i_tombolli@study_space.com', 'Metro Office Desks', 'Strong, sleek design. For ad agencies, design studios, and urban office spaces. Durable 1 1/2" thick laminate top with PVC edges and cable grommets. 30" height. Heavy-duty steel frame with rectangle tube legs and full-length modest panel.', 12, 506),
+	-- 850566
+    ('i_tombolli@study_space.com', 'Metro Mobile Pedestal File - 2 Drawer', 'Companion storage fits under Metro Office Desks. Durable laminate surface resists scratches, stains and spills. 2 file drawers. 5 swivel casters, 2locking. Includes lock and 2 keys.', 12, 507),
+	-- 850567
+    ('i_tombolli@study_space.com', 'Metro Mobile Pedestal File - 3 Drawer', 'Companion storage fits under Metro Office Desks. Durable laminate surface resists scratches, stains and spills. 1 file drawer, 2 box drawers. 5 swivel casters, 2locking. Includes lock and 2 keys.', 12, 507),
+	-- 850568
+	('i_tombolli@study_space.com', 'Designer Office Desks', 'Brighten up your workplace. Minimalist style for modern and trendy offices. 1" thick elevated laminate top with PVC edges and 2 cable grommets. 30" height. Durable white steel frame with beveled legs and hanging modesty panel.', 12, 506),
+	-- 850569
+	('i_tombolli@study_space.com', 'Designer Office L-Desks', 'Brighten up your workplace. Minimalist style for modern and trendy offices. 1" thick elevated laminate top with PVC edges and 2 cable grommets. 30" height. Durable white steel frame with beveled legs and hanging modesty panel. L-Desk has extra space to get work done. Spread out your projects, reports, or creative materials.', 12, 506),
+	-- 850570    
+	('i_tombolli@study_space.com', 'Designer Mobile Pedestal File - 3 Drawer', 'Companion storage tucks away neatly and underneath Designer Office Desks. Durable laminate surface resists scratches, stains and spills. 1 file drawer, 2 box drawers. 5 swivel casters, 2 locking. Includes lock and two keys.', 12, 507),
+	-- 850571
+	('g_pitts@supplies4school.org', 'JanSport Big Student Backpacks', 'The JanSport Big Student backpack is perfect for carrying all of your supplies. The backpack is made of 100% recycled polyester and features a dedicated 15" padded laptop compartment. Features two large main compartments, one front utility pocket with organizer, one pleated front stash pocket, and one zippered front stash pocket. Includes a side water bottle pocket, ergonomic S-curve shoulder straps, and a fully padded back panel.', 0, 14),
+	-- 850572
+	('g_pitts@supplies4school.org', 'JanSport Big Student Patterned Backpacks', 'The JanSport Big Student backpack is perfect for carrying all of your supplies. The backpack is made of 100% recycled polyester and features a dedicated 15" padded laptop compartment. Features two large main compartments, one front utility pocket with organizer, one pleated front stash pocket, and one zippered front stash pocket. Includes a side water bottle pocket, ergonomic S-curve shoulder straps,  and a fully padded back panel.', 0, 14),
+	-- 850573
+    ('g_pitts@supplies4school.org', 'Post-It Super Sticky Notes 3" x 3"', "Post-it® Super Sticky Notes are the perfect solution for shopping lists, reminders, to-do lists, color-coding, labeling, family chore reminders, brainstorming, storyboarding, and quick notes. Post-it Super Sticky Notes offer twice the sticking power of basic sticky notes, ensuring they stay put and won't fall off.", 0, 12),
+    -- 850574
+    ('g_pitts@supplies4school.org', 'Post-It Flags Combo Pack', 'Find it fast with Post-it® Flags in bright eye-catching colors that get noticed. They make it simple to mark or highlight important information in textbooks, calendars, notebooks, planners and more. They stick securely, remove cleanly and come in a wide variety of colors. Draw attention to critical items or use them to index, file or color code your work, either at home, work or in the classroom.', 0, 12),
+    -- 850575
+    ('g_pitts@supplies4school.org', 'Post-It Durable Tabs', 'Durable Tabs are extra thick and strong to stand up to long-term wear and tear. Great for dividing notes, expanding files and project files. Sticks securely, removes cleanly.', 0, 13),
+	-- 850576
+    ('f_craft@techtime.com', 'HP OfficeJet Pro Wireless Color All-In-One Printers', "FROM AMERICA'S MOST TRUSTED PRINTER BRAND – The OfficeJet Pro Printers are perfect for offices printing professional-quality color documents like presentations, brochures and flyers. The HP OfficeJet Pro Printers deliver fast color printing. They include wireless and printer security capabilities to keep your multifunction printers up to date and secure. Compatible ink cartridges – works with HP 936 ink cartridges to deliver bold, high quality color. Plus, get 2X more pages with the HP EvoMore 936e high yield ink cartridges, HP's most sustainable ink cartridges.", 12, 409),
+    -- 850577
+    ('f_craft@techtime.com', 'HP 936 Ink Cartridges', 'Ensure your printing is right the first time and every time with HP 936 Ink Cartridges, which provide precision output so you can take pride in fade-resistant documents and brilliant images. HP 936 cartridges work with: HP OfficeJet 9122e, HP OfficeJet Pro 9110b, 9125e, 9128e, 9130b, 9135e, HP OfficeJet Pro Wide Format 9730e. Cartridges yeild approx 1,250 pages for black ink, or approx. 800 pages with magenta, yellow, or cyan ink.', 0, 409),
+	-- 850578
+    ('f_craft@techtime.com', 'Canon MegaTank MAXIFY GX Series Printers', "Designed for small- and medium‐size businesses, the Canon MegaTank MAXIFY GX Series Printers balance speedy performance and minimal maintenance. The maintenance cartridges in the MAXIFY GX Series Printers are easily replaceable should the need arise. No service visit calls required. With a four-color pigment ink system, you'll get crisp color and black-and-white documents, along with sharp highlighter-resistant text. Create and print professional posters, banners, and signage with the PosterArtist online version.", 24, 409),
+    -- 850579
+    ('f_craft@techtime.com', 'Canon 26 High Yield Ink Bottle', 'The Canon ink refill produces superior quality for a wide array of printing needs. Features an easy-to-use no-squeeze bottle design. 132mL capacity. Compatible with: GX3020, GX4020, & GX5020 printers. Prints up to 6000 pages with black ink bottle, up to 14000 with magenta, yellow, or cyan ink bottle.', 0, 409),
+    -- 850580
+    ('c_simmons@worksmart.com', 'Pilot G2 Retractable 0.7mm Fine Tip Gel Pens', 'Enjoy a smear-free writing experience by using Pilot G2 premium retractable gel roller pens. Improve handwriting, create drawings, and work on other projects worry free. With a convenient clip, these pens attach to binders, notebooks, and pockets, while the contoured grip offers increased support, making it easy to take on lengthy writing tasks. These Pilot G2 gel pens feature a retractable design, so you can tuck the tips away when not in use, preventing unintentional marks on documents.', 0, 11),
+    -- 850581
+    ('c_simmons@worksmart.com', 'BiC Round Stic Xtra-Life 1.0mm Ballpoint Pen', 'BIC Round Stic Xtra Life Ballpoint Pens are your go-to choice for reliable writing. These ball point pens feature a 1.0mm medium point, making them a great ballpoint pen for everyday use. With a comfortable, flexible round barrel, these medium point pens provide a smooth and controlled writing experience.', 0, 11),
+    -- 850582
+    ('c_simmons@worksmart.com', 'Paper Mate 0.7mm Flair Felt Pens', 'Make solid strokes in vibrant colors with this 12-pack of Flair medium-point felt pens in assorted Tropical Vacation colors. Add color to your calendar and all your general writing tasks with ease with these Paper Mate medium-point pens in assorted colors. The metal-reinforced felt tip delivers smooth, thick lines using long-lasting, water-based ink that dries quickly to resist smudges. These felt pens feature a plastic construction that matches the ink color and a secure cap with a pocket clip to prevent dry out.', 0, 11),
+    -- 850583
+    ('c_simmons@worksmart.com', 'Sharpie Permanent Fine Tip Markers', 'Sharpie fine point permanent markers write smoothly on a variety of surfaces. Create a bold, vibrant impression on metal, glass, plastic or cloth with Sharpie permanent markers. The resilient, quick-drying ink is waterproof, smudge-proof and doesn\'t wear, so your text stays clear over time. Fine-point tips make these markers a pleasure to use by ensuring your writing is legible and uniform. An AP nontoxic certification makes these markers perfect for use around coworkers or children.', 0, 11),
+    -- 850584
+    ('g_pitts@supplies4school.org', 'Expo Dry Erase Starter Set', 'Create eye-catching white board presentations and dry-erase them easily with the Expo dr-erase starter set. Produce colorful whiteboard presentations with the﻿ black, red, green and blue markers in this starter set. The nontoxic markers are made using a low-odor formula and feature a chisel tip for fine or bold markings. The cleaner solution in this Expo dry-erase starter set removes any stubborn markings or smudges from whiteboard surfaces.', 0, 11),
+    -- 850585
+    ('g_pitts@supplies4school.org', 'Expo Dry Erase Kit', 'This Expo Dry-Erase Kit contains low-odor ink and is everything you\'ll need to give effective and colorful presentations. This low-odor whiteboard kit comes in a durable storage case and offers contemporary designs to fit any decor. This whiteboard marker set includes four fine point markers, eight chisel tip markers, an eraser and an 8 oz. bottle of cleaner.', 0, 11),
+    -- 850586
+    ('c_simmons@worksmart.com', 'Expo Dry Erase Markers', 'Organize ideas on the boardroom whiteboard with this 12-pack of Expo low-odor chisel tip dry-erase markers. Brainstorm new concepts with your team and these Expo dry-erase markers. The bold pens come in a pack of 12 assorted colors, so it\'s easy to list ideas or notate diagrams clearly and the low odor makes these markers ideal for closed areas such as classrooms and offices. Chisel tips on these quick-drying Expo dry-erase markers let you write with broad, medium and fine lines.', 0, 11),
+    -- 850587 https://www.staples.com/pendaflex-double-stuff-3-tab-file-folder-letter-size-manila-50-box-ess54459/product_810520
+	('c_simmons@worksmart.com', 'Pendaflex Manila File Folders, 1/3-Cut Tab', 'Handle bulky paperwork with these Pendaflex Double Stuff three-tab standard file folders. Each file expands to hold up to 250 sheets of paper, helping you organize thick stacks of documents without overloading your files. A three-tab arrangement helps keep file titles visible, and each pack contains 50 folders to organize your archives or expand your existing filing system.', 0, 13),
+    -- 850588 https://www.staples.com/pendaflex-essentials-file-folders-1-3-cut-tab-letter-size-manila-100-box-752-1-3/product_33760
+	('c_simmons@worksmart.com', 'Pendaflex Essentials File Folders', 'Prepare files for customers or organize your office paperwork with these Pendaflex 1/3-cut tab assorted letter-size manila file folders. Eliminate piles of paperwork on your desk with these Pendaflex 1/3-cut tab manila file folders. The assorted position tab keeps each label visible as you sift through file cabinets, while durable 11-point stock offers strength for daily handling. Each of these Pendaflex 1/3-cut tab manila file folders accommodates letter-size sheets, offering a versatile document storage solution for your office.', 0, 13),
+    -- 850589 https://www.staples.com/pendaflex-glow-twisted-3-tab-file-folder-letter-size-multicolor-12-pack-40526/product_1075842
+    ('c_simmons@worksmart.com', 'Pendaflex Glow Tested Recycled File Folders', 'Expand your file cabinet\'s organization options with this these multicolor file folders; turn the folders inside-out to double your options! Brighten your desktop or filing system beyond standard hues. Top tabs stick out above the level of the papers so you can easily see custom-made labels, this overall system reduces: confusion, optimizes time when retrieving files and makes it easier to locate important records.', 0, 13),
+    -- 850590 https://www.staples.com/pendaflex-file-folder-1-tab-letter-size-assorted-100-box-02315/product_24607975
+    ('c_simmons@worksmart.com', 'Pendaflex File Folders', 'Pendaflex Two-Tone Color File Folders come in brilliant shades with lighter interiors to prevent time-wasting misfiles. Create bright, color-coded files for fast, efficient filing or reverse them for double the color options. 1/3-Cut tabs in assorted positions. Letter size, assorted colors: magenta, grey, purple, blue, teal. 100 Per box.', 0, 13), 
+    -- 850591 https://www.staples.com/storex-portable-file-storage-box-letter-black-stx61502u01c/product_1129608
+    ('c_simmons@worksmart.com', 'Storex Portable File Storage Box', 'Storex Portable storage box in black color offers a unique handle design which makes carrying and opening file box easy. Box has an organizer lid that allows for easy access to supplies. Latch lock accepts padlock (not included).', 0, 13),
+    -- 850592 https://www.staples.com/advantus-super-stacker-file-box-letter-legal-size-clear-36871/product_486085
+    ('c_simmons@worksmart.com', 'Advantus Super Stacker File Box', 'Protect stored files from water, dirt, dings and other damage with this Advantus Super Stacker clear file box. Keep files safe while storing or transporting them with this clear file box. The snap-tight handles hold contents securely inside while making this file box easy to carry, and it can hold letter-sized or legal-sized documents for versatility. This Advantus Super Stacker file box is made with transparent material, so you can see what\'s inside without having to open it.', 0, 13);
+    
 INSERT INTO colors (color_name, color_hex)
 VALUES
-	('Assorted', NULL),		-- 19780
-    ('Red', '#ff0000'),		-- 19781
-    ('Blue', '#0000ff'),	-- 19782
-    ('Green', '#00ff00'),	-- 19783
-    ('Yellow', '#ffff00'),	-- 19784
-    ('Navy', '#000080'),	-- 19785
-    ('Black', '#000000'),	-- 19786
-	('Walnut', '#773f1a'), 	-- 19787
-    ('Clear', NULL),		-- 19788
-    ('None', NULL);			-- 19789
-
+	('Assorted', NULL),			-- 19780
+    ('Red', '#ff0000'),			-- 19781
+    ('Blue', '#0000ff'),		-- 19782
+    ('Green', '#00ff00'),		-- 19783
+    ('Yellow', '#ffff00'),		-- 19784
+    ('Navy', '#000080'),		-- 19785
+    ('Black', '#000000'),		-- 19786
+	('Walnut', '#99592e'), 		-- 19787
+    ('Clear', NULL),			-- 19788
+    ('None', NULL),				-- 19789
+	('White', '#ffffff'),		-- 19790
+    ('Maple', '#bb9351'), 		-- 19791
+	('Lilac', '#c8a2c8'), 		-- 19792
+    ('Dark blue', '#06065c'), 	-- 19793
+    ('Rose pink', '#f0afc1'), 	-- 19794
+    ('Sky blue', '#1a6bb8'), 	-- 19795
+    ('Dark red', '#8b0000'), 	-- 19796
+    ('Floral pink/purple', NULL), -- 19797
+    ('Galaxy blue', NULL), 		-- 19798
+    ('Multicolor', NULL), 		-- 19799
+    ('Supernova Neons', NULL),	-- 19800
+    ('Energy Boost', NULL),		-- 19801
+    ('Summer Joy', NULL),		-- 19802
+    ('Playful Primaries', NULL),-- 19803
+    ('Magenta', '#ff33cc'),		-- 19804
+    ('Cyan', '#00bfff'),		-- 19805
+    ('Purple', '#800080'),		-- 19806
+    ('Silver', '#c0c0c0'),		-- 19807
+    ('Manila', '#e7c9a9');		-- 19808
+    
 INSERT INTO sizes (size_description)
 VALUES
-	('Single'), 			-- 15
-	('6-Pack'), 			-- 16
-	('10-Pack'), 			-- 17
-    ('12-Pack'), 			-- 18
-	('24-Pack'), 			-- 19
-	('48-Pack'), 			-- 20
-    ('60-Pack'), 			-- 21
-    ('60L X 30W Inches'),	-- 22
-    ('72L X 78W Inches'),	-- 23
-    ('36L X 48W Inches'),	-- 24
-    ('45L X 53W Inches'),	-- 25
+	('Single'), 				-- 15
+	('6-Pack'), 				-- 16
+	('10-Pack'), 				-- 17
+    ('12-Pack'), 				-- 18
+	('24-Pack'), 				-- 19
+	('48-Pack'), 				-- 20
+    ('60-Pack'), 				-- 21
+    ('60L X 30W Inches'),		-- 22
+    ('72L X 78W Inches'),		-- 23
+    ('36L X 48W Inches'),		-- 24
+    ('45L X 53W Inches'),		-- 25
     ('20W X 19D X 18-22H Inches'), -- 26
-    ('Standard');			-- 27
-
+    ('Standard'),				-- 27
+	('48L X 24W Inches'), 		-- 28
+    ('60L X 24W Inches'), 		-- 29
+    ('72L X 24W Inches'), 		-- 30
+    ('60W x 30L Inches'), 		-- 31
+    ('72W X 30L Inches'), 		-- 32
+    ('16W X 22D X 28L Inches'), -- 33
+	('60W X 66L Inches'), 		-- 34
+    ('72W X 66L Inches'), 		-- 35
+    ('16W X 18D X 26L Inches'), -- 36
+	('13W X 10D X 17.5H Inches'), -- 37
+    ('70 Sheet/Pad, 24 Pads/Pack'),-- 38
+    ('90 Sheet/Pad, 5 Pads/Pack'),-- 39
+    ('320 Flags/Pack'),			-- 40
+    ('1"W 66Tabs/Pack'),		-- 41
+    ('2"W 24 Tabs/Pack'),		-- 42
+    ('9125e: 250 Sheet Input/60 Sheet Output'), -- 43
+    ('9135e: 500 Sheet Input/100 Sheet Output'), -- 44
+    ('1 Pack/1250 Pages'),		-- 45
+    ('1 Pack/800 Pages'),		-- 46
+    ('4 Pack/3650 Pages'),		-- 47
+    ('GX3020: 250 Sheet Input/100 Sheet Output'), -- 48
+    ('GX4020: 250 Sheet Input/100 Sheet Output'), -- 49
+    ('GX5020: 350 Sheet Input'), -- 50
+    ('132mL capacity'),			-- 51
+    ('36-Pack'),				-- 52
+    ('50-Pack'),				-- 53
+    ('100-Pack'),				-- 54
+    ('14.5H X 14W X 11.25D Inches'), -- 55
+    ('33.75H X 14.68W X 18.37L Inches'); -- 56
+    
+    
 INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory)
 VALUES
 	-- Mechanical Pencils
-	(850555, 19780, 17, 474, 150),  -- 10 Count Pack
-	(850555, 19780, 20, 2274, 50), 	-- 48 Count Pack
-    (850555, 19780, 21, 2649, 18), 	-- 60 Count Pack
-    -- Single Notebooks
-	(850556, 19781, 15, 299, 100),  -- Red Single Notebook - $2.99
-	(850556, 19782, 15, 299, 100),  -- Blue Single Notebook - $2.99
-	(850556, 19783, 15, 299, 100),  -- Green Single Notebook - $2.99
-	(850556, 19784, 15, 299, 100),  -- Yellow Single Notebook - $2.99
-	(850556, 19785, 15, 299, 100),  -- Navy Single Notebook - $2.99
-	(850556, 19786, 15, 299, 100),  -- Black Single Notebook - $2.99
-	-- 6-Pack Notebooks Assortment
-	(850556, 19780, 16, 1599, 50),  -- Assorted Colors 6-Pack - $15.99
-	-- 12-Pack Notebooks Assortment
-	(850556, 19780, 18, 2999, 25),  -- Assorted Colors 12-Pack - $29.99
+	(850555, 19780, 17, 474, 150),		-- 100200
+	(850555, 19780, 20, 2274, 50),		-- 100201
+    (850555, 19780, 21, 2649, 18),		-- 100202
+	(850556, 19781, 15, 299, 100),		-- 100203
+	(850556, 19782, 15, 299, 100),		-- 100204
+	(850556, 19783, 15, 299, 100),		-- 100205
+	(850556, 19784, 15, 299, 100),		-- 100206
+	(850556, 19785, 15, 299, 100),		-- 100207
+	(850556, 19786, 15, 299, 100),		-- 100208
+	(850556, 19780, 16, 1599, 50),		-- 100209
+	(850556, 19780, 18, 2999, 25),		-- 100210
+    -- Chem textbook 
+    (850557, 19789, 27, 42999, 16), 	-- 100211
+    -- Comp textbook 
+    (850558, 19789, 27, 34999, 11),		-- 100212
+    -- Phys textbook 
+    (850559, 19789, 27, 36949, 21),		-- 100213
+    -- Precalc textbook 
+    (850560, 19789, 27, 39500, 9),		-- 100214
+    -- Adjustable height desk 
+    (850561, 19787, 22, 95000, 9),		-- 100215
+    -- Adjustable height L-shaped desk 
+    (850562, 19787, 23, 144900, 7),		-- 100216
+    -- Mesh office chair 
+    (850563, 19786, 26, 18999, 16),		-- 100217
+    -- Anti-static chair mat 
+    (850564, 19788, 24, 7999, 25),		-- 100218
+    (850564, 19788, 25, 9499, 19),		-- 100219
+	(850565, 19787, 28, 44900, 20),		-- 100220
+    (850565, 19787, 29, 48900, 20),		-- 100221
+    (850565, 19787, 30, 52900, 20),		-- 100222
+    (850565, 19787, 31, 53900, 20),		-- 100223
+    (850565, 19787, 32, 57900, 15),		-- 100224
+    (850566, 19787, 33, 26900, 32),		-- 100225
+    (850567, 19787, 33, 27900, 31),		-- 100226
+	(850568, 19790, 28, 36900, 15),		-- 100227
+    (850568, 19791, 28, 36900, 15),		-- 100228
+	(850568, 19790, 29, 41900, 15),    	-- 100229
+    (850568, 19791, 29, 41900, 15),    	-- 100230
+    (850568, 19790, 22, 45900, 15),    	-- 100231
+    (850568, 19791, 22, 45900, 15),    	-- 100232
+    (850568, 19790, 32, 48900, 15),    	-- 100233
+    (850568, 19791, 32, 48900, 15),    	-- 100234
+    (850569, 19790, 34, 64900, 15),    	-- 100235
+    (850569, 19791, 34, 64900, 15),    	-- 100236
+    (850569, 19790, 35, 72900, 15),    	-- 100237
+    (850569, 19791, 35, 72900, 15),    	-- 100238
+    (850570, 19790, 36, 25900, 10),    	-- 100239
+    (850570, 19791, 36, 25900, 10),    	-- 100240
+	(850571, 19792, 37, 5499, 15),		-- 100241
+	(850571, 19786, 37, 5499, 20),		-- 100242
+	(850571, 19793, 37, 5499, 25),		-- 100243
+	(850571, 19794, 37, 5499, 20),    	-- 100244
+	(850571, 19795, 37, 5499, 20),		-- 100245
+	(850571, 19796, 37, 5499, 15),		-- 100246
+	(850572, 19797, 37, 5999, 7),		-- 100247
+	(850572, 19798, 37, 5999, 6),		-- 100248
+	(850572, 19799, 37, 5999, 12),		-- 100249
+    -- postit notes large pack
+    (850573, 19800, 38, 2399, 5),		-- 100250
+    (850573, 19801, 38, 2399, 5),		-- 100251
+    (850573, 19802, 38, 2399, 5),		-- 100252
+    (850573, 19803, 38, 2399, 5),		-- 100253
+	-- post it notes small pack
+    (850573, 19800, 39, 699, 5),		-- 100254
+    (850573, 19801, 39, 699, 5),		-- 100255
+    (850573, 19802, 39, 699, 5),		-- 100256
+    (850573, 19803, 39, 699, 5),		-- 100257
+    -- post it flags combo
+    (850574, 19780, 40, 1329, 15),		-- 100258
+    -- post it tabs
+    (850575, 19780, 41, 789, 11),		-- 100259
+    (850575, 19780, 42, 429, 8),		-- 100260
+    -- hp officejet pro printers
+    (850576, 19799, 43, 32999, 15),		-- 100261
+    (850576, 19799, 44, 40999, 12), 	-- 100262
+    -- hp ink cartridges
+    (850577, 19786, 45, 4299, 18),		-- 100263
+	(850577, 19804, 46, 2499, 9),		-- 100264
+	(850577, 19784, 46, 2499, 9),		-- 100265
+	(850577, 19805, 46, 2499, 6),		-- 100266
+	(850577, 19780, 47, 10999, 11),		-- 100267
     
-    -- Chem textbook
-    (850557, 19789, 27, 42999, 16),
-    -- Comp textbook
-    (850558, 19789, 27, 34999, 11),
-    -- Phys textbook
-    (850559, 19789, 27, 36949, 21),
-    -- Precalc textbook
-    (850560, 19789, 27, 39500, 9),
+    (850578, 19799, 48, 34999, 10),		-- 100268
+    (850578, 19799, 49, 44999, 10),		-- 100269
+    (850578, 19799, 50, 52999, 10),		-- 100270
     
-    -- Adjustable height desk
-    (850561, 19787, 22, 95000, 9),
-    -- Adjustable height L-shaped desk
-    (850562, 19787, 23, 144900, 7),
-    -- Mesh office chair
-    (850563, 19786, 26, 18999, 16),
-    -- Anti-static chair mat
-    (850564, 19788, 24, 7999, 25),
-    (850564, 19788, 25, 9499, 19);
+    (850579, 19786, 51, 2949, 15),		-- 100271
+    (850579, 19804, 51, 3629, 20),		-- 100272
+    (850579, 19784, 51, 3629, 20),		-- 100273
+    (850579, 19805, 51, 3629, 20),		-- 100274
+    -- pilot g2 gel pens
+	(850580, 19786, 18, 1599, 30),	 	-- 100275 black
+    (850580, 19781, 18, 1599, 30), 		-- 100276 red
+    (850580, 19783, 18, 1599, 30), 		-- 100277 green
+    (850580, 19782, 18, 1599, 30), 		-- 100278 blue
+    (850580, 19785, 18, 1599, 30), 		-- 100279 navy blue
+    (850580, 19806, 18, 1599, 30), 		-- 100280 purple
+    -- bic round ballpoint pens
+    (850581, 19786, 21, 879, 25),		-- 100281 black
+    (850581, 19782, 21, 879, 25),		-- 100282 blue
+    -- paper mate felt pens
+    (850582, 19780, 18, 1149, 16),		-- 100283 assorted colors
+    -- sharpie permenant markers 
+    (850583, 19786, 52, 2599, 12),		-- 100284 black
+    (850583, 19781, 52, 2599, 12), 		-- 100285 red
+    (850583, 19782, 52, 2599, 12), 		-- 100286 blue
+    (850583, 19807, 52, 2599, 12), 		-- 100287 silver
+    (850583, 19780, 52, 2599, 12), 		-- 100288 assorted
+    (850583, 19780, 19, 1999, 16),		-- 100289 assorted 24 pack
+    -- dry erase starter set
+    (850584, 19780, 15, 799, 9),		-- 100290
+    -- dry erase kit
+    (850585, 19780, 15, 1999, 11),		-- 100291
+    -- dry erase markers 12-pack
+    (850586, 19780, 18, 1379, 10), 		-- 100292 assorted
+    (850586, 19786, 18, 1379, 10), 		-- 100293 black 
+    (850586, 19781, 18, 1379, 10),		-- 100294 red
+    (850586, 19783, 18, 1379, 10), 		-- 100295 green
+    (850586, 19782, 18, 1379, 10), 		-- 100296 blue
+    (850586, 19806, 18, 1379, 10), 		-- 100297 purple
+    -- file folders 850587
+    (850587, 19808, 53, 3369, 15),		-- 100298 manila
+    (850587, 19780, 53, 3369, 15),		-- 100299 assorted
+    -- file folders 850588
+    (850588, 19808, 54, 3249, 11),		-- 100300 manila
+    -- file folders glow multicolor
+    (850589, 19799, 18, 1349, 6),		-- 100301 multicolor
+    -- file folders assorted 100pack
+    (850590, 19780, 54, 3789, 18),		-- 100302 assorted
+    -- file storage box
+    (850591, 19786, 55, 3649, 8),		-- 100303 black
+    -- file stacker box
+    (850592, 19788, 56, 2869, 11);		-- 100304 clear
 
 INSERT INTO images (variant_id, file_path, alt_text)
 VALUES 
@@ -340,11 +595,11 @@ VALUES
 
 INSERT INTO carts (customer_email)
 VALUES 
-		('d_giant@outlook.com'),
-        ('j_prescott@gmail.com'),
-        ('s_teller@gmail.com'),
-        ('c_ramos@outlook.com'),
-        ('s_petocs@gmail.com');
+	('d_giant@outlook.com'),
+	('j_prescott@gmail.com'),
+	('s_teller@gmail.com'),
+	('c_ramos@outlook.com'),
+	('s_petocs@gmail.com');
 
 INSERT INTO cart_items (cart_id, variant_id, quantity)
 VALUES
@@ -524,262 +779,386 @@ VALUES
 	('Thanks for the info! For 10 or more 12-packs, I can offer them at $26.99 per pack instead of $29.99.', 850556, 'g_pitts@supplies4school.org', 'd_giant@outlook.com', '2025-04-09 11:01:12'),
 	('That’s a fair offer. If I go with 15 packs, could you do $25 each?', 850556, 'd_giant@outlook.com', 'g_pitts@supplies4school.org', '2025-04-09 11:03:44'),
 	('For 15 packs, I can meet you halfway at $25.99 per pack. Let me know if that works for you.', 850556, 'g_pitts@supplies4school.org', 'd_giant@outlook.com', '2025-04-09 11:06:10');
-    
-    
--- select * from products;
--- select * from products natural join images;
--- select * from images;
 
--- updated products for cset 180 final
-INSERT INTO products (vendor_id, product_title, product_description, warranty_months)
-VALUES
-	-- 850565
-    ('i_tombolli@study_space.com', 'Metro Office Desks', 'Strong, sleek design. For ad agencies, design studios, and urban office spaces. Durable 1 1/2" thick laminate top with PVC edges and cable grommets. 30" height. Heavy-duty steel frame with rectangle tube legs and full-length modest panel.', 12),
-	-- 850566
-    ('i_tombolli@study_space.com', 'Metro Mobile Pedestal File - 2 Drawer', 'Companion storage fits under Metro Office Desks. Durable laminate surface resists scratches, stains and spills. 2 file drawers. 5 swivel casters, 2locking. Includes lock and 2 keys.', 12),
-	-- 850567
-    ('i_tombolli@study_space.com', 'Metro Mobile Pedestal File - 3 Drawer', 'Companion storage fits under Metro Office Desks. Durable laminate surface resists scratches, stains and spills. 1 file drawer, 2 box drawers. 5 swivel casters, 2locking. Includes lock and 2 keys.', 12);
---  select * from product_variants;
-INSERT INTO sizes (size_description)
-VALUES
-	('48L X 24W Inches'), -- 28
-    ('60L X 24W Inches'), -- 29
-    ('72L X 24W Inches'), -- 30
-    ('60W x 30L Inches'), -- 31
-    ('72W X 30L Inches'), -- 32
-    ('16W X 22D X 28L Inches'); -- 33
-    
- INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory)
- VALUES -- color: 19787
-	(850565, 19787, 28, 44900, 20), -- desk
-    (850565, 19787, 29, 48900, 20), -- desk
-    (850565, 19787, 30, 52900, 20), -- desk
-    (850565, 19787, 31, 53900, 20), -- desk
-    (850565, 19787, 32, 57900, 15), -- desk
-    (850566, 19787, 33, 26900, 32), -- pedestal file 2-drawer
-    (850567, 19787, 33, 27900, 31); -- pedestal file 3-drawer
--- select * from images where variant_id in(100227, 100227, 100239, 100240);
+
 INSERT INTO images (variant_id, file_path, alt_text)
 VALUES
 	-- H-10353
-	(100220, '/static/images/metro_collection/H-10353-A.png', 'Front View'), 
-    (100220, '/static/images/metro_collection/H-10353-B.png', 'Back View'), 
-    (100220, '/static/images/metro_collection/H-10353-C.png', 'Front View With Office Items'), 
-    (100220, '/static/images/metro_collection/H-10353-D.png', 'Back View With Office Items'), 
-    (100220, '/static/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
-    (100220, '/static/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
+	(100220, '/static_product/images/metro_collection/H-10353-A.png', 'Front View'), 
+    (100220, '/static_product/images/metro_collection/H-10353-B.png', 'Back View'), 
+    (100220, '/static_product/images/metro_collection/H-10353-C.png', 'Front View With Office Items'), 
+    (100220, '/static_product/images/metro_collection/H-10353-D.png', 'Back View With Office Items'), 
+    (100220, '/static_product/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
+    (100220, '/static_product/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
     -- H-9778
-    (100221, '/static/images/metro_collection/H-9778-A.png', 'Front View'), 
-    (100221, '/static/images/metro_collection/H-9778-B.png', 'Back View'), 
-    (100221, '/static/images/metro_collection/H-9778-C.png', 'Front View With Office Items'), 
-    (100221, '/static/images/metro_collection/H-9778-D.png', 'Back View With Office Items'), 
-    (100221, '/static/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
-    (100221, '/static/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
+    (100221, '/static_product/images/metro_collection/H-9778-A.png', 'Front View'), 
+    (100221, '/static_product/images/metro_collection/H-9778-B.png', 'Back View'), 
+    (100221, '/static_product/images/metro_collection/H-9778-C.png', 'Front View With Office Items'), 
+    (100221, '/static_product/images/metro_collection/H-9778-D.png', 'Back View With Office Items'), 
+    (100221, '/static_product/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
+    (100221, '/static_product/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
     -- H-10355
-    (100222, '/static/images/metro_collection/H-10355-A.png', 'Front View'), 
-    (100222, '/static/images/metro_collection/H-10355-B.png', 'Back View'), 
-    (100222, '/static/images/metro_collection/H-10355-C.png', 'Front View With Office Items'), 
-    (100222, '/static/images/metro_collection/H-10355-D.png', 'Back View With Office Items'), 
-    (100222, '/static/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
-    (100222, '/static/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
+    (100222, '/static_product/images/metro_collection/H-10355-A.png', 'Front View'), 
+    (100222, '/static_product/images/metro_collection/H-10355-B.png', 'Back View'), 
+    (100222, '/static_product/images/metro_collection/H-10355-C.png', 'Front View With Office Items'), 
+    (100222, '/static_product/images/metro_collection/H-10355-D.png', 'Back View With Office Items'), 
+    (100222, '/static_product/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
+    (100222, '/static_product/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
     -- H-10354
-    (100223, '/static/images/metro_collection/H-10355-A.png', 'Front View'), 
-    (100223, '/static/images/metro_collection/H-10355-B.png', 'Back View'), 
-    (100223, '/static/images/metro_collection/H-10355-C.png', 'Front View With Office Items'), 
-    (100223, '/static/images/metro_collection/H-10355-D.png', 'Back View With Office Items'), 
-    (100223, '/static/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
-    (100223, '/static/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
+    (100223, '/static_product/images/metro_collection/H-10355-A.png', 'Front View'), 
+    (100223, '/static_product/images/metro_collection/H-10355-B.png', 'Back View'), 
+    (100223, '/static_product/images/metro_collection/H-10355-C.png', 'Front View With Office Items'), 
+    (100223, '/static_product/images/metro_collection/H-10355-D.png', 'Back View With Office Items'), 
+    (100223, '/static_product/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
+    (100223, '/static_product/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
     -- H-9779
-    (100224, '/static/images/metro_collection/H-10355-A.png', 'Front View'), 
-    (100224, '/static/images/metro_collection/H-10355-B.png', 'Back View'), 
-    (100224, '/static/images/metro_collection/H-10355-C.png', 'Front View With Office Items'), 
-    (100224, '/static/images/metro_collection/H-10355-D.png', 'Back View With Office Items'), 
-    (100224, '/static/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
-    (100224, '/static/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
+    (100224, '/static_product/images/metro_collection/H-10355-A.png', 'Front View'), 
+    (100224, '/static_product/images/metro_collection/H-10355-B.png', 'Back View'), 
+    (100224, '/static_product/images/metro_collection/H-10355-C.png', 'Front View With Office Items'), 
+    (100224, '/static_product/images/metro_collection/H-10355-D.png', 'Back View With Office Items'), 
+    (100224, '/static_product/images/metro_collection/corner-wheel.png', 'Bottom Corner Wheel'), 
+    (100224, '/static_product/images/metro_collection/grommet.png', 'Desktop Grommet With Cord'), 
     -- H-9784
-    (100225, '/static/images/metro_collection/H-9784-A.png', 'Front View'), 
-    (100225, '/static/images/metro_collection/H-9784-B.png', 'File Drawer Open'), 
-    (100225, '/static/images/metro_collection/laminate-edge.png', 'Laminate Corner'), 
-    (100225, '/static/images/metro_collection/lock-keys.png', 'Front - keys in keyhole'), 
+    (100225, '/static_product/images/metro_collection/H-9784-A.png', 'Front View'), 
+    (100225, '/static_product/images/metro_collection/H-9784-B.png', 'File Drawer Open'), 
+    (100225, '/static_product/images/metro_collection/laminate-edge.png', 'Laminate Corner'), 
+    (100225, '/static_product/images/metro_collection/lock-keys.png', 'Front - keys in keyhole'), 
     -- H-9785
-    (100226, '/static/images/metro_collection/H-9784-A.png', 'Front View'),
-    (100226, '/static/images/metro_collection/H-9784-B.png', 'File Drawer Open'),
-    (100226, '/static/images/metro_collection/H-9784-C.png', 'Box Drawer Open'),
-    (100226, '/static/images/metro_collection/laminate-edge.png', 'Laminate Corner'),
-    (100226, '/static/images/metro_collection/lock-keys.png', 'Front - keys in keyhole'); 
--- select * from products natural join product_variants where vendor_id = 'i_tombolli@study_space.com' and product_id in(850565, 850566, 850567, 850568, 850569, 850570) order by product_id;
-
-INSERT INTO products (vendor_id, product_title, product_description, warranty_months)
-VALUES
--- 850568
-	('i_tombolli@study_space.com', 'Designer Office Desks', 'Brighten up your workplace. Minimalist style for modern and trendy offices. 1" thick elevated laminate top with PVC edges and 2 cable grommets. 30" height. Durable white steel frame with beveled legs and hanging modesty panel.', 12),
--- 850569
-	('i_tombolli@study_space.com', 'Designer Office L-Desks', 'Brighten up your workplace. Minimalist style for modern and trendy offices. 1" thick elevated laminate top with PVC edges and 2 cable grommets. 30" height. Durable white steel frame with beveled legs and hanging modesty panel. L-Desk has extra space to get work done. Spread out your projects, reports, or creative materials.', 12),
--- 850570    
-	('i_tombolli@study_space.com', 'Designer Mobile Pedestal File - 3 Drawer', 'Companion storage tucks away neatly and underneath Designer Office Desks. Durable laminate surface resists scratches, stains and spills. 1 file drawer, 2 box drawers. 5 swivel casters, 2 locking. Includes lock and two keys.', 12);
-
-INSERT INTO colors (color_name)
-VALUES
-	('white'), -- 19790
-    ('maple'); -- 19791
-INSERT INTO sizes (size_description)
-VALUES
-	('60W X 66L Inches'), -- 34
-    ('72W X 66L Inches'), -- 35
-    ('16W X 18D X 26L Inches'); -- 36
--- SELECT * FROM sizes;
- INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory)
- VALUES
-	-- 100227
-	(850568, 19790, 28, 36900, 15),
-    -- 100228
-    (850568, 19791, 28, 36900, 15),
-    -- 100229
-	(850568, 19790, 29, 41900, 15),
-    -- 100230
-    (850568, 19791, 29, 41900, 15),
-    -- 100231
-    (850568, 19790, 22, 45900, 15),
-    -- 100232
-    (850568, 19791, 22, 45900, 15),
-    -- 100233
-    (850568, 19790, 32, 48900, 15),
-    -- 100234
-    (850568, 19791, 32, 48900, 15),
-    -- 100235
-    (850569, 19790, 34, 64900, 15),
-    -- 100236
-    (850569, 19791, 34, 64900, 15),
-    -- 100237
-    (850569, 19790, 35, 72900, 15),
-    -- 100238
-    (850569, 19791, 35, 72900, 15),
-    -- 100239
-    (850570, 19790, 36, 25900, 10),
-    -- 100240
-    (850570, 19791, 36, 25900, 10);
-select * from images where variant_id between 100227 AND 100240;
-INSERT INTO images (variant_id, file_path, alt_text)
-VALUES
-	(100227, '/static/images/designer_collection/H-9790-WHITE-A.png', 'Front View'),
-    (100227, '/static/images/designer_collection/H-9790-WHITE-B.png', 'Back View'),
-    (100227, '/static/images/designer_collection/H-9790-WHITE-C.png', 'Front View - Office Items'),
-    (100227, '/static/images/designer_collection/H-9790-WHITE-D.png', 'Back View -- Office Items'),
-	(100227, '/static/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
-    (100227, '/static/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
+    (100226, '/static_product/images/metro_collection/H-9784-A.png', 'Front View'),
+    (100226, '/static_product/images/metro_collection/H-9784-B.png', 'File Drawer Open'),
+    (100226, '/static_product/images/metro_collection/H-9784-C.png', 'Box Drawer Open'),
+    (100226, '/static_product/images/metro_collection/laminate-edge.png', 'Laminate Corner'),
+    (100226, '/static_product/images/metro_collection/lock-keys.png', 'Front - keys in keyhole'),
     
-    (100228, '/static/images/designer_collection/H-9790-MAPLE-A.png', 'Front View'),
-    (100228, '/static/images/designer_collection/H-9790-MAPLE-B.png', 'Back View'),
-    (100228, '/static/images/designer_collection/H-9790-MAPLE-C.png', 'Front View - Office Items'),
-    (100228, '/static/images/designer_collection/H-9790-MAPLE-D.png', 'Back View -- Office Items'),
-    (100228, '/static/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
-    (100228, '/static/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
+	(100227, '/static_product/images/designer_collection/H-9790-WHITE-A.png', 'Front View'),
+    (100227, '/static_product/images/designer_collection/H-9790-WHITE-B.png', 'Back View'),
+    (100227, '/static_product/images/designer_collection/H-9790-WHITE-C.png', 'Front View - Office Items'),
+    (100227, '/static_product/images/designer_collection/H-9790-WHITE-D.png', 'Back View -- Office Items'),
+	(100227, '/static_product/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
+    (100227, '/static_product/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
     
-    (100229, '/static/images/designer_collection/H-10260-WHITE-A.png', 'Front View'),
-    (100229, '/static/images/designer_collection/H-10260-WHITE-B.png', 'Back View'),
-    (100229, '/static/images/designer_collection/H-10260-WHITE-C.png', 'Front View - Office Items'),
-    (100229, '/static/images/designer_collection/H-10260-WHITE-D.png', 'Back View -- Office Items'),
-    (100229, '/static/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
-    (100229, '/static/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
+    (100228, '/static_product/images/designer_collection/H-9790-MAPLE-A.png', 'Front View'),
+    (100228, '/static_product/images/designer_collection/H-9790-MAPLE-B.png', 'Back View'),
+    (100228, '/static_product/images/designer_collection/H-9790-MAPLE-C.png', 'Front View - Office Items'),
+    (100228, '/static_product/images/designer_collection/H-9790-MAPLE-D.png', 'Back View -- Office Items'),
+    (100228, '/static_product/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
+    (100228, '/static_product/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
     
-    (100230, '/static/images/designer_collection/H-10260-MAPLE-A.png', 'Front View'),
-    (100230, '/static/images/designer_collection/H-10260-MAPLE-B.png', 'Back View'),
-    (100230, '/static/images/designer_collection/H-10260-MAPLE-C.png', 'Front View - Office Items'),
-    (100230, '/static/images/designer_collection/H-10260-MAPLE-D.png', 'Back View -- Office Items'),
-    (100230, '/static/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
-    (100230, '/static/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
+    (100229, '/static_product/images/designer_collection/H-10260-WHITE-A.png', 'Front View'),
+    (100229, '/static_product/images/designer_collection/H-10260-WHITE-B.png', 'Back View'),
+    (100229, '/static_product/images/designer_collection/H-10260-WHITE-C.png', 'Front View - Office Items'),
+    (100229, '/static_product/images/designer_collection/H-10260-WHITE-D.png', 'Back View -- Office Items'),
+    (100229, '/static_product/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
+    (100229, '/static_product/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
     
-    (100231, '/static/images/designer_collection/H-10260-WHITE-A.png', 'Front View'),
-    (100231, '/static/images/designer_collection/H-10260-WHITE-B.png', 'Back View'),
-    (100231, '/static/images/designer_collection/H-10260-WHITE-C.png', 'Front View - Office Items'),
-    (100231, '/static/images/designer_collection/H-10260-WHITE-D.png', 'Back View -- Office Items'),
-    (100231, '/static/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
-    (100231, '/static/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
+    (100230, '/static_product/images/designer_collection/H-10260-MAPLE-A.png', 'Front View'),
+    (100230, '/static_product/images/designer_collection/H-10260-MAPLE-B.png', 'Back View'),
+    (100230, '/static_product/images/designer_collection/H-10260-MAPLE-C.png', 'Front View - Office Items'),
+    (100230, '/static_product/images/designer_collection/H-10260-MAPLE-D.png', 'Back View -- Office Items'),
+    (100230, '/static_product/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
+    (100230, '/static_product/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
     
-    (100232, '/static/images/designer_collection/H-10260-MAPLE-A.png', 'Front View'),
-    (100232, '/static/images/designer_collection/H-10260-MAPLE-B.png', 'Back View'),
-    (100232, '/static/images/designer_collection/H-10260-MAPLE-C.png', 'Front View - Office Items'),
-    (100232, '/static/images/designer_collection/H-10260-MAPLE-D.png', 'Back View -- Office Items'),
-    (100232, '/static/images/designer_collectiongrommet-maple.png', 'Desktop Grommet with Cord'),
-    (100232, '/static/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
+    (100231, '/static_product/images/designer_collection/H-10260-WHITE-A.png', 'Front View'),
+    (100231, '/static_product/images/designer_collection/H-10260-WHITE-B.png', 'Back View'),
+    (100231, '/static_product/images/designer_collection/H-10260-WHITE-C.png', 'Front View - Office Items'),
+    (100231, '/static_product/images/designer_collection/H-10260-WHITE-D.png', 'Back View -- Office Items'),
+    (100231, '/static_product/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
+    (100231, '/static_product/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
     
-    (100233, '/static/images/designer_collection/H-10261-WHITE-A.png', 'Front View'),
-    (100233, '/static/images/designer_collection/H-10261-WHITE-B.png', 'Back View'),
-    (100233, '/static/images/designer_collection/H-10261-WHITE-C.png', 'Front View - Office Items'),
-    (100233, '/static/images/designer_collection/H-10261-WHITE-D.png', 'Back View -- Office Items'),
-    (100233, '/static/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
-    (100233, '/static/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
+    (100232, '/static_product/images/designer_collection/H-10260-MAPLE-A.png', 'Front View'),
+    (100232, '/static_product/images/designer_collection/H-10260-MAPLE-B.png', 'Back View'),
+    (100232, '/static_product/images/designer_collection/H-10260-MAPLE-C.png', 'Front View - Office Items'),
+    (100232, '/static_product/images/designer_collection/H-10260-MAPLE-D.png', 'Back View -- Office Items'),
+    (100232, '/static_product/images/designer_collectiongrommet-maple.png', 'Desktop Grommet with Cord'),
+    (100232, '/static_product/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
     
-    (100234, '/static/images/designer_collection/H-10261-MAPLE-A.png', 'Front View'),
-    (100234, '/static/images/designer_collection/H-10261-MAPLE-B.png', 'Back View'),
-    (100234, '/static/images/designer_collection/H-10261-MAPLE-C.png', 'Front View - Office Items'),
-    (100234, '/static/images/designer_collection/H-10261-MAPLE-D.png', 'Back View -- Office Items'),
-    (100234, '/static/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
-    (100234, '/static/images/designer_collection/laminate-corner-maple.png', 'Back View -- Office Items'),
+    (100233, '/static_product/images/designer_collection/H-10261-WHITE-A.png', 'Front View'),
+    (100233, '/static_product/images/designer_collection/H-10261-WHITE-B.png', 'Back View'),
+    (100233, '/static_product/images/designer_collection/H-10261-WHITE-C.png', 'Front View - Office Items'),
+    (100233, '/static_product/images/designer_collection/H-10261-WHITE-D.png', 'Back View -- Office Items'),
+    (100233, '/static_product/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
+    (100233, '/static_product/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
     
-    (100235, '/static/images/designer_collection/H-9800-WHITE-A.png', 'Front View'),
-    (100235, '/static/images/designer_collection/H-9800-WHITE-B.png', 'Back View'),
-    (100235, '/static/images/designer_collection/H-9800-WHITE-C.png', 'Front View - Office Items'),
-    (100235, '/static/images/designer_collection/H-9800-WHITE-D.png', 'Back View -- Office Items'),
-    (100235, '/static/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
-    (100235, '/static/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
+    (100234, '/static_product/images/designer_collection/H-10261-MAPLE-A.png', 'Front View'),
+    (100234, '/static_product/images/designer_collection/H-10261-MAPLE-B.png', 'Back View'),
+    (100234, '/static_product/images/designer_collection/H-10261-MAPLE-C.png', 'Front View - Office Items'),
+    (100234, '/static_product/images/designer_collection/H-10261-MAPLE-D.png', 'Back View -- Office Items'),
+    (100234, '/static_product/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
+    (100234, '/static_product/images/designer_collection/laminate-corner-maple.png', 'Back View -- Office Items'),
     
-    (100236, '/static/images/designer_collection/H-9800-MAPLE-A.png', 'Front View'),
-    (100236, '/static/images/designer_collection/H-9800-MAPLE-B.png', 'Back View'),
-    (100236, '/static/images/designer_collection/H-9800-MAPLE-C.png', 'Front View - Office Items'),
-    (100236, '/static/images/designer_collection/H-9800-MAPLE-D.png', 'Back View -- Office Items'),
-    (100236, '/static/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
-    (100236, '/static/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
+    (100235, '/static_product/images/designer_collection/H-9800-WHITE-A.png', 'Front View'),
+    (100235, '/static_product/images/designer_collection/H-9800-WHITE-B.png', 'Back View'),
+    (100235, '/static_product/images/designer_collection/H-9800-WHITE-C.png', 'Front View - Office Items'),
+    (100235, '/static_product/images/designer_collection/H-9800-WHITE-D.png', 'Back View -- Office Items'),
+    (100235, '/static_product/images/designer_collection/laminate-corner-white.png', 'Laminate Corner'),
+    (100235, '/static_product/images/designer_collection/grommet-white.png', 'Desktop Grommet with Cord'),
     
---     (100237, '/static/images/designer_collection/H-10262-WHITE-', 'Front View'),
---     (100237, '/static/images/designer_collection/H-10262-WHITE-', 'Back View'),
---     (100237, '/static/images/designer_collection/H-10262-WHITE-', 'Front View - Office Items'),
---     (100237, '/static/images/designer_collection/H-10262-WHITE-', 'Back View -- Office Items'),
+    (100236, '/static_product/images/designer_collection/H-9800-MAPLE-A.png', 'Front View'),
+    (100236, '/static_product/images/designer_collection/H-9800-MAPLE-B.png', 'Back View'),
+    (100236, '/static_product/images/designer_collection/H-9800-MAPLE-C.png', 'Front View - Office Items'),
+    (100236, '/static_product/images/designer_collection/H-9800-MAPLE-D.png', 'Back View -- Office Items'),
+    (100236, '/static_product/images/designer_collection/laminate-corner-maple.png', 'Laminate Corner'),
+    (100236, '/static_product/images/designer_collection/grommet-maple.png', 'Desktop Grommet with Cord'),
+    
+--     (100237, '/static_product/images/designer_collection/H-10262-WHITE-', 'Front View'),
+--     (100237, '/static_product/images/designer_collection/H-10262-WHITE-', 'Back View'),
+--     (100237, '/static_product/images/designer_collection/H-10262-WHITE-', 'Front View - Office Items'),
+--     (100237, '/static_product/images/designer_collection/H-10262-WHITE-', 'Back View -- Office Items'),
 --     
---     (100238, '/static/images/designer_collection/H-10262-MAPLE-', 'Front View'),
---     (100238, '/static/images/designer_collection/H-10262-MAPLE-', 'Back View'),
---     (100238, '/static/images/designer_collection/H-10262-MAPLE-', 'Front View - Office Items'),
---     (100238, '/static/images/designer_collection/H-10262-MAPLE-', 'Back View -- Office Items'),
+--     (100238, '/static_product/images/designer_collection/H-10262-MAPLE-', 'Front View'),
+--     (100238, '/static_product/images/designer_collection/H-10262-MAPLE-', 'Back View'),
+--     (100238, '/static_product/images/designer_collection/H-10262-MAPLE-', 'Front View - Office Items'),
+--     (100238, '/static_product/images/designer_collection/H-10262-MAPLE-', 'Back View -- Office Items'),
     
-    (100239, '/static/images/designer_collection/H-9806-WHITE-A.png', 'Front View'),
-    (100239, '/static/images/designer_collection/H-9806-WHITE-B.png', 'File Drawer Open'),
-    (100239, '/static/images/designer_collection/H-9806-WHITE-C.png', 'Block Drawer Open'),
-    (100239, '/static/images/designer_collection/lock-keys-white.png', 'Front - keys in keyhole'),
-    (100239, '/static/images/designer_collection/pedestal-wheel-white.png', 'Front Corner - Wheel'),
+    (100239, '/static_product/images/designer_collection/H-9806-WHITE-A.png', 'Front View'),
+    (100239, '/static_product/images/designer_collection/H-9806-WHITE-B.png', 'File Drawer Open'),
+    (100239, '/static_product/images/designer_collection/H-9806-WHITE-C.png', 'Block Drawer Open'),
+    (100239, '/static_product/images/designer_collection/lock-keys-white.png', 'Front - keys in keyhole'),
+    (100239, '/static_product/images/designer_collection/pedestal-wheel-white.png', 'Front Corner - Wheel'),
     
-    (100240, '/static/images/designer_collection/H-9806-MAPLE-A.png', 'Front View'),
-    (100240, '/static/images/designer_collection/H-9806-MAPLE-B.png', 'File Drawer Open'),
-    (100240, '/static/images/designer_collection/H-9806-MAPLE-C.png', 'Block Drawer Open'),
-    (100240, '/static/images/designer_collection/lock-keys-maple.png', 'Front - keys in keyhole'),
-    (100240, '/static/images/designer_collection/pedestal-wheel-maple.png', 'Front Corner - Wheel');
+    (100240, '/static_product/images/designer_collection/H-9806-MAPLE-A.png', 'Front View'),
+    (100240, '/static_product/images/designer_collection/H-9806-MAPLE-B.png', 'File Drawer Open'),
+    (100240, '/static_product/images/designer_collection/H-9806-MAPLE-C.png', 'Block Drawer Open'),
+    (100240, '/static_product/images/designer_collection/lock-keys-maple.png', 'Front - keys in keyhole'),
+    (100240, '/static_product/images/designer_collection/pedestal-wheel-maple.png', 'Front Corner - Wheel'),
+	-- 100241
+	(100241, '/static_product/images/school_supplies/backpacks/JS0A47JK5M9-A', ''),
+    (100241, '/static_product/images/school_supplies/backpacks/JS0A47JK5M9-B', ''),
+    (100241, '/static_product/images/school_supplies/backpacks/JS0A47JK5M9-C', ''),
     
-select * from users;
-select variant_id from product_variants where product_id = 850555;
-select product_title, product_description from products where product_id = 850555;
-select product_id, COUNT(variant_id) from product_variants group by product_id order by product_id;
-select MIN(price), MAX(price) from product_variants where product_id = 850555;
-select product_id, product_title, size_description from products natural join product_variants natural join sizes where product_id = 850555 and variant_id IN(100200, 100201, 100202);
-
--- SELECT products.product_id, products.product_title, sizes.size_description
--- 	FROM products INNER JOIN product_variants
--- 	INNER JOIN sizes ON products.product_id = product_variants.product_id
--- 	AND product_variants.size_id = sizes.size_id
---     WHERE products.product_id = :id AND variant_id = :vid;
-
-
-SELECT variant_id, COUNT(color_name), COUNT(size_description)
-FROM product_variants
-NATURAL JOIN colors
-NATURAL JOIN sizes
-GROUP BY variant_id
-ORDER BY variant_id;
-
--- select
--- SELECT product_id FROM products;
--- SELECT product_title, product_description FROM products WHERE product_id = :id;
--- SELECT variant_id, price FROM product_variants WHERE product_id = :id;
--- SELECT size_description FROM sizes WHERE variant_id = :id;
--- SELECT color_name FROM colors WHERE varian_id = :id;
--- SELECT product_title, product_description, size_description, price, warranty_months, current_inventory, product_id, variant_id 
--- FROM products NATURAL JOIN product_variants NATURAL JOIN sizes;
--- SELECT color_description FROM colors NATURAL JOIN product_variants WHERE product_id = AND variant_id = ;
+    (100242, '/static_product/images/school_supplies/backpacks/TDN7008JAN-A', ''),
+    (100242, '/static_product/images/school_supplies/backpacks/TDN7008JAN-B', ''),
+    (100242, '/static_product/images/school_supplies/backpacks/TDN7008JAN-C', ''),
+    
+    (100243, '/static_product/images/school_supplies/backpacks/JS00TDN7003-A', ''),
+    
+    (100244, '/static_product/images/school_supplies/backpacks/JS0A47JK7N8-A', ''),
+    (100244, '/static_product/images/school_supplies/backpacks/JS0A47JK7N8-B', ''),
+    (100244, '/static_product/images/school_supplies/backpacks/JS0A47JK7N8-C', ''),
+    
+    (100245, '/static_product/images/school_supplies/backpacks/JS0A47JKZ70-A', ''),
+    (100245, '/static_product/images/school_supplies/backpacks/JS0A47JKZ70-B', ''),
+    
+    (100246, '/static_product/images/school_supplies/backpacks/JS0A47JK04S-A', ''),
+    (100246, '/static_product/images/school_supplies/backpacks/JS0A47JK04S-B', ''),
+    (100246, '/static_product/images/school_supplies/backpacks/JS0A47JK04S-C', ''),
+    
+    (100247, '/static_product/images/school_supplies/backpacks/JS0A47JKAO5-A', ''),
+    (100247, '/static_product/images/school_supplies/backpacks/JS0A47JKAO5-B', ''),
+    
+    (100248, '/static_product/images/school_supplies/backpacks/JS0A47JKAO3-A', ''),
+    (100248, '/static_product/images/school_supplies/backpacks/JS0A47JKAO3-B', ''),
+    
+    (100249, '/static_product/images/school_supplies/backpacks/JS0A47JKZ47-A', ''),
+    (100249, '/static_product/images/school_supplies/backpacks/JS0A47JKZ47-B', ''),
+    (100249, '/static_product/images/school_supplies/backpacks/JS0A47JKZ47-C', ''),
+    
+    (100250, '/static_product/images/school_supplies/2095545-A', ''),
+    (100250, '/static_product/images/school_supplies/2095545-B', ''),
+    (100250, '/static_product/images/school_supplies/POST-IT-C', ''),
+    
+	(100251, '/static_product/images/school_supplies/77278-A', ''),
+    (100251, '/static_product/images/school_supplies/77278-B', ''),
+    (100251, '/static_product/images/school_supplies/POST-IT-C', ''),
+    
+	(100252, '/static_product/images/school_supplies/24534139-A', ''),
+    (100252, '/static_product/images/school_supplies/24534139-B', ''),
+    (100252, '/static_product/images/school_supplies/POST-IT-C', ''),
+    
+	(100253, '/static_product/images/school_supplies/77285-A', ''),
+    (100253, '/static_product/images/school_supplies/77285-B', ''),
+    (100253, '/static_product/images/school_supplies/POST-IT-C', ''),
+    
+	(100254, '/static_product/images/school_supplies/2398220-A', ''),
+    (100254, '/static_product/images/school_supplies/2398220-B', ''),
+    (100254, '/static_product/images/school_supplies/POST-IT-C', ''),
+    
+	(100255, '/static_product/images/school_supplies/586111-A', ''),
+    (100255, '/static_product/images/school_supplies/586111-B', ''),
+    (100255, '/static_product/images/school_supplies/POST-IT-C', ''),
+    
+	(100256, '/static_product/images/school_supplies/562930-A', ''),
+    (100256, '/static_product/images/school_supplies/562930-B', ''),
+    (100256, '/static_product/images/school_supplies/POST-IT-C', ''),
+    
+	(100257, '/static_product/images/school_supplies/24517481-A', ''),
+    (100257, '/static_product/images/school_supplies/24517481-B', ''),
+    (100257, '/static_product/images/school_supplies/POST-IT-C', ''),
+    
+    (100258, '/static_product/images/school_supplies/575671-A', ''),
+    (100258, '/static_product/images/school_supplies/575671-B', ''),
+    
+    (100259, '/static_product/images/school_supplies/663660-A', ''),
+    (100259, '/static_product/images/school_supplies/663660-B', ''),
+    
+    (100260, '/static_product/images/school_supplies/751540-A', ''),
+    (100260, '/static_product/images/school_supplies/751540-B', ''),
+    
+    (100261, '/static_product/images/school_supplies/24583386-A', ''),
+    (100261, '/static_product/images/school_supplies/24583386-B', ''),
+    
+    (100262, '/static_product/images/school_supplies/24583387-A', ''),
+    (100262, '/static_product/images/school_supplies/24583387-B', ''),
+    
+    (100263, '/static_product/images/technology/100263-A.png', ''), -- 850577
+    (100263, '/static_product/images/technology/100263-B.png', ''),
+    
+    (100264, '/static_product/images/technology/100264-A.png', ''),
+    (100264, '/static_product/images/technology/100264-B.png', ''),
+    
+    (100265, '/static_product/images/technology/100265-A.png', ''),
+    (100265, '/static_product/images/technology/100265-B.png', ''),
+    
+	(100266, '/static_product/images/technology/100266-A.png', ''),
+    (100266, '/static_product/images/technology/100266-B.png', ''),
+    
+    (100267, '/static_product/images/technology/100267-A.png', ''),
+    (100267, '/static_product/images/technology/100267-B.png', ''),
+    -- canon printers
+    (100268, 'https://i.ebayimg.com/images/g/yE0AAOSwN9Nm9eRW/s-l400.jpg', ''),
+    (100268, 'https://crdms.images.consumerreports.org/f_auto,w_600/prod/products/cr/models/408882-all-in-one-tank-inkjet-printers-canon-megatank-maxify-gx3020-10036450.png', ''),
+    
+    (100269, 'https://media.officedepot.com/images/f_auto,q_auto,e_sharpen,h_450/products/8426203/8426203_o51_canon_maxify_gx4020_wireless_megatank_small_office_all_in_one_color_printer/8426203', ''),
+    (100269, 'https://s7d1.scene7.com/is/image/canon/5779C002_GX4020_2?wid=800', ''),
+    
+    (100270, 'https://m.media-amazon.com/images/I/71gFWh3WhlL.jpg', ''),
+    (100270, 'https://webobjects2.cdw.com/is/image/CDW/7323310?$product-main$', ''),
+    
+    -- canon ink bottles
+    (100271, 'https://content.oppictures.com/Master_Images/Master_Variants/Variant_240/719466.JPG', ''),
+    (100271, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230822_sc7?wid=700&hei=700', ''),
+    (100271, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230823_sc7?wid=700&hei=700', ''),
+    
+    (100272, 'https://www.staples-3p.com/s7/is/image/Staples/sp172009163_sc7?wid=700&hei=700', ''),
+    (100272, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230828_sc7?wid=700&hei=700', ''),
+    (100272, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230829_sc7?wid=700&hei=700', ''),
+    
+    (100273, 'https://www.staples-3p.com/s7/is/image/Staples/sp172008526_sc7?wid=700&hei=700', ''),
+    (100273, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230824_sc7?wid=700&hei=700', ''),
+    (100273, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230825_sc7?wid=700&hei=700', ''),
+    
+    (100274, 'https://www.compandsave.com/media/catalog/product/cache/e4401aba6d3f9e552234272afd624a20/c/a/canon-gi-26-cyan-ink-bottle.JPG', ''),
+    (100274, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230826_sc7?wid=700&hei=700', ''),
+    (100274, 'https://www.staples-3p.com/s7/is/image/Staples/sp131230827_sc7?wid=700&hei=700', ''),
+    
+    -- pilot g2 gel pens --
+	-- black
+    (100275, 'https://www.staples-3p.com/s7/is/image/Staples/sp130855922_sc7?wid=700&hei=700', ''),
+    (100275, 'https://www.staples-3p.com/s7/is/image/Staples/sp40286010_sc7?wid=700&hei=700', ''),
+    (100275, 'https://www.staples-3p.com/s7/is/image/Staples/sp130855909_sc7?wid=700&hei=700', ''),
+    -- red
+    (100276, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856306_sc7?wid=700&hei=700', ''),
+    (100276, 'https://www.staples-3p.com/s7/is/image/Staples/sp130855924_sc7?wid=700&hei=700', ''),
+    (100276, 'https://www.staples-3p.com/s7/is/image/Staples/sp130855909_sc7?wid=700&hei=700', ''),
+    -- green
+    (100277, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856294_sc7?wid=700&hei=700', ''),
+    (100277, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856295_sc7?wid=700&hei=700', ''),
+    (100277, 'https://www.staples-3p.com/s7/is/image/Staples/sp130855909_sc7?wid=700&hei=700', ''),
+	-- blue	
+    (100278, 'https://www.staples-3p.com/s7/is/image/Staples/sp138382946_sc7?wid=700&hei=700', ''),
+    (100278, 'https://www.staples-3p.com/s7/is/image/Staples/sp41817060_sc7?wid=700&hei=700', ''),
+    (100278, 'https://www.staples-3p.com/s7/is/image/Staples/sp130855909_sc7?wid=700&hei=700', ''),
+    -- navy
+    (100279, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856301_sc7?wid=700&hei=700', ''),
+    (100279, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856302_sc7?wid=700&hei=700', ''),
+    (100279, 'https://www.staples-3p.com/s7/is/image/Staples/sp130855909_sc7?wid=700&hei=700', ''),
+    -- purple
+    (100280, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856303_sc7?wid=700&hei=700', ''),
+    (100280, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856304_sc7?wid=700&hei=700', ''),
+    (100280, 'https://www.staples-3p.com/s7/is/image/Staples/sp130855909_sc7?wid=700&hei=700', ''),
+    -- bic round ballpoint pens 60 pack --
+    -- black
+    (100281, 'https://www.staples-3p.com/s7/is/image/Staples/AFD5FBB8-71A3-434C-989B74986834C3E5_sc7?wid=700&hei=700', ''),
+    (100281, 'https://www.staples-3p.com/s7/is/image/Staples/281C65AA-E03C-4165-BE0335374B5300D6_sc7?wid=700&hei=700', ''),
+    -- blue
+    (100282, 'https://www.staples-3p.com/s7/is/image/Staples/8FF19026-7FC9-49C6-945FC921B193E318_sc7?wid=700&hei=700', ''),
+    (100282, 'https://www.staples-3p.com/s7/is/image/Staples/0E907B5E-E49E-41E3-94C9770B386C4F22_sc7?wid=700&hei=700', ''),
+    -- paper mate felt pens --
+    (100283, 'https://www.staples-3p.com/s7/is/image/Staples/98C1DFBD-AFCE-488D-B080922050338AA7_sc7?wid=700&hei=700', ''),
+    (100283, 'https://www.staples-3p.com/s7/is/image/Staples/sp161466748_sc7?wid=700&hei=700', ''),
+    (100283, 'https://www.staples-3p.com/s7/is/image/Staples/sp161466749_sc7?wid=700&hei=700', ''),
+    -- sharpie permenant markers --
+    -- black
+    (100284, 'https://www.staples-3p.com/s7/is/image/Staples/D67EC31B-0DB3-45F9-BD62DC872D1ACBF1_sc7?wid=700&hei=700', ''),
+    (100284, 'https://www.staples-3p.com/s7/is/image/Staples/1BCDF1C0-5454-4A4A-A616BD9601C8C140_sc7?wid=700&hei=700', ''),
+    (100284, 'https://www.staples-3p.com/s7/is/image/Staples/DD9A5C21-9C21-4A0E-B3B6C1149A3D0399_sc7?wid=700&hei=700', ''),
+    -- red
+    (100285, 'https://www.staples-3p.com/s7/is/image/Staples/5CA98F6D-8D11-4886-B08C0CC322E38815_sc7?wid=700&hei=700', ''),
+    (100285, 'https://www.staples-3p.com/s7/is/image/Staples/sp89168542_sc7?wid=700&hei=700', ''),
+    (100285, 'https://www.staples-3p.com/s7/is/image/Staples/s0922441_sc7?wid=700&hei=700', ''),
+    -- blue
+    (100286, 'https://www.staples-3p.com/s7/is/image/Staples/1C929E3D-8BCF-48E2-A00933FB4AAD3B2D_sc7?wid=700&hei=700', ''),
+    (100286, 'https://www.staples-3p.com/s7/is/image/Staples/s0933668_sc7?wid=700&hei=700', ''),
+    (100286, 'https://www.staples-3p.com/s7/is/image/Staples/s0922442_sc7?wid=700&hei=700', ''),
+    -- silver
+    (100287, 'https://www.staples-3p.com/s7/is/image/Staples/m007068285_sc7?wid=700&hei=700', ''),
+    (100287, 'https://www.staples-3p.com/s7/is/image/Staples/m007068281_sc7?wid=700&hei=700', ''),
+    (100287, 'https://www.staples-3p.com/s7/is/image/Staples/m007068283_sc7?wid=700&hei=700', ''),
+    -- assorted
+    (100288, 'https://www.staples-3p.com/s7/is/image/Staples/s1189983_sc7?wid=700&hei=700', ''),
+    (100288, 'https://www.staples-3p.com/s7/is/image/Staples/m002908378_sc7?wid=700&hei=700', ''),
+    -- assorted 24 pack
+    (100289, 'https://www.staples-3p.com/s7/is/image/Staples/D5E6B1CA-30FC-4219-9BD4322085DCA998_sc7?wid=700&hei=700', ''),
+    (100289, 'https://www.staples-3p.com/s7/is/image/Staples/sp44335828_sc7?wid=700&hei=700', ''),
+    (100289, 'https://www.staples-3p.com/s7/is/image/Staples/sp44335829_sc7?wid=700&hei=700', ''),
+    -- dry erase starter set
+    (100290, 'https://www.staples-3p.com/s7/is/image/Staples/E1755194-7001-4CE3-93598F83B0079751_sc7?wid=700&hei=700', ''),
+    (100290, 'https://www.staples-3p.com/s7/is/image/Staples/sp40798560_sc7?wid=700&hei=700', ''),
+    (100290, 'https://www.staples-3p.com/s7/is/image/Staples/sp40798562_sc7?wid=700&hei=700', ''),
+    (100290, 'https://www.staples-3p.com/s7/is/image/Staples/sp40798565_sc7?wid=700&hei=700', ''),
+    -- dry erase kit
+    (100291, 'https://www.staples-3p.com/s7/is/image/Staples/m002304039_sc7?wid=700&hei=700', ''),
+    (100291, 'https://www.staples-3p.com/s7/is/image/Staples/m002304040_sc7?wid=700&hei=700https://www.staples-3p.com/s7/is/image/Staples/m002304040_sc7?wid=700&hei=700', ''),
+    (100291, 'https://www.staples-3p.com/s7/is/image/Staples/m002304041_sc7?wid=700&hei=700', ''),
+    (100291, 'https://www.staples-3p.com/s7/is/image/Staples/m002304042_sc7?wid=700&hei=700', ''),
+    -- dry erase markers
+    -- assorted
+    (100292, 'https://www.staples-3p.com/s7/is/image/Staples/1B6FF91A-3111-4FC5-993BBF7E44F1E0BE_sc7?wid=700&hei=700', ''),
+    (100292, 'https://www.staples-3p.com/s7/is/image/Staples/sp155560515_sc7?wid=700&hei=700', ''),
+    (100292, 'https://www.staples-3p.com/s7/is/image/Staples/sp155560516_sc7?wid=700&hei=700', ''),
+    -- black
+    (100293, 'https://www.staples-3p.com/s7/is/image/Staples/sp161387743_sc7?wid=700&hei=700', ''),
+    (100293, 'https://www.staples-3p.com/s7/is/image/Staples/sp161387838_sc7?wid=700&hei=700', ''),
+    (100293, 'https://www.staples-3p.com/s7/is/image/Staples/sp161387839_sc7?wid=700&hei=700', ''),
+    -- red
+    (100294, 'https://www.staples-3p.com/s7/is/image/Staples/sp102580415_sc7?wid=700&hei=700', ''),
+    (100294, 'https://www.staples-3p.com/s7/is/image/Staples/6E4861C8-7E9A-4E8F-9968DE672544E5AA_sc7?wid=700&hei=700', ''),
+    (100294, 'https://www.staples-3p.com/s7/is/image/Staples/sp102580416_sc7?wid=700&hei=700', ''),
+    -- green
+    (100295, 'https://www.staples-3p.com/s7/is/image/Staples/sp40888435_sc7?wid=700&hei=700', ''),
+    (100295, 'https://www.staples-3p.com/s7/is/image/Staples/sp40888433_sc7?wid=700&hei=700', ''),
+    (100295, 'https://www.staples-3p.com/s7/is/image/Staples/sp40888432_sc7?wid=700&hei=700', ''),
+    -- blue
+    (100296, 'https://www.staples-3p.com/s7/is/image/Staples/s1184756_sc7?wid=700&hei=700', ''),
+    (100296, 'https://www.staples-3p.com/s7/is/image/Staples/614B9DDE-27C9-41AE-89E590D1247EC18B_sc7?wid=700&hei=700', ''),
+    (100296, 'https://www.staples-3p.com/s7/is/image/Staples/sp57451607_sc7?wid=700&hei=700', ''),
+    -- purple
+    (100297, 'https://www.staples-3p.com/s7/is/image/Staples/s1192758_sc7?wid=700&hei=700', ''),
+    (100297, 'https://www.staples-3p.com/s7/is/image/Staples/sp49508023_sc7?wid=700&hei=700', ''),
+    -- manila folders
+    -- manila
+    (100298, 'https://www.staples-3p.com/s7/is/image/Staples/m005168086_sc7?wid=700&hei=700', ''),
+    (100298, 'https://www.staples-3p.com/s7/is/image/Staples/m005168088_sc7?wid=700&hei=700', ''),
+    -- assorted
+    (100299, 'https://www.staples-3p.com/s7/is/image/Staples/m005168092_sc7?wid=700&hei=700', ''),
+    (100299, 'https://www.staples-3p.com/s7/is/image/Staples/m005168094_sc7?wid=700&hei=700', ''),
+    -- manila folders 100pack
+    (100300, 'https://www.staples-3p.com/s7/is/image/Staples/D78FD954-11CF-41A0-A71BBCB7CCD8766E_sc7?wid=700&hei=700', ''),
+    (100300, 'https://www.staples-3p.com/s7/is/image/Staples/D11D58C3-46E6-43A7-9C047BE614DFC4D7_sc7?wid=700&hei=700', ''),
+    -- glow recycled folders
+    (100301, 'https://www.staples-3p.com/s7/is/image/Staples/A692FDEC-9287-4F04-82D5EB5EAB02A116_sc7?wid=700&hei=700', ''),
+    (100301, 'https://www.staples-3p.com/s7/is/image/Staples/m005168164_sc7?wid=700&hei=700', ''),
+    (100301, 'https://www.staples-3p.com/s7/is/image/Staples/m005168165_sc7?wid=700&hei=700', ''),
+    -- two toned file folders
+    (100302, 'https://www.staples-3p.com/s7/is/image/Staples/C1E78604-C620-441E-A279141C22632D96_sc7?wid=700&hei=700', ''),
+    (100302, 'https://www.staples-3p.com/s7/is/image/Staples/32EF3FA8-228A-4D80-A9D50D37769E6E94_sc7?wid=700&hei=700', ''),
+    (100302, 'https://www.staples-3p.com/s7/is/image/Staples/358543D3-5044-4F4E-B0844D7B6F1B81A6_sc7?wid=700&hei=700', ''),
+    -- storage lock box
+    (100303, 'https://www.staples-3p.com/s7/is/image/Staples/s1149303_sc7?wid=700&hei=700', ''),
+    (100303, 'https://www.staples-3p.com/s7/is/image/Staples/s1149302_sc7?wid=700&hei=700', ''),
+    (100303, 'https://www.staples-3p.com/s7/is/image/Staples/s1149299_sc7?wid=700&hei=700', ''),
+    -- storage bin
+    (100304, 'https://www.staples-3p.com/s7/is/image/Staples/0CE12CD8-6132-4072-B0831D74D6DFA3FA_sc7?wid=700&hei=700', ''),
+    (100304, 'https://www.staples-3p.com/s7/is/image/Staples/sp39611891_sc7?wid=700&hei=700', ''),
+    (100304, 'https://www.staples-3p.com/s7/is/image/Staples/sp39611893_sc7?wid=700&hei=700', '');
+    

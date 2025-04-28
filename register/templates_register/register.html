@@ -1,0 +1,78 @@
+<link rel="stylesheet" href="/static/styles/styles.css">
+{% extends 'base.html' %}
+{% block body %}
+    <!-- <nav>
+        <ul>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/signup">Create account</a></li>
+        </ul>
+    </nav> -->
+    <section class="login-container">
+        <div class="login-inner">
+            <h1 class="login-h1">Register</h1>
+            
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+            {% if success %}
+                {% autoescape false %}
+                <h2 class="success">{{ success }}</h2>
+                {% endautoescape %}
+            {% endif %}
+
+            <form class="login-form space" action="/register" method="post">
+                <div class="input-row">
+                    <div class="fancy-input full-width">
+                        <input class="full-width" type="text" name="email" placeholder="" required />
+                        <label for="email">Email:</label>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="fancy-input full-width">
+                        <input class="full-width" type="text" name="username" placeholder="" required />
+                        <label for="username">Username:</label>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="fancy-input full-width">
+                        <input class="full-width" type="text" name="first_name" placeholder="" required />
+                        <label for="first_name">First Name:</label>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="fancy-input full-width">
+                        <input class="full-width" type="text" name="last_name" placeholder="" required />
+                        <label for="last_name">Last Name:</label>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="fancy-input full-width">
+                        <input class="full-width" type="password" name="password" placeholder="" required />
+                        <label for="password">Password:</label>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="fancy-input full-width">
+                        <input class="full-width" type="password" name="re-password" placeholder="" required />
+                        <label for="re-password">Re-enter Password:</label>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="fancy-input full-width">
+                        <select class="full-width" for="type" name="type">
+                            <option value="customer" selected>Customer</option>
+                            <option value="vendor">Vendor</option>
+                            {% if isAdmin %}
+                                <option value="admin">Admin</option>
+                            {% endif %}
+                        </select>
+                        <input class="full-width" style="display: none">
+                        <label class="label-shown" for="type">Type</label>
+                    </div>
+                </div>
+                <p class="to-register">Already have an account? <a href="{{url_for('login.login')}}">Login Here</a></p>
+                <button class="btn" type="submit">Login</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}
