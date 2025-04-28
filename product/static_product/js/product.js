@@ -4,11 +4,51 @@ let productSortDOM = document.getElementById("product-sort")
 let productFilterDOM = document.getElementById("product-filter")
 let reviewsDOM = document.getElementsByClassName("product-review");
 
+
+function compareDate(a, b) {
+    if (a.dataset.date < b.dataset.date)
+        return 1;
+    if (a.dataset.date > b.dataset.date)
+        return -1;
+    return 0;
+}
+
+function compareRating(a, b) {
+    if (a.dataset.rating < b.dataset.rating)
+        return 1;
+    if (a.dataset.rating > b.dataset.rating)
+        return -1;
+    return 0;
+}
+
+
+
 document.addEventListener("click", (e) => {
     if(e.target.parentNode.className === "product-img-small") {
         mainImageDOM.src = e.target.src
     }
     
+});
+
+productSortDOM.addEventListener("change", (e) => {
+    sort = productSortDOM.value
+
+    let elems = document.querySelectorAll(".product-review");
+    let elemsArray = Array.from(elems);
+    let sorted
+
+    if (sort === "pos")
+        sorted = elemsArray.sort(compareRating);
+    else if (sort === "crit") {
+        sorted = elemsArray.sort(compareRating);
+        sorted.reverse()
+    }
+    else
+        sorted = elemsArray.sort(compareDate);
+
+    sorted.forEach(e =>
+        document.querySelectorAll(".product-reviews-container")[0].appendChild(e)
+    );
 });
 
 productFilterDOM.addEventListener("change", (e) => {
@@ -17,7 +57,7 @@ productFilterDOM.addEventListener("change", (e) => {
 
     for (let review of reviewsDOM) {
         display = "none"
-        rating = review.getAttribute("rating")
+        rating = review.dataset.rating
         if (filter === "all")
             display = "block";
         else if (filter === "pos") {

@@ -91,7 +91,8 @@ def product(productId, variantId=None, error=None):
         'description': 4,
         'image': 5,
         'date': 6,
-        'full_name': 7
+        'full_name': 7,
+        'date_time': 8
     }
     # product data. Index like this productData[pi['product_title']]
     productData = conn.execute(text(
@@ -120,7 +121,7 @@ def product(productId, variantId=None, error=None):
 
     )).all() )
     reviewsData = conn.execute(text("SELECT review_id, customer_email, product_id, rating, description, "
-        "image, date(date), CONCAT(first_name, ' ', last_name) AS 'full_name' "
+        "image, date(date), CONCAT(first_name, ' ', last_name) AS 'full_name', date AS 'date_time' "
        f"FROM reviews JOIN users ON reviews.customer_email = users.email WHERE product_id = {productId} "
         "ORDER BY date DESC")).all()
     reviewsAvg = conn.execute(text(f"SELECT ROUND(AVG(rating), 1) FROM reviews WHERE product_id = {productId}")).first()[0]
