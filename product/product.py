@@ -216,5 +216,6 @@ def submitReview(productId, variantId):
         conn.execute(text(f"INSERT INTO reviews (customer_email, product_id, rating, description, image) "
                           f"VALUES ('{current_user.email}', {productId}, {rating}, "
                           f"{desc}, {url})"))
+        conn.commit()
 
     return redirect(url_for("product.product", productId=productId, variantId=variantId))
