@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS products (
     product_id INT PRIMARY KEY AUTO_INCREMENT,
     vendor_id VARCHAR(255) NOT NULL,
     product_title VARCHAR(255) NOT NULL,
-    product_description VARCHAR(575),
+    product_description VARCHAR(700),
     warranty_months INT,
     cat_num INT NOT NULL,
     FOREIGN KEY (vendor_id) REFERENCES users(email),
@@ -327,8 +327,34 @@ VALUES
     -- 850591 https://www.staples.com/storex-portable-file-storage-box-letter-black-stx61502u01c/product_1129608
     ('c_simmons@worksmart.com', 'Storex Portable File Storage Box', 'Storex Portable storage box in black color offers a unique handle design which makes carrying and opening file box easy. Box has an organizer lid that allows for easy access to supplies. Latch lock accepts padlock (not included).', 0, 13),
     -- 850592 https://www.staples.com/advantus-super-stacker-file-box-letter-legal-size-clear-36871/product_486085
-    ('c_simmons@worksmart.com', 'Advantus Super Stacker File Box', 'Protect stored files from water, dirt, dings and other damage with this Advantus Super Stacker clear file box. Keep files safe while storing or transporting them with this clear file box. The snap-tight handles hold contents securely inside while making this file box easy to carry, and it can hold letter-sized or legal-sized documents for versatility. This Advantus Super Stacker file box is made with transparent material, so you can see what\'s inside without having to open it.', 0, 13);
-    
+    ('c_simmons@worksmart.com', 'Advantus Super Stacker File Box', 'Protect stored files from water, dirt, dings and other damage with this Advantus Super Stacker clear file box. Keep files safe while storing or transporting them with this clear file box. The snap-tight handles hold contents securely inside while making this file box easy to carry, and it can hold letter-sized or legal-sized documents for versatility. This Advantus Super Stacker file box is made with transparent material, so you can see what\'s inside without having to open it.', 0, 13),
+    -- 850593 hammerhill copy paper letter
+    ('g_pitts@supplies4school.org', 'Hammermill Copy Plus 8.5" x 11" US Letter Copy Paper', 'The Hammermill Copy Plus paper is an economical product that\'s perfect for everyday printing and copying. This versatile paper is great for all types of black and white documents, copies, and printouts. The Hammermill Copy Plus paper is designed to run in all office equipment.', 0, 202),
+    -- 850594 hammerhill copy paper legal
+    ('g_pitts@supplies4school.org', 'Hammermill Copy Plus 8.5" x 14" Legal Copy Paper', 'The Hammermill Copy Plus paper is an economical product that\'s perfect for everyday printing and copying. This versatile paper is great for all types of black and white documents, copies, and printouts. The Hammermill Copy Plus paper is designed to run in all office equipment.', 0, 202),
+    -- 850595 hammerhill copy paper A4
+    ('g_pitts@supplies4school.org', 'Hammermill Copy Plus 8.27" x 11.69" A4 Copy Paper', 'The Hammermill Copy Plus paper is an economical product that\'s perfect for everyday printing and copying. This versatile paper is great for all types of black and white documents, copies, and printouts. The Hammermill Copy Plus paper is designed to run in all office equipment.', 0, 202),
+    -- 850596
+    ('c_simmons@worksmart.com', 'bentogo Modern Lunch Box', 'The Bentgo Modern lunch box gives healthy eating on the go a stylish makeover. Designed to turn heads in the office break room, the versatile three- or four-compartment bento-style lunch box features a contoured outer shell with a sleek matte finish, held tightly closed with a shiny metallic clip. Leak-resistant, the removable tray is microwave- and dishwasher-friendly, making eating and cleanup a breeze. Eating healthy has never looked so good.', 0, 14),
+    -- 850597
+    ('c_simmons@worksmart.com', 'bentogo Pop Lunch Box', 'Perfect for big kids and teens, the bentgo Pop leakproof lunch box livens up their lunchtime routine with its bright, bold colors, and stylish design. This microwave-safe bento box holds up to 5 cups of food, so it\'s two times bigger than bentgo kids\' lunch box. Your teen can enjoy an entire sandwich or a full entree, plus two sides, in the removable, three-compartment tray. Insert the optional divider to turn your three-compartment meal prep container into a four-compartment food container. The box is stylish, colorful, and leakproof, so they never have to worry about spills in their backpack or bag.', 0, 14),
+	-- 850598
+    ('g_pitts@supplies4school.org', 'JAM Paper Kraft Lunch Bags', 'Keep up to date with the zero-plastic trend and use these JAM Paper kraft paper small lunch bags. Each of these small bags is ideal for snacks, spices or arts and crafts materials, and they\'re constructed from 100 percent recycled materials and are biodegradable and recyclable. This pack of 25 JAM Paper kraft paper small lunch bags supplies you with meal packaging for a month, or use them in retail environments for an upmarket look.', 0, 14),
+    -- 850599 
+    ('f_craft@techtime.com', 'HP 25OR G9 15.6" Laptop', 'The HP 250R G9 laptop provides essential business-ready features in a thin and light design that\'s easy to take everywhere you go. The powerful Intel processor, fast memory and storage, and big screen-to-body ratio on a 15.6" display is key for productivity, while the included ports connect your peripherals, all at a price you can value. Features a 1.2GHz Intel Core i3-1315U hexa-core processor, with up to 4.5GHz speed and 10MB L3 cache memory. 512GB SSD Capacity. HP Long Life three-cell, 41Wh Li-ion polymer battery with a runtime of up to 12 hours.', 0, 408),
+    -- 850600
+    ('f_craft@techtime.com', 'HP 255 G10 15.6" Laptop', 'The HP 255 G10 laptop provides essential business-ready features in a thin and light design that\'s easy to take everywhere you go. The 15.6" diagonal display with 85% screen-to-body ratio, robust AMD Ryzen processor, fast memory, and storage is powered for productivity, while the included ports connect your peripherals, all at a price you can value. Features a 2GHz AMD Ryzen 7 7730U octa-core processor, with up to 4.5GHz and 16MB cache memory. 512GB SSD Capacity. HP Long Life three-cell, 41Wh Li-ion polymer battery with a runtime of up to 12 hours.', 0, 408),
+    -- 850601
+    ('f_craft@techtime.com', 'HP Elite SFF 600 G9 Desktop Computer', 'The HP Elite 600 SFF Desktop PC delivers uncompromising performance, expandability, and reliability in a space-saving design. Equipped with the latest Intel processor, speedy storage, and memory, this is the right PC for big jobs performed in smaller workspaces. Future proof your fleet with multiple drives and configurable ports that provide expandability. The HP Elite 600 SFF utilizes HP Run Quiet Design that finely tunes the fans to keep systems running quiet and cool. At least 60 percent of all plastic used in this PC is post-consumer recycled plastic. Rest easy with a PC that undergoes hours of HP\'s Total Test Process and MIL-STD 810 testing.', 0, 403),
+    -- 850602
+    ('f_craft@techtime.com', 'HP Elite Tower 600 G9 Desktop Computer', 'The HP Elite 600 Tower Desktop PC delivers uncompromising performance, expandability, and reliability in a space-saving design. Equipped with the latest Intel processor, speedy storage, and memory, this is the right PC for big jobs performed in smaller workspaces. Future proof your fleet with multiple drives and configurable ports that provide expandability. The HP Elite 600 Tower utilizes HP Run Quiet Design that finely tunes the fans to keep systems running quiet and cool. At least 60 percent of all plastic used in this PC is post-consumer recycled plastic. Rest easy with a PC that undergoes hours of HP\'s Total Test Process and MIL-STD 810 testing.', 0, 403);
+    -- 850603
+    -- (),
+    -- 850604
+    -- 850605
+    -- 850606
+    -- 850607
+    -- 850608
 INSERT INTO colors (color_name, color_hex)
 VALUES
 	('Assorted', NULL),			-- 19780
@@ -359,8 +385,12 @@ VALUES
     ('Cyan', '#00bfff'),		-- 19805
     ('Purple', '#800080'),		-- 19806
     ('Silver', '#c0c0c0'),		-- 19807
-    ('Manila', '#e7c9a9');		-- 19808
-    
+    ('Manila', '#e7c9a9'),		-- 19808
+    ('Orchid', '#e2cfe1'),		-- 19809
+    ('Light Green', '#66ffc3'), -- 19810
+    ('Pink', '#ff6699'),		-- 19811
+    ('Brown', '#b59b7c'); 		-- 19812
+
 INSERT INTO sizes (size_description)
 VALUES
 	('Single'), 				-- 15
@@ -404,7 +434,16 @@ VALUES
     ('50-Pack'),				-- 53
     ('100-Pack'),				-- 54
     ('14.5H X 14W X 11.25D Inches'), -- 55
-    ('33.75H X 14.68W X 18.37L Inches'); -- 56
+    ('33.75H X 14.68W X 18.37L Inches'), -- 56
+    ('1-Ream 500 Sheets/Ream'),	-- 57
+    ('3-Ream 500 Sheets/Ream'), -- 58
+    ('5-Ream 500 Sheets/Ream'), -- 59
+    ('8-Ream 500 Sheets/Ream'), -- 60
+    ('10-Ream 500 Sheets/Ream'),-- 61
+    ('2.4H X 9.1W X 7D Inches'),-- 62
+    ('2.4H X 9.4W X 7.1D Inches'), -- 63
+    ('8H X 4.25W X 2.25D Inches'), -- 64
+    ('16GB RAM'); -- 65
     
     
 INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory)
@@ -543,7 +582,43 @@ VALUES
     -- file storage box
     (850591, 19786, 55, 3649, 8),		-- 100303 black
     -- file stacker box
-    (850592, 19788, 56, 2869, 11);		-- 100304 clear
+    (850592, 19788, 56, 2869, 11),		-- 100304 clear
+    
+    -- hammermill copy paper --
+    -- letter
+    (850593, 19790, 57, 1389, 40),		-- 100305
+    (850593, 19790, 58, 2929, 30),		-- 100306
+    (850593, 19790, 59, 4849, 20),		-- 100307
+    (850593, 19790, 60, 7669, 20),		-- 100308
+    (850593, 19790, 61, 8999, 10),		-- 100309
+    -- legal
+    (850594, 19790, 57, 1389, 40),		-- 100310
+    (850594, 19790, 61, 8999, 10),		-- 100311
+    -- A4
+    (850595, 19790, 57, 1389, 40),		-- 100312
+    (850595, 19790, 61, 8999, 20),		-- 100313
+    
+    -- bentogo modern lunch box --
+    (850596, 19786, 62, 37.49, 15), 	-- 100314 black
+    (850596, 19785, 62, 37.49, 15), 	-- 100315 navy
+    (850596, 19809, 62, 37.49, 15),		-- 100316 orchid
+    (850596, 19790, 62, 37.49, 15),		-- 100317 white
+    
+    (850597, 19781, 63, 3249, 15), 		-- 100318 red
+    (850597, 19811, 63, 3249, 15),		-- 100319 pink
+    (850597, 19810, 63, 3249, 15), 		-- 100320 light green
+    (850597, 19795, 63, 3249, 15), 		-- 100321 sky blue
+    (850597, 19785, 63, 3249, 15), 		-- 100322 navy
+    
+    -- jam paper bags --
+    (850598, 19812, 64, 15.49, 45), 	-- 100323
+    
+    -- laptops --
+	(850599, 19786, 65, 42999, 12),		-- 100324
+    (850600, 19786, 65, 59999, 15),		-- 100325
+    -- computer --
+    (850601, 19786, 65, 67999, 11),		-- 100326
+    (850602, 19786, 65, 67999, 11);		-- 100327
 
 INSERT INTO images (variant_id, file_path, alt_text)
 VALUES 
@@ -1160,5 +1235,120 @@ VALUES
     -- storage bin
     (100304, 'https://www.staples-3p.com/s7/is/image/Staples/0CE12CD8-6132-4072-B0831D74D6DFA3FA_sc7?wid=700&hei=700', ''),
     (100304, 'https://www.staples-3p.com/s7/is/image/Staples/sp39611891_sc7?wid=700&hei=700', ''),
-    (100304, 'https://www.staples-3p.com/s7/is/image/Staples/sp39611893_sc7?wid=700&hei=700', '');
+    (100304, 'https://www.staples-3p.com/s7/is/image/Staples/sp39611893_sc7?wid=700&hei=700', ''),
+    -- 100319
+    (100305, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072084_sc7?wid=700&hei=700', ''),
+    (100305, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700', ''),
+    
+    (100306, 'https://www.staples-3p.com/s7/is/image/Staples/DC2712FE-A922-4E5F-B9B9CF5677D6BE83_sc7?wid=700&hei=700', ''),
+    (100306, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700', ''),
+    
+    (100307, 'https://www.staples-3p.com/s7/is/image/Staples/A2C4AC65-2CB3-4263-BB0C166AE240F3D8_sc7?wid=700&hei=700', ''),
+    (100307, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700', ''),
+    
+    (100308, 'https://www.staples-3p.com/s7/is/image/Staples/sp167250067_sc7?wid=700&hei=700', ''),
+    (100308, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700', ''),
+    
+    (100309, 'https://www.staples-3p.com/s7/is/image/Staples/95CBC599-9581-4384-AB7E87134750EEBE_sc7?wid=700&hei=700', ''),
+    (100309, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700', ''),
+    
+    (100310, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072261_sc7?wid=700&hei=700', ''),
+    (100310, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700', ''),
+    
+    (100311, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072238_sc7?wid=700&hei=700', ''),
+    (100311, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700', ''),
+    
+    (100312, 'https://www.staples-3p.com/s7/is/image/Staples/sp167250076_sc7?wid=700&hei=700', ''),
+    (100312, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700', ''),
+    
+    (100313, 'https://www.staples-3p.com/s7/is/image/Staples/95CBC599-9581-4384-AB7E87134750EEBE_sc7?wid=700&hei=700', ''),
+    (100313, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700', ''),
+    
+	(100314, 'https://www.staples-3p.com/s7/is/image/Staples/0D3524FF-2832-47D7-A2AACA09B78251AF_sc7?wid=700&hei=700', ''),
+    (100314, 'https://www.staples-3p.com/s7/is/image/Staples/D7428E65-0EE6-478F-884DCE28AD123792_sc7?wid=700&hei=700', ''),
+    (100314, 'https://www.staples-3p.com/s7/is/image/Staples/2C813818-609C-48B0-A5B72C9270296301_sc7?wid=700&hei=700', ''),
+    (100314, 'https://www.staples-3p.com/s7/is/image/Staples/24AD6A77-5DC8-4FBD-989E4FEE55F15DA9_sc7?wid=700&hei=700', ''),
+    (100314, 'https://www.staples-3p.com/s7/is/image/Staples/8BB61944-3D48-4CE4-8327F63BF437634F_sc7?wid=700&hei=700', ''),
+    (100314, 'https://www.staples-3p.com/s7/is/image/Staples/3E85D25E-1967-4307-8A64BC3BA5F18A62_sc7?wid=700&hei=700', ''),
+    
+    (100315, 'https://www.staples-3p.com/s7/is/image/Staples/37B758D7-2B96-4E2D-ABF4E4AAFFE3BC6F_sc7?wid=700&hei=700', ''),
+    (100315, 'https://www.staples-3p.com/s7/is/image/Staples/5E737974-B2C3-448C-B4DD1BBC1F1B0F06_sc7?wid=700&hei=700', ''),
+    (100315, 'https://www.staples-3p.com/s7/is/image/Staples/58FD9017-97AE-48E8-AAB4269BC0883BD9_sc7?wid=700&hei=700', ''),
+    (100315, 'https://www.staples-3p.com/s7/is/image/Staples/8C2DF227-53C1-4D0E-929B8F5EC0A09A2D_sc7?wid=700&hei=700', ''),
+    (100315, 'https://www.staples-3p.com/s7/is/image/Staples/E6F89404-A849-45B4-80DCC8BEF18E2DB8_sc7?wid=700&hei=700', ''),
+    (100315, 'https://www.staples-3p.com/s7/is/image/Staples/6E602881-5F54-4B2E-996312B335A7FE9B_sc7?wid=700&hei=700', ''),
+    
+    (100316, 'https://www.staples-3p.com/s7/is/image/Staples/A9809EBD-5FCC-4A03-B40FAFB26118DA2D_sc7?wid=700&hei=700', ''),
+    (100316, 'https://www.staples-3p.com/s7/is/image/Staples/B3D23C50-568C-4B28-959B3CF228CC8C89_sc7?wid=700&hei=700', ''),
+    (100316, 'https://www.staples-3p.com/s7/is/image/Staples/5C21529A-EFDE-448E-A53EAC257AE36928_sc7?wid=700&hei=700', ''),
+    (100316, 'https://www.staples-3p.com/s7/is/image/Staples/053E5E0E-70C8-40E7-925992EE95C92A2E_sc7?wid=700&hei=700', ''),
+    (100316, 'https://www.staples-3p.com/s7/is/image/Staples/561C327E-6541-411D-9BD30A2BC1684949_sc7?wid=700&hei=700', ''),
+    (100316, 'https://www.staples-3p.com/s7/is/image/Staples/EC589213-4362-47E4-BB4383489F986315_sc7?wid=700&hei=700', ''),
+    
+    (100317, 'https://www.staples-3p.com/s7/is/image/Staples/0278D8CC-CD92-488F-A51BBFEF8525B601_sc7?wid=700&hei=700', ''),
+    (100317, 'https://www.staples-3p.com/s7/is/image/Staples/458B3FB4-6391-4DA2-A81E960707074A01_sc7?wid=700&hei=700', ''),
+    (100317, 'https://www.staples-3p.com/s7/is/image/Staples/6057FEA6-587E-428E-A1EB00AA985361D8_sc7?wid=700&hei=700', ''),
+    (100317, 'https://www.staples-3p.com/s7/is/image/Staples/3ABF2577-407D-4AE7-83BFA04EC3F81832_sc7?wid=700&hei=700', ''),
+    (100317, 'https://www.staples-3p.com/s7/is/image/Staples/C4FFF143-A820-4A77-907625918C01B691_sc7?wid=700&hei=700', ''),
+    (100317, 'https://www.staples-3p.com/s7/is/image/Staples/2B6ADFEF-D3DE-4B33-9CEF5C1D71C9741E_sc7?wid=700&hei=700', ''),
+    
+    (100318, 'https://www.staples-3p.com/s7/is/image/Staples/7802D637-CB82-415E-AD543B5AECD0F8B0_sc7?wid=700&hei=700', ''),
+    (100318, 'https://www.staples-3p.com/s7/is/image/Staples/84239C76-86E5-491D-BA3738AC08D7078B_sc7?wid=700&hei=700', ''),
+    (100318, 'https://www.staples-3p.com/s7/is/image/Staples/820464A3-38B8-4F93-AE794889BBE4E222_sc7?wid=700&hei=700', ''),
+    (100318, 'https://www.staples-3p.com/s7/is/image/Staples/6789F01A-E7F3-4C16-A9C0B5A03DB540C3_sc7?wid=700&hei=700', ''),
+    (100318, 'https://www.staples-3p.com/s7/is/image/Staples/459428D1-2F4C-4A2B-ACA9B062AC797467_sc7?wid=700&hei=700', ''),
+    (100318, 'https://www.staples-3p.com/s7/is/image/Staples/1EF62BCA-C053-4587-9EAA8547341A6F6D_sc7?wid=700&hei=700', ''),
+    
+    (100319, 'https://www.staples-3p.com/s7/is/image/Staples/B94BEB4E-D957-48EF-95D72577308D9D9E_sc7?wid=700&hei=700', ''),
+    (100319, 'https://www.staples-3p.com/s7/is/image/Staples/C86E6289-5F11-4B7F-8134AB18B8BBCEDF_sc7?wid=700&hei=700', ''),
+    (100319, 'https://www.staples-3p.com/s7/is/image/Staples/BB5695B7-BB6D-4041-870DD10C8694077D_sc7?wid=700&hei=700', ''),
+    (100319, 'https://www.staples-3p.com/s7/is/image/Staples/454A7A0F-3B24-496D-8825EACBDDFE9136_sc7?wid=700&hei=700', ''),
+    (100319, 'https://www.staples-3p.com/s7/is/image/Staples/DC8A7FB9-DEA9-4F01-90E512858E58C32B_sc7?wid=700&hei=700', ''),
+    (100319, 'https://www.staples-3p.com/s7/is/image/Staples/5241D329-4F2A-4FB5-A8A9F25AF1827BC1_sc7?wid=700&hei=700', ''),
+    
+    (100320, 'https://www.staples-3p.com/s7/is/image/Staples/99B9D519-6226-4D08-B5D63D58833982D0_sc7?wid=700&hei=700', ''),
+    (100320, 'https://www.staples-3p.com/s7/is/image/Staples/A1EB8473-94EF-47B3-92B2E6BED0600A15_sc7?wid=700&hei=700', ''),
+    (100320, 'https://www.staples-3p.com/s7/is/image/Staples/D45B7B60-D35B-487A-8DF59B7CDEECAC7E_sc7?wid=700&hei=700', ''),
+    (100320, 'https://www.staples-3p.com/s7/is/image/Staples/563C0F35-F21A-4A5D-A4F71A8DB0D7D22D_sc7?wid=700&hei=700', ''),
+    (100320, 'https://www.staples-3p.com/s7/is/image/Staples/43147E57-97C4-4D52-A7EFB57CCBBA7CBE_sc7?wid=700&hei=700', ''),
+    (100320, 'https://www.staples-3p.com/s7/is/image/Staples/C29F0E87-FCF5-4588-BEA9AAC74014BFC1_sc7?wid=700&hei=700', ''),
+    
+    (100321, 'https://www.staples-3p.com/s7/is/image/Staples/4CC559BD-0238-429E-A7313225AB132440_sc7?wid=700&hei=700', ''),
+    (100321, 'https://www.staples-3p.com/s7/is/image/Staples/8AFD60A3-5403-473F-A1541896FB8CC470_sc7?wid=700&hei=700', ''),
+    (100321, 'https://www.staples-3p.com/s7/is/image/Staples/342935CA-7C09-4E4B-B093C4DB3B578A30_sc7?wid=700&hei=700', ''),
+    (100321, 'https://www.staples-3p.com/s7/is/image/Staples/E3BE1F16-4503-4980-8DA18F6B6E041180_sc7?wid=700&hei=700', ''),
+    (100321, 'https://www.staples-3p.com/s7/is/image/Staples/EB90F81D-1EF8-4950-A2A086EEF78B1D93_sc7?wid=700&hei=700', ''),
+    (100321, 'https://www.staples-3p.com/s7/is/image/Staples/18E0B232-5AC9-4758-AEE8BA168DDC3058_sc7?wid=700&hei=700', ''),
+    
+    (100322, 'https://www.staples-3p.com/s7/is/image/Staples/9483D0B0-C978-4EF1-8E0C2F1C0FC4375A_sc7?wid=700&hei=700', ''),
+    (100322, 'https://www.staples-3p.com/s7/is/image/Staples/CBDE0746-0BBD-4B9B-A27394B9C7B9AD5A_sc7?wid=700&hei=700', ''),
+    (100322, 'https://www.staples-3p.com/s7/is/image/Staples/A4C81F63-7C65-40E8-B151CD67AB13A1C0_sc7?wid=700&hei=700', ''),
+    (100322, 'https://www.staples-3p.com/s7/is/image/Staples/5271254D-38E5-4650-9039CE4B4F650C68_sc7?wid=700&hei=700', ''),
+    (100322, 'https://www.staples-3p.com/s7/is/image/Staples/DDEFA5EE-FF77-4D88-9C3897C9C5ABF86C_sc7?wid=700&hei=700', ''),
+    (100322, 'https://www.staples-3p.com/s7/is/image/Staples/05D9E779-A5E0-4E12-909095440A75E541_sc7?wid=700&hei=700', ''),
+    
+    
+    (100323, 'https://www.staples-3p.com/s7/is/image/Staples/sp71001592_sc7?wid=700&hei=700', ''),
+    (100323, 'https://www.staples-3p.com/s7/is/image/Staples/sp71001593_sc7?wid=700&hei=700', ''),
+    (100323, 'https://www.staples-3p.com/s7/is/image/Staples/sp71001594_sc7?wid=700&hei=700', ''),
+    
+    (100324, 'https://www.staples-3p.com/s7/is/image/Staples/8A083AC9-4DE7-4F3C-8E07CFBDF68FEFE3_sc7?wid=700&hei=700', ''),
+    (100324, 'https://www.staples-3p.com/s7/is/image/Staples/C38A3E2B-1A6B-48D5-9B0A1F6A56D34199_sc7?wid=700&hei=700', ''),
+    (100324, 'https://www.staples-3p.com/s7/is/image/Staples/A1D17B3A-648C-45DC-869827C5C22B357D_sc7?wid=700&hei=700', ''),
+    (100324, 'https://www.staples-3p.com/s7/is/image/Staples/5D4C0670-C416-45F4-9DDF3DB44C386DF0_sc7?wid=700&hei=700', ''),
+    (100324, 'https://www.staples-3p.com/s7/is/image/Staples/8E39592A-D4F2-4D32-83E7CC1FF489E2AD_sc7?wid=700&hei=700', ''),
+    
+    (100325, 'https://www.staples-3p.com/s7/is/image/Staples/169FAA15-ABA2-44DE-90E453B4845A0560_sc7?wid=700&hei=700', ''),
+    (100325, 'https://www.staples-3p.com/s7/is/image/Staples/F3A84282-64AD-4D4B-A7B33185AFD444D7_sc7?wid=700&hei=700', ''),
+    (100325, 'https://www.staples-3p.com/s7/is/image/Staples/4156686B-2782-42B9-A93D36A084B4B8A7_sc7?wid=700&hei=700', ''),
+    (100325, 'https://www.staples-3p.com/s7/is/image/Staples/C262E7E1-E817-41CC-BAE138C77E23BB6F_sc7?wid=700&hei=700', '');
+    
+--     (100326, '', ''),
+--     (100327, '', ''),
+--     (100328, '', ''),
+--     (100329, '', ''),
+--     (100329, '', ''),
+--     (100330, '', ''),
+    
+    
     
