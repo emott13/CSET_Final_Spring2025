@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
 from sqlalchemy import text
-from extensions import conn
+from extensions import conn, getCurrentType
 
 product_bp = Blueprint("product", __name__, static_folder="static_product",
                         template_folder="templates_product")
@@ -133,9 +133,9 @@ def product(productId, variantId=None, error=None):
 
     if request.method == "GET":
         return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
-                            variantData=variantData, vi=vi, imageData=imageData, ii=ii,
+                            variantId=variantId, variantData=variantData, vi=vi, imageData=imageData, ii=ii,
                             allVariantData=allVariantData, allDiscountData=allDiscountData, reviewsAvg=reviewsAvg,
-                            reviewsData=reviewsData, ri=ri)
+                            reviewsData=reviewsData, ri=ri, getCurrentType=getCurrentType())
 
     elif request.method == "POST":
         print("POST")
@@ -188,7 +188,33 @@ def product(productId, variantId=None, error=None):
             print(cartItemVariants)
         print(error)
         return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
-                            variantData=variantData, vi=vi, imageData=imageData, ii=ii,
+                            variantId=variantId, variantData=variantData, vi=vi, imageData=imageData, ii=ii,
                             allVariantData=allVariantData, allDiscountData=allDiscountData, reviewsAvg=reviewsAvg,
-                            reviewsData=reviewsData, ri=ri)
+                            reviewsData=reviewsData, ri=ri, getCurrentType=getCurrentType())
 
+
+@product_bp.route("/product/<int:productId>/<int:variantId>/review", methods=["POST"])
+def submitReview(productId, variantId):
+    print("review request form:")
+    print(request.form)
+    rating = int(request.form.get('rating'))
+    desc = request.form.get('description')
+    url = request.form.get('image')
+
+    if not desc:
+        desc = "NULL"
+    else:
+        desc = "'" + desc + "'"
+    if not url:
+        url = "NULL"
+    else:
+        url = "'" + url + "'"
+
+    if  (rating >= 1 and rating <= 5 ) and \
+        (len(desc) <= 500) and \
+        (len(url) <= 255):
+        conn.execute(text(f"INSERT INTO reviews (customer_email, product_id, rating, description, image) "
+                          f"VALUES ('{current_user.email}', {productId}, {rating}, "
+                          f"{desc}, {url})"))
+
+    return redirect(url_for("product.product", productId=productId, variantId=variantId))

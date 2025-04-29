@@ -23,6 +23,19 @@ h1 {
     margin-bottom: 20px;
 }
 
+.hidden {
+    display: none;
+}
+
+.block {
+    display: block;
+}
+
+.center {
+    text-align: center;
+    margin: 0 auto;
+}
+
 .btn {
     border-radius: 15px;
     border-top: 1px solid var(--color-purple);
@@ -237,6 +250,12 @@ h1 {
     padding: 1px;
 }
 
+.star-gray {
+    font-size: 18px;
+    color: gray;
+    padding: 1px;
+}
+
 .product-rating-num {
     margin-left: .5rem;
 }
@@ -401,6 +420,61 @@ h1 {
 .product-review-image img {
     max-width: 400px;
     max-height: 200px;
+}
+
+.product-reviews-create h2 {
+    text-align: center
+}
+
+.create-review-container {
+    display: flex;
+}
+
+.create-review-container label {
+    display: inline;
+}
+
+.create-review-rating-container,
+.create-review-description-container,
+.create-review-url-container {
+    flex-direction: column;
+    text-align: center;
+}
+
+.create-review-rating-container {
+}
+
+.create-review-description-container {
+    flex: 1 1 auto;
+}
+
+.create-review-url-container {
+    flex-direction: column;
+    flex: 1 1 auto;
+}
+
+.rating {
+    margin-right: 20px;
+}
+
+/* reviews star styling */
+.rating div {
+    position: relative;
+    display: inline-block;
+    width: 25px;
+    height: 20px; 
+}
+
+.rating div > label {
+    position: absolute;
+    cursor: pointer;
+}
+
+.rating div:hover ~ div .orange,
+.rating div:hover ~ .orange,
+.rating input[type='radio']:checked .orange,
+.rating div:has(input[type='radio']:checked) ~ div .orange {
+    display: none;
 }
 
 /* -- PRODUCT PAGE END -- */

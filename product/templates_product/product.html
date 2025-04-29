@@ -122,6 +122,52 @@
             <div class="product-reviews-container">
                 <h1 class="reviews-h">Reviews</h1>
 
+                {% if getCurrentType == "customer" %}
+                    <form action="{{url_for('product.submitReview', productId=productId, variantId=variantId)}}" method="POST" class="product-reviews-create product-reviews-background">
+                        <h2>Leave a review!</h2>
+                        <div class="create-review-container">
+                            <div class="create-review-rating-container flex">
+                                <label for="rating">Rating</label>
+                                <div class="create-review-rating rating">
+                                    <div>
+                                        <input type="radio" class="hidden" name="rating" id="rating1" value="1" autocomplete="off">
+                                        <label for="rating1" class="gray"><i class="fa-solid fa-star star-gray"></i></label>
+                                        <label for="rating1" class="orange"><i class="fa-solid fa-star star-orange"></i></label>
+                                    </div> 
+                                    <div>
+                                        <input type="radio" class="hidden" name="rating" id="rating2" value="2" autocomplete="off">
+                                        <label for="rating2" class="gray"><i class="fa-solid fa-star star-gray"></i></label>
+                                        <label for="rating2" class="orange"><i class="fa-solid fa-star star-orange"></i></label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" class="hidden" name="rating" id="rating3" value="3" autocomplete="off">
+                                        <label for="rating3" class="gray"><i class="fa-solid fa-star star-gray"></i></label>
+                                        <label for="rating3" class="orange"><i class="fa-solid fa-star star-orange"></i></label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" class="hidden" name="rating" id="rating4" value="4" autocomplete="off">
+                                        <label for="rating4" class="gray"><i class="fa-solid fa-star star-gray"></i></label>
+                                        <label for="rating4" class="orange"><i class="fa-solid fa-star star-orange"></i></label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" class="hidden" name="rating" id="rating5" value="5" autocomplete="off" checked>
+                                        <label for="rating5" class="gray"><i class="fa-solid fa-star star-gray"></i></label>
+                                        <label for="rating5" class="orange"><i class="fa-solid fa-star star-orange"></i></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="create-review-description-container flex">
+                                <label for="description">Description (optional)</label>
+                                <textarea id="description" name="description" max="500"></textarea> 
+                            </div>
+                            <div class="create-review-url-container flex">
+                                <label for="image">Image URL (optional)</label>
+                                <input type="url" id="image" name="image" max="255"> 
+                            </div>
+                        </div>
+                        <input class="btn center block" type="submit" value="Submit">
+                    </form>
+                {% endif %}
                 <div class="product-reviews-arrange product-reviews-background">
                     <div class="product-reviews-filter">
                         <label class="product-filter">Filter</label>
