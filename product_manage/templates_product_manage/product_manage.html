@@ -2,6 +2,37 @@
 {% extends 'base.html' %}
 {% block body %}
     <div class="full-height full-width">
-        
+       <form action="{{url_for('product_manage.create')}}" method="POST" class="manage-create-container">
+            <h1>Create A Product</h1>
+            {% if type == admin %}
+                <div class="input-row">
+                    <div class="fancy-input">
+                        <input class="full-width" type="text" name="vendor_id" placeholder="" required />
+                        <label for="vendor_id">Vendor Email:</label>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="input-row full-width">
+                <div class="fancy-input full-width">
+                    <input class="full-width" type="text" name="title" maxlength="255" placeholder="" required />
+                    <label for="title">Title:</label>
+                </div>
+            </div>
+            <div class="input-row full-width">
+                <div class="fancy-input full-width">
+                    <input class="full-width" type="text" name="description" maxlength="500" placeholder="" required />
+                    <label for="description">Description:</label>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="fancy-input">
+                    <input class="full-width" type="number" name="warranty_months" placeholder="" value="" min="0"/>
+                    <label for="warranty_months">Warranty Months:</label>
+                </div>
+            </div>
+            
+            <p>Hint: Once you create the product, you can add variants</p>
+            <input class="btn" type="submit" value="Submit">
+       </form> 
     </div>
 {% endblock %}

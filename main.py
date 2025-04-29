@@ -7,6 +7,8 @@ from register.register import register_bp
 from product.product import product_bp
 from search.search import search_bp
 from home.home import home_bp
+from product_manage.product_manage import product_manage_bp
+
 
 # -- LOGIN PAGE -- #
 app.register_blueprint(login_bp)
@@ -22,6 +24,9 @@ app.register_blueprint(search_bp)
 
 # -- PRODUCT PAGE -- #
 app.register_blueprint(product_bp)
+
+# -- PRODUCT MANAGE PAGE -- #
+app.register_blueprint(product_manage_bp)
 
 # -- TEST PAGE -- #
 # Shows current_user data (whoever is logged in)

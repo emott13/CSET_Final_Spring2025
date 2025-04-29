@@ -479,3 +479,23 @@ h1 {
 
 /* -- PRODUCT PAGE END -- */
 
+
+
+/* PRODUCT MANAGE START */
+
+
+.manage-create-container {
+    display: flex;
+    flex-direction: column; 
+    max-width: 80vw;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.manage-create-container h1 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+
+/* PRODUCT MANAGE END */
