@@ -98,8 +98,12 @@
                 <input type="text" name="delete" class="p-delete" maxlength="29">
                 <label for="delete">Enter "I WANT TO DELETE THIS PRODUCT" in the box to confirm deletion</label>
             </form>
-            
-       </div>
-       {% endfor %}
+            <form class="variant-create" 
+            action="{{url_for('product_manage.variant', method='create', productId=p['product_id'])}}">
+                <h1 class="variant-create center">Create Variant</h1> 
+                
+            </form>
+        </div>
+        {% endfor %}
     </div>
 {% endblock %}

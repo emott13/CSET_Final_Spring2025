@@ -90,7 +90,9 @@ def productDelete(productId):
     return redirect(url_for("product_manage.manage", error=error))
 
 
-@product_manage_bp.route("/manage/add-variant", methods=["POST"])
+@product_manage_bp.route("/manage/variant/<method>/<productId>", methods=["POST"])
+@product_manage_bp.route("/manage/variant/<method>/<productId>/<variantId>", methods=["POST"])
 @login_required
-def createVariant():
+def variant(method, productId, variantId=None):
+     
     return redirect(url_for("product_manage.manage"))
