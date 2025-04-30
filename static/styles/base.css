@@ -149,7 +149,7 @@
 .positionSearch{
     position: relative;
 }
-#search{
+#search-form-input{
     border: none;
     border-radius: 25px;
     padding: 0 40px;
@@ -173,6 +173,8 @@
     right: 47.5%;
     transform: translate(-50%);
     color: var(--color-purple);
+    cursor: pointer;
+    z-index: 2;
 }
 /* -- end search styles -- */
 

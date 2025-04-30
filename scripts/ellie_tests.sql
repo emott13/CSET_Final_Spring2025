@@ -41,6 +41,9 @@ select * from transactions where acc_num = 578066;
 
 -- select * from products;
 
+select size_description, size_id from sizes order by size_id;
+select * from categories order by cat_num;
+select * from products order by product_title;
 -- VENDORS 
 SELECT email, CONCAT(first_name, ' ', last_name) FROM users WHERE type = 'vendor';
 select * from products where product_id between 850566 and 8505673;
@@ -49,8 +52,13 @@ select * from colors;
 select * from images;
 select * from users;
 
+select product_id, product_title, cat_num, variant_id, size_id, color_id, price, current_inventory
+from products
+natural join product_variants;
 -- products
  -- 850580
 -- ('c_simmons@worksmart.com', 'Pilot G2 Retractable Gel Pens', 'Enjoy a smear-free writing experience by using Pilot G2 premium retractable gel roller pens. Improve handwriting, create drawings, and work on other projects worry free. With a convenient clip, these pens attach to binders, notebooks, and pockets, while the contoured grip offers increased support, making it easy to take on lengthy writing tasks. These Pilot G2 gel pens feature a retractable design, so you can tuck the tips away when not in use, preventing unintentional marks on documents.', 0, 11),
 -- variants
 -- ()
+
+select * from products where product_title like '%office desk%' or product_description like '%office desk%';

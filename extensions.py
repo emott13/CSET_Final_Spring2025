@@ -1,9 +1,8 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine, text, insert, Table, MetaData, update
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+from sqlalchemy import create_engine
+from flask_login import LoginManager, UserMixin, current_user
 from flask_bcrypt import Bcrypt
-
 
 # USEFUL flask_login COMMANDS
 # @app.route("/foo")

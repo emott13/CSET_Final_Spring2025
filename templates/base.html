@@ -37,8 +37,8 @@
                 <!-- search -->
                  <form class="headerItemSearch searchPosition" id="search-form" method="POST" action="{{ url_for('search.search')}}">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" name="product_search" id="search" placeholder="search">
-                    <i class="fa-regular fa-circle-xmark"></i> 
+                    <input type="text" name="product_search" id="search-form-input" placeholder="search">
+                    <i class="fa-regular fa-circle-xmark" onclick="document.getElementById('search-form-input').value = ''"></i>
                  </form>
             </div>
             <nav class="headerSection nav">
@@ -108,5 +108,14 @@
             </div>
         </div>
     </footer>
+    <script>
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     xElement = document.querySelector('fa-circle-xmark')
+        //     xElement.addEventListener('click', element => {
+        //         search = document.getElementById('search-form-input')
+        //         search.value = ''
+        //     });
+        // });
+    </script>
 </body>
 </html>

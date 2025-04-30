@@ -30,6 +30,10 @@ main{
     font-size: 38px;
     color: var(--color-purple-red);
 }
+.searchSubTitle{
+    font-size: 22px;
+    color: var(--color-purple-red);
+}
 
 .prodResult{
     display: grid;
