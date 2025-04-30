@@ -1,10 +1,14 @@
 <link rel="stylesheet" href="/static/styles/styles.css">
+<script src="/static_product_manage/scripts/product_manage.js" defer></script>
 {% extends 'base.html' %}
 {% block body %}
     <div class="full-height full-width">
-       <form action="{{url_for('product_manage.create')}}" method="POST" class="manage-create-container">
+        {% if error %} 
+            <h3 class="error center padding-top">Error: {{error}}</h3>
+        {% endif %}
+        <form action="{{url_for('product_manage.create')}}" method="POST" class="manage-create-container">
             <h1>Create A Product</h1>
-            {% if type == admin %}
+            {% if type == 'admin' %}
                 <div class="input-row">
                     <div class="fancy-input">
                         <input class="full-width" type="text" name="vendor_id" placeholder="" required />
