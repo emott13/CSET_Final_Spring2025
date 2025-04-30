@@ -8,12 +8,18 @@ SELECT * FROM discounts;
 SELECT * FROM product_variants;
 SELECT * FROM colors;
 SELECT * FROM sizes;
+SELECT * FROM categories;
 SELECT * FROM reviews 
 JOIN users ON reviews.customer_email = users.email
 WHERE product_id = 850556;
 
+SELECT * FROM carts;
+SELECT * FROM cart_items WHERE cart_id = 6;
+
+DESC products;
+DESC images;
 DESC product_variants;
-DELETE FROM cart_items WHERE cart_id = (SELECT cart_id FROM carts WHERE customer_email = "bluemario812@gmail.com");
+DELETE FROM cart_items WHERE cart_id = (SELECT cart_id FROM carts WHERE customer_email = "bluemario8@gmail.com");
 DELETE FROM carts WHERE customer_email = "bluemario812@gmail.com";
 
 INSERT INTO reviews (customer_email, product_id, rating, description, image)

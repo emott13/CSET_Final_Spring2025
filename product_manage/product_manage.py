@@ -1,11 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user, login_required
 from sqlalchemy import text
-from extensions import conn, getCurrentType
+from extensions import conn, getCurrentType, dict_db_data
 
 product_manage_bp = Blueprint("product_manage", __name__, 
                         static_folder="static_product_manage",
                         template_folder="templates_product_manage")
+    
 
 
 @product_manage_bp.route("/manage", methods=["GET"])
@@ -15,31 +16,44 @@ def manage(error=None):
     if current_user.type == "customer":
         return redirect(url_for('login.login'))
 
-    return render_template("product_manage.html", type=current_user.type, error=error)
+    productData = dict_db_data("products", f"WHERE vendor_id = '{current_user.email}'")
+    categoryData = dict_db_data("categories")
+    print(productData)
 
+    return render_template("product_manage.html", type=current_user.type, error=error,
+        productData=productData, categoryData=categoryData)
 
-@product_manage_bp.route("/manage/add", methods=["POST"])
+def productChecks(vendor_id, title, desc, warranty_months, category):
+    vendorExists = conn.execute(text(
+        f"SELECT email FROM users WHERE email = '{vendor_id}'")).first()
+    categoryExists = conn.execute(text(
+        f"SELECT cat_num FROM categories WHERE cat_num = {category}")).first()
+
+    if not vendor_id or len(vendor_id) > 255 or not vendorExists:
+        return "Invalid vendor email" 
+    elif not title or len(title) > 255:
+        return "Title is too long"
+    elif not desc or len(desc) > 500:
+        return "Description is too long"
+    elif not warranty_months or not warranty_months.isdigit() or int(warranty_months) > 2147483647 \
+        or int(warranty_months) < -2147483648:
+        return "Invalid warranty"
+    elif not category or not categoryExists:
+        return "Invalid category"
+    return None
+
+@product_manage_bp.route("/manage/add/<method>", methods=["POST"])
+@product_manage_bp.route("/manage/add/<method>/<productId>", methods=["POST"])
 @login_required
-def create():
-    error = None
+def product(method, productId=None):
     vendor_id = current_user.email if current_user.type == "vendor" else request.form.get("vendor_id")
     title = request.form.get("title")
     desc = request.form.get("description")
     warranty_months = request.form.get("warranty_months")
+    category = request.form.get("category")
 
     # error checks
-    vendorExists = conn.execute(text(f"SELECT email FROM users WHERE email = '{vendor_id}'")).first()
-    print(vendorExists)
-    if len(vendor_id) > 255 or not vendorExists:
-        error = "Invalid vendor email" 
-    elif len(title) > 255:
-        error = "Title is too long"
-    elif len(desc) > 500:
-        error = "Description is too long"
-    elif not warranty_months.isdigit() or int(warranty_months) > 2147483647 \
-        or int(warranty_months) < -2147483648:
-        error = "Invalid warranty"
-
+    error = productChecks(vendor_id, title, desc, warranty_months, category)
 
     if error:
         return redirect(url_for("product_manage.manage", error=error))
@@ -47,11 +61,36 @@ def create():
     if warranty_months == 0 or warranty_months == "":   
         warranty_months = "NULL"
     try:
-        conn.execute(text("INSERT INTO products (vendor_id, product_title, "
-                        "product_description, warranty_months) " \
-                        f"VALUES ('{vendor_id}', '{title}', '{desc}', {warranty_months})"))
+        if method == "create":
+            conn.execute(text(
+                "INSERT INTO products (vendor_id, product_title, "
+                "product_description, warranty_months, cat_num) "
+                f"VALUES ('{vendor_id}', '{title}', '{desc}', {warranty_months}, {category})"))
+        elif method == "edit":
+            conn.execute(text(
+                f"UPDATE products SET product_title='{title}', product_description='{desc}', "
+                f"warranty_months={warranty_months}, cat_num={category} "
+                f"WHERE product_id={productId}"))
         conn.commit()
-    except:
+    except Exception as e:
+        print(e)
         return redirect(url_for("product_manage.manage", error="Unknown error"))
 
+    return redirect(url_for("product_manage.manage"))
+
+@product_manage_bp.route("/manage/delete/<productId>", methods=["POST"])
+@login_required
+def productDelete(productId):
+    error = None
+    if request.form.get("delete") == "I WANT TO DELETE THIS PRODUCT":
+        conn.execute(text(f"DELETE FROM products WHERE product_id = {productId}"))
+        conn.commit()
+    else:
+        error = "Invalid deletion confirmation text"
+    return redirect(url_for("product_manage.manage", error=error))
+
+
+@product_manage_bp.route("/manage/add-variant", methods=["POST"])
+@login_required
+def createVariant():
     return redirect(url_for("product_manage.manage"))

@@ -63,7 +63,7 @@ h1 {
 
 .full-width {
     width: 100%;
-    background-color: var(--color-purple-white);
+    /* background-color: var(--color-purple-white); */
     color: var(--color-purple-red);
     font-family: var(--font-header);
     font-weight: 400;
@@ -501,5 +501,28 @@ h1 {
     margin-bottom: 1rem;
 }
 
+
+.product-data {
+    margin: 1rem auto;
+    flex-direction: column;
+    max-width: 80vw;
+}
+
+.product-id {
+    margin-bottom: 2rem;
+}
+
+.product-delete {
+    margin-top: .5rem;
+}
+
+.product-delete input[type='submit'] {
+    background-color: var(--color-error-red);
+    border-color: var(--color-error-red);
+}
+
+.product-delete .p-delete {
+    width: 13rem;
+}
 
 /* PRODUCT MANAGE END */

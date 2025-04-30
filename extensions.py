@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from flask_login import LoginManager, UserMixin, current_user
 from flask_bcrypt import Bcrypt
 
@@ -62,6 +62,26 @@ class Users(UserMixin, db.Model):
 def getCurrentType():
     """Returns the current_user type. Returns None if the user isn't logged in"""
     return None if not current_user.is_authenticated else current_user.type
+
+def dict_db_data(table, extra=""):
+    """
+    Converts a table's data from an array of arrays to an array of dictionaries
+    with the columns as the key for easy usage like "data['username']"
+    variable 'extra' gets passed to the sql query for WHERE statements etc.
+    """
+    keys = [ key[0] for key in conn.execute(text(f"DESC {table}")).all() ]
+
+    data = conn.execute(text(f"SELECT * FROM {table} "
+                             f"{extra}")).all()
+
+    dataDict = []
+    for row in data:
+        dictRow = {}
+        for key, value in zip(keys, row):
+            dictRow[key] = value
+        dataDict.append(dictRow)
+
+    return dataDict
 
 # price formatter for jinja template. call like {{154|priceFormat}}
 @app.template_filter()

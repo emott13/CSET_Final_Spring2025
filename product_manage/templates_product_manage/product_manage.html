@@ -6,7 +6,7 @@
         {% if error %} 
             <h3 class="error center padding-top">Error: {{error}}</h3>
         {% endif %}
-        <form action="{{url_for('product_manage.create')}}" method="POST" class="manage-create-container">
+        <form action="{{url_for('product_manage.product', method='create')}}" method="POST" class="manage-create-container">
             <h1>Create A Product</h1>
             {% if type == 'admin' %}
                 <div class="input-row">
@@ -30,13 +30,76 @@
             </div>
             <div class="input-row">
                 <div class="fancy-input">
-                    <input class="full-width" type="number" name="warranty_months" placeholder="" value="" min="0"/>
+                    <input class="full-width" type="number" name="warranty_months" placeholder="" value="" min="0" default="0" required/>
                     <label for="warranty_months">Warranty Months:</label>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="fancy-input">
+                    <select class="full-width" name="category" for="category">
+                        {% for c in categoryData %}
+                            <option name="{{c['cat_num']}}" value="{{c['cat_num']}}">
+                                {{c['cat_name']}}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <input class="full-width" style="display: none">
+                    <label class="label-shown" for="category">Category:</label>
                 </div>
             </div>
             
             <p>Hint: Once you create the product, you can add variants</p>
             <input class="btn" type="submit" value="Submit">
-       </form> 
+        </form> 
+
+        {% for p in productData %}
+        <div class="product-data product-reviews-background">
+            <form action="{{url_for('product_manage.product', method='edit', productId = p['product_id'] )}}" 
+            method="POST" data-product-id="{{p['product_id']}}">
+                <p class="product-id">Product Id: {{p['product_id']}}</p>
+                <div class="input-row full-width">
+                    <div class="fancy-input full-width">
+                        <input class="full-width" type="text" name="title" 
+                        value="{{p['product_title']}}" maxlength="255" placeholder="" required />
+                        <label for="title">Title:</label>
+                    </div>
+                </div>
+                <div class="input-row full-width">
+                    <div class="fancy-input full-width">
+                        <input class="full-width" type="text" name="description"
+                        value="{{p['product_description']}}" maxlength="500" placeholder="" required />
+                        <label for="description">Description:</label>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="fancy-input">
+                        <input class="full-width" type="number" name="warranty_months" placeholder="" value="{{p['warranty_months']}}" min="0" default="0" required/>
+                        <label for="warranty_months">Warranty Months:</label>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="fancy-input">
+                        <select class="full-width" name="category" for="category">
+                            {% for c in categoryData %}
+                            {% set select = 'selected' if c['cat_num'] == p['cat_num'] else "" %}
+                                <option name="{{c['cat_num']}}" value="{{c['cat_num']}}" {{select}}>
+                                    {{c['cat_name']}}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <input class="full-width" style="display: none">
+                        <label class="label-shown" for="category">Category:</label>
+                    </div>
+                </div>
+                <input class="btn" type="submit" value="Update Product">
+            </form>
+            <form class="product-delete" action="{{url_for('product_manage.productDelete',  productId=p['product_id'])}}" method="POST" autocomplete="off">
+                <input class="btn" type="submit" value="Delete Product" required>
+                <input type="text" name="delete" class="p-delete" maxlength="29">
+                <label for="delete">Enter "I WANT TO DELETE THIS PRODUCT" in the box to confirm deletion</label>
+            </form>
+            
+       </div>
+       {% endfor %}
     </div>
 {% endblock %}
