@@ -78,10 +78,9 @@ def variant(method, productId, variantId=None):
     colorName = request.form.get("color-name")
     colorHex = request.form.get("color-hex")
     size = request.form.get("size")
-    price = int( float(request.form.get("price").replace("$", "")) * 100 )
+    price = request.form.get("price").replace("$", "")
     inventory = request.form.get("inventory")
     urls = request.form.getlist("url")
-    print(price)
 
     error = variantChecks(colorSelect, colorName, colorHex, size, price, inventory, urls)
 
@@ -95,9 +94,10 @@ def variant(method, productId, variantId=None):
         conn.execute(text("INSERT INTO sizes (size_description) "
                           f"VALUES ('{size}')")) 
         conn.commit()
-
     sizeId = conn.execute(text(
         f"SELECT size_id FROM sizes WHERE size_description = '{size}'")).first()[0]
+
+    price = int( float(price) * 100 )
 
     try:
         if method == "create":
@@ -155,4 +155,39 @@ def productChecks(vendor_id, title, desc, warranty_months, category):
     return None
 
 def variantChecks(colorSelect, colorName, colorHex, size, price, inventory, urls):
+    colors = dict_db_data("colors")
+    # check if the values exist
+    if not (colorSelect or (colorName and colorHex)) or not size or not price or not inventory or not urls:
+        return "Error: A value was not entered"
+    elif colorSelect:
+        containsColor = False
+        for color in colors:
+            if int(colorSelect) == int(color['color_id']):
+                containsColor = True
+                break
+        if not containsColor or not colorSelect.isdigit():
+            return "Error: Invalid color"
+    elif colorName and colorHex:
+        colorExists = False
+        for color in colors:
+            if colorName == color['color_name']:
+                colorExists = True
+                break
+        if colorExists:
+            return "Error: Color already exists"
+        elif len(colorName) > 50:
+            return "Error: Color name is too long (max 50 characters)"
+        elif len(colorHex) > 9 or colorHex[0] != "#" or not len(colorHex) in [4, 5, 7, 9]:
+            return "Error: Invalid color hex" 
+    if len(size) > 100:
+        return "Error: Size is too long (max 100 characters)"
+    
+    elif not price.replace(".", "").isdigit() or int(float(price)*100) > 2147483647 or int(float(price)*100) < -2147483648:
+        return "Error: Invalid price"
+    elif not inventory.isdigit() or int(inventory) > 2147483647 or int(inventory) < 0:
+        return "Error: Invalid inventory"
+    for url in urls:
+        if len(url) > 500:
+            return "Error: Invalid URL"
+        
     return None
