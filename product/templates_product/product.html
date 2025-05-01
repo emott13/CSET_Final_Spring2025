@@ -6,7 +6,9 @@
         <div class="product-container">
 
             <div class="product-image-container">
-                <img class="product-img" src="{{imageData[0][ii['file_path']]}}">
+                {% if imageData|length %}
+                    <img class="product-img" src="{{imageData[0][ii['file_path']]}}">
+                {% endif %}
                 <div class="product-img-select">
                     {% for image in imageData %}
                         <div class="product-img-small">
