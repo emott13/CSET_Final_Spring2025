@@ -93,15 +93,77 @@
                 </div>
                 <input class="btn" type="submit" value="Update Product">
             </form>
+
             <form class="product-delete" action="{{url_for('product_manage.productDelete',  productId=p['product_id'])}}" method="POST" autocomplete="off">
                 <input class="btn" type="submit" value="Delete Product" required>
                 <input type="text" name="delete" class="p-delete" maxlength="29">
                 <label for="delete">Enter "I WANT TO DELETE THIS PRODUCT" in the box to confirm deletion</label>
             </form>
+
             <form class="variant-create" 
-            action="{{url_for('product_manage.variant', method='create', productId=p['product_id'])}}">
+            action="{{url_for('product_manage.variant', method='create', productId=p['product_id'])}}" method="POST">
                 <h1 class="variant-create center">Create Variant</h1> 
-                
+                  
+                <label for="color-check" class="color-check">New Color?</label>
+                <input type="checkbox" name="color-check" class="color-check" onchange="colorBox(this)" autocomplete="off">
+                <div class="flex exist-color">
+                    <div class="fancy-input">
+                        <select class="full-width color-select" name="color-select" for="color-select">
+                            {% for c in colorData %}
+                            {% set select = 'selected' if c['color_name'] == p['color_name'] else "" %}
+                                <option name="{{c['color_name']}}" value="{{c['color_id']}}" {{select}}>
+                                    {{c['color_name']}}
+                                </option>
+                            {% endfor %}
+                        </select>
+
+                        <input class="full-width" style="display: none">
+                        <label class="label-shown" for="color-select">Color:</label>
+                    </div>
+                </div>
+                <div class="flex custom-color" style="display:none">
+                    <div class="fancy-input">
+                        <input class="full-width" type="text" name="color-name" class="color-name" placeholder="Sky Blue" disabled="disabled"/>
+                        <label class="label-shown" for="color-name">Color Name:</label>
+                    </div>
+                    <div class="fancy-input">
+                        <input class="full-width" type="text" name="color-hex" class="color-hex" placeholder="#00FFFF" disabled="disabled"/>
+                        <label class="label-shown" for="color-hex">Color Hexidecimal:</label>
+                    </div>
+                </div>
+
+                <div class="flex">
+                    <div class="fancy-input">
+                        <input class="full-width" type="text" name="size" placeholder="" required/>
+                        <label class="" for="size">Size:</label>
+                    </div>
+                </div>
+
+                <div class="flex">
+                    <div class="fancy-input">
+                        <input class="full-width" type="text" name="price" placeholder="$10.99" required/>
+                        <label class="label-shown" for="size">Price:</label>
+                    </div>
+                </div>
+
+                <div class="flex">
+                    <div class="fancy-input">
+                        <input class="full-width" type="number" name="inventory" value="1" placeholder="" required/>
+                        <label class="label-shown" for="inventory">Current Inventory:</label>
+                    </div>
+                </div>
+
+                <div class="images">
+                    <button class="btn image-btn" type="button" onclick="addURL(this)">Add Another URL</button>
+                    <div class="full-width">
+                        <div class="fancy-input">
+                            <input class="full-width" type="url" name="url-1" placeholder="" required/>
+                            <label class="label-shown" for="url-1">Image URL:</label>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="submit" class="btn" value="Create Variant">
             </form>
         </div>
         {% endfor %}

@@ -128,7 +128,7 @@ h1 {
 .fancy-input input:not(:placeholder-shown) + label,
 .label-shown {
     font-size: 90%;
-    top: -15px;
+    top: -15px !important;
 }
 
 .fancy-input input:focus + label {
@@ -527,6 +527,14 @@ h1 {
 
 .variant-create {
     margin-top: 1.5rem;
+}
+
+.color-check {
+    margin-bottom: 1rem;
+}
+
+.image-btn {
+    margin-bottom: 1.5rem;
 }
 
 /* PRODUCT MANAGE END */

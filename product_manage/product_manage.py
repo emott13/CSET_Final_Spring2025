@@ -6,7 +6,6 @@ from extensions import conn, getCurrentType, dict_db_data
 product_manage_bp = Blueprint("product_manage", __name__, 
                         static_folder="static_product_manage",
                         template_folder="templates_product_manage")
-    
 
 
 @product_manage_bp.route("/manage", methods=["GET"])
@@ -18,29 +17,10 @@ def manage(error=None):
 
     productData = dict_db_data("products", f"WHERE vendor_id = '{current_user.email}'")
     categoryData = dict_db_data("categories")
-    print(productData)
+    colorData = dict_db_data("colors")
 
     return render_template("product_manage.html", type=current_user.type, error=error,
-        productData=productData, categoryData=categoryData)
-
-def productChecks(vendor_id, title, desc, warranty_months, category):
-    vendorExists = conn.execute(text(
-        f"SELECT email FROM users WHERE email = '{vendor_id}'")).first()
-    categoryExists = conn.execute(text(
-        f"SELECT cat_num FROM categories WHERE cat_num = {category}")).first()
-
-    if not vendor_id or len(vendor_id) > 255 or not vendorExists:
-        return "Invalid vendor email" 
-    elif not title or len(title) > 255:
-        return "Title is too long"
-    elif not desc or len(desc) > 500:
-        return "Description is too long"
-    elif not warranty_months or not warranty_months.isdigit() or int(warranty_months) > 2147483647 \
-        or int(warranty_months) < -2147483648:
-        return "Invalid warranty"
-    elif not category or not categoryExists:
-        return "Invalid category"
-    return None
+        productData=productData, categoryData=categoryData, colorData=colorData)
 
 @product_manage_bp.route("/manage/add/<method>", methods=["POST"])
 @product_manage_bp.route("/manage/add/<method>/<productId>", methods=["POST"])
@@ -94,5 +74,26 @@ def productDelete(productId):
 @product_manage_bp.route("/manage/variant/<method>/<productId>/<variantId>", methods=["POST"])
 @login_required
 def variant(method, productId, variantId=None):
+    print(request.form)
      
     return redirect(url_for("product_manage.manage"))
+
+
+def productChecks(vendor_id, title, desc, warranty_months, category):
+    vendorExists = conn.execute(text(
+        f"SELECT email FROM users WHERE email = '{vendor_id}'")).first()
+    categoryExists = conn.execute(text(
+        f"SELECT cat_num FROM categories WHERE cat_num = {category}")).first()
+
+    if not vendor_id or len(vendor_id) > 255 or not vendorExists:
+        return "Invalid vendor email" 
+    elif not title or len(title) > 255:
+        return "Title is too long"
+    elif not desc or len(desc) > 500:
+        return "Description is too long"
+    elif not warranty_months or not warranty_months.isdigit() or int(warranty_months) > 2147483647 \
+        or int(warranty_months) < -2147483648:
+        return "Invalid warranty"
+    elif not category or not categoryExists:
+        return "Invalid category"
+    return None
