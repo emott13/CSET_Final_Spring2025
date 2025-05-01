@@ -74,7 +74,63 @@ def productDelete(productId):
 @product_manage_bp.route("/manage/variant/<method>/<productId>/<variantId>", methods=["POST"])
 @login_required
 def variant(method, productId, variantId=None):
-    print(request.form)
+    colorSelect = request.form.get("color-select")
+    colorName = request.form.get("color-name")
+    colorHex = request.form.get("color-hex")
+    size = request.form.get("size")
+    price = int( float(request.form.get("price").replace("$", "")) * 100 )
+    inventory = request.form.get("inventory")
+    urls = request.form.getlist("url")
+    print(price)
+
+    error = variantChecks(colorSelect, colorName, colorHex, size, price, inventory, urls)
+
+    if error:
+        return redirect(url_for("product_manage.manage", error=error))
+
+    if not (
+        conn.execute(text(
+        f"SELECT size_id FROM sizes WHERE size_description = '{size}'")).first()
+        ):
+        conn.execute(text("INSERT INTO sizes (size_description) "
+                          f"VALUES ('{size}')")) 
+        conn.commit()
+
+    sizeId = conn.execute(text(
+        f"SELECT size_id FROM sizes WHERE size_description = '{size}'")).first()[0]
+
+    try:
+        if method == "create":
+            if not colorSelect:
+                conn.execute(text(
+                    "INSERT INTO colors (color_name, color_hex)"
+                    f"VALUES ('{colorName}', '{colorHex}')"))
+                colorSelect = conn.execute(text("SELECT LAST_INSERT_ID()")).first()[0]
+
+            conn.execute(text(
+                "INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory) "
+                f"VALUES ({productId}, {colorSelect}, {sizeId}, {price}, {inventory})"))
+
+            variantId = conn.execute(text("SELECT LAST_INSERT_ID()")).first()[0]
+            imageValues = ""
+            comma = False
+            for url in urls:
+                if url:
+                    if comma:
+                        imageValues += ", "
+                    imageValues += f"({variantId}, '{url}')"
+                    comma = True
+            print(imageValues)
+
+            conn.execute(text(
+                "INSERT INTO images (variant_id, file_path) "
+                f"VALUES {imageValues}")) 
+        elif method == "edit":
+            print()
+        conn.commit()
+    except Exception as e:
+        print("\n" + str(e) + "\n")
+        return redirect(url_for("product_manage.manage", error="Unknown error"))
      
     return redirect(url_for("product_manage.manage"))
 
@@ -96,4 +152,7 @@ def productChecks(vendor_id, title, desc, warranty_months, category):
         return "Invalid warranty"
     elif not category or not categoryExists:
         return "Invalid category"
+    return None
+
+def variantChecks(colorSelect, colorName, colorHex, size, price, inventory, urls):
     return None

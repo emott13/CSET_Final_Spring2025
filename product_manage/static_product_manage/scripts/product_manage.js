@@ -12,13 +12,11 @@ function colorBox(data) {
 }
 
 function addURL(data) {
-    len = data.parentElement.children.length
-    console.log("Length of images div = " + len)
     html = `
         <div class="full-width">
             <div class="fancy-input">
-                <input class="full-width" type="url" name="url-${len}" placeholder=""/>
-                <label class="label-shown" for="url-${len}">Image URL:</label>
+                <input class="full-width" type="url" name="url" placeholder=""/>
+                <label class="label-shown" for="url">Image URL:</label>
             </div>
         </div>`
     elem = document.createElement("div")
