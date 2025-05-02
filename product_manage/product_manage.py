@@ -20,7 +20,8 @@ def manage(error=None):
     colorData = dict_db_data("colors")
     imageData = dict_db_data("images")
     variantData = dict_db_data("product_variants", 
-        f"NATURAL JOIN products NATURAL JOIN colors NATURAL JOIN sizes WHERE vendor_id = '{current_user.email}'", 
+        f"NATURAL JOIN products NATURAL JOIN colors NATURAL JOIN sizes WHERE vendor_id = '{current_user.email}'"+
+        "ORDER BY variant_id", 
         select="color_name, color_hex, size_description")
 
     productIdVariants = dict()
@@ -39,6 +40,8 @@ def manage(error=None):
 @product_manage_bp.route("/manage/add/<method>/<productId>", methods=["POST"])
 @login_required
 def product(method, productId=None):
+    if current_user.type == "customer":
+        return redirect(url_for('login.login'))
     vendor_id = current_user.email if current_user.type == "vendor" else request.form.get("vendor_id")
     title = request.form.get("title")
     desc = request.form.get("description")
@@ -74,6 +77,8 @@ def product(method, productId=None):
 @product_manage_bp.route("/manage/delete/<productId>", methods=["POST"])
 @login_required
 def productDelete(productId):
+    if current_user.type == "customer":
+        return redirect(url_for('login.login'))
     error = None
     if request.form.get("delete") == "I WANT TO DELETE THIS PRODUCT":
         conn.execute(text(f"DELETE FROM products WHERE product_id = {productId}"))
@@ -87,6 +92,8 @@ def productDelete(productId):
 @product_manage_bp.route("/manage/variant/<method>/<productId>/<variantId>", methods=["POST"])
 @login_required
 def variant(method, productId, variantId=None):
+    if current_user.type == "customer":
+        return redirect(url_for('login.login'))
     colorSelect = request.form.get("color-select")
     size = request.form.get("size")
     price = request.form.get("price").replace("$", "")
@@ -96,7 +103,7 @@ def variant(method, productId, variantId=None):
     print("form:")
     print(request.form)
 
-    error = variantChecks(colorSelect, size, price, inventory, urls)
+    error = variantChecks(colorSelect, size, price, inventory, urls, productId, variantId)
 
     if error:
         return redirect(url_for("product_manage.manage", error=error))
@@ -128,15 +135,33 @@ def variant(method, productId, variantId=None):
                         imageValues += ", "
                     imageValues += f"({variantId}, '{url}')"
                     comma = True
-            print(imageValues)
 
             conn.execute(text(
                 "INSERT INTO images (variant_id, file_path) "
                 f"VALUES {imageValues}")) 
         elif method == "edit":
             conn.execute(text(
-                
-            ))
+                "UPDATE product_variants "
+                f"SET color_id = {colorSelect}, size_id = {sizeId}, price = {price}, current_inventory = {inventory} "
+                f"WHERE variant_id = {variantId}"))
+            
+            conn.execute(text(f"DELETE FROM images WHERE variant_id = {variantId}"))
+            
+            imageValues = ""
+            comma = False
+            print("urls")
+            print(urls)
+            for url in urls:
+                if url:
+                    if comma:
+                        imageValues += ", "
+                    imageValues += f"({variantId}, '{url}')"
+                    comma = True
+
+            conn.execute(text(
+                "INSERT INTO images (variant_id, file_path) "
+                f"VALUES {imageValues}")) 
+            
         conn.commit()
     except Exception as e:
         print("\n" + str(e) + "\n")
@@ -147,11 +172,16 @@ def variant(method, productId, variantId=None):
 @product_manage_bp.route("/manage/variantDelete/<variantId>", methods=["POST"])
 @login_required
 def variantDelete(variantId=None):
+    if current_user.type == "customer":
+        return redirect(url_for('login.login'))
+    
     return redirect(url_for("product_manage.manage"))
 
 @product_manage_bp.route("/manage/create-color", methods=["POST"])
 @login_required
 def createColor():
+    if current_user.type == "customer":
+        return redirect(url_for('login.login'))
     colorName = request.form.get("color-name")
     colorHex = request.form.get("color-hex")
     colors = dict_db_data("colors")
@@ -207,11 +237,27 @@ def productChecks(vendor_id, title, desc, warranty_months, category):
         return "Invalid category"
     return None
 
-def variantChecks(colorSelect, size, price, inventory, urls):
+def variantChecks(colorSelect, size, price, inventory, urls, productId, variantId=None):
     colors = dict_db_data("colors")
     # check if the values exist
     if not colorSelect or not size or not price or not inventory or not urls:
         return "A value was not entered"
+
+    # check if (variant_id, color_id, size_id) are together unique)
+    sizeId = conn.execute(text(f"SELECT size_id FROM sizes WHERE size_description = '{size}'")).first()[0]
+    unique = int( conn.execute(text(
+        "SELECT COUNT(variant_id) FROM product_variants "
+        f"WHERE product_id = {productId} AND color_id = {colorSelect} AND size_id = {sizeId} "
+        f"{'AND variant_id != ' + str(variantId) if variantId else ''}"
+    )).first()[0] )
+    print(unique)
+    if not variantId: # not editing
+        if unique >= 0:
+            return "Variant with that color and size already exists"
+    else: # must be editing
+        if unique >= 1:
+            return "Variant with that color and size already exists"
+
 
     containsColor = False
     for color in colors:
@@ -227,8 +273,14 @@ def variantChecks(colorSelect, size, price, inventory, urls):
         return "Invalid price"
     elif not inventory.isdigit() or int(inventory) > 2147483647 or int(inventory) < 0:
         return "Invalid inventory"
+
+    empty = True
     for url in urls:
+        if url:
+            empty = False
         if len(url) > 500:
             return "Invalid URL"
+    if empty:
+        return "A URL was not entered"
         
     return None

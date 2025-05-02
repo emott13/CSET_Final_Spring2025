@@ -105,7 +105,8 @@ def product(productId, variantId=None, error=None):
         "SELECT variant_id, product_id, color_id, size_id, "
         "price, current_inventory, color_name, color_hex, size_description "
         "FROM product_variants NATURAL JOIN colors NATURAL JOIN sizes " \
-        f"WHERE product_id = {productId} AND variant_id = {variantId}")).first()
+        f"WHERE product_id = {productId} AND variant_id = {variantId} "
+        "ORDER BY variant_id")).first()
     # all variant data. Index like this variantData[<index>][vi['price']]
     allVariantData = conn.execute(text(
         "SELECT variant_id, product_id, color_id, size_id, "
