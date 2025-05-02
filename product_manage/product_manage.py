@@ -18,9 +18,22 @@ def manage(error=None):
     productData = dict_db_data("products", f"WHERE vendor_id = '{current_user.email}'")
     categoryData = dict_db_data("categories")
     colorData = dict_db_data("colors")
+    imageData = dict_db_data("images")
+    variantData = dict_db_data("product_variants", 
+        f"NATURAL JOIN products NATURAL JOIN colors NATURAL JOIN sizes WHERE vendor_id = '{current_user.email}'", 
+        select="color_name, color_hex, size_description")
+
+    productIdVariants = dict()
+    for variant in variantData:
+        if variant['product_id'] in productIdVariants.keys():
+            productIdVariants[variant['product_id']].append(variant)
+        else:
+            productIdVariants[variant['product_id']] = [variant]
+
 
     return render_template("product_manage.html", type=current_user.type, error=error,
-        productData=productData, categoryData=categoryData, colorData=colorData)
+        productData=productData, categoryData=categoryData, colorData=colorData, 
+        productIdVariants=productIdVariants, imageData=imageData)
 
 @product_manage_bp.route("/manage/add/<method>", methods=["POST"])
 @product_manage_bp.route("/manage/add/<method>/<productId>", methods=["POST"])
@@ -75,14 +88,15 @@ def productDelete(productId):
 @login_required
 def variant(method, productId, variantId=None):
     colorSelect = request.form.get("color-select")
-    colorName = request.form.get("color-name")
-    colorHex = request.form.get("color-hex")
     size = request.form.get("size")
     price = request.form.get("price").replace("$", "")
     inventory = request.form.get("inventory")
     urls = request.form.getlist("url")
 
-    error = variantChecks(colorSelect, colorName, colorHex, size, price, inventory, urls)
+    print("form:")
+    print(request.form)
+
+    error = variantChecks(colorSelect, size, price, inventory, urls)
 
     if error:
         return redirect(url_for("product_manage.manage", error=error))
@@ -101,12 +115,6 @@ def variant(method, productId, variantId=None):
 
     try:
         if method == "create":
-            if not colorSelect:
-                conn.execute(text(
-                    "INSERT INTO colors (color_name, color_hex)"
-                    f"VALUES ('{colorName}', '{colorHex}')"))
-                colorSelect = conn.execute(text("SELECT LAST_INSERT_ID()")).first()[0]
-
             conn.execute(text(
                 "INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory) "
                 f"VALUES ({productId}, {colorSelect}, {sizeId}, {price}, {inventory})"))
@@ -126,13 +134,58 @@ def variant(method, productId, variantId=None):
                 "INSERT INTO images (variant_id, file_path) "
                 f"VALUES {imageValues}")) 
         elif method == "edit":
-            print()
+            conn.execute(text(
+                
+            ))
         conn.commit()
     except Exception as e:
         print("\n" + str(e) + "\n")
         return redirect(url_for("product_manage.manage", error="Unknown error"))
      
     return redirect(url_for("product_manage.manage"))
+
+@product_manage_bp.route("/manage/variantDelete/<variantId>", methods=["POST"])
+@login_required
+def variantDelete(variantId=None):
+    return redirect(url_for("product_manage.manage"))
+
+@product_manage_bp.route("/manage/create-color", methods=["POST"])
+@login_required
+def createColor():
+    colorName = request.form.get("color-name")
+    colorHex = request.form.get("color-hex")
+    colors = dict_db_data("colors")
+    
+    error = None
+    colorExists = False
+    for color in colors:
+        if colorName == color['color_name']:
+            colorExists = True
+            break
+    if colorExists:
+        error = "Color already exists"
+    elif len(colorName) > 50:
+        error = "Color name is too long (max 50 characters)"
+    elif len(colorHex) > 9 or colorHex[0] != "#" or not len(colorHex) in [4, 5, 7, 9]:
+        error = "Invalid color hex" 
+    
+    if error:
+        return redirect(url_for("product_manage.manage", error=error))
+
+    try:
+        conn.execute(text(
+            "INSERT INTO colors (color_name, color_hex)"
+            f"VALUES ('{colorName}', '{colorHex}')"))
+        conn.commit()
+
+        return redirect(url_for("product_manage.manage"))
+    except Exception as e:
+        print(e)
+        return redirect(url_for("product_manage.manage", error="Unknown error"))
+
+    
+
+
 
 
 def productChecks(vendor_id, title, desc, warranty_months, category):
@@ -154,40 +207,28 @@ def productChecks(vendor_id, title, desc, warranty_months, category):
         return "Invalid category"
     return None
 
-def variantChecks(colorSelect, colorName, colorHex, size, price, inventory, urls):
+def variantChecks(colorSelect, size, price, inventory, urls):
     colors = dict_db_data("colors")
     # check if the values exist
-    if not (colorSelect or (colorName and colorHex)) or not size or not price or not inventory or not urls:
-        return "Error: A value was not entered"
-    elif colorSelect:
-        containsColor = False
-        for color in colors:
-            if int(colorSelect) == int(color['color_id']):
-                containsColor = True
-                break
-        if not containsColor or not colorSelect.isdigit():
-            return "Error: Invalid color"
-    elif colorName and colorHex:
-        colorExists = False
-        for color in colors:
-            if colorName == color['color_name']:
-                colorExists = True
-                break
-        if colorExists:
-            return "Error: Color already exists"
-        elif len(colorName) > 50:
-            return "Error: Color name is too long (max 50 characters)"
-        elif len(colorHex) > 9 or colorHex[0] != "#" or not len(colorHex) in [4, 5, 7, 9]:
-            return "Error: Invalid color hex" 
+    if not colorSelect or not size or not price or not inventory or not urls:
+        return "A value was not entered"
+
+    containsColor = False
+    for color in colors:
+        if int(colorSelect) == int(color['color_id']):
+            containsColor = True
+            break
+    if not containsColor or not colorSelect.isdigit():
+        return "Invalid color"
+
     if len(size) > 100:
-        return "Error: Size is too long (max 100 characters)"
-    
+        return "Size is too long (max 100 characters)"
     elif not price.replace(".", "").isdigit() or int(float(price)*100) > 2147483647 or int(float(price)*100) < -2147483648:
-        return "Error: Invalid price"
+        return "Invalid price"
     elif not inventory.isdigit() or int(inventory) > 2147483647 or int(inventory) < 0:
-        return "Error: Invalid inventory"
+        return "Invalid inventory"
     for url in urls:
         if len(url) > 500:
-            return "Error: Invalid URL"
+            return "Invalid URL"
         
     return None

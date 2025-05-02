@@ -72,7 +72,6 @@ def dict_db_data(table, extra="", select=""):
     keys = [ key[0] for key in conn.execute(text(f"DESC {table}")).all() ]
     for key in select.replace(",", "").split():
         keys.append(key)
-    print(keys)
 
     data = conn.execute(text(f"SELECT {str(keys)[1:-1].replace("'", "")} FROM {table} "
                              f"{extra}")).all()

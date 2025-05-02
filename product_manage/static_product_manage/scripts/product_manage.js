@@ -24,6 +24,13 @@ function addURL(data) {
     data.parentElement.appendChild(elem)
 }
 
+function addVariantURL(data) {
+    console.log("addVariantURL running")
+    html = `<input type="text" name="url" value=""/>`
+    elem = document.createElement("td")
+    elem.innerHTML = html
+    data.parentNode.parentNode.insertBefore(elem, data.parentNode)
+}
 
 if (window.history.replaceState)
     window.history.replaceState( null, null, window.location.href );

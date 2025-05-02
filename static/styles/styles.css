@@ -525,11 +525,26 @@ h1 {
     width: 13rem;
 }
 
+.variant-modify-table {
+    overflow: auto;
+    display: block;
+}
+
+.variant-background {
+    background-color: var(--color-purple-white);
+    overflow: hidden;
+}
+
 .variant-create {
     margin-top: 1.5rem;
 }
 
+.variant-edit-delete {
+    width: 60px;
+}
+
 .color-check {
+    display: block;
     margin-bottom: 1rem;
 }
 
