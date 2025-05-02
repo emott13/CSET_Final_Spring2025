@@ -25,11 +25,11 @@ function addURL(data) {
 }
 
 function addVariantURL(data) {
-    console.log("addVariantURL running")
-    html = `<input type="text" name="url" value=""/>`
-    elem = document.createElement("td")
-    elem.innerHTML = html
-    data.parentNode.parentNode.insertBefore(elem, data.parentNode)
+    editForm = document.getElementById("edit-form");
+    html = `<input type="text" name="url" value="" form="edit-form"/>`;
+    elem = document.createElement("td");
+    elem.innerHTML = html;
+    data.parentNode.parentNode.insertBefore(elem, data.parentNode);
 }
 
 if (window.history.replaceState)
