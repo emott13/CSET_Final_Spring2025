@@ -1,4 +1,9 @@
 <link rel="stylesheet" href="/static/styles/styles.css">
+<script defer>
+    // prevents sending another POST request on refresh
+    if (window.history.replaceState)
+        window.history.replaceState( null, null, window.location.href );
+</script>
 {% extends 'base.html' %}
 {% block body %}
     <!-- <nav>
@@ -23,7 +28,7 @@
             <form class="login-form space" action="/register" method="post">
                 <div class="input-row">
                     <div class="fancy-input full-width">
-                        <input class="full-width" type="text" name="email" placeholder="" required />
+                        <input class="full-width" type="email" name="email" placeholder="" required />
                         <label for="email">Email:</label>
                     </div>
                 </div>
