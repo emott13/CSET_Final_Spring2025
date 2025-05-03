@@ -487,6 +487,10 @@ h1 {
 
 /* PRODUCT MANAGE START */
 
+.vendor-select {
+    justify-content: center;
+    margin-top: 2rem;
+}
 
 .manage-create-container {
     display: flex;

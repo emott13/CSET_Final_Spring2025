@@ -8,19 +8,31 @@ product_manage_bp = Blueprint("product_manage", __name__,
                         template_folder="templates_product_manage")
 
 
-@product_manage_bp.route("/manage", methods=["GET"])
-@product_manage_bp.route("/manage/<error>", methods=["GET"])
+@product_manage_bp.route("/manage", methods=["GET", "POST"])
+@product_manage_bp.route("/manage/<error>", methods=["GET", "POST"])
 @login_required
 def manage(error=None):
+    adminVendor = None
+    if request.method == "POST":
+        if current_user.type != "admin":
+            return url_for("product_manage.manage")
+        else:
+            adminVendor = request.form.get("admin-vendor")
+
+    print("adminVendor")
+    print(adminVendor)
     if current_user.type == "customer":
         return redirect(url_for('login.login'))
+    
+    vendorId = current_user.email if current_user.type == "vendor" else request.form.get("admin-vendor")
 
-    productData = dict_db_data("products", f"WHERE vendor_id = '{current_user.email}'")
+    vendorData = dict_db_data("users", "WHERE type = 'vendor' ORDER BY first_name")
+    productData = dict_db_data("products", f"WHERE vendor_id = '{vendorId}'")
     categoryData = dict_db_data("categories")
     colorData = dict_db_data("colors")
     imageData = dict_db_data("images")
     variantData = dict_db_data("product_variants", 
-        f"NATURAL JOIN products NATURAL JOIN colors NATURAL JOIN sizes WHERE vendor_id = '{current_user.email}'"+
+        f"NATURAL JOIN products NATURAL JOIN colors NATURAL JOIN sizes WHERE vendor_id = '{vendorId}'"+
         "ORDER BY variant_id", 
         select="color_name, color_hex, size_description")
 
@@ -34,7 +46,8 @@ def manage(error=None):
 
     return render_template("product_manage.html", type=current_user.type, error=error,
         productData=productData, categoryData=categoryData, colorData=colorData, 
-        productIdVariants=productIdVariants, imageData=imageData)
+        productIdVariants=productIdVariants, imageData=imageData, vendorData=vendorData,
+        adminVendor=adminVendor)
 
 @product_manage_bp.route("/manage/add/<method>", methods=["POST"])
 @product_manage_bp.route("/manage/add/<method>/<productId>", methods=["POST"])
@@ -42,7 +55,8 @@ def manage(error=None):
 def product(method, productId=None):
     if current_user.type == "customer":
         return redirect(url_for('login.login'))
-    vendor_id = current_user.email if current_user.type == "vendor" else request.form.get("vendor_id")
+
+    vendor_id = current_user.email if current_user.type == "vendor" else request.form.get("admin-vendor")
     title = request.form.get("title")
     desc = request.form.get("description")
     warranty_months = request.form.get("warranty_months")
@@ -81,6 +95,17 @@ def productDelete(productId):
         return redirect(url_for('login.login'))
     error = None
     if request.form.get("delete") == "I WANT TO DELETE THIS PRODUCT":
+        conn.execute(text(f"DELETE FROM chats WHERE product_id = {productId}"))
+        conn.execute(text(f"DELETE FROM reviews WHERE product_id = {productId}"))
+        conn.execute(text("DELETE FROM order_items WHERE variant_id in "
+            f"(SELECT variant_id FROM product_variants WHERE product_id = {productId})"))
+        conn.execute(text("DELETE FROM discounts WHERE variant_id in "
+            f"(SELECT variant_id FROM product_variants WHERE product_id = {productId})"))
+        conn.execute(text("DELETE FROM cart_items WHERE variant_id in "
+            f"(SELECT variant_id FROM product_variants WHERE product_id = {productId})"))
+        conn.execute(text("DELETE FROM images WHERE variant_id in "
+            f"(SELECT variant_id FROM product_variants WHERE product_id = {productId})"))
+        conn.execute(text(f"DELETE FROM product_variants WHERE product_id = {productId}"))
         conn.execute(text(f"DELETE FROM products WHERE product_id = {productId}"))
         conn.commit()
     else:
@@ -176,6 +201,9 @@ def variantDelete(variantId=None):
         return redirect(url_for('login.login'))
     
     try:
+        conn.execute(text(f"DELETE FROM order_items WHERE variant_id = {variantId} "))
+        conn.execute(text(f"DELETE FROM discounts WHERE variant_id = {variantId} "))
+        conn.execute(text(f"DELETE FROM cart_items WHERE variant_id = {variantId} "))
         conn.execute(text(f"DELETE FROM images WHERE variant_id = {variantId}"))
         conn.execute(text(f"DELETE FROM product_variants WHERE variant_id = {variantId}"))
         conn.commit()
