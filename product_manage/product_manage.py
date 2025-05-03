@@ -175,6 +175,13 @@ def variantDelete(variantId=None):
     if current_user.type == "customer":
         return redirect(url_for('login.login'))
     
+    try:
+        conn.execute(text(f"DELETE FROM images WHERE variant_id = {variantId}"))
+        conn.execute(text(f"DELETE FROM product_variants WHERE variant_id = {variantId}"))
+        conn.commit()
+    except Exception as e:
+        print("\n" + str(e) + "\n")
+        return redirect(url_for("product_manage.manage", error="Deletion failed"))
     return redirect(url_for("product_manage.manage"))
 
 @product_manage_bp.route("/manage/create-color", methods=["POST"])

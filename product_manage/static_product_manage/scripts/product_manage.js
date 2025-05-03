@@ -24,9 +24,9 @@ function addURL(data) {
     data.parentElement.appendChild(elem)
 }
 
-function addVariantURL(data) {
+function addVariantURL(data, variantId) {
     editForm = document.getElementById("edit-form");
-    html = `<input type="text" name="url" value="" form="edit-form"/>`;
+    html = `<input type="text" name="url" value="" form="edit-form-${variantId}"/>`;
     elem = document.createElement("td");
     elem.innerHTML = html;
     data.parentNode.parentNode.insertBefore(elem, data.parentNode);

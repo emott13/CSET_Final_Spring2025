@@ -189,7 +189,7 @@
                             <form action="{{url_for('product_manage.variantDelete', variantId=variant['variant_id'])}}" method="POST" onsubmit="return confirm('Do you really want to delete this item? This cannot be undone.');">
                                 <td><input class="variant-edit-delete" name="delete" type="submit" value="DELETE"></td>
                             </form>
-                            <form class="variant-create" id="edit-form"
+                            <form class="variant-create" id="edit-form-{{variant['variant_id']}}"
                             action="{{url_for('product_manage.variant', method='edit', productId=p['product_id'], variantId=variant['variant_id'])}}" method="POST">
                                 <td><input class="variant-edit-delete" name="edit" type="submit" value="EDIT"></td>
                                 <td>{{variant['variant_id']}}</td>
@@ -214,10 +214,10 @@
                                         </td>
                                     {% endif %}
                                 {% endfor %}
-                                    <td>
+                                    <!-- <td>
                                         <input type="text" name="url" value=""/>
-                                    </td>
-                                <!-- <td><button class="variant-edit-delete" type="button" onclick="addVariantURL(this)">Add URL</button></td> -->
+                                    </td> -->
+                                <td><button class="variant-edit-delete" type="button" onclick="addVariantURL(this, {{variant['variant_id']}})">Add URL</button></td>
                             </form>
                         </tr> 
                     {% endfor %}
