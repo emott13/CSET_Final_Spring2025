@@ -61,7 +61,7 @@ def product(method, productId=None):
             conn.execute(text(
                 "INSERT INTO products (vendor_id, product_title, "
                 "product_description, warranty_months, cat_num) "
-                f"VALUES ('{vendor_id}', '{title}', '{desc}', {warranty_months}, {category})"))
+                f"VALUES ('{vendor_id}', '{title.replace("'", "\\'")}', '{desc.replace("'", "\\'")}', {warranty_months}, {category})"))
         elif method == "edit":
             conn.execute(text(
                 f"UPDATE products SET product_title='{title}', product_description='{desc}', "
@@ -251,18 +251,18 @@ def variantChecks(colorSelect, size, price, inventory, urls, productId, variantI
         return "A value was not entered"
 
     # check if (variant_id, color_id, size_id) are together unique)
-    sizeId = conn.execute(text(f"SELECT size_id FROM sizes WHERE size_description = '{size}'")).first()[0]
-    unique = int( conn.execute(text(
-        "SELECT COUNT(variant_id) FROM product_variants "
-        f"WHERE product_id = {productId} AND color_id = {colorSelect} AND size_id = {sizeId} "
-        f"{'AND variant_id != ' + str(variantId) if variantId else ''}"
-    )).first()[0] )
-    print(unique)
-    if not variantId: # not editing
-        if unique >= 0:
-            return "Variant with that color and size already exists"
-    else: # must be editing
-        if unique >= 1:
+    sizeId = conn.execute(text(f"SELECT size_id FROM sizes WHERE size_description = '{size}'")).first()
+    print(f"sizeId \n{sizeId}")
+    if sizeId:
+        sizeId = sizeId[0]
+        unique = int( conn.execute(text(
+            "SELECT COUNT(variant_id) FROM product_variants "
+            f"WHERE product_id = {productId} AND color_id = {colorSelect} AND size_id = {sizeId} "
+            f"{'AND variant_id != ' + str(variantId) if variantId else ''}"
+        )).first()[0] )
+        print("unique")
+        print(unique)
+        if unique > 0:
             return "Variant with that color and size already exists"
 
 

@@ -24,6 +24,9 @@ def isValidProductURL(productId, variantId=None):
         ).all()
 
 
+    if productVariants == []:
+        return url_for("home.home")
+
     variantValue = variantId
     # if variantId exists. Sets variantValue to either the current 
     # variantId (if valid), or a valid variantId
@@ -51,7 +54,6 @@ def isValidProductURL(productId, variantId=None):
 @product_bp.route("/product/<int:productId>/", methods=["GET", "POST"])
 @product_bp.route("/product/<int:productId>/<int:variantId>", methods=["GET", "POST"])
 def product(productId, variantId=None, error=None):
-    print(error)
     # Returns 404 (productId doesn't exist), new URL (if the parameters are invalid),
     # or None (parameters are already fine)
     invalidURL = isValidProductURL(productId, variantId)

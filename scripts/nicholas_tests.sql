@@ -9,9 +9,11 @@ SELECT * FROM product_variants;
 SELECT * FROM colors;
 SELECT * FROM sizes;
 SELECT * FROM categories;
+SELECT * FROM images;
 SELECT * FROM reviews 
 JOIN users ON reviews.customer_email = users.email
 WHERE product_id = 850556;
+SELECT * FROM product_variants NATURAL JOIN products WHERE vendor_id = 'g_pitts@supplies4school.org';
 
 SELECT * FROM carts;
 SELECT * FROM cart_items WHERE cart_id = 6;
