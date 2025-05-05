@@ -100,8 +100,7 @@ def priceFormat(value):
 # date formatter for jinja template. call like {{154|dateFormat}}
 @app.template_filter()
 def dateFormat(value: datetime.datetime) -> str:
-    # formats to "MM/DD/YYYY HH:MM"
-    #            MM month           DD day
+    # formats like "Dec 05, 2026 11:59 PM"
     return value.strftime("%b %d, %Y %I:%M %p")
 
 # Load user for Flask-Login
