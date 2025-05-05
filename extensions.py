@@ -73,8 +73,7 @@ def dict_db_data(table, extra="", select=""):
     for key in select.replace(",", "").split():
         keys.append(key)
 
-    data = conn.execute(text(f"SELECT {str(keys)[1:-1].replace("'", "")} FROM {table} "
-                             f"{extra}")).all()
+    data = conn.execute(text("SELECT " + str(keys)[1:-1].replace("\'", "") + f" FROM {table} {extra}")).all()
 
     dataDict = []
     for row in data:

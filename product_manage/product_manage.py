@@ -75,7 +75,7 @@ def product(method, productId=None):
             conn.execute(text(
                 "INSERT INTO products (vendor_id, product_title, "
                 "product_description, warranty_months, cat_num) "
-                f"VALUES ('{vendor_id}', '{title.replace("'", "\\'")}', '{desc.replace("'", "\\'")}', {warranty_months}, {category})"))
+                f"VALUES ('{vendor_id}', '" + title.replace("'", "\\'") + "', '" + desc.replace("'", "\\'") + f"', {warranty_months}, {category})"))
         elif method == "edit":
             conn.execute(text(
                 f"UPDATE products SET product_title='{title}', product_description='{desc}', "
