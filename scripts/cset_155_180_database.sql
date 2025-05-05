@@ -345,9 +345,9 @@ VALUES
     -- 850600
     ('f_craft@techtime.com', 'HP 255 G10 15.6" Laptop', 'The HP 255 G10 laptop provides essential business-ready features in a thin and light design that\'s easy to take everywhere you go. The 15.6" diagonal display with 85% screen-to-body ratio, robust AMD Ryzen processor, fast memory, and storage is powered for productivity, while the included ports connect your peripherals, all at a price you can value. Features a 2GHz AMD Ryzen 7 7730U octa-core processor, with up to 4.5GHz and 16MB cache memory. 512GB SSD Capacity. HP Long Life three-cell, 41Wh Li-ion polymer battery with a runtime of up to 12 hours.', 0, 408),
     -- 850601
-    ('f_craft@techtime.com', 'HP Elite SFF 600 G9 Desktop Computer', 'The HP Elite 600 SFF Desktop PC delivers uncompromising performance, expandability, and reliability in a space-saving design. Equipped with the latest Intel processor, speedy storage, and memory, this is the right PC for big jobs performed in smaller workspaces. Future proof your fleet with multiple drives and configurable ports that provide expandability. The HP Elite 600 SFF utilizes HP Run Quiet Design that finely tunes the fans to keep systems running quiet and cool. At least 60 percent of all plastic used in this PC is post-consumer recycled plastic. Rest easy with a PC that undergoes hours of HP\'s Total Test Process and MIL-STD 810 testing.', 0, 403),
+    ('f_craft@techtime.com', 'HP Elite SFF 600 G9 Desktop Computer', 'The HP Elite 600 SFF Desktop PC delivers uncompromising performance, expandability, and reliability in a space-saving design. Equipped with the Intel Core i5-13500 processor, 16GB RAM, 256GB SSD, and Windows 11 Pro, this is the right PC for big jobs performed in smaller workspaces. Future proof your fleet with multiple drives and configurable ports that provide expandability. The HP Elite 600 SFF utilizes HP Run Quiet Design that finely tunes the fans to keep systems running quiet and cool. At least 60 percent of all plastic used in this PC is post-consumer recycled plastic. Rest easy with a PC that undergoes hours of HP\'s Total Test Process and MIL-STD 810 testing.', 0, 403),
     -- 850602
-    ('f_craft@techtime.com', 'HP Elite Tower 600 G9 Desktop Computer', 'The HP Elite 600 Tower Desktop PC delivers uncompromising performance, expandability, and reliability in a space-saving design. Equipped with the latest Intel processor, speedy storage, and memory, this is the right PC for big jobs performed in smaller workspaces. Future proof your fleet with multiple drives and configurable ports that provide expandability. The HP Elite 600 Tower utilizes HP Run Quiet Design that finely tunes the fans to keep systems running quiet and cool. At least 60 percent of all plastic used in this PC is post-consumer recycled plastic. Rest easy with a PC that undergoes hours of HP\'s Total Test Process and MIL-STD 810 testing.', 0, 403);
+    ('f_craft@techtime.com', 'HP Elite Tower 600 G9 Desktop Computer', 'The HP Elite 600 Tower Desktop PC delivers uncompromising performance, expandability, and reliability in a space-saving design. Equipped with the Intel Core i5-13500, 16GB RAM, 256GB SSD, and Windows 11 Pro, this is the right PC for big jobs performed in smaller workspaces. Future proof your fleet with multiple drives and configurable ports that provide expandability. The HP Elite 600 Tower utilizes HP Run Quiet Design that finely tunes the fans to keep systems running quiet and cool. At least 60 percent of all plastic used in this PC is post-consumer recycled plastic. Rest easy with a PC that undergoes hours of HP\'s Total Test Process and MIL-STD 810 testing.', 0, 403);
     -- 850603
     -- (),
     -- 850604
@@ -355,111 +355,190 @@ VALUES
     -- 850606
     -- 850607
     -- 850608
+--     select * from colors order by color_name;
 INSERT INTO colors (color_name, color_hex)
 VALUES
-	('Assorted', NULL),			-- 19780
-    ('Red', '#ff0000'),			-- 19781
-    ('Blue', '#0000ff'),		-- 19782
-    ('Green', '#00ff00'),		-- 19783
-    ('Yellow', '#ffff00'),		-- 19784
-    ('Navy', '#000080'),		-- 19785
-    ('Black', '#000000'),		-- 19786
-	('Walnut', '#99592e'), 		-- 19787
-    ('Clear', NULL),			-- 19788
-    ('None', NULL),				-- 19789
-	('White', '#ffffff'),		-- 19790
-    ('Maple', '#bb9351'), 		-- 19791
-	('Lilac', '#c8a2c8'), 		-- 19792
-    ('Dark blue', '#06065c'), 	-- 19793
-    ('Rose pink', '#f0afc1'), 	-- 19794
-    ('Sky blue', '#1a6bb8'), 	-- 19795
-    ('Dark red', '#8b0000'), 	-- 19796
-    ('Floral pink/purple', NULL), -- 19797
-    ('Galaxy blue', NULL), 		-- 19798
-    ('Multicolor', NULL), 		-- 19799
-    ('Supernova Neons', NULL),	-- 19800
-    ('Energy Boost', NULL),		-- 19801
-    ('Summer Joy', NULL),		-- 19802
-    ('Playful Primaries', NULL),-- 19803
-    ('Magenta', '#ff33cc'),		-- 19804
-    ('Cyan', '#00bfff'),		-- 19805
-    ('Purple', '#800080'),		-- 19806
-    ('Silver', '#c0c0c0'),		-- 19807
-    ('Manila', '#e7c9a9'),		-- 19808
-    ('Orchid', '#e2cfe1'),		-- 19809
-    ('Light Green', '#66ffc3'), -- 19810
-    ('Pink', '#ff6699'),		-- 19811
-    ('Brown', '#b59b7c'); 		-- 19812
+	('Assorted', NULL),					-- 800 (19710)
+	('Multicolor', NULL),				-- 804 19799
+	('Pattern', NULL),					-- 802 19797, 19798 19803 19802 19800
+	('Black', '#000000'),				-- 803 19786
+	('Blue', '#0000ff'),				-- 804 19782
+	('Clear', NULL),					-- 805 19788
+	('Cyan', '#00bfff'),				-- 806 19805
+	('Dark Blue', '#06065c'),			-- 807 19793
+	('Dark Brown', '#52422e'),			-- 808 
+	('Dark Green', '#004d00'),			-- 809 
+	('Dark Grey', '#666666'),			-- 810 
+	('Dark Red', '#8b0000'),			-- 811 
+	('Green', '#00ff00'),				-- 812 19783
+	('Light Blue', '#b3d9ff'),			-- 813 
+	('Light Brown', '#b59b7c'),		-- 814 
+	('Light Green', '#66ffc3'),		-- 815 19810
+	('Light Grey', '#bfbfbf'),			-- 816 
+	('Lilac', '#c8a2c8'),				-- 817 19792
+	('Magenta', '#ff33cc'),			-- 818 19804
+	('Manila', '#e7c9a9'),				-- 819 19808
+	('Maple', '#bb9351'),				-- 820 19791
+	('Navy', '#000080'),				-- 821 19785
+	('Orange', '#ff6600'),				-- 822 
+	('Orchid', '#e2cfe1'),				-- 823 19809
+	('Pink', '#ff80aa'),				-- 824 19811
+	('Purple', '#800080'),				-- 825 19806
+	('Red', '#ff0000'),				-- 826 19781
+	('Rose Pink', '#f0afc1'),			-- 827 19794
+	('Silver', '#c0c0c0'),				-- 828 19807
+	('Sky Blue', '#1a6bb8'),			-- 829 19795
+	('Walnut', '#99592e'),				-- 830 19787
+	('White', '#ffffff'),				-- 831 19790
+	('Yellow', '#ffff00');				-- 832 19784
+-- none 19789
+	-- ('Assorted', NULL),			--  19780
+--     ('Red', '#ff0000'),			-- 19781
+--     ('Blue', '#0000ff'),		-- 19782
+--     ('Green', '#00ff00'),		-- 19783
+--     ('Yellow', '#ffff00'),		-- 19784
+--     ('Navy', '#000080'),		-- 19785
+--     ('Black', '#000000'),		-- 19786
+-- 		('Walnut', '#99592e'), 		-- 19787
+--     ('Clear', NULL),			-- 19788
+--     ('None', NULL),				-- 19789
+-- 		('White', '#ffffff'),		-- 19790
+--     ('Maple', '#bb9351'), 		-- 19791
+-- 		('Lilac', '#c8a2c8'), 		-- 19792
+--     ('Dark blue', '#06065c'), 	-- 19793
+--     ('Rose pink', '#f0afc1'), 	-- 19794
+--     ('Sky blue', '#1a6bb8'), 	-- 19795
+--     ('Dark red', '#8b0000'), 	-- 19796
+--     ('Floral pink/purple', NULL), -- 19797
+--     ('Galaxy blue', NULL), 		-- 19798
+--     ('Multicolor', NULL), 		-- 19799
+--     ('Supernova Neons', NULL),	-- 19800
+--     ('Energy Boost', NULL),		-- 19801
+--     ('Summer Joy', NULL),		-- 19802
+--     ('Playful Primaries', NULL),-- 19803
+--     ('Magenta', '#ff33cc'),		-- 19804
+--     ('Cyan', '#00bfff'),		-- 19805
+--     ('Purple', '#800080'),		-- 19806
+--     ('Silver', '#c0c0c0'),		-- 19807
+--     ('Manila', '#e7c9a9'),		-- 19808
+--     ('Orchid', '#e2cfe1'),		-- 19809
+--     ('Light Green', '#66ffc3'), -- 19810
+--     ('Pink', '#ff6699'),		-- 19811
+--     ('Brown', '#b59b7c'); 		-- 19812
 
 INSERT INTO sizes (size_description)
 VALUES
-	('Single'), 				-- 15
-	('6-Pack'), 				-- 16
+-- 	('standard'),									-- 100
+-- 	('Single'),				 						-- 101
+-- 	('6-Pack'), 									-- 102
+-- 	('10-Pack'), 									-- 103
+-- 	('12-Pack'),			 						-- 104
+-- 	('24-Pack'), 									-- 105
+-- 	('36-Pack'),									-- 106
+-- 	('48-Pack'),			 						-- 107
+-- 	('50-Pack'),									-- 108
+-- 	('60-Pack'), 									-- 109
+-- 	('100-Pack'),									-- 110
+--     ('320-Pack'),									
+-- 	('2.4"H x 9.1"W x 7"D '),						-- 111
+-- 	('2.4"H x 9.4"W x 7.1"D '), 					-- 112
+-- 	('8"H x 4.25"W x 2.25"D '), 					-- 113 
+-- 	('14.5"H x 14"W x 11.25"D '), 					-- 114
+-- 	('33.75"H x 14.68"W x 18.37"L '), 				-- 115
+-- 	('13"W x 10"D x 17.5"H '), 						-- 116
+-- 	('20"W x 19"D x 18-22"H '), 					-- 117
+-- 	('16"W x 18"D x 26"L '), 						-- 118
+-- 	('16"W x 22"D x 28"L '), 						-- 119
+-- 	('1-Ream 500 Sheets/Ream'),						-- 120
+-- 	('3-Ream 500 Sheets/Ream'), 					-- 121
+-- 	('5-Ream 500 Sheets/Ream'), 					-- 122
+-- 	('8-Ream 500 Sheets/Ream'), 					-- 123
+-- 	('10-Ream 500 Sheets/Ream'),					-- 124
+-- 	('70 Sheet/Pad, 24 Pads/Pack'),					-- 125
+-- 	('90 Sheet/Pad, 5 Pads/Pack'),					-- 126
+-- 	('320 Flags/Pack'),								-- 127
+-- 	('1"W 66Tabs/Pack'),							-- 128
+-- 	('2"W 24 Tabs/Pack'),							-- 129
+-- 	('1 Pack/800 Pages'),							-- 130
+-- 	('1 Pack/1250 Pages'),							-- 131
+-- 	('4 Pack/3650 Pages'),							-- 132
+-- 	('9125e: 250 Sheet Input/60 Sheet Output'), 	-- 133
+-- 	('9135e: 500 Sheet Input/100 Sheet Output'), 	-- 134
+-- 	('GX3020: 250 Sheet Input/100 Sheet Output'), 	-- 135
+-- 	('GX4020: 250 Sheet Input/100 Sheet Output'), 	-- 136
+-- 	('GX5020: 350 Sheet Input'), 					-- 137
+-- 	('132mL capacity'),								-- 138
+-- 	('16GB RAM'); 									-- 139
+    
+    
+ ('Single'), 				-- 15
+ 	('6-Pack'), 				-- 16
 	('10-Pack'), 				-- 17
-    ('12-Pack'), 				-- 18
-	('24-Pack'), 				-- 19
-	('48-Pack'), 				-- 20
-    ('60-Pack'), 				-- 21
-    ('60L X 30W Inches'),		-- 22
-    ('72L X 78W Inches'),		-- 23
-    ('36L X 48W Inches'),		-- 24
-    ('45L X 53W Inches'),		-- 25
-    ('20W X 19D X 18-22H Inches'), -- 26
-    ('Standard'),				-- 27
+     ('12-Pack'), 				-- 18
+ 	('24-Pack'), 				-- 19
+ 	('48-Pack'), 				-- 20
+     ('60-Pack'), 				-- 21
+     ('60L X 30W Inches'),		-- 22
+     ('72L X 78W Inches'),		-- 23
+     ('36L X 48W Inches'),		-- 24
+     ('45L X 53W Inches'),		-- 25
+     ('20W X 19D X 18-22H Inches'), -- 26
+     ('Standard'),				-- 27
 	('48L X 24W Inches'), 		-- 28
-    ('60L X 24W Inches'), 		-- 29
-    ('72L X 24W Inches'), 		-- 30
-    ('60W x 30L Inches'), 		-- 31
-    ('72W X 30L Inches'), 		-- 32
-    ('16W X 22D X 28L Inches'), -- 33
-	('60W X 66L Inches'), 		-- 34
-    ('72W X 66L Inches'), 		-- 35
-    ('16W X 18D X 26L Inches'), -- 36
-	('13W X 10D X 17.5H Inches'), -- 37
-    ('70 Sheet/Pad, 24 Pads/Pack'),-- 38
-    ('90 Sheet/Pad, 5 Pads/Pack'),-- 39
-    ('320 Flags/Pack'),			-- 40
-    ('1"W 66Tabs/Pack'),		-- 41
-    ('2"W 24 Tabs/Pack'),		-- 42
-    ('9125e: 250 Sheet Input/60 Sheet Output'), -- 43
-    ('9135e: 500 Sheet Input/100 Sheet Output'), -- 44
-    ('1 Pack/1250 Pages'),		-- 45
-    ('1 Pack/800 Pages'),		-- 46
-    ('4 Pack/3650 Pages'),		-- 47
-    ('GX3020: 250 Sheet Input/100 Sheet Output'), -- 48
-    ('GX4020: 250 Sheet Input/100 Sheet Output'), -- 49
-    ('GX5020: 350 Sheet Input'), -- 50
-    ('132mL capacity'),			-- 51
-    ('36-Pack'),				-- 52
-    ('50-Pack'),				-- 53
-    ('100-Pack'),				-- 54
-    ('14.5H X 14W X 11.25D Inches'), -- 55
-    ('33.75H X 14.68W X 18.37L Inches'), -- 56
-    ('1-Ream 500 Sheets/Ream'),	-- 57
-    ('3-Ream 500 Sheets/Ream'), -- 58
-    ('5-Ream 500 Sheets/Ream'), -- 59
-    ('8-Ream 500 Sheets/Ream'), -- 60
-    ('10-Ream 500 Sheets/Ream'),-- 61
-    ('2.4H X 9.1W X 7D Inches'),-- 62
-    ('2.4H X 9.4W X 7.1D Inches'), -- 63
-    ('8H X 4.25W X 2.25D Inches'), -- 64
-    ('16GB RAM'); -- 65
+     ('60L X 24W Inches'), 		-- 29
+     ('72L X 24W Inches'), 		-- 30
+     ('60W x 30L Inches'), 		-- 31
+     ('72W X 30L Inches'), 		-- 32
+     ('16W X 22D X 28L Inches'), -- 33
+ 	('60W X 66L Inches'), 		-- 34
+     ('72W X 66L Inches'), 		-- 35
+     ('16W X 18D X 26L Inches'), -- 36
+ 	('13W X 10D X 17.5H Inches'), -- 37
+     ('70 Sheet/Pad, 24 Pads/Pack'),-- 38
+     ('90 Sheet/Pad, 5 Pads/Pack'),-- 39
+     ('320 Flags/Pack'),			-- 40
+     ('1"W 66Tabs/Pack'),		-- 41
+     ('2"W 24 Tabs/Pack'),		-- 42
+     ('9125e: 250 Sheet Input/60 Sheet Output'), -- 43
+     ('9135e: 500 Sheet Input/100 Sheet Output'), -- 44
+     ('1 Pack/1250 Pages'),		-- 45
+     ('1 Pack/800 Pages'),		-- 46
+     ('4 Pack/3650 Pages'),		-- 47
+     ('GX3020: 250 Sheet Input/100 Sheet Output'), -- 48
+     ('GX4020: 250 Sheet Input/100 Sheet Output'), -- 49
+     ('GX5020: 350 Sheet Input'), -- 50
+     ('132mL capacity'),			-- 51
+     ('36-Pack'),				-- 52
+     ('50-Pack'),				-- 53
+     ('100-Pack'),				-- 54
+     ('14.5H X 14W X 11.25D Inches'), -- 55
+     ('33.75H X 14.68W X 18.37L Inches'), -- 56
+     ('1-Ream 500 Sheets/Ream'),	-- 57
+     ('3-Ream 500 Sheets/Ream'), -- 58
+     ('5-Ream 500 Sheets/Ream'), -- 59
+     ('8-Ream 500 Sheets/Ream'), -- 60
+     ('10-Ream 500 Sheets/Ream'),-- 61
+     ('2.4H X 9.1W X 7D Inches'),-- 62
+     ('2.4H X 9.4W X 7.1D Inches'), -- 63
+     ('8H X 4.25W X 2.25D Inches'), -- 64
+     ('16GB RAM'); -- 65
     
     
 INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory)
 VALUES
 	-- Mechanical Pencils
-	(850555, 19780, 17, 474, 150),		-- 100200
-	(850555, 19780, 20, 2274, 50),		-- 100201
-    (850555, 19780, 21, 2649, 18),		-- 100202
+	(850555, null, 17, 474, 150),		-- 100200
+	(850555, null, 20, 2274, 50),		-- 100201
+    (850555, null, 21, 2649, 18),		-- 100202
+    (850555, null, Null, 90.39, 10),			-- 320-Pack
 	(850556, 19781, 15, 299, 100),		-- 100203
 	(850556, 19782, 15, 299, 100),		-- 100204
 	(850556, 19783, 15, 299, 100),		-- 100205
 	(850556, 19784, 15, 299, 100),		-- 100206
 	(850556, 19785, 15, 299, 100),		-- 100207
 	(850556, 19786, 15, 299, 100),		-- 100208
-	(850556, 19780, 16, 1599, 50),		-- 100209
-	(850556, 19780, 18, 2999, 25),		-- 100210
+	(850556, null, 16, 1599, 50),		-- 100209
+	(850556, null, 18, 2999, 25),		-- 100210
     -- Chem textbook 
     (850557, 19789, 27, 42999, 16), 	-- 100211
     -- Comp textbook 
@@ -518,10 +597,10 @@ VALUES
     (850573, 19802, 39, 699, 5),		-- 100256
     (850573, 19803, 39, 699, 5),		-- 100257
     -- post it flags combo
-    (850574, 19780, 40, 1329, 15),		-- 100258
+    (850574, null, 40, 1329, 15),		-- 100258
     -- post it tabs
-    (850575, 19780, 41, 789, 11),		-- 100259
-    (850575, 19780, 42, 429, 8),		-- 100260
+    (850575, null, 41, 789, 11),		-- 100259
+    (850575, null, 42, 429, 8),		-- 100260
     -- hp officejet pro printers
     (850576, 19799, 43, 32999, 15),		-- 100261
     (850576, 19799, 44, 40999, 12), 	-- 100262
@@ -530,7 +609,7 @@ VALUES
 	(850577, 19804, 46, 2499, 9),		-- 100264
 	(850577, 19784, 46, 2499, 9),		-- 100265
 	(850577, 19805, 46, 2499, 6),		-- 100266
-	(850577, 19780, 47, 10999, 11),		-- 100267
+	(850577, null, 47, 10999, 11),		-- 100267
     
     (850578, 19799, 48, 34999, 10),		-- 100268
     (850578, 19799, 49, 44999, 10),		-- 100269
@@ -551,20 +630,20 @@ VALUES
     (850581, 19786, 21, 879, 25),		-- 100281 black
     (850581, 19782, 21, 879, 25),		-- 100282 blue
     -- paper mate felt pens
-    (850582, 19780, 18, 1149, 16),		-- 100283 assorted colors
+    (850582, null, 18, 1149, 16),		-- 100283 assorted colors
     -- sharpie permenant markers 
     (850583, 19786, 52, 2599, 12),		-- 100284 black
     (850583, 19781, 52, 2599, 12), 		-- 100285 red
     (850583, 19782, 52, 2599, 12), 		-- 100286 blue
     (850583, 19807, 52, 2599, 12), 		-- 100287 silver
-    (850583, 19780, 52, 2599, 12), 		-- 100288 assorted
-    (850583, 19780, 19, 1999, 16),		-- 100289 assorted 24 pack
+    (850583, null, 52, 2599, 12), 		-- 100288 assorted
+    (850583, null, 19, 1999, 16),		-- 100289 assorted 24 pack
     -- dry erase starter set
-    (850584, 19780, 15, 799, 9),		-- 100290
+    (850584, null, 15, 799, 9),		-- 100290
     -- dry erase kit
-    (850585, 19780, 15, 1999, 11),		-- 100291
+    (850585, null, 15, 1999, 11),		-- 100291
     -- dry erase markers 12-pack
-    (850586, 19780, 18, 1379, 10), 		-- 100292 assorted
+    (850586, null, 18, 1379, 10), 		-- 100292 assorted
     (850586, 19786, 18, 1379, 10), 		-- 100293 black 
     (850586, 19781, 18, 1379, 10),		-- 100294 red
     (850586, 19783, 18, 1379, 10), 		-- 100295 green
@@ -572,13 +651,13 @@ VALUES
     (850586, 19806, 18, 1379, 10), 		-- 100297 purple
     -- file folders 850587
     (850587, 19808, 53, 3369, 15),		-- 100298 manila
-    (850587, 19780, 53, 3369, 15),		-- 100299 assorted
+    (850587, null, 53, 3369, 15),		-- 100299 assorted
     -- file folders 850588
     (850588, 19808, 54, 3249, 11),		-- 100300 manila
     -- file folders glow multicolor
     (850589, 19799, 18, 1349, 6),		-- 100301 multicolor
     -- file folders assorted 100pack
-    (850590, 19780, 54, 3789, 18),		-- 100302 assorted
+    (850590, null, 54, 3789, 18),		-- 100302 assorted
     -- file storage box
     (850591, 19786, 55, 3649, 8),		-- 100303 black
     -- file stacker box
@@ -599,10 +678,10 @@ VALUES
     (850595, 19790, 61, 8999, 20),		-- 100313
     
     -- bentogo modern lunch box --
-    (850596, 19786, 62, 37.49, 15), 	-- 100314 black
-    (850596, 19785, 62, 37.49, 15), 	-- 100315 navy
-    (850596, 19809, 62, 37.49, 15),		-- 100316 orchid
-    (850596, 19790, 62, 37.49, 15),		-- 100317 white
+    (850596, 19786, 62, 3749, 15), 	-- 100314 black
+    (850596, 19785, 62, 3749, 15), 	-- 100315 navy
+    (850596, 19809, 62, 3749, 15),		-- 100316 orchid
+    (850596, 19790, 62, 3749, 15),		-- 100317 white
     
     (850597, 19781, 63, 3249, 15), 		-- 100318 red
     (850597, 19811, 63, 3249, 15),		-- 100319 pink
@@ -611,7 +690,7 @@ VALUES
     (850597, 19785, 63, 3249, 15), 		-- 100322 navy
     
     -- jam paper bags --
-    (850598, 19812, 64, 15.49, 45), 	-- 100323
+    (850598, 19812, 64, 1549, 45), 	-- 100323
     
     -- laptops --
 	(850599, 19786, 65, 42999, 12),		-- 100324
@@ -1341,10 +1420,19 @@ VALUES
     (100325, 'https://www.staples-3p.com/s7/is/image/Staples/169FAA15-ABA2-44DE-90E453B4845A0560_sc7?wid=700&hei=700', ''),
     (100325, 'https://www.staples-3p.com/s7/is/image/Staples/F3A84282-64AD-4D4B-A7B33185AFD444D7_sc7?wid=700&hei=700', ''),
     (100325, 'https://www.staples-3p.com/s7/is/image/Staples/4156686B-2782-42B9-A93D36A084B4B8A7_sc7?wid=700&hei=700', ''),
-    (100325, 'https://www.staples-3p.com/s7/is/image/Staples/C262E7E1-E817-41CC-BAE138C77E23BB6F_sc7?wid=700&hei=700', '');
+    (100325, 'https://www.staples-3p.com/s7/is/image/Staples/C262E7E1-E817-41CC-BAE138C77E23BB6F_sc7?wid=700&hei=700', ''),
     
---     (100326, '', ''),
---     (100327, '', ''),
+    (100326, 'https://www.staples-3p.com/s7/is/image/Staples/D5C6BFF8-9E26-4160-A50D091EEC8480ED_sc7?wid=700&hei=700', ''),
+    (100326, 'https://www.staples-3p.com/s7/is/image/Staples/617EF013-AFE8-4ACF-A53ACE8315CC8F62_sc7?wid=700&hei=700', ''),
+    (100326, 'https://www.staples-3p.com/s7/is/image/Staples/EBF7A808-527F-4C89-9AE883E729E1F29D_sc7?wid=700&hei=700', ''),
+    (100326, 'https://www.staples-3p.com/s7/is/image/Staples/FD3CB708-4F37-4AF0-81DF86C034570891_sc7?wid=700&hei=700', ''),
+    (100326, 'https://www.staples-3p.com/s7/is/image/Staples/0C5C9CAA-A3EA-4419-B57DA8C7885452A0_sc7?wid=700&hei=700', ''),
+    
+    (100327, 'https://www.staples-3p.com/s7/is/image/Staples/5193B0D7-2FBC-448C-BAD8A405499AA689_sc7?wid=700&hei=700', ''),
+    (100327, 'https://www.staples-3p.com/s7/is/image/Staples/2D5C3457-BD38-43DD-B1AAB1D7915B809A_sc7?wid=700&hei=700', ''),
+    (100327, 'https://www.staples-3p.com/s7/is/image/Staples/4DF2B814-79D0-4979-A1031D0F15783D4D_sc7?wid=700&hei=700', ''),
+    (100327, 'https://www.staples-3p.com/s7/is/image/Staples/B399F579-974D-4505-B7C4B15A6CE221CE_sc7?wid=700&hei=700', ''),
+    (100327, 'https://www.staples-3p.com/s7/is/image/Staples/6C11E3EC-09FB-4D5C-B4C7B64D6BA66E5F_sc7?wid=700&hei=700', '');
 --     (100328, '', ''),
 --     (100329, '', ''),
 --     (100329, '', ''),

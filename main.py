@@ -7,6 +7,8 @@ from register.register import register_bp
 from product.product import product_bp
 from search.search import search_bp
 from home.home import home_bp
+from cart.cart import cart_bp
+from order.order import order_bp
 
 # -- LOGIN PAGE -- #
 app.register_blueprint(login_bp)
@@ -36,6 +38,13 @@ def test():
 def logout():
     logout_user()
     return redirect(url_for("login.login"))
+
+# -- CART PAGE -- #
+app.register_blueprint(cart_bp)
+
+
+# -- ORDER PAGE -- #
+app.register_blueprint(order_bp)
 
 
 if __name__ == '__main__':

@@ -20,6 +20,7 @@ def home():
     schoolSupplyProd = conn.execute(
             text('SELECT product_title, size_description, file_path, alt_text, product_id, variant_id ' \
             'FROM products natural join product_variants natural join sizes natural join images ' \
-            'WHERE vendor_id="g_pitts@supplies4school.org" and image_id IN(1, 3, 5, 7, 19, 21);'),
+            'WHERE vendor_id="g_pitts@supplies4school.org" and image_id IN(145, 148, 149, 152, 154);'),
             {'id': id}).fetchall()
+    print('supplies:', schoolSupplyProd)
     return render_template('home.html', officePhotos = officePhotos, schoolSupplies = schoolSupplyProd)
