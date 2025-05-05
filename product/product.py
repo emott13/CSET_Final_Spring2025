@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
 from sqlalchemy import text
-from extensions import conn, getCurrentType
+from extensions import conn, getCurrentType, dict_db_data
 
 product_bp = Blueprint("product", __name__, static_folder="static_product",
                         template_folder="templates_product")
@@ -121,8 +121,20 @@ def product(productId, variantId=None, error=None):
         "WHERE (start_date <= NOW() OR start_date IS NULL) AND (end_date >= NOW() OR end_date IS NULL) " \
        f"AND (product_id = {productId}) " \
         "GROUP BY variant_id;"
-
     )).all() )
+
+    bestDiscount = dict_db_data("discounts", 
+        "WHERE (start_date <= NOW() OR start_date IS NULL) " +
+        f"   AND (end_date >= NOW() OR end_date IS NULL) AND variant_id = {variantId} "
+        "ORDER BY discount_price")
+
+    if bestDiscount:
+        bestDiscount = bestDiscount[0]
+
+    print()
+    print(bestDiscount)
+    print()
+
     reviewsData = conn.execute(text("SELECT review_id, customer_email, product_id, rating, description, "
         "image, date(date), CONCAT(first_name, ' ', last_name) AS 'full_name', date AS 'date_time' "
        f"FROM reviews JOIN users ON reviews.customer_email = users.email WHERE product_id = {productId} "
@@ -135,10 +147,12 @@ def product(productId, variantId=None, error=None):
 
 
     if request.method == "GET":
-        return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
+        return render_template("product.html", error=error, productId=productId, 
+                            productData=productData, pi=pi,
                             variantId=variantId, variantData=variantData, vi=vi, imageData=imageData, ii=ii,
                             allVariantData=allVariantData, allDiscountData=allDiscountData, reviewsAvg=reviewsAvg,
-                            reviewsData=reviewsData, ri=ri, getCurrentType=getCurrentType())
+                            reviewsData=reviewsData, ri=ri, getCurrentType=getCurrentType(),
+                            bestDiscount=bestDiscount)
 
     elif request.method == "POST":
         print("POST")
@@ -190,10 +204,12 @@ def product(productId, variantId=None, error=None):
 
             print(cartItemVariants)
         print(error)
-        return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
+        return render_template("product.html", error=error, productId=productId,    
+                            productData=productData, pi=pi,
                             variantId=variantId, variantData=variantData, vi=vi, imageData=imageData, ii=ii,
                             allVariantData=allVariantData, allDiscountData=allDiscountData, reviewsAvg=reviewsAvg,
-                            reviewsData=reviewsData, ri=ri, getCurrentType=getCurrentType())
+                            reviewsData=reviewsData, ri=ri, getCurrentType=getCurrentType(),
+                            bestDiscount=bestDiscount)
 
 
 @product_bp.route("/product/<int:productId>/<int:variantId>/review", methods=["POST"])
