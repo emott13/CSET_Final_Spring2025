@@ -1,3 +1,4 @@
+import datetime
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, text
@@ -95,6 +96,13 @@ def priceFormat(value):
 
     return formatted
     # return f"{ round( int(value)/100, 2):.2f }"
+
+# date formatter for jinja template. call like {{154|dateFormat}}
+@app.template_filter()
+def dateFormat(value: datetime.datetime) -> str:
+    # formats to "MM/DD/YYYY HH:MM"
+    #            MM month           DD day
+    return value.strftime("%b %d, %Y %I:%M %p")
 
 # Load user for Flask-Login
 @login_manager.user_loader

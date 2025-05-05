@@ -288,7 +288,7 @@ def discount(method, discountId=None):
                               f"VALUES ({int(variantId)}, {price}, {startDate}, {endDate})"))
         if method == 'edit':
             conn.execute(text(f"UPDATE discounts SET discount_price = {price}, "
-                              f"start_date = {startDate}, end_date = {endDate}"
+                              f"start_date = {startDate}, end_date = {endDate} "
                               f"WHERE discount_id = {discountId}"))
         conn.commit()
     except Exception as e:

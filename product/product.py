@@ -132,7 +132,7 @@ def product(productId, variantId=None, error=None):
         bestDiscount = bestDiscount[0]
 
     print()
-    print(bestDiscount)
+    print(type(bestDiscount['end_date']))
     print()
 
     reviewsData = conn.execute(text("SELECT review_id, customer_email, product_id, rating, description, "

@@ -76,7 +76,7 @@
                     allDiscountData[variantData[vi['variant_id']]] < variantData[vi['price']] %}
                     <p class="product-list-price">List Price: <s>${{ variantData[vi['price']]|priceFormat }}</s></p>
                     {% if bestDiscount['end_date'] %}
-                        <p>Discount ends: {{bestDiscount['end_date']}}</p>
+                        <p>Discount ends: {{bestDiscount['end_date']|dateFormat}}</p>
                     {% endif %}
                 {% endif %}
 
