@@ -88,9 +88,9 @@ def dict_db_data(table, extra="", select=""):
 @app.template_filter()
 def priceFormat(value):
     formatted = str(value)[:-2] + "." + str(value)[-2:]
-    if value < 10:
+    if int(value) < 10:
         formatted = formatted[:-1] + "0" + formatted[-1:]
-    if value < 100:
+    if int(value) < 100:
         formatted = "0" + formatted
 
     return formatted

@@ -239,7 +239,8 @@
                 </table>
                 <form class="manage-discount-form" action="{{url_for('product_manage.discount', method='create')}}" method="POST">
                     <h2>Add Discount</h2>
-                    <p class="discount-hint">Hint: Start date and end date can be blank (meaning it starts now or it never ends)</p>
+                    <p class="discount-hint">Hint: Start date and/or end date can be blank (meaning it starts now and/or it never ends)</p>
+                    <input class="hidden" name="admin-vendor" value="{{adminVendor}}">
                     <div class="full-width input-row discount-row">
                         <div class="fancy-input discount-padding">
                             <select class="full-width variant-select" name="variant-select" for="variant-select">
@@ -266,6 +267,35 @@
                         <input class="btn" type="submit" name="submit" value="Submit Discount">
                     </div>
                 </form>
+                <table class="variant-modify-table">
+                    <tr>
+                        <th>DELETE</th>
+                        <th>EDIT</th>
+                        <th>Variant ID</th>
+                        <th>Price</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                    </tr>
+                    {% for variant in productIdVariants[p['product_id']] %}
+                    {% for discount in discountIdData[variant['variant_id']] %}
+                        <tr>
+                            </form>
+                            <form action="{{url_for('product_manage.discountDelete', discountId=discount['discount_id'])}}" method="POST" onsubmit="return confirm('Do you really want to delete this discount? This cannot be undone.');">
+                                <td><input name="delete" type="submit" value="DELETE"></td>
+                            </form>
+                            <form id="discount-edit-form-{{discount['discount_id']}}" method="POST" autocomplete="off"
+                            action="{{url_for('product_manage.discount', method='edit', discountId=discount['discount_id'])}}">
+                                <input class="hidden" name="admin-vendor" value="{{adminVendor}}">
+                                <td><input name="edit" type="submit" value="EDIT" form="discount-edit-form-{{discount['discount_id']}}"></td>
+                                <td>{{discount['variant_id']}}</td>
+                                <td><input name="price" value="${{discount['discount_price']|priceFormat}}" form="discount-edit-form-{{discount['discount_id']}}"></td>
+                                <td><input type="datetime-local" name="start-date" value="{{discount['start_date']}}" form="discount-edit-form-{{discount['discount_id']}}"></td>
+                                <td><input type="datetime-local" name="end-date" value="{{discount['end_date']}}" form="discount-edit-form-{{discount['discount_id']}}"></td>
+                            </form>
+                        </tr> 
+                    {% endfor %}
+                    {% endfor %}
+                </table>
             </div>
         </div>
         {% endfor %}

@@ -35,19 +35,29 @@ def manage(error=None):
         f"NATURAL JOIN products NATURAL JOIN colors NATURAL JOIN sizes WHERE vendor_id = '{vendorId}'"+
         "ORDER BY variant_id", 
         select="color_name, color_hex, size_description")
+    discountData = dict_db_data("discounts")
 
     productIdVariants = dict()
+    discountIdData = dict()
     for variant in variantData:
         if variant['product_id'] in productIdVariants.keys():
             productIdVariants[variant['product_id']].append(variant)
         else:
             productIdVariants[variant['product_id']] = [variant]
+    for discount in discountData:
+        if discount['variant_id'] in discountIdData.keys():
+            discountIdData[discount['variant_id']].append(discount)
+        else:
+            discountIdData[discount['variant_id']] = [discount]
+        
+        
+    print(discountIdData)
 
 
     return render_template("product_manage.html", type=current_user.type, error=error,
         productData=productData, categoryData=categoryData, colorData=colorData, 
         productIdVariants=productIdVariants, imageData=imageData, vendorData=vendorData,
-        adminVendor=adminVendor)
+        adminVendor=adminVendor, discountIdData = discountIdData)
 
 @product_manage_bp.route("/manage/add/<method>", methods=["POST"])
 @product_manage_bp.route("/manage/add/<method>/<productId>", methods=["POST"])
@@ -249,8 +259,12 @@ def createColor():
         return redirect(url_for("product_manage.manage", error="Unknown error"))
 
 @product_manage_bp.route("/manage/discount/<method>", methods=["POST"])
+@product_manage_bp.route("/manage/discount/<method>/<discountId>", methods=["POST"])
 @login_required
-def discount(method):
+def discount(method, discountId=None):
+    if current_user.type == "customer":
+        return redirect(url_for('login.login'))
+
     variantId = request.form.get("variant-select")
     price = request.form.get("price").replace("$", "")
     startDate = request.form.get("start-date")
@@ -258,22 +272,24 @@ def discount(method):
     print("Discount values:")
     print(request.form)
 
-    error = discountChecks(variantId, price, startDate, endDate)
+    error = discountChecks(variantId, price, startDate, endDate, discountId)
     
     if error:
         return redirect(url_for("product_manage.manage", error=error))
         
     price = int( float(price) * 100 )
 
-    startDate = (f"'{startDate[:10] + ' ' + startDate[11:] + ':00'}'" 
-                 if startDate else "NULL")
-    endDate = (f"'{endDate[:10] + ' ' + endDate[11:] + ':00'}'" 
-                 if endDate else "NULL")
+    startDate = dateFormat(startDate)
+    endDate = dateFormat(endDate)
 
     try:
         if method == 'create':
             conn.execute(text("INSERT INTO discounts (variant_id, discount_price, start_date, end_date) "
                               f"VALUES ({int(variantId)}, {price}, {startDate}, {endDate})"))
+        if method == 'edit':
+            conn.execute(text(f"UPDATE discounts SET discount_price = {price}, "
+                              f"start_date = {startDate}, end_date = {endDate}"
+                              f"WHERE discount_id = {discountId}"))
         conn.commit()
     except Exception as e:
         print("\n" + str(e) + "\n")
@@ -282,9 +298,28 @@ def discount(method):
 
     return redirect(url_for("product_manage.manage"))
 
+@product_manage_bp.route("/manage/discount/delete/<discountId>", methods=["POST"])
+@login_required
+def discountDelete(discountId):
+    if current_user.type == "customer":
+        return redirect(url_for('login.login'))
 
-def discountChecks(variantId, price, startDate, endDate):
-    if not variantId or not price:
+    try:
+        conn.execute(text(f"DELETE FROM discounts WHERE discount_id = {discountId}"))
+        conn.commit()
+    except Exception as e:
+        print("\n" + str(e) + "\n")
+        return redirect(url_for("product_manage.manage", error="Unknown"))
+
+    return redirect(url_for("product_manage.manage"))
+
+def dateFormat(date):
+    """converts an HTML datetime-local ("2024-03-02T11:42") to MySQL datetime ("2024-03-02 11:42:00")"""
+    return (f"'{date[:10] + ' ' + date[11:] + ':00'}'" 
+                 if date else "NULL")
+
+def discountChecks(variantId, price, startDate, endDate, discountId):
+    if not (variantId or discountId) or not price:
         return "Variant ID or Price was not entered"
     if priceChecks(price):
         return priceChecks(price)
