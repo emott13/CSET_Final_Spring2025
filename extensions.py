@@ -87,7 +87,13 @@ def dict_db_data(table, extra="", select=""):
 # price formatter for jinja template. call like {{154|priceFormat}}
 @app.template_filter()
 def priceFormat(value):
-    return str(value)[:-2] + "." + str(value)[-2:]
+    formatted = str(value)[:-2] + "." + str(value)[-2:]
+    if value < 10:
+        formatted = formatted[:-1] + "0" + formatted[-1:]
+    if value < 100:
+        formatted = "0" + formatted
+
+    return formatted
     # return f"{ round( int(value)/100, 2):.2f }"
 
 # Load user for Flask-Login
