@@ -78,7 +78,7 @@ def product(method, productId=None):
                 f"VALUES ('{vendor_id}', '" + title.replace("'", "\\'") + "', '" + desc.replace("'", "\\'") + f"', {warranty_months}, {category})"))
         elif method == "edit":
             conn.execute(text(
-                f"UPDATE products SET product_title='{title}', product_description='{desc}', "
+                f"UPDATE products SET product_title='" + title.replace("'", "\\'") + "', product_description='" + desc.replace("'", "\\'") + "', "
                 f"warranty_months={warranty_months}, cat_num={category} "
                 f"WHERE product_id={productId}"))
         conn.commit()
@@ -248,10 +248,48 @@ def createColor():
         print(e)
         return redirect(url_for("product_manage.manage", error="Unknown error"))
 
+@product_manage_bp.route("/manage/discount/<method>", methods=["POST"])
+@login_required
+def discount(method):
+    variantId = request.form.get("variant-select")
+    price = request.form.get("price").replace("$", "")
+    startDate = request.form.get("start-date")
+    endDate = request.form.get("end-date")
+    print("Discount values:")
+    print(request.form)
+
+    error = discountChecks(variantId, price, startDate, endDate)
     
+    if error:
+        return redirect(url_for("product_manage.manage", error=error))
+        
+    price = int( float(price) * 100 )
+
+    startDate = (f"'{startDate[:10] + ' ' + startDate[11:] + ':00'}'" 
+                 if startDate else "NULL")
+    endDate = (f"'{endDate[:10] + ' ' + endDate[11:] + ':00'}'" 
+                 if endDate else "NULL")
+
+    try:
+        if method == 'create':
+            conn.execute(text("INSERT INTO discounts (variant_id, discount_price, start_date, end_date) "
+                              f"VALUES ({int(variantId)}, {price}, {startDate}, {endDate})"))
+        conn.commit()
+    except Exception as e:
+        print("\n" + str(e) + "\n")
+        return redirect(url_for("product_manage.manage", error="Unknown"))
 
 
+    return redirect(url_for("product_manage.manage"))
 
+
+def discountChecks(variantId, price, startDate, endDate):
+    if not variantId or not price:
+        return "Variant ID or Price was not entered"
+    if priceChecks(price):
+        return priceChecks(price)
+    
+    return None
 
 def productChecks(vendor_id, title, desc, warranty_months, category):
     vendorExists = conn.execute(text(
@@ -270,6 +308,12 @@ def productChecks(vendor_id, title, desc, warranty_months, category):
         return "Invalid warranty"
     elif not category or not categoryExists:
         return "Invalid category"
+    return None
+
+def priceChecks(price):
+    print("price: " + str(price))
+    if not price.replace(".", "").isdigit() or int(float(price)*100) > 2147483647 or int(float(price)*100) < 0:
+        return "Invalid price"
     return None
 
 def variantChecks(colorSelect, size, price, inventory, urls, productId, variantId=None):
@@ -304,8 +348,8 @@ def variantChecks(colorSelect, size, price, inventory, urls, productId, variantI
 
     if len(size) > 100:
         return "Size is too long (max 100 characters)"
-    elif not price.replace(".", "").isdigit() or int(float(price)*100) > 2147483647 or int(float(price)*100) < -2147483648:
-        return "Invalid price"
+    elif priceChecks(price):
+        return priceChecks(price)
     elif not inventory.isdigit() or int(inventory) > 2147483647 or int(inventory) < 0:
         return "Invalid inventory"
 

@@ -237,6 +237,35 @@
                         </tr> 
                     {% endfor %}
                 </table>
+                <form class="manage-discount-form" action="{{url_for('product_manage.discount', method='create')}}" method="POST">
+                    <h2>Add Discount</h2>
+                    <p class="discount-hint">Hint: Start date and end date can be blank (meaning it starts now or it never ends)</p>
+                    <div class="full-width input-row discount-row">
+                        <div class="fancy-input discount-padding">
+                            <select class="full-width variant-select" name="variant-select" for="variant-select">
+                                {% for v in productIdVariants[p['product_id']] %}
+                                    <option name="{{v['variant_id']}}" value="{{v['variant_id']}}">
+                                        {{v['variant_id']}}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <label class="label-shown" for="variant-select">Variant ID:</label>
+                        </div>
+                        <div class="fancy-input discount-padding">
+                            <input type="text" name="price" placeholder="$9.99">
+                            <label class="label-shown" for="price">Discounted Price:</label>
+                        </div>
+                        <div class="fancy-input discount-padding">
+                            <input type="datetime-local" name="start-date">
+                            <label for="start-date">Start Date:</label>
+                        </div>
+                        <div class="fancy-input discount-padding">
+                            <input type="datetime-local" name="end-date">
+                            <label for="end-date">End Date:</label>
+                        </div>
+                        <input class="btn" type="submit" name="submit" value="Submit Discount">
+                    </div>
+                </form>
             </div>
         </div>
         {% endfor %}

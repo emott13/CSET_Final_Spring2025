@@ -530,6 +530,7 @@ h1 {
 }
 
 .variant-modify-table {
+    margin-top: 2rem;
     overflow: auto;
     display: block;
 }
@@ -554,6 +555,28 @@ h1 {
 
 .image-btn {
     margin-bottom: 1.5rem;
+}
+
+.manage-discount-form h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.discount-hint {
+    margin-bottom: 1.5rem;
+}
+
+.discount-row {
+    justify-content: flex-start;
+}
+
+.discount-padding {
+    padding-right: .5rem;
+    margin-bottom: 0;
+}
+
+.variant-select {
+    max-width: 200px;
 }
 
 /* PRODUCT MANAGE END */
