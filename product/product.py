@@ -149,7 +149,7 @@ def product(productId, variantId=None, error=None):
                             variantId=variantId, variantData=variantData, vi=vi, imageData=imageData, ii=ii,
                             allVariantData=allVariantData, allDiscountData=allDiscountData, reviewsAvg=reviewsAvg,
                             reviewsData=reviewsData, ri=ri, getCurrentType=getCurrentType(),
-                            bestDiscount=bestDiscount)
+                            bestDiscount=bestDiscount, email=current_user.email)
 
     elif request.method == "POST":
         amount = request.form.get("number")
@@ -201,7 +201,7 @@ def product(productId, variantId=None, error=None):
                             variantId=variantId, variantData=variantData, vi=vi, imageData=imageData, ii=ii,
                             allVariantData=allVariantData, allDiscountData=allDiscountData, reviewsAvg=reviewsAvg,
                             reviewsData=reviewsData, ri=ri, getCurrentType=getCurrentType(),
-                            bestDiscount=bestDiscount)
+                            bestDiscount=bestDiscount, email=current_user.email)
 
 
 @product_bp.route("/product/<int:productId>/<int:variantId>/review", methods=["POST"])
@@ -209,6 +209,12 @@ def submitReview(productId, variantId):
     rating = int(request.form.get('rating'))
     desc = request.form.get('description')
     url = request.form.get('image')
+    reviewExists = bool(conn.execute(text("SELECT review_id FROM reviews "
+        f"WHERE product_id = {productId} AND customer_email = '{current_user.email}'"
+        )).first())
+
+    if reviewExists:
+        return redirect(url_for("product.product", productId=productId, variantId=variantId))
 
     if not desc:
         desc = "NULL"
@@ -226,5 +232,22 @@ def submitReview(productId, variantId):
                           f"VALUES ('{current_user.email}', {productId}, {rating}, "
                           f"{desc}, {url})"))
         conn.commit()
+
+    return redirect(url_for("product.product", productId=productId, variantId=variantId))
+
+@product_bp.route("/product/<int:productId>/<int:variantId>/<int:reviewId>", methods=["POST"])
+def reviewDelete(productId, variantId, reviewId):
+    review_email = conn.execute(text("SELECT customer_email FROM reviews "
+                                     f"WHERE review_id = {reviewId}")).first()[0]
+    print(review_email)
+    if review_email != current_user.email:
+        return redirect(url_for("product.product", productId=productId, variantId=variantId))
+
+    try:
+        conn.execute(text(f"DELETE FROM reviews WHERE review_id = {reviewId}"))
+        conn.commit()
+    except Exception as e:
+        print("\n" + str(e) + "\n")
+
 
     return redirect(url_for("product.product", productId=productId, variantId=variantId))

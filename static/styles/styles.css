@@ -57,6 +57,16 @@ h1 {
     background-color: var(--color-dark-purple);
 }
 
+.btn-delete {
+    background-color: var(--color-error-red);
+    border: 0;
+}
+
+.btn-delete:hover {
+    background-color: var(--color-error-red);
+    filter: brightness(90%);
+}
+
 .full-height {
     min-height: var(--page-height);
 }
@@ -347,6 +357,11 @@ h1 {
     height: 10px;
 }
 
+.review-delete {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
 
 .product-reviews-section {
     display: flex;
@@ -400,6 +415,7 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .product-review-name {

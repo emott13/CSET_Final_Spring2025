@@ -123,11 +123,22 @@
 
         </div>
 
+        <!------------->
+        <!-- REVIEWS -->
+        <!------------->
+
         <section class="product-reviews-section">
             <div class="product-reviews-container">
                 <h1 class="reviews-h">Reviews</h1>
 
-                {% if getCurrentType == "customer" %}
+                {% set ns = namespace(prev=0) %}
+                {% set ns.reviewExists = False %}
+                {% for review in reviewsData %}
+                    {% if review['customer_email'] == email %}
+                        {% set ns.reviewExists = True %}
+                    {% endif %}
+                {% endfor %}
+                {% if getCurrentType == "customer" and not ns.reviewExists %}
                     <form action="{{url_for('product.submitReview', productId=productId, variantId=variantId)}}" method="POST" class="product-reviews-create product-reviews-background">
                         <h2>Leave a review!</h2>
                         <div class="create-review-container">
@@ -200,6 +211,12 @@
                 {% for review in reviewsData %}
                     <div class="product-review product-reviews-background" data-date="{{review[ri['date_time']]}}" data-rating="{{review[ri['rating']]}}">
                         <div class="product-review-row1">
+                        {% if review[ri['customer_email']] == email %}
+                            <form action="{{url_for('product.reviewDelete', productId=productId, variantId=variantId, reviewId=review['review_id'])}}" 
+                            method="POST">
+                                <button class="btn btn-delete review-delete">Delete</button>
+                            </form>
+                        {% endif %}
                             <p class="product-review-name product-reviews-inner-background">By: {{review[ri['full_name']]}}</p>
                             <div class="product-review-stars product-reviews-inner-background">
                                 {% for i in range(1, 6) %}
