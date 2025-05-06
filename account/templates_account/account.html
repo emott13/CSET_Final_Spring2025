@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="../static_account/account.css">
+{% extends 'base.html' %}
+{% block body %}
+<main>
+    <section class="accountSection">
+        <h2>Account Details</h2>
+        <table class="accountContainer">
+            <tr>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Account Type</th>
+            </tr>
+            <tr>
+                <td>{{ account.email }}</td>
+                <td>{{ account.username }}</td>
+                <td>{{ account.name }}</td>
+                <td>{{ account.type }}</td>
+            </tr>
+        </table>
+        <div class="chatsContainer">
+            <h3>Support Tickets</h3>
+            <table class="chatsTable">
+                <tr>
+                    <td>Ticket ID</td>
+                    <td>ticket id here</td>
+                </tr>
+                <tr>
+                    <td>*complaint or product id*</td>
+                    <td>id here</td>
+                </tr>
+                <tr>
+                    <td>Last Message</td>
+                    <td>*most recent date/time here</td>
+                </tr>
+                <tr>
+                    <td>Support Personel</td>
+                    <td>*other user data here</td>
+                </tr>
+            </table>
+        </div>
+        <div class="ordersContainer">
+            <a href="{{ url_for('order.order') }}" class="ordersBtn">view orders</a>
+        </div>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,66 @@
+<link rel="stylesheet" href="../static_cart/cart.css">
+{% extends 'base.html' %}
+{% block body %}
+    <main>
+        <div class="main">
+            <section class="cartWrapper">
+                <div class="cartContainer">
+                    <form id="quantityChange" name="quantity" action="{{ url_for('cart.update_cart')}}" method="POST" class="cartItemsContainer">
+                        <h2>Cart</h2>
+                        <div class="cartItemsContainerHeader">
+                            <h3>Item</h3>
+                            <h3>Quantity</h3>
+                            <h3>Price</h3>
+                        </div>
+                        {% for item in cartItems %}
+                            <div class="cartItem">
+                                <div class="cartItemItem">
+                                   <img src="#" alt="">
+                                    <h3>{{ item.name }}</h3> 
+                                </div>
+                                <div>
+                                    <input type="number" min="1" value="{{ item.quantity }}" id="quantity" name="{{ item.id }}" onchange="this.form.submit()">
+                                </div>
+                                <p>{{ item.price }}</p>
+                            </div>
+                        {% endfor %}
+                        <div class="cartItem">
+                            <p></p>
+                            <p></p>
+                            <input type="submit" value="apply" id="apply" name="apply changes">
+                        </div>
+                    </form>
+                    <form class="cartSideMenu" id="placeOrder" name="order" action="{{ url_for('order.order') }}" method="POST">
+                        <p class="subTitle">Subtotal: </p>
+                        <p class="subTitle">{{ totals[0] }}</p>
+                        <p class="subTitle">Shipping: </p>
+                        <p class="subTitle">TBD</p>
+                        <p class="subTitle">Tax: </p>
+                        <p class="subTitle">{{ totals[1] }}</p>
+                        <h3 class="title">Total: </h3>
+                        <h3 class="title">{{ totals[2] }}</h3>
+                        <div>
+                            <input type="hidden" name="total" value="{{ totals[2] }}">
+                            <input type="submit" name="placeOrder" value="Place Order" form="placeOrder" id="submitOrderBtn">
+                        </div>
+                        {% if message %}
+                            <h3 style="font-size: 25px;">{{ message }}</h3>
+                        {% endif %}
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            button = document.querySelector('#submitOrderBtn')
+            button.addEventListener('click', event => {
+                event.preventDefault()
+                let confirmation = confirm('Please confirm, are you ready to submit your order?')
+                if (confirmation == true){
+                    document.querySelector('#placeOrder').submit();
+                }
+            });
+        });
+    </script>
+{% endblock %}

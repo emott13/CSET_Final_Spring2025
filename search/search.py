@@ -10,40 +10,63 @@ search_bp = Blueprint('search', __name__, static_folder='static_search', templat
 def search():
     product_data = conn.execute(                                    # fetch all product data
         text('''
-        SELECT p.product_id, p.product_title, p.cat_num,
-               MIN(v.price) AS min_price, MAX(v.price) AS max_price,
-               u.username AS vendor_name
-        FROM products p
-        LEFT JOIN product_variants v ON p.product_id = v.product_id
-        JOIN users u ON p.vendor_id = u.email
-        GROUP BY p.product_id
-        ORDER BY p.product_id
+            SELECT v.product_id, v.variant_id, p.product_title,
+               p.cat_num, u.email, v.price, v.current_inventory
+            FROM product_variants v
+            JOIN products p ON p.product_id = v.product_id
+            LEFT JOIN users u ON p.vendor_id = u.email;
     ''')).fetchall()
 
     product_options = conn.execute(                                 # get variant counts
         text('''                         
-        SELECT product_id, COUNT(variant_id) as option_count
+        SELECT product_id, COUNT(variant_id) AS option_count
         FROM product_variants
-        GROUP BY product_id
+        GROUP BY product_id;
     ''')).fetchall()
     option_map = {pid: count for pid, count in product_options}
 
+    product_variants = conn.execute(
+        text('''
+        SELECT variant_id FROM product_variants;
+             ''')).fetchall()
+    photos = {}
+    for vid in product_variants:
+        print('vid:', vid[0])
+        vid = int(vid[0])
+        product_photo = conn.execute(
+            text('''
+                SELECT file_path, image_id
+                FROM images 
+                WHERE variant_id = :vid 
+                ORDER BY image_id
+                LIMIT 1;
+                '''),
+                {'vid': vid}).fetchone()
+        print('product photo:', product_photo)
+        photos[vid] = product_photo[0] if product_photo is not None else None
+    
+
+    print('photo dictionary', photos)
+
     products = []                                                   # create product list
     for row in product_data:
-        pid, title, cat_num, min_price, max_price, vendor = row
+        pid, vid, title, cat_num, vendor, price, inventory = row
         if pid in (850561, 850562):                                 # skips unwanted products
             continue                                                # products will be removed from db later
 
-        price = toDollar(min_price) if min_price == max_price \
-            else f"{toDollar(min_price)} - {toDollar(max_price)}"
-
+        price = toDollar(price)
+        # if min_price == max_price \
+        #     else f"{toDollar(min_price)} - {toDollar(max_price)}"
+        # 'options': option_map.get(pid, 0),
         products.append({                                           # append product dict to products list
             'id': pid,
+            'vid': vid,
             'title': title or 'No Title',
-            'options': option_map.get(pid, 0),
             'price': price or 'N/A',
             'vendor': vendor or 'No Vendor',
             'category': cat_num,
+            'stock': inventory,
+            'photo': photos.get(vid),
             'display': True
         })
 
@@ -71,8 +94,9 @@ def search():
             WHERE cat_num BETWEEN :start AND :end
         '''), {'start': start, 'end': end}).fetchall()
 
+    formCategories = request.form.getlist('categories')
+
     if request.method == 'POST':
-        formCategories = request.form.getlist('categories')
         formPrice = request.form.get('price')
         formName = request.form.getlist('vendor-options')
 
@@ -141,7 +165,7 @@ def search():
 
     # -- handles GET requests -- #
 
-    if formCategories == 0:
+    if formCategories is None:
         return render_template(
             'search.html',
             products=products,
@@ -166,11 +190,19 @@ def search():
 # -- FUNCTIONS -- #
 
 def toCents(num):
-    try:
-        num.find('$') != -1
-        numFloat = float(num.replace('$', ''))
-    except:
-        numFloat = int(num)
+    num = num
+    numFloat = 0
+    print('num:', type(num))
+    if num is not None:
+        match type(num):
+            case "<class 'int'>":
+                numFloat = num
+            case _:
+                try: 
+                    if num.find('$') != -1:
+                        numFloat = float(num.replace('$', ''))
+                except:
+                    numFloat = num
     return int(round(numFloat * 100))
 
 def toDollar(num, html=False):

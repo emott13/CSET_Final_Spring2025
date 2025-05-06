@@ -62,6 +62,8 @@ def product(productId, variantId=None, error=None):
     elif invalidURL:
         return redirect(invalidURL)
 
+    email = None if not current_user.is_authenticated else current_user.email
+
     pi = { # product indexes
         'product_id': 0,
         'vendor_id': 1,
@@ -104,9 +106,10 @@ def product(productId, variantId=None, error=None):
         f"WHERE product_id = {productId}")).first()
     # variant data. Index like this variantData[vi['price']]
     variantData = conn.execute(text(
-        "SELECT variant_id, product_id, color_id, size_id, "
+        "SELECT variant_id, product_id, pv.color_id, pv.size_id, "
         "price, current_inventory, color_name, color_hex, size_description "
-        "FROM product_variants NATURAL JOIN colors NATURAL JOIN sizes " \
+        "FROM product_variants AS pv LEFT JOIN colors ON pv.color_id=colors.color_id "
+        "LEFT JOIN sizes ON pv.size_id=sizes.size_id " \
         f"WHERE product_id = {productId} AND variant_id = {variantId} "
         "ORDER BY variant_id")).first()
     # all variant data. Index like this variantData[<index>][vi['price']]
@@ -127,6 +130,8 @@ def product(productId, variantId=None, error=None):
         "WHERE (start_date <= NOW() OR start_date IS NULL) " +
         f"   AND (end_date >= NOW() OR end_date IS NULL) AND variant_id = {variantId} "
         "ORDER BY discount_price")
+
+    print("\n" + str(variantData) + "\n")
 
     if bestDiscount:
         bestDiscount = bestDiscount[0]
@@ -149,7 +154,7 @@ def product(productId, variantId=None, error=None):
                             variantId=variantId, variantData=variantData, vi=vi, imageData=imageData, ii=ii,
                             allVariantData=allVariantData, allDiscountData=allDiscountData, reviewsAvg=reviewsAvg,
                             reviewsData=reviewsData, ri=ri, getCurrentType=getCurrentType(),
-                            bestDiscount=bestDiscount, email=current_user.email)
+                            bestDiscount=bestDiscount, email=email)
 
     elif request.method == "POST":
         amount = request.form.get("number")
@@ -201,7 +206,7 @@ def product(productId, variantId=None, error=None):
                             variantId=variantId, variantData=variantData, vi=vi, imageData=imageData, ii=ii,
                             allVariantData=allVariantData, allDiscountData=allDiscountData, reviewsAvg=reviewsAvg,
                             reviewsData=reviewsData, ri=ri, getCurrentType=getCurrentType(),
-                            bestDiscount=bestDiscount, email=current_user.email)
+                            bestDiscount=bestDiscount, email=email)
 
 
 @product_bp.route("/product/<int:productId>/<int:variantId>/review", methods=["POST"])
