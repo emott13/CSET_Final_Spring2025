@@ -19,8 +19,6 @@ def manage(error=None):
         else:
             adminVendor = request.form.get("admin-vendor")
 
-    print("adminVendor")
-    print(adminVendor)
     if current_user.type == "customer":
         return redirect(url_for('login.login'))
     
@@ -51,9 +49,6 @@ def manage(error=None):
             discountIdData[discount['variant_id']] = [discount]
         
         
-    print(discountIdData)
-
-
     return render_template("product_manage.html", type=current_user.type, error=error,
         productData=productData, categoryData=categoryData, colorData=colorData, 
         productIdVariants=productIdVariants, imageData=imageData, vendorData=vendorData,
@@ -135,8 +130,6 @@ def variant(method, productId, variantId=None):
     inventory = request.form.get("inventory")
     urls = request.form.getlist("url")
 
-    print("form:")
-    print(request.form)
 
     error = variantChecks(colorSelect, size, price, inventory, urls, productId, variantId)
 
@@ -184,8 +177,6 @@ def variant(method, productId, variantId=None):
             
             imageValues = ""
             comma = False
-            print("urls")
-            print(urls)
             for url in urls:
                 if url:
                     if comma:
