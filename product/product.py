@@ -18,9 +18,9 @@ def isValidProductURL(productId, variantId=None):
         return 404
 
     isValid = True
-    productVariants =  conn.execute(text(
+    productVariants = conn.execute(text(
         f"SELECT variant_id FROM product_variants "
-        f"WHERE product_id = {productId}")
+        f"WHERE product_id = {productId} ORDER BY variant_id")
         ).all()
 
 
@@ -114,10 +114,11 @@ def product(productId, variantId=None, error=None):
         "ORDER BY variant_id")).first()
     # all variant data. Index like this variantData[<index>][vi['price']]
     allVariantData = conn.execute(text(
-        "SELECT variant_id, product_id, color_id, size_id, "
+        "SELECT variant_id, product_id, pv.color_id, pv.size_id, "
         "price, current_inventory, color_name, color_hex, size_description "
-        "FROM product_variants NATURAL JOIN colors NATURAL JOIN sizes " \
-        f"WHERE product_id = {productId}")).all()
+        "FROM product_variants AS pv LEFT JOIN colors ON pv.color_id=colors.color_id "
+        "LEFT JOIN sizes ON pv.size_id=sizes.size_id "
+        f"WHERE product_id = {productId} ORDER BY variant_id")).all()
     allDiscountData = dict( conn.execute(text(
         "SELECT variant_id, MIN(discount_price) FROM discounts " \
         "NATURAL JOIN product_variants " \
