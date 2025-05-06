@@ -9,12 +9,16 @@ from search.search import search_bp
 from home.home import home_bp
 from cart.cart import cart_bp
 from order.order import order_bp
+from account.account import account_bp
 
 # -- LOGIN PAGE -- #
 app.register_blueprint(login_bp)
 
 # -- SIGNUP PAGE -- #
 app.register_blueprint(register_bp)
+
+# -- ACCOUNT PAGE -- #
+app.register_blueprint(account_bp)
 
 # -- HOME PAGE -- #
 app.register_blueprint(home_bp)

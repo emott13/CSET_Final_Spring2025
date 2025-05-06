@@ -73,11 +73,17 @@ select * from product_variants;
 select * from colors;
 select * from images;
 select * from users;
+select * from chats;
 select * from carts natural join cart_items natural join images;
 select * from cart_items;
 select product_id, product_title, cat_num, variant_id, size_id, color_id, price, current_inventory
 from products
 natural join product_variants;
+SELECT chat_id, complaint_id, product_id, text, user_from, user_to, date_time 
+FROM chats 
+WHERE user_from = 'j_prescott@gmail.com' 
+	OR user_to = 'j_prescott@gmail.com';
+
 -- products
  -- 850580
 -- ('c_simmons@worksmart.com', 'Pilot G2 Retractable Gel Pens', 'Enjoy a smear-free writing experience by using Pilot G2 premium retractable gel roller pens. Improve handwriting, create drawings, and work on other projects worry free. With a convenient clip, these pens attach to binders, notebooks, and pockets, while the contoured grip offers increased support, making it easy to take on lengthy writing tasks. These Pilot G2 gel pens feature a retractable design, so you can tuck the tips away when not in use, preventing unintentional marks on documents.', 0, 11),

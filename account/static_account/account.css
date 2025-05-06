@@ -1,0 +1,53 @@
+@import url(/static/styles/base.css);
+@import url(/static/styles/ionicons.css);
+
+.accountSection{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    border-radius: 15px;
+    background-color: var(--color-purple-white);
+    min-height: calc(100vh - 215px);
+    max-width: 800px;
+    padding: 25px;
+    color: var(--color-purple-red);
+    font-family: var(--font-main);
+}
+.accountSection > h2{
+    font-size: 22px;
+}
+
+td, th{
+    padding: 4px;
+    border: 1px solid var(--color-purple);
+    text-align: left;
+    color: var(--color-purple-red);
+}
+
+.accountContainer{
+    margin: 10px auto 30px;
+    width: 600px;
+}
+
+.ordersContainer{
+    margin-top: 20px;
+}
+.chatsTable{
+    margin-bottom: 30px;
+}
+.ordersBtn{
+    border: none;
+    border-radius: 15px;
+    background-color: var(--color-purple);
+    padding: 4px 8px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-purple-white);
+    font-family: var(--font-main);
+    font-size: 15px;
+    font-weight: 600;
+}
+.ordersBtn:hover{
+    background-color: var(--color-dark-purple);
+}
