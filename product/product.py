@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
 from sqlalchemy import text
-from extensions import conn
+from extensions import conn, getCurrentType, dict_db_data
 
 product_bp = Blueprint("product", __name__, static_folder="static_product",
                         template_folder="templates_product")
@@ -23,6 +23,9 @@ def isValidProductURL(productId, variantId=None):
         f"WHERE product_id = {productId}")
         ).all()
 
+
+    if productVariants == []:
+        return url_for("home.home")
 
     variantValue = variantId
     # if variantId exists. Sets variantValue to either the current 
@@ -51,7 +54,6 @@ def isValidProductURL(productId, variantId=None):
 @product_bp.route("/product/<int:productId>/", methods=["GET", "POST"])
 @product_bp.route("/product/<int:productId>/<int:variantId>", methods=["GET", "POST"])
 def product(productId, variantId=None, error=None):
-    print(error)
     # Returns 404 (productId doesn't exist), new URL (if the parameters are invalid),
     # or None (parameters are already fine)
     invalidURL = isValidProductURL(productId, variantId)
@@ -91,7 +93,8 @@ def product(productId, variantId=None, error=None):
         'description': 4,
         'image': 5,
         'date': 6,
-        'full_name': 7
+        'full_name': 7,
+        'date_time': 8
     }
     # product data. Index like this productData[pi['product_title']]
     productData = conn.execute(text(
@@ -104,7 +107,8 @@ def product(productId, variantId=None, error=None):
         "SELECT variant_id, product_id, color_id, size_id, "
         "price, current_inventory, color_name, color_hex, size_description "
         "FROM product_variants NATURAL JOIN colors NATURAL JOIN sizes " \
-        f"WHERE product_id = {productId} AND variant_id = {variantId}")).first()
+        f"WHERE product_id = {productId} AND variant_id = {variantId} "
+        "ORDER BY variant_id")).first()
     # all variant data. Index like this variantData[<index>][vi['price']]
     allVariantData = conn.execute(text(
         "SELECT variant_id, product_id, color_id, size_id, "
@@ -117,11 +121,21 @@ def product(productId, variantId=None, error=None):
         "WHERE (start_date <= NOW() OR start_date IS NULL) AND (end_date >= NOW() OR end_date IS NULL) " \
        f"AND (product_id = {productId}) " \
         "GROUP BY variant_id;"
-
     )).all() )
+
+    bestDiscount = dict_db_data("discounts", 
+        "WHERE (start_date <= NOW() OR start_date IS NULL) " +
+        f"   AND (end_date >= NOW() OR end_date IS NULL) AND variant_id = {variantId} "
+        "ORDER BY discount_price")
+
+    if bestDiscount:
+        bestDiscount = bestDiscount[0]
+
+
     reviewsData = conn.execute(text("SELECT review_id, customer_email, product_id, rating, description, "
-        "image, date(date), CONCAT(first_name, ' ', last_name) AS 'full_name' "
-       f"FROM reviews JOIN users ON reviews.customer_email = users.email WHERE product_id = {productId}")).all()
+        "image, date(date), CONCAT(first_name, ' ', last_name) AS 'full_name', date AS 'date_time' "
+       f"FROM reviews JOIN users ON reviews.customer_email = users.email WHERE product_id = {productId} "
+        "ORDER BY date DESC")).all()
     reviewsAvg = conn.execute(text(f"SELECT ROUND(AVG(rating), 1) FROM reviews WHERE product_id = {productId}")).first()[0]
 
     # image data. Index like this imageData[0][ii['file_path']]
@@ -130,13 +144,14 @@ def product(productId, variantId=None, error=None):
 
 
     if request.method == "GET":
-        return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
-                            variantData=variantData, vi=vi, imageData=imageData, ii=ii,
+        return render_template("product.html", error=error, productId=productId, 
+                            productData=productData, pi=pi,
+                            variantId=variantId, variantData=variantData, vi=vi, imageData=imageData, ii=ii,
                             allVariantData=allVariantData, allDiscountData=allDiscountData, reviewsAvg=reviewsAvg,
-                            reviewsData=reviewsData, ri=ri)
+                            reviewsData=reviewsData, ri=ri, getCurrentType=getCurrentType(),
+                            bestDiscount=bestDiscount, email=current_user.email)
 
     elif request.method == "POST":
-        print("POST")
         amount = request.form.get("number")
         if not current_user.is_authenticated:
             error = "You must be signed in to add to cart"
@@ -163,7 +178,6 @@ def product(productId, variantId=None, error=None):
 
             cartItemVariants = conn.execute(text(
                 f"SELECT variant_id FROM cart_items WHERE cart_id = {cartId}")).all()
-            print(cartItemVariants)
             
             inCart = False
             for variant in cartItemVariants:
@@ -173,7 +187,6 @@ def product(productId, variantId=None, error=None):
 
 
             if not inCart:
-                print("Variant_id not in cartItemsVariants")
                 conn.execute(text(
                     "INSERT INTO cart_items (cart_id, variant_id, quantity)"
                 f"VALUES ({cartId}, {variantId}, {amount})"))
@@ -183,10 +196,58 @@ def product(productId, variantId=None, error=None):
                                 f"WHERE cart_id = {cartId} AND variant_id = {variantId}"))
             conn.commit()
 
-            print(cartItemVariants)
-        print(error)
-        return render_template("product.html", error=error, productId=productId, productData=productData, pi=pi,
-                            variantData=variantData, vi=vi, imageData=imageData, ii=ii,
+        return render_template("product.html", error=error, productId=productId,    
+                            productData=productData, pi=pi,
+                            variantId=variantId, variantData=variantData, vi=vi, imageData=imageData, ii=ii,
                             allVariantData=allVariantData, allDiscountData=allDiscountData, reviewsAvg=reviewsAvg,
-                            reviewsData=reviewsData, ri=ri)
+                            reviewsData=reviewsData, ri=ri, getCurrentType=getCurrentType(),
+                            bestDiscount=bestDiscount, email=current_user.email)
 
+
+@product_bp.route("/product/<int:productId>/<int:variantId>/review", methods=["POST"])
+def submitReview(productId, variantId):
+    rating = int(request.form.get('rating'))
+    desc = request.form.get('description')
+    url = request.form.get('image')
+    reviewExists = bool(conn.execute(text("SELECT review_id FROM reviews "
+        f"WHERE product_id = {productId} AND customer_email = '{current_user.email}'"
+        )).first())
+
+    if reviewExists:
+        return redirect(url_for("product.product", productId=productId, variantId=variantId))
+
+    if not desc:
+        desc = "NULL"
+    else:
+        desc = "'" + desc + "'"
+    if not url:
+        url = "NULL"
+    else:
+        url = "'" + url + "'"
+
+    if  (rating >= 1 and rating <= 5 ) and \
+        (len(desc) <= 500) and \
+        (len(url) <= 255):
+        conn.execute(text(f"INSERT INTO reviews (customer_email, product_id, rating, description, image) "
+                          f"VALUES ('{current_user.email}', {productId}, {rating}, "
+                          f"{desc}, {url})"))
+        conn.commit()
+
+    return redirect(url_for("product.product", productId=productId, variantId=variantId))
+
+@product_bp.route("/product/<int:productId>/<int:variantId>/<int:reviewId>", methods=["POST"])
+def reviewDelete(productId, variantId, reviewId):
+    review_email = conn.execute(text("SELECT customer_email FROM reviews "
+                                     f"WHERE review_id = {reviewId}")).first()[0]
+    print(review_email)
+    if review_email != current_user.email:
+        return redirect(url_for("product.product", productId=productId, variantId=variantId))
+
+    try:
+        conn.execute(text(f"DELETE FROM reviews WHERE review_id = {reviewId}"))
+        conn.commit()
+    except Exception as e:
+        print("\n" + str(e) + "\n")
+
+
+    return redirect(url_for("product.product", productId=productId, variantId=variantId))

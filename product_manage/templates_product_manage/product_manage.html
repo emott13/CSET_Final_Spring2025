@@ -1,0 +1,303 @@
+<link rel="stylesheet" href="/static/styles/styles.css">
+<script src="/static_product_manage/scripts/product_manage.js" defer></script>
+{% extends 'base.html' %}
+{% block body %}
+    <div class="full-height full-width">
+        {% if error %} 
+            <h3 class="error center padding-top">Error: {{error}}</h3>
+        {% endif %}
+        {% if type == 'admin' %}
+            <form class="input-row vendor-select" method="POST">
+                <div class="fancy-input">
+                    <select class="full-width" name="admin-vendor" for="admin-vendor" id="admin-vendor" 
+                    autocomplete="off" onchange="this.form.submit()">
+                        <option disabled hidden selected>-- Select An Option -- </option>
+                        {% for v in vendorData %}
+                            {% set select = 'selected' if adminVendor == v['email'] else "" %}
+                            <option name="{{v['email']}}" value="{{v['email']}}" {{select}}>
+                                {{v['first_name'] + " " + v['last_name'] + " – " + v['email']}}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <label class="label-shown" for="admin-vendor">View And Modify As:</label>
+                </div>
+            </form>
+        {% endif %}
+        {% if type != 'admin' or adminVendor %}
+            <form action="{{url_for('product_manage.product', method='create')}}" method="POST" class="manage-create-container">
+                <h1>Create A Product</h1>
+                <input class="hidden" name="admin-vendor" value="{{adminVendor}}">
+                <div class="input-row full-width">
+                    <div class="fancy-input full-width">
+                        <input class="full-width" type="text" name="title" maxlength="255" placeholder="" required />
+                        <label for="title">Title:</label>
+                    </div>
+                </div>
+                <div class="input-row full-width">
+                    <div class="fancy-input full-width">
+                        <input class="full-width" type="text" name="description" maxlength="500" placeholder="" required />
+                        <label for="description">Description:</label>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="fancy-input">
+                        <input class="full-width" type="number" name="warranty_months" placeholder="" value="" min="0" default="0" required/>
+                        <label for="warranty_months">Warranty Months:</label>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="fancy-input">
+                        <select class="full-width" name="category" for="category">
+                            {% for c in categoryData %}
+                                <option name="{{c['cat_num']}}" value="{{c['cat_num']}}">
+                                    {{c['cat_name']}}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <input class="full-width" style="display: none">
+                        <label class="label-shown" for="category">Category:</label>
+                    </div>
+                </div>
+                
+                <p>Hint: Once you create the product, you can add variants</p>
+                <input class="btn" type="submit" value="Submit">
+            </form> 
+        {% endif %}
+
+        {% for p in productData %}
+        <div class="product-data product-reviews-background">
+            <form action="{{url_for('product_manage.product', method='edit', productId = p['product_id'] )}}" 
+            method="POST" data-product-id="{{p['product_id']}}">
+                <input class="hidden" name="admin-vendor" value="{{adminVendor}}">
+                <p class="product-id">Product Id: {{p['product_id']}}</p>
+                <div class="input-row full-width">
+                    <div class="fancy-input full-width">
+                        <input class="full-width" type="text" name="title" 
+                        value="{{p['product_title']}}" maxlength="255" placeholder="" required />
+                        <label for="title">Title:</label>
+                    </div>
+                </div>
+                <div class="input-row full-width">
+                    <div class="fancy-input full-width">
+                        <input class="full-width" type="text" name="description"
+                        value="{{p['product_description']}}" maxlength="500" placeholder="" required />
+                        <label for="description">Description:</label>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="fancy-input">
+                        <input class="full-width" type="number" name="warranty_months" placeholder="" value="{{p['warranty_months']}}" min="0" default="0" required/>
+                        <label for="warranty_months">Warranty Months:</label>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="fancy-input">
+                        <select class="full-width" name="category" for="category">
+                            {% for c in categoryData %}
+                            {% set select = 'selected' if c['cat_num'] == p['cat_num'] else "" %}
+                                <option name="{{c['cat_num']}}" value="{{c['cat_num']}}" {{select}}>
+                                    {{c['cat_name']}}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <input class="full-width" style="display: none">
+                        <label class="label-shown" for="category">Category:</label>
+                    </div>
+                </div>
+                <input class="btn" type="submit" value="Update Product">
+            </form>
+
+            <form class="product-delete" action="{{url_for('product_manage.productDelete',  productId=p['product_id'])}}" method="POST" autocomplete="off">
+                <input class="btn" type="submit" value="Delete Product" required>
+                <input type="text" name="delete" class="p-delete" maxlength="29">
+                <label for="delete">Enter "I WANT TO DELETE THIS PRODUCT" in the box to confirm deletion</label>
+            </form>
+            
+            <div class="product-reviews-background variant-background">
+                <div class="variant-create">
+                    <h1 class="variant-create center">Create Variant</h1> 
+                    
+                    <label for="color-name" class="color-check">Color doesn't exist? Create one!</label>
+                    <form class="flex custom-color" action="{{url_for('product_manage.createColor')}}" method="POST">
+                        <div class="fancy-input">
+                            <input class="full-width" type="text" name="color-name" class="color-name" placeholder="Sky Blue" required/>
+                            <label class="label-shown" for="color-name">Color Name:</label>
+                        </div>
+                        <div class="fancy-input">
+                            <input class="full-width" type="text" name="color-hex" class="color-hex" placeholder="#00FFFF" required/>
+                            <label class="label-shown" for="color-hex">Color Hexidecimal:</label>
+                        </div>
+                        <div>
+                            <input class="btn" type="submit" value="Create Color">
+                        </div>
+                    </form>
+                    <form class="variant-create" 
+                    action="{{url_for('product_manage.variant', method='create', productId=p['product_id'])}}" method="POST">
+
+                        <input class="hidden" name="admin-vendor" value="{{adminVendor}}">
+                        <div class="flex exist-color">
+                            <div class="fancy-input">
+                                <select class="full-width color-select" name="color-select" for="color-select">
+                                    {% for c in colorData %}
+                                    {% set select = 'selected' if c['color_name'] == p['color_name'] else "" %}
+                                        <option name="{{c['color_name']}}" value="{{c['color_id']}}" {{select}}>
+                                            {{c['color_name']}} – {{c['color_hex']}}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+
+                                <input class="full-width" style="display: none">
+                                <label class="label-shown" for="color-select">Color:</label>
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="fancy-input">
+                                <input class="full-width" type="text" name="size" placeholder="" required/>
+                                <label class="" for="size">Size:</label>
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="fancy-input">
+                                <input class="full-width" type="text" name="price" placeholder="$10.99" required/>
+                                <label class="label-shown" for="size">Price:</label>
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="fancy-input">
+                                <input class="full-width" type="number" name="inventory" value="1" placeholder="" required/>
+                                <label class="label-shown" for="inventory">Current Inventory:</label>
+                            </div>
+                        </div>
+
+                        <div class="images">
+                            <button class="btn image-btn" type="button" onclick="addURL(this)">Add Another URL</button>
+                            <div class="full-width">
+                                <div class="fancy-input">
+                                    <input class="full-width" type="url" name="url" placeholder="" required/>
+                                    <label class="label-shown" for="url">Image URL:</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="submit" class="btn" value="Create Variant">
+                    </form>
+                </div>
+                <table class="variant-modify-table">
+                    <tr>
+                        <th>DELETE</th>
+                        <th>EDIT</th>
+                        <th>Variant ID</th>
+                        <th>Color</th>
+                        <th></th>
+                        <th>Size</th>
+                        <th>Price</th>
+                        <th>Inventory</th>
+                        <th>URLs</th>
+                    </tr>
+                    {% for variant in productIdVariants[p['product_id']] %}
+                        <tr>
+                            </form>
+                            <form action="{{url_for('product_manage.variantDelete', variantId=variant['variant_id'])}}" method="POST" onsubmit="return confirm('Do you really want to delete this item? This cannot be undone.');">
+                                <td><input class="variant-edit-delete" name="delete" type="submit" value="DELETE"></td>
+                            </form>
+                            <form class="variant-create" id="edit-form-{{variant['variant_id']}}"
+                            action="{{url_for('product_manage.variant', method='edit', productId=p['product_id'], variantId=variant['variant_id'])}}" method="POST">
+                                <input class="hidden" name="admin-vendor" value="{{adminVendor}}">
+                                <td><input class="variant-edit-delete" name="edit" type="submit" value="EDIT"></td>
+                                <td>{{variant['variant_id']}}</td>
+                                <td>
+                                    <select class="full-width color-select" name="color-select" for="color-select">
+                                        {% for c in colorData %}
+                                        {% set select = 'selected' if c['color_name'] == variant['color_name'] else "" %}
+                                            <option name="{{c['color_name']}}" value="{{c['color_id']}}" {{select}}>
+                                                {{c['color_name']}} – {{c['color_hex']}}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td><a class="product-color-box" style="background-color: {{variant['color_hex']}}"></a></td>
+                                <td><input name="size" value="{{variant['size_description']}}"></td>
+                                <td><input name="price" value="${{variant['price']|priceFormat}}"></td>
+                                <td><input name="inventory" type="number" min="0" value="{{variant['current_inventory']}}"></td>
+                                {% for image in imageData %}
+                                    {% if image['variant_id'] == variant['variant_id'] %}
+                                        <td>
+                                            <input type="text" name="url" value="{{image['file_path']}}"/>
+                                        </td>
+                                    {% endif %}
+                                {% endfor %}
+                                    <!-- <td>
+                                        <input type="text" name="url" value=""/>
+                                    </td> -->
+                                <td><button class="variant-edit-delete" type="button" onclick="addVariantURL(this, {{variant['variant_id']}})">Add URL</button></td>
+                            </form>
+                        </tr> 
+                    {% endfor %}
+                </table>
+                <form class="manage-discount-form" action="{{url_for('product_manage.discount', method='create')}}" method="POST">
+                    <h2>Add Discount</h2>
+                    <p class="discount-hint">Hint: Start date and/or end date can be blank (meaning it starts now and/or it never ends)</p>
+                    <input class="hidden" name="admin-vendor" value="{{adminVendor}}">
+                    <div class="full-width input-row discount-row">
+                        <div class="fancy-input discount-padding">
+                            <select class="full-width variant-select" name="variant-select" for="variant-select">
+                                {% for v in productIdVariants[p['product_id']] %}
+                                    <option name="{{v['variant_id']}}" value="{{v['variant_id']}}">
+                                        {{v['variant_id']}}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <label class="label-shown" for="variant-select">Variant ID:</label>
+                        </div>
+                        <div class="fancy-input discount-padding">
+                            <input type="text" name="price" placeholder="$9.99">
+                            <label class="label-shown" for="price">Discounted Price:</label>
+                        </div>
+                        <div class="fancy-input discount-padding">
+                            <input type="datetime-local" name="start-date">
+                            <label for="start-date">Start Date:</label>
+                        </div>
+                        <div class="fancy-input discount-padding">
+                            <input type="datetime-local" name="end-date">
+                            <label for="end-date">End Date:</label>
+                        </div>
+                        <input class="btn" type="submit" name="submit" value="Submit Discount">
+                    </div>
+                </form>
+                <table class="variant-modify-table">
+                    <tr>
+                        <th>DELETE</th>
+                        <th>EDIT</th>
+                        <th>Variant ID</th>
+                        <th>Price</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                    </tr>
+                    {% for variant in productIdVariants[p['product_id']] %}
+                    {% for discount in discountIdData[variant['variant_id']] %}
+                        <tr>
+                            </form>
+                            <form action="{{url_for('product_manage.discountDelete', discountId=discount['discount_id'])}}" method="POST" onsubmit="return confirm('Do you really want to delete this discount? This cannot be undone.');">
+                                <td><input name="delete" type="submit" value="DELETE"></td>
+                            </form>
+                            <form id="discount-edit-form-{{discount['discount_id']}}" method="POST" autocomplete="off"
+                            action="{{url_for('product_manage.discount', method='edit', discountId=discount['discount_id'])}}">
+                                <input class="hidden" name="admin-vendor" value="{{adminVendor}}">
+                                <td><input name="edit" type="submit" value="EDIT" form="discount-edit-form-{{discount['discount_id']}}"></td>
+                                <td>{{discount['variant_id']}}</td>
+                                <td><input name="price" value="${{discount['discount_price']|priceFormat}}" form="discount-edit-form-{{discount['discount_id']}}"></td>
+                                <td><input type="datetime-local" name="start-date" value="{{discount['start_date']}}" form="discount-edit-form-{{discount['discount_id']}}"></td>
+                                <td><input type="datetime-local" name="end-date" value="{{discount['end_date']}}" form="discount-edit-form-{{discount['discount_id']}}"></td>
+                            </form>
+                        </tr> 
+                    {% endfor %}
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

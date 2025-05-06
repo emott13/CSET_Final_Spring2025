@@ -29,7 +29,7 @@ def register():
             error = "Error: Username already exists"
         elif password != repassword:
             error = "Error: Passwords do not match"
-        elif getCurrentType() == 'admin':
+        elif type == 'admin' and getCurrentType() != 'admin':
             error = "Error: Insufficient permissions"
 
         if error:

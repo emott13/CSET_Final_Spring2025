@@ -23,6 +23,19 @@ h1 {
     margin-bottom: 20px;
 }
 
+.hidden {
+    display: none;
+}
+
+.block {
+    display: block;
+}
+
+.center {
+    text-align: center;
+    margin: 0 auto;
+}
+
 .btn {
     border-radius: 15px;
     border-top: 1px solid var(--color-purple);
@@ -44,13 +57,23 @@ h1 {
     background-color: var(--color-dark-purple);
 }
 
+.btn-delete {
+    background-color: var(--color-error-red);
+    border: 0;
+}
+
+.btn-delete:hover {
+    background-color: var(--color-error-red);
+    filter: brightness(90%);
+}
+
 .full-height {
     min-height: var(--page-height);
 }
 
 .full-width {
     width: 100%;
-    background-color: var(--color-purple-white);
+    /* background-color: var(--color-purple-white); */
     color: var(--color-purple-red);
     font-family: var(--font-header);
     font-weight: 400;
@@ -68,6 +91,10 @@ h1 {
 
 .top-margin {
     margin-top: 1rem;
+}
+
+.padding-top {
+    padding-top: 1rem;
 }
 
 /* error-message probably not needed (for fancy-input) */
@@ -111,7 +138,7 @@ h1 {
 .fancy-input input:not(:placeholder-shown) + label,
 .label-shown {
     font-size: 90%;
-    top: -15px;
+    top: -15px !important;
 }
 
 .fancy-input input:focus + label {
@@ -237,6 +264,12 @@ h1 {
     padding: 1px;
 }
 
+.star-gray {
+    font-size: 18px;
+    color: gray;
+    padding: 1px;
+}
+
 .product-rating-num {
     margin-left: .5rem;
 }
@@ -324,6 +357,11 @@ h1 {
     height: 10px;
 }
 
+.review-delete {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
 
 .product-reviews-section {
     display: flex;
@@ -377,6 +415,7 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .product-review-name {
@@ -403,5 +442,157 @@ h1 {
     max-height: 200px;
 }
 
+.product-reviews-create h2 {
+    text-align: center
+}
+
+.create-review-container {
+    display: flex;
+}
+
+.create-review-container label {
+    display: inline;
+}
+
+.create-review-rating-container,
+.create-review-description-container,
+.create-review-url-container {
+    flex-direction: column;
+    text-align: center;
+}
+
+.create-review-rating-container {
+}
+
+.create-review-description-container {
+    flex: 1 1 auto;
+}
+
+.create-review-url-container {
+    flex-direction: column;
+    flex: 1 1 auto;
+}
+
+.rating {
+    margin-right: 20px;
+}
+
+/* reviews star styling */
+.rating div {
+    position: relative;
+    display: inline-block;
+    width: 25px;
+    height: 20px; 
+}
+
+.rating div > label {
+    position: absolute;
+    cursor: pointer;
+}
+
+.rating div:hover ~ div .orange,
+.rating div:hover ~ .orange,
+.rating input[type='radio']:checked .orange,
+.rating div:has(input[type='radio']:checked) ~ div .orange {
+    display: none;
+}
+
 /* -- PRODUCT PAGE END -- */
 
+
+
+/* PRODUCT MANAGE START */
+
+.vendor-select {
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.manage-create-container {
+    display: flex;
+    flex-direction: column; 
+    max-width: 80vw;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.manage-create-container h1 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+
+.product-data {
+    margin: 1rem auto;
+    flex-direction: column;
+    max-width: 80vw;
+}
+
+.product-id {
+    margin-bottom: 2rem;
+}
+
+.product-delete {
+    margin-top: .5rem;
+}
+
+.product-delete input[type='submit'] {
+    background-color: var(--color-error-red);
+    border-color: var(--color-error-red);
+}
+
+.product-delete .p-delete {
+    width: 13rem;
+}
+
+.variant-modify-table {
+    margin-top: 2rem;
+    overflow: auto;
+    display: block;
+}
+
+.variant-background {
+    background-color: var(--color-purple-white);
+    overflow: hidden;
+}
+
+.variant-create {
+    margin-top: 1.5rem;
+}
+
+.variant-edit-delete {
+    width: 60px;
+}
+
+.color-check {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.image-btn {
+    margin-bottom: 1.5rem;
+}
+
+.manage-discount-form h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.discount-hint {
+    margin-bottom: 1.5rem;
+}
+
+.discount-row {
+    justify-content: flex-start;
+}
+
+.discount-padding {
+    padding-right: .5rem;
+    margin-bottom: 0;
+}
+
+.variant-select {
+    max-width: 200px;
+}
+
+/* PRODUCT MANAGE END */
