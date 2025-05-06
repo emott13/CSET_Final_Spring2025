@@ -97,11 +97,23 @@ def priceFormat(value):
     return formatted
     # return f"{ round( int(value)/100, 2):.2f }"
 
-# date formatter for jinja template. call like {{154|dateFormat}}
+# date formatter for jinja template
 @app.template_filter()
 def dateFormat(value: datetime.datetime) -> str:
     # formats like "Dec 05, 2026 11:59 PM"
     return value.strftime("%b %d, %Y %I:%M %p")
+
+# date formatter for jinja template
+@app.template_filter()
+def dateOnlyFormat(value: datetime.datetime) -> str:
+    # formats like "Dec 05, 2026"
+    return value.strftime("%b %d, %Y")
+
+# date formatter for jinja template
+@app.template_filter()
+def timeOnlyFormat(value: datetime.datetime) -> str:
+    # formats like "09:10:32 PM"
+    return value.strftime("%I:%M:%S %p")
 
 # Load user for Flask-Login
 @login_manager.user_loader

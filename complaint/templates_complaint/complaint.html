@@ -3,25 +3,92 @@
 {% extends 'base.html' %}
 {% block body %}
 <div class="full-height container">
-    <div class="inner orderContainer">
-        <table class="orderTable">
-            <tr class="orderRow">
-                <td>Order number: </td>
-                <td>{{ order['order_id'] }}</td>
-            </tr>
-            <tr class="orderRow">
-                <td>Status: </td>
-                <td>{{ order['status'] }}</td>
-            </tr>
-            <tr class="orderRow">
-                <td>Total: </td>
-                <td>{{ order['total_price'] }}</td>
-            </tr>
-            <tr class="orderRow">
-                <td>Submitted on: </td>
-                <td>{{ order['order_date'] }}</td>
-            </tr>
-        </table>
+    <div class="inner">
+        <div class="orderContainer">
+            <table class="orderTable">
+                <tr class="orderRow">
+                    <td>Order number: </td>
+                    <td>{{ order['order_id'] }}</td>
+                </tr>
+                <tr class="orderRow">
+                    <td>Status: </td>
+                    <td>{{ order['status'] }}</td>
+                </tr>
+                <tr class="orderRow">
+                    <td>Total: </td>
+                    <td>${{ order['total_price']|priceFormat }}</td>
+                </tr>
+                <tr class="orderRow">
+                    <td>Submitted on: </td>
+                    <td>{{ order['order_date']|dateOnlyFormat }}<br>{{order['order_date']|timeOnlyFormat}}</td>
+                </tr>
+            </table>
+        </div>
+     
+        <h1 class="login-h1">Create Complaint</h1>
+        
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        {% if success %}
+            {% autoescape false %}
+            <h2 class="success">{{ success }}</h2>
+            {% endautoescape %}
+        {% endif %}
+
+        <form class="login-form space" action="/register" method="post">
+            <div class="input-row">
+                <div class="fancy-input full-width">
+                    <input class="full-width" type="text" name="title" placeholder="" required />
+                    <label for="title">Title:</label>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="fancy-input full-width">
+                    <input class="full-width" type="text" name="description" placeholder="" required />
+                    <label for="description">Description:</label>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="fancy-input full-width">
+                    <input class="full-width" type="text" name="first_name" placeholder="" required />
+                    <label for="first_name">First Name:</label>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="fancy-input full-width">
+                    <input class="full-width" type="text" name="last_name" placeholder="" required />
+                    <label for="last_name">Last Name:</label>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="fancy-input full-width">
+                    <input class="full-width" type="password" name="password" placeholder="" required />
+                    <label for="password">Password:</label>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="fancy-input full-width">
+                    <input class="full-width" type="password" name="re-password" placeholder="" required />
+                    <label for="re-password">Re-enter Password:</label>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="fancy-input full-width">
+                    <select class="full-width" for="type" name="type">
+                        <option value="customer" selected>Customer</option>
+                        <option value="vendor">Vendor</option>
+                        {% if isAdmin %}
+                            <option value="admin">Admin</option>
+                        {% endif %}
+                    </select>
+                    <input class="full-width" style="display: none">
+                    <label class="label-shown" for="type">Type</label>
+                </div>
+            </div>
+            <p class="to-register">Already have an account? <a href="{{url_for('login.login')}}">Login Here</a></p>
+            <button class="btn" type="submit">Login</button>
+        </form>
     </div>
 </div>
 {% endblock %}
