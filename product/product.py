@@ -131,9 +131,6 @@ def product(productId, variantId=None, error=None):
     if bestDiscount:
         bestDiscount = bestDiscount[0]
 
-    print()
-    print(type(bestDiscount['end_date']))
-    print()
 
     reviewsData = conn.execute(text("SELECT review_id, customer_email, product_id, rating, description, "
         "image, date(date), CONCAT(first_name, ' ', last_name) AS 'full_name', date AS 'date_time' "
@@ -155,7 +152,6 @@ def product(productId, variantId=None, error=None):
                             bestDiscount=bestDiscount)
 
     elif request.method == "POST":
-        print("POST")
         amount = request.form.get("number")
         if not current_user.is_authenticated:
             error = "You must be signed in to add to cart"
@@ -182,7 +178,6 @@ def product(productId, variantId=None, error=None):
 
             cartItemVariants = conn.execute(text(
                 f"SELECT variant_id FROM cart_items WHERE cart_id = {cartId}")).all()
-            print(cartItemVariants)
             
             inCart = False
             for variant in cartItemVariants:
@@ -192,7 +187,6 @@ def product(productId, variantId=None, error=None):
 
 
             if not inCart:
-                print("Variant_id not in cartItemsVariants")
                 conn.execute(text(
                     "INSERT INTO cart_items (cart_id, variant_id, quantity)"
                 f"VALUES ({cartId}, {variantId}, {amount})"))
@@ -202,8 +196,6 @@ def product(productId, variantId=None, error=None):
                                 f"WHERE cart_id = {cartId} AND variant_id = {variantId}"))
             conn.commit()
 
-            print(cartItemVariants)
-        print(error)
         return render_template("product.html", error=error, productId=productId,    
                             productData=productData, pi=pi,
                             variantId=variantId, variantData=variantData, vi=vi, imageData=imageData, ii=ii,
@@ -214,8 +206,6 @@ def product(productId, variantId=None, error=None):
 
 @product_bp.route("/product/<int:productId>/<int:variantId>/review", methods=["POST"])
 def submitReview(productId, variantId):
-    print("review request form:")
-    print(request.form)
     rating = int(request.form.get('rating'))
     desc = request.form.get('description')
     url = request.form.get('image')

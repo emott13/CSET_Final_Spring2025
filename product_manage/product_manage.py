@@ -269,8 +269,6 @@ def discount(method, discountId=None):
     price = request.form.get("price").replace("$", "")
     startDate = request.form.get("start-date")
     endDate = request.form.get("end-date")
-    print("Discount values:")
-    print(request.form)
 
     error = discountChecks(variantId, price, startDate, endDate, discountId)
     
@@ -346,7 +344,6 @@ def productChecks(vendor_id, title, desc, warranty_months, category):
     return None
 
 def priceChecks(price):
-    print("price: " + str(price))
     if not price.replace(".", "").isdigit() or int(float(price)*100) > 2147483647 or int(float(price)*100) < 0:
         return "Invalid price"
     return None
@@ -359,7 +356,6 @@ def variantChecks(colorSelect, size, price, inventory, urls, productId, variantI
 
     # check if (variant_id, color_id, size_id) are together unique)
     sizeId = conn.execute(text(f"SELECT size_id FROM sizes WHERE size_description = '{size}'")).first()
-    print(f"sizeId \n{sizeId}")
     if sizeId:
         sizeId = sizeId[0]
         unique = int( conn.execute(text(
@@ -367,8 +363,6 @@ def variantChecks(colorSelect, size, price, inventory, urls, productId, variantI
             f"WHERE product_id = {productId} AND color_id = {colorSelect} AND size_id = {sizeId} "
             f"{'AND variant_id != ' + str(variantId) if variantId else ''}"
         )).first()[0] )
-        print("unique")
-        print(unique)
         if unique > 0:
             return "Variant with that color and size already exists"
 
