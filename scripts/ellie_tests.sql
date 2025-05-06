@@ -7,15 +7,19 @@ select * from cart_items where cart_id = 2;
 SELECT * FROM cart_items WHERE cart_id IN (SELECT cart_id FROM carts WHERE customer_email = 'j_prescott@gmail.com');
 select * from carts natural join cart_items where customer_email = 'j_prescott@gmail.com';
 select * from orders natural join order_items where customer_email = 'j_prescott@gmail.com';
+SELECT order_id, status, order_date, total_price
+            FROM orders
+            WHERE customer_email = 'j_prescott@gmail.com'
+            ORDER BY order_id DESC;
 SELECT *
 FROM order_items
 WHERE order_id
 ORDER BY order_id DESC
 LIMIT 1;
 delete from order_items
-where order_id between 17 and 79;
+where order_id between 17 and 85;
 delete from orders
-where order_id between 17 and 49;
+where order_id between 17 and 85;
 select * from orders;
 select * from product_variants;
 
@@ -63,7 +67,7 @@ select * from transactions where acc_num = 578066;
 
 select size_description, size_id from sizes;
 select color_name, color_id, color_hex from colors order by color_name;
- order by size_id;
+order by size_id;
 select * from categories order by cat_num;
 select * from products order by product_title;
 -- VENDORS 
@@ -82,7 +86,9 @@ natural join product_variants;
 SELECT chat_id, complaint_id, product_id, text, user_from, user_to, date_time 
 FROM chats 
 WHERE user_from = 'j_prescott@gmail.com' 
-	OR user_to = 'j_prescott@gmail.com';
+	OR user_to = 'j_prescott@gmail.com'
+ORDER BY date_time DESC
+LIMIT 1;
 
 -- products
  -- 850580

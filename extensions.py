@@ -1,6 +1,7 @@
+import datetime
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from flask_login import LoginManager, UserMixin, current_user
 from flask_bcrypt import Bcrypt
 
@@ -63,11 +64,44 @@ def getCurrentType():
     """Returns the current_user type. Returns None if the user isn't logged in"""
     return None if not current_user.is_authenticated else current_user.type
 
+def dict_db_data(table, extra="", select=""):
+    """
+    Converts a table's data from an array of arrays to an array of dictionaries
+    with the columns as the key for easy usage like "data['username']"
+    variable 'extra' gets passed to the sql query for WHERE statements etc.
+    """
+    keys = [ key[0] for key in conn.execute(text(f"DESC {table}")).all() ]
+    for key in select.replace(",", "").split():
+        keys.append(key)
+
+    data = conn.execute(text("SELECT " + str(keys)[1:-1].replace("\'", "") + f" FROM {table} {extra}")).all()
+
+    dataDict = []
+    for row in data:
+        dictRow = {}
+        for key, value in zip(keys, row):
+            dictRow[key] = value
+        dataDict.append(dictRow)
+
+    return dataDict
+
 # price formatter for jinja template. call like {{154|priceFormat}}
 @app.template_filter()
 def priceFormat(value):
-    return str(value)[:-2] + "." + str(value)[-2:]
+    formatted = str(value)[:-2] + "." + str(value)[-2:]
+    if int(value) < 10:
+        formatted = formatted[:-1] + "0" + formatted[-1:]
+    if int(value) < 100:
+        formatted = "0" + formatted
+
+    return formatted
     # return f"{ round( int(value)/100, 2):.2f }"
+
+# date formatter for jinja template. call like {{154|dateFormat}}
+@app.template_filter()
+def dateFormat(value: datetime.datetime) -> str:
+    # formats like "Dec 05, 2026 11:59 PM"
+    return value.strftime("%b %d, %Y %I:%M %p")
 
 # Load user for Flask-Login
 @login_manager.user_loader

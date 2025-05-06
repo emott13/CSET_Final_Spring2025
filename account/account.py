@@ -25,24 +25,45 @@ def account():
         'type': userData[3]
     }
     print('**************** user data map:', userData_map)
-    userChats = conn.execute(
+    chat = conn.execute(
         text('''
             SELECT chat_id, complaint_id, product_id, text, user_from, user_to, date_time 
             FROM chats 
             WHERE user_from = :user 
-                OR user_to = :user;
+                OR user_to = :user
+            ORDER BY date_time DESC
+            LIMIT 1;
         '''),
-        {'user': user}).fetchall()
-    userChats_map = []
-    # for chat in userChats:
-    #     userChats_map.append({
-    #         'user':,
-    #         'email':,
-    #         'cid':,
-    #         '':,
-    #         'text':,
-    #         'datetime':,
-    #         '':,
-    #         '':
-    #     })
-    return render_template('account.html', account = userData_map)
+        {'user': user}).fetchone()
+    if chat[1] is not None:
+        id = chat[1]
+    else:
+        id = chat[2]
+
+    if chat[4] == user:
+        sender = chat[4]
+        other = chat[5]
+    else:
+        sender = chat[5]
+        other = chat[4]
+
+    chatText = f'{chat[3][0:25]}...'
+    userChats_map = {
+        'user': sender,
+        'from': other,
+        'cid': chat[0],
+        'id': id,
+        'text': chatText,
+        'datetime': chat[6]
+    }
+
+    return render_template('account.html', account = userData_map, chat = userChats_map)
+
+# temp to print passed data. 
+# html action can be changed to go to chats when we create chats.py,
+# and then this could be deleted
+@account_bp.route('/chat')
+def chat():
+    chat = request.args.get('data')
+    print('chat', chat)
+    return redirect(url_for('account.account'))

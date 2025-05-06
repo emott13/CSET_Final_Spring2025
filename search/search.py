@@ -205,15 +205,29 @@ def toCents(num):
                     numFloat = num
     return int(round(numFloat * 100))
 
-def toDollar(num, html=False):
+def toDollar(num, html=False, thousand=False):
     try:
         numDollar = num / 100
     except:
         return num
-    if html is False:
-        return f'${numDollar:.2f}'
-    elif html is True:
-        return f'{numDollar:.2f}'
+    match html, thousand:
+        case False, True:
+            return f'${numDollar:,.2f}'
+        case False, False:
+            return f'${numDollar:.2f}'
+        case True, True:
+            return f'{numDollar:,.2f}'
+        case True, False:
+            return f'${numDollar:.2f}'
+        case _:
+            return f'${numDollar:.2f}'
+    # if html is False:
+    #     return f'${numDollar:.2f}'
+    # elif html is True and thousand is True:
+    #     return f'{numDollar:,.2f}'
+    # elif html is True and thousand is False:
+    #     return f'${numDollar:.2f}'
+    
 
 def getSecondPrice(string):
     priceList = string.split(' - ')
