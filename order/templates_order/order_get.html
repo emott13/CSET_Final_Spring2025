@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="../../static/styles/styles.css">
 <link rel="stylesheet" href="../static_order/order.css">
 <script src="/static_order/scripts/order.js" defer></script>
 {% extends 'base.html' %}
@@ -26,8 +27,8 @@
                             <td>{{ orders[i].date }}<br>{{ orders[i].time }}</td>
                         </tr>
                         <tr class="orderRow">
-                            <td><button class="orderBtn">View order details</button></td>
-                            <td><button class="orderBtn">Issues with your order?</button></td>
+                            <td><button class="btn orderBtn">View order details</button></td>
+                            <td><button class="btn orderBtn" onclick="document.location.href = `{{url_for('complaint.complaint', orderId=orders[i].id)}}`">Issues with your order?</button></td>
                         </tr>
                     </table>
                 {% endfor %}

@@ -11,6 +11,7 @@ from product_manage.product_manage import product_manage_bp
 from cart.cart import cart_bp
 from order.order import order_bp
 from account.account import account_bp
+from complaint.complaint import complaint_bp
 
 # -- LOGIN PAGE -- #
 app.register_blueprint(login_bp)
@@ -32,6 +33,9 @@ app.register_blueprint(product_bp)
 
 # -- PRODUCT MANAGE PAGE -- #
 app.register_blueprint(product_manage_bp)
+
+# -- COMPLAINT PAGE -- #
+app.register_blueprint(complaint_bp)
 
 # -- TEST PAGE -- #
 # Shows current_user data (whoever is logged in)

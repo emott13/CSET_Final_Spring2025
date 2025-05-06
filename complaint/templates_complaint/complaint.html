@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="../../static/styles/styles.css">
+<link rel="stylesheet" href="../../static_order/order.css">
+{% extends 'base.html' %}
+{% block body %}
+<div class="full-height container">
+    <div class="inner orderContainer">
+        <table class="orderTable">
+            <tr class="orderRow">
+                <td>Order number: </td>
+                <td>{{ order['order_id'] }}</td>
+            </tr>
+            <tr class="orderRow">
+                <td>Status: </td>
+                <td>{{ order['status'] }}</td>
+            </tr>
+            <tr class="orderRow">
+                <td>Total: </td>
+                <td>{{ order['total_price'] }}</td>
+            </tr>
+            <tr class="orderRow">
+                <td>Submitted on: </td>
+                <td>{{ order['order_date'] }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+{% endblock %}
