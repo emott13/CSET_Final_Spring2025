@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, request
-from flask_login import current_user
+from flask import Blueprint, render_template, request, redirect, url_for
+from flask_login import current_user, login_required
 from sqlalchemy import text
 from datetime import datetime
 from extensions import conn
@@ -8,13 +8,27 @@ from search.search import toCents, toDollar
 order_bp = Blueprint('order', __name__, static_folder='static_order', template_folder='templates_order')
 
 @order_bp.route('/order', methods=['GET', 'POST'])
+@login_required
 def order():
     user = current_user.email
     total = request.form.get('total')
+    print('* * * * * *TOTAL', total)
     totalInCents = toCents(total)
     now = datetime.now()
+    if total == '$0.00':
+        request.method = 'GET'
+        message = 'There was an issue placing your order.'
 
-    if request.method == 'POST':
+    if request.method == 'GET':
+        orders_map, orderCount = getOrders(user)
+        try:
+            print('! ! ! ! !', message)
+            return redirect(url_for('cart.cart', message=message))                                # user orders, message, order count
+        except UnboundLocalError:
+            return render_template('order_get.html',orders=orders_map,                          # render order page with
+                                count=orderCount)                                               # user orders, message, order count
+        
+    elif request.method == 'POST':
         currentCart = conn.execute(
             text('''
                 SELECT * FROM cart_items
@@ -108,13 +122,8 @@ def order():
         orders_map, orderCount = getOrders(user)
         success = 'Your order has been placed.'                                             # success message
 
-        return render_template('order_post.html',orders=orders_map,                              # render order page with
+        return render_template('order_post.html',orders=orders_map,                         # render order page with
                             count=orderCount, message=success)                              # user orders, message, order count
-    
-    elif request.method == 'GET':
-        orders_map, orderCount = getOrders(user)
-        return render_template('order_get.html',orders=orders_map,                              # render order page with
-                            count=orderCount)                                               # user orders, message, order count
 
 
 def getOrders(user):
