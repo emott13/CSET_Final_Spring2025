@@ -51,3 +51,13 @@ td, th{
 .ordersBtn:hover{
     background-color: var(--color-dark-purple);
 }
+
+/* ion icon styles */
+.ion-chevron-right:before { content: "\f125"; }
+.ion-chevron-right{
+    height: 20px;
+    width: 20px;
+    color: var(--color-purple);
+    font-size: 20px;
+    cursor: pointer;
+}

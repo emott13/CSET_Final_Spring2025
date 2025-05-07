@@ -23,7 +23,6 @@ def isValidProductURL(productId, variantId=None):
         f"WHERE product_id = {productId} ORDER BY variant_id")
         ).all()
 
-
     if productVariants == []:
         return url_for("home.home")
 
