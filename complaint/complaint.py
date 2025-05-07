@@ -3,11 +3,19 @@ from flask_login import current_user, login_required
 from sqlalchemy import text
 from extensions import conn, dict_db_data
 
-complaint_bp = Blueprint('complaint', __name__, static_folder='static_complaint', template_folder='templates_complaint')
+complaint_bp = Blueprint('complaint', __name__, static_folder='static_complaint', 
+                         template_folder='templates_complaint', url_prefix="/complaint")
 
-@complaint_bp.route('/complaint/<int:orderId>', methods=["GET", "POST"])
+@complaint_bp.route("/", methods=["GET"])
 @login_required
-def complaint(orderId):
+def complaint():
+    complaints = dict_db_data('complaints', f"WHERE submitted_by = '{current_user.email}'")
+    print(complaints)
+    return render_template("complaint.html", complaints=complaints)
+
+@complaint_bp.route('/create/<int:orderId>', methods=["GET", "POST"])
+@login_required
+def create(orderId):
     order = dict_db_data("orders", f"WHERE order_id = {orderId}")[0]
     demands = sql_enum_list( 
         conn.execute(text("SHOW COLUMNS FROM complaints LIKE 'demand'")).all()[0][1] 
@@ -27,12 +35,12 @@ def complaint(orderId):
                 {'submitted_by': current_user.email, 'title': title, 
                 'desc': desc, 'demand': demand, 'order_id': orderId})
             conn.commit()
-            success = "Success. Complaint successfully submitted"
+            success = f"Success. Complaint successfully submitted. <br>View all your complaints <a href=\"{url_for('complaint.complaint')}\">Here</a>"
         except Exception as e:
             print("\n" + str(e) + "\n")
-            return redirect(url_for("complaint.complaint", orderId=orderId, error="Error"))
+            return redirect(url_for("complaint.create", orderId=orderId, error="Error"))
             
-    return render_template("complaint.html", orderId=orderId, order=order, demands=demands, error=error, success=success)
+    return render_template("create.html", orderId=orderId, order=order, demands=demands, error=error, success=success)
         
 
 

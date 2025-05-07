@@ -617,6 +617,20 @@ h1 {
 
 /* COMPLAINT START */
 
+.complaint-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 10px;
+    margin: 10px auto;
+    max-width: 100vw;
+    flex-wrap: wrap;
+}
+
+.complaint-desc-view {
+    max-width: 600px;
+    overflow: hidden;
+}
+
 .complaint-desc {
     resize: none;
 }
