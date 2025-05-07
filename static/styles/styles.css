@@ -614,3 +614,11 @@ h1 {
 }
 
 /* PRODUCT MANAGE END */
+
+/* COMPLAINT START */
+
+.complaint-desc {
+    resize: none;
+}
+
+/* COMPLAINT END */

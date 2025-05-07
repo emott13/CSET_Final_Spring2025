@@ -113,8 +113,10 @@ CREATE TABLE IF NOT EXISTS complaints ( 									-- join tables using complaint_
     demand ENUM('return', 'refund', 'warranty claim'),
     status ENUM('pending', 'rejected', 'confirmed', 'processing', 'complete') NOT NULL,
     date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    order_id INT,
     FOREIGN KEY (submitted_by) REFERENCES users(email),
-    FOREIGN KEY (reviewed_by) REFERENCES users(email)
+    FOREIGN KEY (reviewed_by) REFERENCES users(email),
+    FOREIGN KEY (order_id) REFERENCES orders(order_id)
 );
 
 -- chats
