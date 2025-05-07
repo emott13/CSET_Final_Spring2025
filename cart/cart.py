@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from flask_login import LoginManager, UserMixin, current_user, login_required
+from flask_login import current_user, login_required
 from sqlalchemy import text
 from extensions import conn
 from search.search import toDollar
@@ -9,7 +9,8 @@ cart_bp = Blueprint('cart', __name__, static_folder='static_cart', template_fold
 @cart_bp.route('/cart', methods = ['GET', 'POST'])
 @login_required
 def cart(messageString=None):
-    print('Message from param:', messageString)
+
+    # print('Message from param:', messageString)
     user = current_user.email
     cartItems = conn.execute(
         text('''
@@ -21,7 +22,7 @@ def cart(messageString=None):
             WHERE customer_email = :user;
         '''), {'user': user}
     ).fetchall()
-    print('cartItems')
+    # print('cartItems')
     
     cartItems_map = []
     prices = []
@@ -59,7 +60,7 @@ def cart(messageString=None):
 def update_cart():
     user = current_user.email
     form_data = request.form
-    print(form_data)
+
     for variant_id_str, quantity_str in form_data.items():
         if variant_id_str == 'apply changes':
             continue
@@ -79,6 +80,26 @@ def update_cart():
                 )
             '''), {
                 'quantity': quantity,
+                'variant_id': variant_id,
+                'user': user
+            }
+        )
+
+    return redirect(url_for('cart.cart'))
+
+@cart_bp.route('/delete_item', methods=['POST'])
+def delete_item():
+    variant_id = request.form.get('variant_id')
+    user = current_user.email
+    if variant_id:
+        conn.execute(
+            text('''
+                DELETE FROM cart_items
+                WHERE variant_id = :variant_id
+                AND cart_id = (
+                    SELECT cart_id FROM carts WHERE customer_email = :user
+                )
+            '''), {
                 'variant_id': variant_id,
                 'user': user
             }

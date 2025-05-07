@@ -53,7 +53,6 @@ td, th{
 }
 
 /* ion icon styles */
-.ion-chevron-right:before { content: "\f125"; }
 .ion-chevron-right{
     height: 20px;
     width: 20px;
