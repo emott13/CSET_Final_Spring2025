@@ -17,8 +17,20 @@
                         <td>{{ complaint['order_id'] }}</td>
                     </tr>
                     <tr class="orderRow">
+                        <td>Submitted By: </td>
+                        <td>{{ complaint['submitted_by'] }}</td>
+                    </tr>
+                    <tr class="orderRow">
                         <td>Status: </td>
-                        <td>{{ complaint['status'] }}</td>
+                        <td><form action="{{url_for('complaint.updateStatus', complaintId=complaint['complaint_id'])}}" method="POST" id="update-status-{{complaint['complaint_id']}}" autocomplete="off">
+                            <select class="status-select" name="status">
+                            {% for status in statuses %}
+                                {% set select = 'selected' if status == complaint['status'] else "" %}
+                                <option for="status" value="{{status}}" {{select}}>{{status}}</option>
+                            {% endfor %}
+                            </select>
+                            <input type="submit" class="btn" value="Update Status">
+                        </form></td>
                     </tr>
                     <tr class="orderRow">
                         <td>Submitted on: </td>
