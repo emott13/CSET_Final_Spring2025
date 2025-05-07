@@ -35,6 +35,10 @@ def account():
             LIMIT 1;
         '''),
         {'user': user}).fetchone()
+    print(chat)
+    if not chat:
+        return render_template('account.html', account = userData_map)
+
     if chat[1] is not None:
         id = chat[1]
     else:
