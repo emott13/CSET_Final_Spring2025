@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from flask_login import LoginManager, UserMixin, current_user
+from flask_login import LoginManager, UserMixin, current_user, login_required
 from sqlalchemy import text
 from datetime import datetime
 from extensions import conn
@@ -8,6 +8,7 @@ from search.search import toCents, toDollar
 order_bp = Blueprint('order', __name__, static_folder='static_order', template_folder='templates_order')
 
 @order_bp.route('/order', methods=['GET', 'POST'])
+@login_required
 def order():
     user = current_user.email
     total = request.form.get('total')

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from flask_login import LoginManager, UserMixin, current_user
+from flask_login import LoginManager, UserMixin, current_user, login_required
 from sqlalchemy import text
 from extensions import conn
 from search.search import toDollar
@@ -7,6 +7,7 @@ from search.search import toDollar
 cart_bp = Blueprint('cart', __name__, static_folder='static_cart', template_folder='templates_cart')
 
 @cart_bp.route('/cart', methods = ['GET', 'POST'])
+@login_required
 def cart(messageString=None):
     print('Message from param:', messageString)
     user = current_user.email
@@ -54,6 +55,7 @@ def cart(messageString=None):
                            totals = totals, message = messageString)
 
 @cart_bp.route('/update_cart', methods=['POST'])
+@login_required
 def update_cart():
     user = current_user.email
     form_data = request.form
