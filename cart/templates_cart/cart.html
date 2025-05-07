@@ -18,8 +18,14 @@
                                    <img src="#" alt="">
                                     <h3>{{ item.name }}</h3> 
                                 </div>
-                                <div>
-                                    <input type="number" min="1" value="{{ item.quantity }}" id="quantity" name="{{ item.id }}" onchange="this.form.submit()">
+                                <div class="qd">
+                                    <input type="number" min="1" value="{{ item.quantity }}" id="quantity" name="{{ item.id }}" onchange="document.querySelector('#quantityChange').submit()">
+                                    <!-- <input type="button" value="{{ item.id }}" id="{{ item.id }}" name="{{ item.id }}" onchange="this.form.submit()"> -->
+                                    <!-- <input type="hidden" value="{{ item.id }}" name="{{ item.name }}{{ item.id }}">
+                                    <i class="ion-trash-b" onclick="deleteItem(this)"></i> -->
+                                    <button type="button" class="delete-btn" data-id="{{ item.id }}" onclick="deleteItem(this)">
+                                        <i class="ion-trash-b"></i>
+                                    </button>
                                 </div>
                                 <p>{{ item.price }}</p>
                             </div>
@@ -50,6 +56,9 @@
                 </div>
             </section>
         </div>
+        <form id="deleteForm" method="POST" action="{{ url_for('cart.delete_item') }}">
+            <input type="hidden" name="variant_id" id="deleteVariantId">
+        </form>        
     </main>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -61,6 +70,26 @@
                     document.querySelector('#placeOrder').submit();
                 }
             });
+
+            // deleteIcons = document.querySelectorAll('.ion-trash-b')
+            // deleteIcons.forEach(icon => {
+            //     icon.addEventListener('click', () => {
+            //         let confirmation = confirm('Are you sure you want to remove this item?');
+            //         if (confirmation == true){
+            //             document.querySelector('#quantityChange').submit();
+            //         }
+            //     }) 
+            // });
         });
+        function deleteItem(button) {
+            let variantId = button.getAttribute('data-id');
+            let confirmed = confirm('Are you sure you want to remove this item?');
+            if (confirmed) {
+                let form = document.getElementById('deleteForm');
+                document.getElementById('deleteVariantId').value = variantId;
+                form.submit();
+            }
+        }
+
     </script>
 {% endblock %}

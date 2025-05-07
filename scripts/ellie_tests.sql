@@ -11,6 +11,18 @@ SELECT order_id, status, order_date, total_price
             FROM orders
             WHERE customer_email = 'j_prescott@gmail.com'
             ORDER BY order_id DESC;
+-- cart_id, customer_email <carts, cart_item_id, variant_id, quantity <cart_items
+INSERT INTO carts (cart_id, customer_email)
+VALUES ();
+select * from product_variants;
+
+INSERT INTO cart_items (cart_id, variant_id, quantity)
+VALUES 
+	(2, 100203, 1),
+    (2, 100216, 1),
+    (2, 100225, 1),
+    (2, 100235, 1);
+    
 SELECT *
 FROM order_items
 WHERE order_id
