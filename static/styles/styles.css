@@ -619,7 +619,7 @@ h1 {
 
 .complaint-container {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: repeat(auto-fill, minmax(800px, 1fr));
     column-gap: 10px;
     margin: 10px auto;
     max-width: 100vw;

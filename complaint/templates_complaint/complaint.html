@@ -28,6 +28,12 @@
                         <td>Demand: </td>
                         <td>{{ complaint['demand'] }}</td>
                     </tr>
+                    {% if complaint['reviewed_by'] %}
+                    <tr class="orderRow">
+                        <td>Reviewed By: </td>
+                        <td>{{ complaint['reviewed_by'] }}</td>
+                    </tr>
+                    {% endif %}
                     <tr class="orderRow">
                         <td>Title: </td>
                         <td>{{ complaint['title']}}</td>

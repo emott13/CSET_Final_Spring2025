@@ -46,8 +46,8 @@ def updateStatus(complaintId):
 
     try:
         conn.execute(text("UPDATE complaints " +
-            "SET status = :newStatus WHERE complaint_id = :complaintId"),
-            {'newStatus': newStatus, 'complaintId': complaintId})
+            "SET status = :newStatus, reviewed_by = :adminEmail WHERE complaint_id = :complaintId"),
+            {'newStatus': newStatus, 'complaintId': complaintId, 'adminEmail': current_user.email})
         conn.commit()
     except Exception as e:
         print(f"\n {e} \n")
