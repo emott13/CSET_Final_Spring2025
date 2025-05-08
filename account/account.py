@@ -63,11 +63,11 @@ def account():
 
     return render_template('account.html', account = userData_map, chat = userChats_map)
 
-# temp to print passed data. 
-# html action can be changed to go to chats when we create chats.py,
-# and then this could be deleted
-@account_bp.route('/chat')
-def chat():
-    chat = request.args.get('data')
-    print('chat', chat)
-    return redirect(url_for('account.account'))
+# # temp to print passed data. 
+# # html action can be changed to go to chats when we create chats.py,
+# # and then this could be deleted
+# @account_bp.route('/chat')
+# def chat():
+#     chat = request.args.get('data')
+#     print('chat', chat)
+#     return redirect(url_for('account.account'))

@@ -12,6 +12,7 @@ from cart.cart import cart_bp
 from order.order import order_bp
 from account.account import account_bp
 from complaint.complaint import complaint_bp
+from chat.chat import chat_bp
 
 # -- LOGIN PAGE -- #
 app.register_blueprint(login_bp)
@@ -37,6 +38,9 @@ app.register_blueprint(product_manage_bp)
 # -- COMPLAINT PAGE -- #
 app.register_blueprint(complaint_bp)
 
+# -- CHAT PAGE -- #
+app.register_blueprint(chat_bp)
+
 # -- TEST PAGE -- #
 # Shows current_user data (whoever is logged in)
 @app.route("/test")
@@ -60,4 +64,4 @@ app.register_blueprint(order_bp)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(app, debug=True)
