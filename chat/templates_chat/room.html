@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="../../../static/styles/styles.css">
+<script src="/chat/static_chat/scripts/room.js" defer></script>
+<script defer>
+    // prevents sending another POST request on refresh
+    if (window.history.replaceState)
+        window.history.replaceState( null, null, window.location.href );
+</script>
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="full-height">
+    <div id="room-container">
+        <h1 class="chat-h1">Chats</h1>
+        <div id="chat-room-widget">
+            <div id="msg-container">
+                <ul id="messages">
+                {% for message in messages %}
+                {% set class = "chat-sender" if message['user_from'] == senderEmail else "chat-reciever" %}
+                <li class="{{class}}">{{message['text']}}</li>
+                {% endfor %}
+                </ul>
+            </div>
+            <form id="msg-box" action="{{url_for('chat.room', type=type, combined_id=combined_id, recieverEmail=recieverEmail)}}" method="POST">
+                <input type="text" placeholder="Enter your message" 
+                name="message" class="chat-message-input">
+                    <button type="submit" id="send-btn">Send</button>
+            </form>
+            {% if error %}
+            <p class="error">Error: {{error}}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

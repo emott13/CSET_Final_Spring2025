@@ -4,7 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, text
 from flask_login import LoginManager, UserMixin, current_user
 from flask_bcrypt import Bcrypt
-from flask_socketio import SocketIO, join_room, leave_room, send
 
 # USEFUL flask_login COMMANDS
 # @app.route("/foo")
@@ -24,9 +23,6 @@ app.config["SECRET_KEY"] = b'\xdak\xd2\xf7\x80,8\x0f\xbdG\xb7\x87\xe4h\xcf\xae'
 
 # Initialize bcrypt
 bcrypt = Bcrypt(app)
-
-# Initalize socketIO (for chats)
-socketio = SocketIO(app)
 
 # Initialize database and login manager
 db = SQLAlchemy(app)

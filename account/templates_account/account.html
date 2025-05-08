@@ -31,7 +31,7 @@
                     <tr>
                         <td colspan="2">Last Message</td>
                         <td colspan="2" id="formSubmit">{{ chat.text }} <i class="ion-chevron-right"></i></td>
-                        <form action="{{ url_for('account.chat') }}" method="GET" name="chat" id="chatForm">
+                        <form action="{{ url_for('chat.home') }}" method="GET" name="chat" id="chatForm">
                             <input type="hidden" value="{{ chat.cid }}" name="data" id="input">
                         </form>
                     </tr>

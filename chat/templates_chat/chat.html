@@ -1,0 +1,11 @@
+<link rel="stylesheet" href="../../static/styles/styles.css">
+<script src="/chat/static_chat/scripts/chat.js"></script>
+<script defer>
+    // prevents sending another POST request on refresh
+    if (window.history.replaceState)
+        window.history.replaceState( null, null, window.location.href );
+</script>
+{% extends 'base.html' %}
+{% block body %}
+
+{% endblock %}

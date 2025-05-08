@@ -64,4 +64,4 @@ app.register_blueprint(order_bp)
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    app.run(debug=True)
