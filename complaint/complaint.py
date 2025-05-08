@@ -9,6 +9,8 @@ complaint_bp = Blueprint('complaint', __name__, static_folder='static_complaint'
 @complaint_bp.route("/", methods=["GET"])
 @login_required
 def complaint():
+    if getCurrentType() == "admin":
+        return redirect(url_for("complaint.admin"))
     complaints = dict_db_data('complaints', f"WHERE submitted_by = '{current_user.email}'")
     print(complaints)
     return render_template("complaint.html", complaints=complaints)
