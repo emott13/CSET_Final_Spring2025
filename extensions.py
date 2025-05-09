@@ -115,6 +115,19 @@ def timeOnlyFormat(value: datetime.datetime) -> str:
     # formats like "09:10:32 PM"
     return value.strftime("%I:%M:%S %p")
 
+@app.template_filter()
+def chatDateFormat(value: datetime.datetime) -> str:
+    """Sets the date to Today or Yesterday if that's true"""
+    currentTime = datetime.datetime.now()
+    if value.date() == currentTime.date():
+        # formats like "Today at 11:59 PM"
+        return value.strftime("Today at %-I:%M %p")
+    elif value.date() == currentTime.date() - datetime.timedelta(1):
+        # formats like "Yesterday at 11:59 PM"
+        return value.strftime("Yesterday at %-I:%M %p")
+    # formats like "Sun, Dec 05, 2026 11:59 PM"
+    return value.strftime("%a, %b %d, %Y %-I:%M %p")
+
 # Load user for Flask-Login
 @login_manager.user_loader
 def load_user(user_id):

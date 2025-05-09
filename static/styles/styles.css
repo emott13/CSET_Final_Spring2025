@@ -643,3 +643,89 @@ h1 {
 }
 
 /* COMPLAINT END */
+
+
+/* CHAT START */
+
+.room-container {
+    min-width: 500px;
+    max-width: 800px;
+    width: 100%;
+    font-family: var(--font-main)
+}
+
+#chat-room-widget {
+    width: 100%;
+}
+
+.msg-container {
+    width: 100%;
+    max-height: calc(var(--page-height) - 15vh);
+    overflow-y: scroll;
+}
+
+#messages {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+}
+
+.chat-box {
+    font-weight: 500;
+    max-width: 50%; 
+    background-color: white;
+    padding: .5rem 1rem;
+    margin-bottom: .5rem;
+    border-radius: 10px;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+.chat-sender {
+    margin-left: auto;
+    border-bottom-right-radius: 0;
+}
+
+.chat-sender > .chat-date {
+    float: right;
+}
+
+.chat-reciever {
+    margin-right: auto;
+    color: white;
+    background-color: var(--color-blue);
+    border-bottom-left-radius: 0;
+}
+
+.chat-date {
+    float: left;
+}
+
+#msg-box {
+    display: flex;
+    min-height: 40px;
+}
+
+#chat-message-input {
+    width: 100%;
+    font-size: 1rem;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    resize: none;
+    field-sizing: content; /* Only works on chromium currently */
+}
+
+#send-btn {
+    color: white;
+    background-color: var(--color-blue);
+    border: none;
+    margin: 0;
+    font-size: 1.1rem;
+    width: 75px;
+    cursor: pointer;
+}
+
+#send-btn
+
+/* CHAT END */

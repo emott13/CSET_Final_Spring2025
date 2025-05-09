@@ -14,7 +14,7 @@
     --color-error-red: #ed4112;
     --color-success-green: #53ac54;
     --color-blue: #3776eb;
-    --page-height: calc(100vh - 125px - 103px);
+    --page-height: calc(100vh - (155px + 103px));
     --color-purple-white: #f7f2f7;
     --color-red-white: #dbc0c0;
     --color-white: #fffaf4;

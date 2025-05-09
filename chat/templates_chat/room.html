@@ -8,21 +8,27 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<div class="full-height">
-    <div id="room-container">
+<div class="full-height container">
+    <div class="inner room-container">
         <h1 class="chat-h1">Chats</h1>
         <div id="chat-room-widget">
-            <div id="msg-container">
+            <div class="msg-container">
                 <ul id="messages">
                 {% for message in messages %}
                 {% set class = "chat-sender" if message['user_from'] == senderEmail else "chat-reciever" %}
-                <li class="{{class}}">{{message['text']}}</li>
+                    <li class="chat-box {{class}}">
+                        <span class="chat-message">{{message['text']}}</span>
+                        <br>
+                        <small class="chat-date">{{message['date_time']|chatDateFormat}}</small>
+                    </li>
                 {% endfor %}
+                    <li id="scroll"></li>
                 </ul>
             </div>
             <form id="msg-box" action="{{url_for('chat.room', type=type, combined_id=combined_id, recieverEmail=recieverEmail)}}" method="POST">
-                <input type="text" placeholder="Enter your message" 
-                name="message" class="chat-message-input">
+                <textarea type="text" placeholder="Enter your message" 
+                name="message" id="chat-message-input" class="chat-message-input"
+                maxlength="499"></textarea>
                     <button type="submit" id="send-btn">Send</button>
             </form>
             {% if error %}
