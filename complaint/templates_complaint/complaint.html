@@ -28,12 +28,6 @@
                         <td>Demand: </td>
                         <td>{{ complaint['demand'] }}</td>
                     </tr>
-                    {% if complaint['reviewed_by'] %}
-                    <tr class="orderRow">
-                        <td>Reviewed By: </td>
-                        <td>{{ complaint['reviewed_by'] }}</td>
-                    </tr>
-                    {% endif %}
                     <tr class="orderRow">
                         <td>Title: </td>
                         <td>{{ complaint['title']}}</td>
@@ -42,6 +36,20 @@
                         <td>Description: </td>
                         <td class="complaint-desc-view">{{ complaint['description']}}</td>
                     </tr>
+                    {% if complaint['reviewed_by'] %}
+                    <tr class="orderRow">
+                        <td>Reviewed By: </td>
+                        <td>{{ complaint['reviewed_by'] }}</td>
+                    </tr>
+                    <tr class="orderRow">
+                        <td>Not happy?</td>
+                        <td>
+                            <button class="btn complaint-btn"
+                            onclick="document.location.href = `{{url_for('chat.room', type='complaint', combined_id=complaint['complaint_id'], recieverEmail=complaint['reviewed_by'])}}`">Chat With The Admin</button>
+                        </td>
+                    </tr>
+
+                    {% endif %}
                 </table>
             {% endfor %}
         </div>

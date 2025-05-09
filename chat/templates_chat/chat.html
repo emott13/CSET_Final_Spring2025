@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="../../static/styles/styles.css">
+<link rel="stylesheet" href="../../static_order/order.css">
 <script src="/chat/static_chat/scripts/chat.js"></script>
 <script defer>
     // prevents sending another POST request on refresh
@@ -7,5 +8,18 @@
 </script>
 {% extends 'base.html' %}
 {% block body %}
+
+<div class="full-height container">
+    <div class="inner room-container">
+        <h1 class="chat-h1">Open Complaint Chats</h1>
+        {% for chats in toEmailsComplaints %}
+        <table class="orderTable">
+            <tr class="orderRow">
+                <td>Complaint ID: </td>
+                <td>{{ complaintId }}</td>
+        </table>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}
