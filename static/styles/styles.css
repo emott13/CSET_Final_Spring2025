@@ -653,6 +653,10 @@ h1 {
 
 /* CHAT START */
 
+.chat-btn {
+    width: 100%;
+}
+
 .room-container {
     min-width: 500px;
     max-width: 800px;
@@ -666,6 +670,7 @@ h1 {
 
 .msg-container {
     width: 100%;
+    min-height: 600px;
     max-height: calc(var(--page-height) - 15vh);
     overflow-y: scroll;
 }
@@ -733,5 +738,4 @@ h1 {
 }
 
 #send-btn
-
 /* CHAT END */
