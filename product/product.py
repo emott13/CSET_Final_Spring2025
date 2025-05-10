@@ -69,7 +69,8 @@ def product(productId, variantId=None, error=None):
         'product_title': 2,
         'product_description': 3,
         'warranty_months': 4,
-        'username': 5
+        'username': 5,
+        'full_name': 6
     }
     vi = { # variant indexes
         'variant_id': 0,
@@ -100,9 +101,11 @@ def product(productId, variantId=None, error=None):
     # product data. Index like this productData[pi['product_title']]
     productData = conn.execute(text(
         "SELECT product_id, vendor_id, product_title, "
-        "product_description, warranty_months, username FROM products "
+        "product_description, warranty_months, username, "
+        "CONCAT(users.first_name, ' ', users.last_name) AS full_name FROM products "
         "JOIN users ON products.vendor_id = users.email "
         f"WHERE product_id = {productId}")).first()
+    print(f"productData:\n{productData}\n")
     # variant data. Index like this variantData[vi['price']]
     variantData = conn.execute(text(
         "SELECT variant_id, product_id, pv.color_id, pv.size_id, "

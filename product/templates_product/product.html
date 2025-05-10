@@ -20,7 +20,7 @@
 
             <div class="product-info-container">
                 <h1 class="product-title">{{productData[pi['product_title']]}}</h1>
-                <p class="vendor-username">Vendor: {{productData[pi['username']]}}</p>
+                <p class="vendor-username">Vendor: {{productData[pi['full_name']]}}</p>
                 <div class="product-rating">
                     {% if reviewsAvg %}
                         {% if reviewsAvg > 0.7 %}
@@ -119,6 +119,10 @@
                         This product has a {{productData[pi['warranty_months']]}} month warranty
                     </p>
                 {% endif %}
+                <h2 class="product-description-h2 top-margin">Have Questions?</h2>
+                <button class="btn product-chat-btn" onclick="document.location.href = 
+                `{{url_for('chat.room', type='product', combined_id=productData[pi['product_id']], 
+                           recieverEmail=productData[pi['vendor_id']])}}`">Chat With {{productData[pi['full_name']]}}</button>
             </div>
 
         </div>

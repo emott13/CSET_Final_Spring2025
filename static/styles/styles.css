@@ -613,6 +613,10 @@ h1 {
     max-width: 200px;
 }
 
+.product-chat-btn {
+    margin-top: 1rem;
+}
+
 /* PRODUCT MANAGE END */
 
 /* COMPLAINT START */
@@ -653,9 +657,6 @@ h1 {
 
 /* CHAT START */
 
-.chat-btn {
-    width: 100%;
-}
 
 .room-container {
     min-width: 500px;
