@@ -85,6 +85,10 @@ h1 {
     filter: brightness(90%);
 }
 
+.border {
+    border: 1px solid black;
+}
+
 .full-height {
     min-height: var(--page-height);
 }

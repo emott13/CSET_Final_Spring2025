@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="/static/styles/styles.css">
+<script defer>
+    // prevents sending another POST request on refresh
+    if (window.history.replaceState)
+        window.history.replaceState( null, null, window.location.href );
+</script>
+{% extends 'base.html' %}
+{% block body %}
+<div class="full-height">
+    <h1 class="center">Admin Applications</h1>
+    <table class="center border top-margin">
+        <tr class="border">
+            <td class="border">Email</td>
+            <td class="border">Username</td>
+            <td class="border">First Name</td>
+            <td class="border">Last Name</td>
+            <td class="border">Accept</td>
+            <td class="border">Deny</td>
+        </tr>
+        {% for a in appli %}
+        <tr class="border">
+            <td class="border">{{a['email']}}</td>
+            <td class="border">{{a['username']}}</td>
+            <td class="border">{{a['first_name']}}</td>
+            <td class="border">{{a['last_name']}}</td>
+            <td class="border"><form action="{{url_for('register.applicationsPost', accept=True, email=a['email'])}}"
+                                method="POST">
+                <button type="submit" class="btn">Accept</button>
+            </form></td>
+            <td class="border"><form action="{{url_for('register.applicationsPost', accept=False, email=a['email'])}}"
+                                method="POST">
+                <button type="submit" class="btn">Deny</button>
+            </form></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

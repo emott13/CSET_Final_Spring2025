@@ -13,6 +13,14 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR(60) NOT NULL,
     type ENUM('vendor', 'admin', 'customer') NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS admin_appli (
+	email VARCHAR(255) PRIMARY KEY, 										-- using email like a user id since unique
+    username VARCHAR(255) NOT NULL UNIQUE,
+    hashed_pswd VARCHAR(300) NOT NULL, 										-- hashed passwords needed more space in prev programs so using 300 instead of 255
+    first_name VARCHAR(60) NOT NULL,
+    last_name VARCHAR(60) NOT NULL
+);
 -- products related tables
 CREATE TABLE IF NOT EXISTS categories(					-- product categories for search / filter
 	cat_num INT PRIMARY KEY,
