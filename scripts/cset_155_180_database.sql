@@ -249,6 +249,8 @@ VALUES
     (506, 'Office Desks'),
     (507, 'Office Storage'),
 	(508, 'Office Mats & Rugs');
+    
+select * from products where cat_num = 301;
 
 INSERT INTO products (vendor_id, product_title, product_description, warranty_months, cat_num)
 VALUES
@@ -531,6 +533,7 @@ VALUES
 	(850555, null, 20, 2274, 50),		-- 100201
     (850555, null, 21, 2649, 18),		-- 100202
     (850555, null, Null, 90.39, 10),			-- 320-Pack
+    
 	(850556, 19781, 15, 299, 100),		-- 100203
 	(850556, 19782, 15, 299, 100),		-- 100204
 	(850556, 19783, 15, 299, 100),		-- 100205

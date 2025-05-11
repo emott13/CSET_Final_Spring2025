@@ -303,7 +303,8 @@ h1 {
 }
 
 #size-selected,
-#color-selected {
+#color-selected,
+#spec-selected {
     font-weight: 800;
 }
 
@@ -320,15 +321,16 @@ h1 {
 }
 
 .variant-size-container {
-    text-decoration: none;
-    color: black;
     margin: .25rem;
     border: 1px solid black;
     border-radius: 10px;
+    text-decoration: none;
+    color: black;
 }
 
 .variant-size,
-.variant-color {
+.variant-color,
+.variant-spec {
     font-size: .8rem;
     overflow: hidden;
     font-weight: 700;
@@ -336,14 +338,14 @@ h1 {
 }
 
 .variant-price {
-    font-size: .8rem;
+    font-size: 1rem;
 }
 
 .variant-color-size,
 .variant-price {
     margin: .25rem;
     width: 75;
-    height: 35;
+    height: fit-content;
 }
 
 .variant-separator {

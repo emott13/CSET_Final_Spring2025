@@ -24,7 +24,7 @@ function compareRating(a, b) {
 
 
 document.addEventListener("click", (e) => {
-    if(e.target.parentNode.className === "product-img-small") {
+    if(e.target.parentNode.className == "product-img-small") {
         mainImageDOM.src = e.target.src
     }
     

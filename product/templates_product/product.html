@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/static/styles/styles.css">
-<script src="/static_product/js/product.js" defer></script>
+<script src="../static_product/js/product.js" defer></script>
 {% extends 'base.html' %}
 {% block body %}
     <div class="full-height full-width">
@@ -7,20 +7,20 @@
 
             <div class="product-image-container">
                 {% if imageData|length %}
-                    <img class="product-img" src="{{imageData[0][ii['file_path']]}}">
+                    <img class="product-img" src="{{ imageData[0].file }}">
                 {% endif %}
                 <div class="product-img-select">
                     {% for image in imageData %}
                         <div class="product-img-small">
-                            <img src="{{image[ii['file_path']]}}">
+                            <img src="{{ image.file }}">
                         </div>
                     {% endfor %}
                 </div>
             </div>
 
             <div class="product-info-container">
-                <h1 class="product-title">{{productData[pi['product_title']]}}</h1>
-                <p class="vendor-username">Vendor: {{productData[pi['username']]}}</p>
+                <h1 class="product-title">{{ productData.title }}</h1>
+                <p class="vendor-username">Vendor: {{ productData.vend_id }}</p>
                 <div class="product-rating">
                     {% if reviewsAvg %}
                         {% if reviewsAvg > 0.7 %}
@@ -58,11 +58,11 @@
 
 
                 <div class="flex flex-between">
-                    {% if allDiscountData[variantData[vi['variant_id']]] and 
-                        allDiscountData[variantData[vi['variant_id']]] < variantData[vi['price']] %}
-                        <h3 class="product-price">${{ allDiscountData[variantData['variant_id']]|priceFormat }}</h3>
+                    {% if allDiscountData[variantData.vid] and 
+                        allDiscountData[variantData.vid].price < variantData.price %}
+                        <h3 class="product-price">${{ allDiscountData[variantData.vid].price|priceFormat }}</h3>
                     {% else %}
-                        <h3 class="product-price">${{ variantData[vi['price']]|priceFormat }}</h3>
+                        <h3 class="product-price">${{ variantData.price|priceFormat }}</h3>
                     {% endif %}
                     {% if error %}
                         <p class="error product-small-font">{{error}}</p>
@@ -72,51 +72,70 @@
                         <input type="submit" class="btn" value="Add To Cart">
                     </form>
                 </div>
-                {% if allDiscountData[variantData[vi['variant_id']]] and 
-                    allDiscountData[variantData[vi['variant_id']]] < variantData[vi['price']] %}
-                    <p class="product-list-price">List Price: <s>${{ variantData[vi['price']]|priceFormat }}</s></p>
-                    {% if bestDiscount['end_date'] %}
-                        <p>Discount ends: {{bestDiscount['end_date']|dateFormat}}</p>
+                {% if allDiscountData[variantData.vid] and 
+                    allDiscountData[variantData.vid].price < variantData.price %}
+                    <p class="product-list-price">List Price: <s>${{ variantData.price|priceFormat }}</s></p>
+                    {% if bestDiscount.end %}
+                        <p>Discount ends: {{ bestDiscount.end|dateFormat }}</p>
                     {% endif %}
                 {% endif %}
+                
+                {% if variantData.s_descr != 'None' %}
+                <p class="product-size-selected product-small-font">Size: <a id="size-selected">{{ variantData.s_descr }}</a></p>
+                {% endif %}
 
-                <p class="product-size-selected product-small-font">Size: <a id="size-selected">{{variantData[vi['size_description']]}}</a></p>
+                {% if variantData.sp_descr != 'None' %}
+                <p class="product-spec-selected product-small-font">Details: <a id="spec-selected">{{ variantData.sp_descr }}</a></p>
+                {% endif %}
+
+                {% if variantData.c_name != 'None' %}
                 <p class="product-color-selected product-small-font">
-                    Color: <a id="color-selected">{{variantData[vi['color_name']]}}</a>
-                    {% if variantData[vi['color_hex']] != 'NULL' %}
-                        <a class="product-color-box" style="background-color: {{variantData[vi['color_hex']]}}"></a>
+                    Color: <a id="color-selected">{{ variantData.c_name }}</a>
+                    {% if variantData.hex and variantData.hex != 'NULL' and variantData.hex != 'None' %}
+                        <a class="product-color-box" style="background-color: {{ variantData.hex }}"></a>
                     {% endif %}
                 </p>
+                {% endif %}
+
                 <div class="product-sizes-container">
-                    {% for variant in allVariantData %}
-                    <a class="variant-size-container" href="/product/{{variant[vi['product_id']]}}/{{variant[vi['variant_id']]}}">
-                        <div class="variant-color-size">
-                            <p class="variant-size">{{variant[vi['size_description']]}}</p>
-                            <p class="variant-color">{{variant[vi['color_name']]}}</p>
-                        </div>
-                        <div class="variant-separator"></div>
-                        {% if variantData[vi['color_hex']] != 'NULL' %}
-                            <p class="variant-color-back" style="background-color: {{variant[vi['color_hex']]}}"></p>
-                        {% endif %}
-                        <div class="variant-separator"></div>
-                        <div class="variant-price">
-                            {% if allDiscountData[variant[vi['variant_id']]] and 
-                                allDiscountData[variant[vi['variant_id']]] < variant[vi['price']] %}
-                                    <p class="">${{ allDiscountData[variant[vi['variant_id']]]|priceFormat }}</p>
-                                    <p class=""><s>${{ variant[vi['price']]|priceFormat }}</s></p>
-                            {% else %}
-                                <p class="">${{ variant[vi['price']]|priceFormat }}</p>
+                    {% for variant in allVariantsData %}
+                        <a class="variant-size-container" href="{{ url_for('product.product', product_id=variant.pid, variant_id=variant.vid)}}">
+                            <div class="variant-color-size">
+                                {% if variant.s_descr != 'None' %}
+                                <p class="variant-size">{{ variant.s_descr }}</p>
+                                {% endif %}
+                                
+                                {% if variant.sp_descr != 'None' %}
+                                <p class="variant-spec">{{ variant.sp_descr }}</p>
+                                {% endif %}
+                                
+                                {% if variant.c_name != 'None' %}
+                                <p class="variant-color">{{ variant.c_name }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="variant-separator"></div>
+                            {% if variant.hex != 'NULL' %}
+                                <p class="variant-color-back" style="background-color: {{ variant.hex }}"></p>
                             {% endif %}
-                        </div>
-                    </a>
+                            <div class="variant-separator"></div>
+                            <div class="variant-price">
+                                {% if allDiscountData[variant.vid] and 
+                                    allDiscountData[variant.price] < variant.price %}
+                                        <p class="">${{ allDiscountData[variant.vid].price|priceFormat }}</p>
+                                        <p class=""><s>${{ variant.price|priceFormat }}</s></p>
+                                {% else %}
+                                    <p class="">${{ variant.price|priceFormat }}</p>
+                                {% endif %}
+                            </div>
+                        </a>
                     {% endfor %}
                 </div>
 
                 <h2 class="product-description-h2 top-margin">Description</h2>
-                <p class="product-description top-margin product-small-font">{{productData[pi['product_description']]}}</p>
-                {% if productData[pi['warranty_months']] > 0 %}
+                <p class="product-description top-margin product-small-font">{{ productData.description }}</p>
+                {% if productData.warranty > 0 %}
                     <p class="product-warranty top-margin product-small">
-                        This product has a {{productData[pi['warranty_months']]}} month warranty
+                        This product has a {{ productData.warranty }} month warranty
                     </p>
                 {% endif %}
             </div>
@@ -134,11 +153,11 @@
                 {% set ns = namespace(prev=0) %}
                 {% set ns.reviewExists = False %}
                 {% for review in reviewsData %}
-                    {% if review['customer_email'] == email %}
+                    {% if review.email == email %}
                         {% set ns.reviewExists = True %}
                     {% endif %}
                 {% endfor %}
-                {% if getCurrentType == "customer" and not ns.reviewExists %}
+                {% if userType == "customer" and not ns.reviewExists %}
                     <form action="{{url_for('product.submitReview', productId=productId, variantId=variantId)}}" method="POST" class="product-reviews-create product-reviews-background">
                         <h2>Leave a review!</h2>
                         <div class="create-review-container">
@@ -209,34 +228,34 @@
                 </div>
 
                 {% for review in reviewsData %}
-                    <div class="product-review product-reviews-background" data-date="{{review[ri['date_time']]}}" data-rating="{{review[ri['rating']]}}">
+                    <div class="product-review product-reviews-background" data-date="{{ review.date }}" data-rating="{{ review.rating }}">
                         <div class="product-review-row1">
-                        {% if review[ri['customer_email']] == email %}
+                        {% if review.email == email %}
                             <form action="{{url_for('product.reviewDelete', productId=productId, variantId=variantId, reviewId=review['review_id'])}}" 
                             method="POST">
                                 <button class="btn btn-delete review-delete">Delete</button>
                             </form>
                         {% endif %}
-                            <p class="product-review-name product-reviews-inner-background">By: {{review[ri['full_name']]}}</p>
+                            <p class="product-review-name product-reviews-inner-background">By: {{ review.email }}</p>
                             <div class="product-review-stars product-reviews-inner-background">
                                 {% for i in range(1, 6) %}
-                                    {% if i <= review[ri['rating']] %}
+                                    {% if i <= review.rating %}
                                         <i class="fa-solid fa-star star-orange"></i>
                                     {% else %}
                                         <i class="fa-regular fa-star star-orange"></i>
                                     {% endif %}
                                 {% endfor %}
                             </div>
-                            <p class="product-review-date product-reviews-inner-background">{{review[ri['date']]}}</p>
+                            <p class="product-review-date product-reviews-inner-background">{{ review.date }}</p>
                         </div>
-                        {% if review[ri['description']] %}
+                        {% if review.description %}
                             <div class="product-review-description product-reviews-inner-background">
-                                <p>{{review[ri['description']]}}</p>
+                                <p>{{ review.description }}</p>
                             </div>
                         {% endif %}
-                        {% if review[ri['image']] %}
+                        {% if review.image %}
                             <div class="product-review-image">
-                                <img src="{{review[ri['image']]}}" class="product-reviews-inner-background">
+                                <img src="{{ review.image }}" class="product-reviews-inner-background">
                             </div>
                         {% endif %}
                     </div>
@@ -244,4 +263,12 @@
             </div>
         </section>
     </div>
+    <script>
+        document.addEventListener("click", (e) => {
+            let mainImageDOM = document.getElementsByClassName("product-img")[0]
+            if(e.target.parentNode.className == "product-img-small") {
+                mainImageDOM.src = e.target.src
+            }
+        });
+    </script>
 {% endblock %}

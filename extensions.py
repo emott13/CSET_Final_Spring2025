@@ -15,7 +15,8 @@ from flask_bcrypt import Bcrypt
 
 
 # Initialize Flask app
-conn_str = "mysql://root:cset155@localhost/goods"
+# conn_str = "mysql://root:cset155@localhost/goods" <-- main database
+conn_str = "mysql://root:cset155@localhost/goods_fix" # <-- database for testing changes
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = conn_str
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
