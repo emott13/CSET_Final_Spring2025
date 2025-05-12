@@ -61,6 +61,7 @@ def register():
                                 first_name=first_name, last_name=last_name, type=type)
                 db.session.add(new_user)
                 db.session.commit()
+                conn.commit()
                 success = "Created account. <a href=\"/login\">Login</a>"
 
             return render_template("register.html", success=success, isAdmin=isAdmin) 

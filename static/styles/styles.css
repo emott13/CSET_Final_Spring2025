@@ -462,6 +462,7 @@ h1 {
 }
 
 .product-review-description {
+    min-width: 500px;
     margin-top: 1rem;
 }
 
