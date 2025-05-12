@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from flask_login import LoginManager, UserMixin, current_user
+from flask_login import LoginManager, UserMixin, current_user, login_required
 from sqlalchemy import text
 from extensions import conn
 from search.search import toDollar
@@ -7,6 +7,7 @@ from search.search import toDollar
 account_bp = Blueprint('account', __name__, static_folder='static_account', template_folder='templates_account')
 
 @account_bp.route('/account')
+@login_required
 def account():
     user = current_user.email
     userData = conn.execute(
