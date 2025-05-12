@@ -67,10 +67,16 @@
                     {% if error %}
                         <p class="error product-small-font">{{error}}</p>
                     {% endif %}
+                    {% if variantData[vi['current_inventory']] > 0 %}
                     <form action="" method="POST" class="product-cart-form">
                         <input type="number" name="number" value="1" min="1" max="100" onchange="checkNum(this)">
                         <input type="submit" class="btn" value="Add To Cart">
                     </form>
+                    {% else %}
+                    <div class="product-cart-form">
+                        <button class="btn btn-disabled">Sold Out</button>
+                    </div>
+                    {% endif %}
                 </div>
                 {% if allDiscountData[variantData[vi['variant_id']]] and 
                     allDiscountData[variantData[vi['variant_id']]] < variantData[vi['price']] %}
@@ -78,6 +84,9 @@
                     {% if bestDiscount['end_date'] %}
                         <p>Discount ends: {{bestDiscount['end_date']|dateFormat}}</p>
                     {% endif %}
+                {% endif %}
+                {% if variantData[vi['current_inventory']] < 20 and variantData[vi['current_inventory']] > 0 %}
+                    <p class="product-list-price">Only {{variantData[vi['current_inventory']]}} left</s></p>
                 {% endif %}
 
                 <p class="product-size-selected product-small-font">Size: <a id="size-selected">{{variantData[vi['size_description']]}}</a></p>

@@ -75,6 +75,14 @@ h1 {
     background-color: var(--color-dark-purple);
 }
 
+.btn-disabled {
+    cursor: not-allowed;
+}
+
+.btn-disabled:hover {
+    background-color: var(--color-purple);
+}
+
 .btn-delete {
     background-color: var(--color-error-red);
     border: 0;
