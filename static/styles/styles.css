@@ -433,6 +433,19 @@ h1 {
     margin-right: 1rem;
 }
 
+#review-description {
+    font-family: var(--font-main);
+    width: 600px;
+    word-spacing: normal;
+    resize: none;
+}
+
+#review-image {
+    font-family: var(--font-main);
+    width: 200px;
+    field-sizing: content; /* Only works on chromium currently */
+}
+
 .product-review-row1 {
     display: flex;
     justify-content: center;
