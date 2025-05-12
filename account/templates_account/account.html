@@ -44,6 +44,9 @@
             </div>
         {% endif %}
         <div class="ordersContainer">
+            {% if account.type == 'vendor' or account.type == 'admin' %}
+                <a href="{{ url_for('product_manage.manage') }}" class="ordersBtn">Manage Products</a>
+            {% endif %}
             <a href="{{ url_for('order.order') }}" class="ordersBtn">view orders</a>
             <a href="{{ url_for('complaint.complaint') }}" class="ordersBtn">view complaints</a>
             <a href="{{ url_for('chat.home') }}" class="ordersBtn">view chats</a>

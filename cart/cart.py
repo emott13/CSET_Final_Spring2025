@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user, login_required
 from sqlalchemy import text
-from extensions import conn
+from extensions import conn, getCurrentType
 from search.search import toDollar
 
 cart_bp = Blueprint('cart', __name__, static_folder='static_cart', template_folder='templates_cart')
@@ -9,6 +9,8 @@ cart_bp = Blueprint('cart', __name__, static_folder='static_cart', template_fold
 @cart_bp.route('/cart', methods = ['GET', 'POST'])
 @login_required
 def cart(messageString=None):
+    if getCurrentType() != 'customer':
+        return redirect(url_for('login.login', error="Error: You must be signed in as a customer to order items"))
 
     # print('Message from param:', messageString)
     user = current_user.email

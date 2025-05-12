@@ -185,6 +185,7 @@
                         <input type="submit" class="btn" value="Create Variant">
                     </form>
                 </div>
+                {% for variant in productIdVariants[p['product_id']] %}
                 <table class="variant-modify-table">
                     <tr>
                         <th>DELETE</th>
@@ -197,7 +198,6 @@
                         <th>Inventory</th>
                         <th>URLs</th>
                     </tr>
-                    {% for variant in productIdVariants[p['product_id']] %}
                         <tr>
                             </form>
                             <form action="{{url_for('product_manage.variantDelete', variantId=variant['variant_id'])}}" method="POST" onsubmit="return confirm('Do you really want to delete this item? This cannot be undone.');">
@@ -237,6 +237,7 @@
                         </tr> 
                     {% endfor %}
                 </table>
+                {% if productIdVariants[p['product_id']] %}
                 <form class="manage-discount-form" action="{{url_for('product_manage.discount', method='create')}}" method="POST">
                     <h2>Add Discount</h2>
                     <p class="discount-hint">Hint: Start date and/or end date can be blank (meaning it starts now and/or it never ends)</p>
@@ -296,6 +297,7 @@
                     {% endfor %}
                     {% endfor %}
                 </table>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
