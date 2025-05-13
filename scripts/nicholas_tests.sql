@@ -11,6 +11,7 @@ SELECT * FROM sizes;
 SELECT * FROM images;
 SELECT * FROM categories;
 SELECT * FROM orders;
+SELECT * FROM order_items;
 SELECT * FROM complaints;
 DELETE FROM complaints WHERE complaint_id = 7;
 SELECT * FROM reviews; 

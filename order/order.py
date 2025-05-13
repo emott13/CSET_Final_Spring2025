@@ -12,7 +12,7 @@ order_bp = Blueprint('order', __name__, static_folder='static_order', template_f
 def order():
     user = current_user.email
     total = request.form.get('total')
-    print('* * * * * *TOTAL', total)
+    # print('* * * * * *TOTAL', total)
     totalInCents = toCents(total)
     now = datetime.now()
     if total == '$0.00':
@@ -25,7 +25,7 @@ def order():
     if request.method == 'GET':
         orders_map, orderCount = getOrders(user)
         try:
-            print('! ! ! ! !', message)
+            # print('! ! ! ! !', message)
             return redirect(url_for('cart.cart', message=message))                                # user orders, message, order count
         except UnboundLocalError:
             return render_template('order_get.html',orders=orders_map,                          # render order page with
@@ -41,7 +41,7 @@ def order():
                  '''),
                 {'user': user}
         ).fetchall()
-        print('curr cart', currentCart)
+        # print('curr cart', currentCart)
         if currentCart is None or currentCart == []:
             return render_template('cart.html', messageString='There was an error placing your order.')
 
@@ -132,14 +132,16 @@ def order():
 def vendor():
     if getCurrentType() != 'vendor':
         redirect(url_for("home.home"))
+
+    error = request.args.get("error")
     vendorOrders = getVendorOrders(current_user.email)
     statuses = sql_enum_list(
         conn.execute(text("SHOW COLUMNS FROM order_items LIKE 'status'")).all()[0][1])
-    # print(vendorOrders)
+    print(vendorOrders[0]['status'])
     # print(statuses)
 
     return render_template("order_vendor.html", vendorOrders=vendorOrders, 
-                           statuses=statuses)
+                           statuses=statuses, error=error)
 
 @order_bp.route("/order/vendor/<int:orderItemId>", methods=["POST"])
 def updateOrder(orderItemId):
@@ -150,7 +152,40 @@ def updateOrder(orderItemId):
            NATURAL JOIN products 
            WHERE vendor_id = :vendorId AND order_item_id = :orderItemId"""),
            {'vendorId': current_user.email, 'orderItemId': orderItemId}).first())
-    print(userOwns)
+    newStatus = request.form.get("status")
+
+    if userOwns:
+        # try:
+        conn.execute(text("""
+            UPDATE order_items 
+            SET status = :newStatus
+            WHERE order_item_id = :orderItemId"""),
+            {'newStatus': newStatus, 'orderItemId': orderItemId})
+        conn.commit()
+
+        orderId = conn.execute(text("SELECT order_id FROM order_items WHERE order_item_id = :orderItemId"),
+                                    {'orderItemId': orderItemId}).first()[0]
+        orderItems = conn.execute(text("SELECT order_items.status FROM order_items WHERE order_id = :orderId"),
+                                       {'orderId': orderId}).all()
+        print(f"orderId: {orderId}")
+        print(f"orderItems: {orderItems}")
+        status = None
+        sameStatus = True
+        for item in orderItems:
+            if status == None:
+                status = item[0]
+            else:
+                if status != item[0]:
+                    sameStatus = False
+                    break
+        if sameStatus:
+            conn.execute(text("UPDATE orders SET status = :status WHERE order_id = :orderId"),
+                              {'status': status, 'orderId': orderId})
+            conn.commit()
+        
+        # except Exception as e:
+        #     print(f"\n{e}\n")
+        # return redirect(url_for("order.vendor", error="Unable to update status"))
 
     return redirect(url_for("order.vendor"))
 
@@ -159,21 +194,22 @@ def getVendorOrders(user):
     orders_map = []
     orders = conn.execute(
         text('''
-            SELECT order_items.order_id, order_items.status, order_date, total_price, customer_email, 
+            SELECT order_items.order_id, order_items.status, orders.order_date, 
+            orders.total_price, orders.customer_email, 
             quantity, price_at_order_time, vendor_id, product_title, product_description,
             order_item_id
             FROM order_items NATURAL JOIN product_variants NATURAL JOIN products
-            LEFT JOIN orders ON order_items.status = orders.status
+            INNER JOIN orders ON order_items.order_id = orders.order_id
             WHERE vendor_id = :user
-            ORDER BY order_id DESC;
+            ORDER BY order_date, order_item_id DESC;
         '''),
         {'user': user}).fetchall()
     for row in orders:
-        print(row)
-        date, time = row[2].strftime("%B %d, %Y"), row[2].strftime("%H:%M:%S %p")
+        # print(row)
+        date, time = row[2].strftime("%B %d, %Y"), row[2].strftime("%I:%M:%S %p")
         orders_map.append({
             'id': row[0],
-            'status': row[1].title(),
+            'status': row[1],
             'date': date,
             'time': time,
             'total': toDollar(row[3], thousand=True),
@@ -199,7 +235,7 @@ def getOrders(user):
         '''),
         {'user': user}).fetchall()
     for row in orders:                                                                      # map user orders
-        print(row)
+        # print(row)
         date, time = row[2].strftime("%B %d, %Y"), row[2].strftime("%H:%M:%S %p")
         orders_map.append({
             'id': row[0],
