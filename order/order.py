@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user, login_required
 from sqlalchemy import text
 from datetime import datetime
-from extensions import conn, getCurrentType, sql_enum_list
+from extensions import conn, getCurrentType, sql_enum_list, dict_db_data
 from search.search import toCents, toDollar
 
 order_bp = Blueprint('order', __name__, static_folder='static_order', template_folder='templates_order')
@@ -128,6 +128,27 @@ def order():
         return render_template('order_post.html',orders=orders_map,                         # render order page with
                             count=orderCount, message=success)                              # user orders, message, order count
 
+@order_bp.route('/order/<int:orderId>', methods=['GET', 'POST'])
+@login_required
+def orderDetails(orderId):
+    if getCurrentType() != 'customer':
+        return redirect(url_for("login.login"))
+    orderEmail = conn.execute(text("SELECT customer_email FROM orders "
+                                      "WHERE order_id = :orderId"),
+                                      {'orderId': orderId}).first()
+    orderItems = dict_db_data("order_items", 
+        "NATURAL JOIN product_variants NATURAL JOIN products NATURAL JOIN colors "+ 
+        "NATURAL JOIN sizes NATURAL JOIN specifications  "+
+        f"WHERE order_id = {orderId} ",
+        select="product_id, product_title, color_name, size_description, spec_description")
+    print(orderItems)
+    print(orderEmail)
+
+    if orderEmail == None or orderEmail[0] != current_user.email:
+        return redirect(url_for('home.home'))
+
+    return render_template("order_details.html", orderId=orderId, orderItems=orderItems)
+
 @order_bp.route('/order/vendor', methods=['GET'])
 @login_required
 def vendor():
@@ -238,7 +259,7 @@ def getOrders(user):
         {'user': user}).fetchall()
     for row in orders:                                                                      # map user orders
         # print(row)
-        date, time = row[2].strftime("%B %d, %Y"), row[2].strftime("%H:%M:%S %p")
+        date, time = row[2].strftime("%B %d, %Y"), row[2].strftime("%I:%M:%S %p")
         orders_map.append({
             'id': row[0],
             'status': row[1].title(),
