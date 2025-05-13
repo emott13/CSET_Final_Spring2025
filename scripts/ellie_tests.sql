@@ -1,6 +1,16 @@
-select product_id, product_title 
+select *
 from products;
-
+SELECT s.size_id, s.size_description
+FROM products p
+JOIN product_variants v ON p.product_id = v.product_id
+LEFT JOIN sizes s ON v.size_id = s.size_id
+WHERE p.cat_num BETWEEN 1 AND 99;
+select CONCAT("'", cat_name, "':", cat_num) from categories order by cat_num asc;
+SELECT sp.spec_id, sp.spec_description
+FROM products p 
+JOIN product_variants v ON p.product_id = v.product_id
+LEFT JOIN specifications sp ON v.spec_id = sp.spec_id
+WHERE p.cat_num BETWEEN 1 AND 99;
 
 -- select * from images where variant_id between 100227 AND 100240;
 select image_id, file_path from images where variant_id in (100261, 100262);
