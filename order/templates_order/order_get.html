@@ -8,30 +8,34 @@
         <h2 class="orderHeader">Orders:</h2>
         <div class="previousOrders">
             <div class="orderContainer">
-                {% for i in range(0, count) %}
-                    <table class="orderTable">
-                        <tr class="orderRow">
-                            <td>Order number: </td>
-                            <td>{{ orders[i].id }}</td>
-                        </tr>
-                        <tr class="orderRow">
-                            <td>Status: </td>
-                            <td>{{ orders[i].status }}</td>
-                        </tr>
-                        <tr class="orderRow">
-                            <td>Total: </td>
-                            <td>{{ orders[i].total }}</td>
-                        </tr>
-                        <tr class="orderRow">
-                            <td>Submitted on: </td>
-                            <td>{{ orders[i].date }}<br>{{ orders[i].time }}</td>
-                        </tr>
-                        <tr class="orderRow">
-                            <td><button class="btn orderBtn">View order details</button></td>
-                            <td><button class="btn orderBtn" onclick="document.location.href = `{{url_for('complaint.create', orderId=orders[i].id)}}`">Issues with your order?</button></td>
-                        </tr>
-                    </table>
-                {% endfor %}
+                {% if count %}
+                    {% for i in range(0, count) %}
+                        <table class="orderTable">
+                            <tr class="orderRow">
+                                <td>Order number: </td>
+                                <td>{{ orders[i].id }}</td>
+                            </tr>
+                            <tr class="orderRow">
+                                <td>Status: </td>
+                                <td>{{ orders[i].status }}</td>
+                            </tr>
+                            <tr class="orderRow">
+                                <td>Total: </td>
+                                <td>{{ orders[i].total }}</td>
+                            </tr>
+                            <tr class="orderRow">
+                                <td>Submitted on: </td>
+                                <td>{{ orders[i].date }}<br>{{ orders[i].time }}</td>
+                            </tr>
+                            <tr class="orderRow">
+                                <td><button class="btn orderBtn">View order details</button></td>
+                                <td><button class="btn orderBtn" onclick="document.location.href = `{{url_for('complaint.create', orderId=orders[i].id)}}`">Issues with your order?</button></td>
+                            </tr>
+                        </table>
+                    {% endfor %}
+                {% else %}
+                    <h3 class="noOrders">You have no past orders</h3>
+                {% endif %}
             </div>
             
         </div>

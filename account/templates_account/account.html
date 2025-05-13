@@ -47,8 +47,12 @@
             {% if account.type == 'vendor' or account.type == 'admin' %}
                 <a href="{{ url_for('product_manage.manage') }}" class="ordersBtn">Manage Products</a>
             {% endif %}
-            <a href="{{ url_for('order.order') }}" class="ordersBtn">view orders</a>
-            <a href="{{ url_for('complaint.complaint') }}" class="ordersBtn">view complaints</a>
+            {% if account.type == 'customer' %}
+                <a href="{{ url_for('order.order') }}" class="ordersBtn">view orders</a>
+            {% endif %}
+            {% if account.type == 'customer' or account.type == 'admin' %}
+                <a href="{{ url_for('complaint.complaint') }}" class="ordersBtn">view complaints</a>
+            {% endif %}
             <a href="{{ url_for('chat.home') }}" class="ordersBtn">view chats</a>
         </div>
         <a class="btn btn-delete top-margin" href="{{url_for('logout')}}">Log Out</a>
