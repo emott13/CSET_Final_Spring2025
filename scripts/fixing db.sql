@@ -98,6 +98,14 @@ CREATE TABLE IF NOT EXISTS orders (
     status ENUM('pending', 'rejected', 'confirmed', 'processing', 'complete') NOT NULL DEFAULT 'pending',
     order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     total_price INT NOT NULL,													 -- in cents
+    address VARCHAR(255),
+    address2 VARCHAR(255),
+    city VARCHAR(255),
+    state VARCHAR(255),
+    country VARCHAR(255),
+    credit_card VARCHAR(19),
+    card_name VARCHAR(255),
+    card_cvc VARCHAR(4),
     FOREIGN KEY (customer_email) REFERENCES users(email)
 );
 CREATE TABLE IF NOT EXISTS order_items (

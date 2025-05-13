@@ -12,6 +12,7 @@ order_bp = Blueprint('order', __name__, static_folder='static_order', template_f
 def order():
     user = current_user.email
     total = request.form.get('total')
+    error = request.args.get('error')
     # print('* * * * * *TOTAL', total)
     totalInCents = toCents(total)
     now = datetime.now()
@@ -32,6 +33,35 @@ def order():
                                 count=orderCount)                                               # user orders, message, order count
         
     elif request.method == 'POST':
+        address = request.form.get("address", "")
+        address2 = request.form.get('address2', "")
+        city = request.form.get('city', "")
+        state = request.form.get('state', "")
+        country = request.form.get('country', "")
+        creditCard = request.form.get('credit-card', "")
+        cardName = request.form.get('card-name', "")
+        cvc = request.form.get('cvc', "")
+        error = None
+
+        if len(address) > 255 or len(address2) > 255 or not address:
+            error = "Invalid address"
+        elif len(city) > 255 or not city:
+            error = "Invalid city"
+        elif len(state) > 255 or not state:
+            error = "Invalid state / province / territory"
+        elif len(country) > 255 or not country:
+            error = "Invalid country"
+        elif len(creditCard) > 255 or len(creditCard) < 13 or not creditCard or creditCard.isalpha():
+            error = "Invalid credit card"
+        elif len(cardName) > 255 or not cardName:
+            error = "Invalid card name"
+        elif len(cvc) > 4 or len(cvc) < 3 or cvc.isalpha() or not cvc:
+            error = "Invalid card cvc"
+        print(f"error\n{error}")
+
+        if error:
+            return redirect(url_for('cart.cart', message=error))
+
         currentCart = conn.execute(
             text('''
                 SELECT * FROM cart_items
@@ -47,10 +77,15 @@ def order():
 
         conn.execute(                                                                       # create new order
             text('''
-                INSERT INTO orders (customer_email, status, order_date, total_price)
-                VALUES (:user, :status, :date, :total)
+                INSERT INTO orders (customer_email, status, order_date, total_price, 
+                    address, address2, city, state, country, credit_card, card_name, card_cvc)
+                VALUES (:user, :status, :date, :total,
+                    :address, :address2, :city, :state, :country, :creditCard,
+                    :cardName, :cvc)
             '''), 
-            {'user': user, 'status': 'pending', 'date': now, 'total': totalInCents}
+            {'user': user, 'status': 'pending', 'date': now, 'total': totalInCents,
+             'address': address, 'address2': address2, 'city': city, 'state': state,
+             'country': country, 'creditCard': creditCard, 'cardName': cardName, 'cvc': cvc}
         )
 
         order_id_result = conn.execute(                                                     # get new order id
@@ -251,7 +286,9 @@ def getOrders(user):
     orders_map = []
     orders = conn.execute(                                                                  # get user orders
         text('''
-            SELECT order_id, status, order_date, total_price
+            SELECT order_id, status, order_date, total_price,
+            address, address2, city, state, country,
+            credit_card, card_name, card_cvc
             FROM orders
             WHERE customer_email = :user
             ORDER BY order_id DESC;
@@ -265,7 +302,15 @@ def getOrders(user):
             'status': row[1].title(),
             'date': date,
             'time': time,
-            'total': toDollar(row[3], thousand=True)
+            'total': toDollar(row[3], thousand=True),
+            'address': row[4],
+            'address2': row[5],
+            'city': row[6],
+            'state': row[7],
+            'country': row[8],
+            'credit_card': row[9],
+            'card_name': row[10],
+            'card_cvc': row[11],
         })
     orderCount = len(orders)                                                                # get length of orders
     return orders_map, orderCount

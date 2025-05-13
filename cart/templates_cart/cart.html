@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/static/styles/styles.css">
 <link rel="stylesheet" href="../static_cart/cart.css">
 {% extends 'base.html' %}
 {% block body %}
@@ -33,7 +34,7 @@
                             <input type="submit" value="apply" id="apply" name="apply changes">
                         </div>
                     </form>
-                    <form class="cartSideMenu" id="placeOrder" name="order" action="{{ url_for('order.order') }}" method="POST">
+                    <form class="cartSideMenu" id="placeOrder" onsubmit="confirmOrder()" name="order" action="{{ url_for('order.order') }}" method="POST">
                         <p class="subTitle">Subtotal: </p>
                         <p class="subTitle">{{ totals[0] }}</p>
                         <p class="subTitle">Shipping: </p>
@@ -42,9 +43,59 @@
                         <p class="subTitle">{{ totals[1] }}</p>
                         <h3 class="title">Total: </h3>
                         <h3 class="title">{{ totals[2] }}</h3>
-                        <div>
-                            <input type="hidden" name="total" value="{{ totals[2] }}">
-                            <input type="submit" name="placeOrder" value="Place Order" form="placeOrder" id="submitOrderBtn">
+                        <div class="flex flex-column">
+                            <div class="input-row">
+                                <div class="fancy-input full-width">
+                                    <input class="full-width" type="text" name="address" placeholder="" required />
+                                    <label for="address">Address*</label>
+                                </div>
+                            </div>
+                            <div class="input-row">
+                                <div class="fancy-input full-width">
+                                    <input class="full-width" type="text" name="address-2" placeholder=""/>
+                                    <label for="address-2">Address Line 2</label>
+                                </div>
+                            </div>
+                            <div class="input-row">
+                                <div class="fancy-input full-width">
+                                    <input class="full-width" type="text" name="city" placeholder="" required/>
+                                    <label for="city">City*</label>
+                                </div>
+                            </div>
+                            <div class="input-row">
+                                <div class="fancy-input full-width">
+                                    <input class="full-width" type="text" name="state" placeholder="" required/>
+                                    <label for="state">State / Province / Territory*</label>
+                                </div>
+                            </div>
+                            <div class="input-row">
+                                <div class="fancy-input full-width">
+                                    <input class="full-width" type="text" name="country" placeholder="" required/>
+                                    <label for="country">Country*</label>
+                                </div>
+                            </div>
+                            <div class="input-row">
+                                <div class="fancy-input full-width">
+                                    <input class="full-width" type="text" name="credit-card" onchange="removeAlpha(this)" maxlength="19" placeholder="" required/>
+                                    <label for="credit-card">Credit Card Numbers*</label>
+                                </div>
+                            </div>
+                            <div class="input-row">
+                                <div class="fancy-input full-width">
+                                    <input class="full-width" type="text" name="card-name" maxlength="254" placeholder="" required/>
+                                    <label for="card-name">Name On Card*</label>
+                                </div>
+                            </div>
+                            <div class="input-row">
+                                <div class="fancy-input full-width">
+                                    <input class="full-width" type="text" name="cvc" onchange="removeAlpha(this)" maxlength="4" placeholder="" required/>
+                                    <label for="cvc">CVC*</label>
+                                </div>
+                            </div>
+                            <div>
+                                <input type="hidden" name="total" value="{{ totals[2] }}">
+                                <input type="submit" name="placeOrder" value="Place Order" form="placeOrder" id="submitOrderBtn">
+                            </div>
                         </div>
                         {% if error %}
                             <h4 class="error">{{ error }}</h4>
@@ -58,17 +109,21 @@
         </form>        
     </main>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            button = document.querySelector('#submitOrderBtn')
-            button.addEventListener('click', event => {
-                event.preventDefault()
-                let confirmation = confirm('Please confirm, are you ready to submit your order?')
-                if (confirmation == true){
-                    document.querySelector('#placeOrder').submit();
-                }
-            });
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     button = document.querySelector('#submitOrderBtn')
+        //     button.addEventListener('click', event => {
+        //         event.preventDefault()
+        //         let confirmation = confirm('Please confirm, are you ready to submit your order?')
+        //         if (confirmation == true){
+        //             document.querySelector('#placeOrder').submit();
+        //         }
+        //     });
 
-        });
+        // });
+
+        function confirmOrder() {
+                return confirm('Please confirm, are you ready to submit your order?')
+            }
 
         function deleteItem(button) {
             let variantId = button.getAttribute('data-id');
@@ -78,6 +133,16 @@
                 document.getElementById('deleteVariantId').value = variantId;
                 form.submit();
             }
+        }
+
+        function removeAlpha(data) {
+            let numbers = "";
+            for (let char of data.value) {
+                if (Number(char))
+                    numbers += char
+            }
+            console.log(numbers)
+            data.value = numbers
         }
 
     </script>
