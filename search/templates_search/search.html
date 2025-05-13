@@ -17,14 +17,22 @@
                         {% for vendor in checkedVendors %}
                             <div class="filter-item">{{ vendor[1] }}</div>
                         {% endfor %}
+
                         {% if checkedCategories %}
                         {% for value in checkedCategories.values() %}
                             <div class="filter-item">{{ value }}</div>
                         {% endfor %}{% endif %}
+
+                        {% if checkedSizes %}
+                        {% for size in checkedSizes.values() %}
+                            <div class="filter-item">{{ size }}</div>
+                        {% endfor %}{% endif %}
+
                         {% if checkedColors %}
                         {% for color in checkedColors %}
                             <div class="filter-item" style="text-transform: capitalize;">{{ color }}</div>
                         {% endfor %}{% endif %}
+
                         <div class="filter-item">$0 &mdash; ${{ priceValue }}</div>
                         <button class="clearBtn" type="submit" form="clear">Clear Filters</button>               <!-- shows error lines but still works-->
                     </form>
@@ -33,12 +41,12 @@
                             <button class="vendor initiate-drop">Vendors <i class="ion-chevron-down"></i></button>
                             <div class="vendor-dropdown dropdown">
                                 <div class="input-container" name="vendor" id="vendor-search">
-                                    <!-- {% if vendors %} -->
                                     {% for vendor in vendors %}
-                                        <input name="vendor-options" type="checkbox" id="{{ vendor[0] }}" class="vendor-options" value="{{ vendor[0] }}">
-                                        <label for="{{ vendor[0] }}">{{ vendor[1] }}</label>
+                                        <label for="{{ vendor[0] }}">
+                                            <input name="vendor-options" type="checkbox" id="{{ vendor[0] }}" class="vendor-options" value="{{ vendor[0] }}">
+                                            {{ vendor[1] }}
+                                        </label>
                                     {% endfor %}
-                                    <!-- {% endif %} -->
                                 </div>
                             </div>
                         </div>
@@ -50,12 +58,53 @@
                                     <div class="furniture dropdown">
                                         <div class="input-container">
                                             {% for cat_num, cat_name in categories.SC %}
-                                                <input type="checkbox" name="categories" id="{{ cat_num }}" value="{{ cat_num }}">
-                                                <label for="{{ cat_num }}">{{ cat_name }}</label>
+                                                
+                                                <label for="{{ cat_num }}">
+                                                    <input type="checkbox" name="categories" id="{{ cat_num }}" value="{{ cat_num }}" class="catCheckbox">
+                                                    {{ cat_name }}
+                                                </label>
+
+                                                <div class="sizes_hidden">
+                                                    {% for size in cat_sizes %}
+                                                    {% if size.cat == cat_num %}
+                                                    <label for="{{ size.id }}-size" class="cat-size-label">
+                                                        <input type="checkbox" name="cat-sizes" id="{{ size.id }}-size" value="{{ size.id }}">
+                                                        {{ size.descr }}
+                                                    </label>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% for spec in cat_specs %}
+                                                    {% if spec.cat == cat_num %}
+                                                    <label for="{{ spec.id }}-size" class="cat-size-label">
+                                                        <input type="checkbox" name="cat-sizes" id="{{ spec.id }}-size" value="{{ spec.id }}">
+                                                        {{ spec.descr }}
+                                                    </label>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </div>
                                             {% endfor %}
                                             {% for cat_num, cat_name in categories.SO %}
-                                                <input type="checkbox" name="categories" id="{{ cat_num }}" value="{{ cat_num }}">
-                                                <label for="{{ cat_num }}">{{ cat_name }}</label>
+                                                <label for="{{ cat_num }}">
+                                                    <input type="checkbox" name="categories" id="{{ cat_num }}" value="{{ cat_num }}" class="catCheckbox">
+                                                    {{ cat_name }}</label>
+                                                <div class="sizes_hidden">
+                                                    {% for size in cat_sizes %}
+                                                    {% if size.cat == cat_num %}
+                                                    <label for="{{ size.id }}-size" class="cat-size-label">
+                                                        <input type="checkbox" name="cat-sizes" id="{{ size.id }}-size" value="{{ size.id }}">
+                                                        {{ size.descr }}
+                                                    </label>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% for spec in cat_specs %}
+                                                    {% if spec.cat == cat_num %}
+                                                    <label for="{{ spec.id }}-size" class="cat-size-label">
+                                                        <input type="checkbox" name="cat-sizes" id="{{ spec.id }}-size" value="{{ spec.id }}">
+                                                        {{ spec.descr }}
+                                                    </label>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </div>
                                             {% endfor %}
                                         </div>
                                     </div>
@@ -65,12 +114,52 @@
                                     <div class="dropdown">
                                         <div class="input-container">
                                             {% for cat_num, cat_name in categories.OF %}
-                                                <input type="checkbox" name="categories" id="{{ cat_num }}" value="{{ cat_num }}">
-                                                <label for="{{ cat_num }}">{{ cat_name }}</label>
+                                                <label for="{{ cat_num }}">
+                                                    <input type="checkbox" name="categories" id="{{ cat_num }}" value="{{ cat_num }}" class="catCheckbox">
+                                                    {{ cat_name }}
+                                                </label>
+                                                <div class="sizes_hidden">
+                                                    {% for size in cat_sizes %}
+                                                    {% if size.cat == cat_num %}
+                                                    <label for="{{ size.id }}-size" class="cat-size-label">
+                                                        <input type="checkbox" name="cat-sizes" id="{{ size.id }}-size" value="{{ size.id }}">
+                                                        {{ size.descr }}
+                                                    </label>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% for spec in cat_specs %}
+                                                    {% if spec.cat == cat_num %}
+                                                    <label for="{{ spec.id }}-size" class="cat-size-label">
+                                                        <input type="checkbox" name="cat-sizes" id="{{ spec.id }}-size" value="{{ spec.id }}">
+                                                        {{ spec.descr }}
+                                                    </label>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </div>
                                             {% endfor %}
                                             {% for cat_num, cat_name in categories.SO %}
-                                                <input type="checkbox" name="categories" id="{{ cat_num }}" value="{{ cat_num }}">
-                                                <label for="{{ cat_num }}">{{ cat_name }}</label>
+                                                <label for="{{ cat_num }}">
+                                                    <input type="checkbox" name="categories" id="{{ cat_num }}" value="{{ cat_num }}" class="catCheckbox">
+                                                    {{ cat_name }}
+                                                </label>
+                                                <div class="sizes_hidden">
+                                                    {% for size in cat_sizes %}
+                                                    {% if size.cat == cat_num %}
+                                                    <label for="{{ size.id }}-size" class="cat-size-label">
+                                                        <input type="checkbox" name="cat-sizes" id="{{ size.id }}-size" value="{{ size.id }}">
+                                                        {{ size.descr }}
+                                                    </label>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% for spec in cat_specs %}
+                                                    {% if spec.cat == cat_num %}
+                                                    <label for="{{ spec.id }}-size" class="cat-size-label">
+                                                        <input type="checkbox" name="cat-sizes" id="{{ spec.id }}-size" value="{{ spec.id }}">
+                                                        {{ spec.descr }}
+                                                    </label>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </div>
                                             {% endfor %}
                                         </div>
                                     </div>
@@ -80,8 +169,27 @@
                                     <div class="dropdown">
                                         <div class="input-container">
                                             {% for cat_num, cat_name in categories.TC %}
-                                                <input type="checkbox" name="categories" id="{{ cat_num }}" value="{{ cat_num }}">
-                                                <label for="{{ cat_num }}">{{ cat_name }}</label>
+                                                <label for="{{ cat_num }}">
+                                                    <input type="checkbox" name="categories" id="{{ cat_num }}" value="{{ cat_num }}" class="catCheckbox">
+                                                    {{ cat_name }}</label>
+                                                <div class="sizes_hidden">
+                                                    {% for size in cat_sizes %}
+                                                    {% if size.cat == cat_num %}
+                                                    <label for="{{ size.id }}-size" class="cat-size-label">
+                                                        <input type="checkbox" name="cat-sizes" id="{{ size.id }}-size" value="{{ size.id }}">
+                                                        {{ size.descr }}
+                                                    </label>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% for spec in cat_specs %}
+                                                    {% if spec.cat == cat_num %}
+                                                    <label for="{{ spec.id }}-size" class="cat-size-label">
+                                                        <input type="checkbox" name="cat-sizes" id="{{ spec.id }}-size" value="{{ spec.id }}">
+                                                        {{ spec.descr }}
+                                                    </label>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </div>
                                             {% endfor %}
                                         </div>
                                     </div>
@@ -91,8 +199,27 @@
                                     <div class="dropdown">
                                         <div class="input-container">
                                             {% for cat_num, cat_name in categories.TX %}
-                                                <input type="checkbox" name="categories" id="{{ cat_num }}" value="{{ cat_num }}">
-                                                <label for="{{ cat_num }}">{{ cat_name }}</label>
+                                                <label for="{{ cat_num }}">
+                                                    <input type="checkbox" name="categories" id="{{ cat_num }}" value="{{ cat_num }}" class="catCheckbox">
+                                                    {{ cat_name }}</label>
+                                                <div class="sizes_hidden">
+                                                    {% for size in cat_sizes %}
+                                                    {% if size.cat == cat_num %}
+                                                    <label for="{{ size.id }}-size" class="cat-size-label">
+                                                        <input type="checkbox" name="cat-sizes" id="{{ size.id }}-size" value="{{ size.id }}">
+                                                        {{ size.descr }}
+                                                    </label>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% for spec in cat_specs %}
+                                                    {% if spec.cat == cat_num %}
+                                                    <label for="{{ spec.id }}-size" class="cat-size-label">
+                                                        <input type="checkbox" name="cat-sizes" id="{{ spec.id }}-size" value="{{ spec.id }}">
+                                                        {{ spec.descr }}
+                                                    </label>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </div>
                                             {% endfor %}
                                         </div>
                                     </div>
@@ -106,9 +233,6 @@
                                     <p id="price-display"></p>
                                     <input type="range" min="0" max="1000" step="0.01" value="{{ priceValue }}" class="slider" id="price" name="price">
                                 </div>
-                                <!-- <div class="submit-wrapper">
-                                    <input type="submit" class="submit-apply" form="price-form" value="Apply">
-                                </div> -->
                             </div>
                         </div>
                         <div class="colors">
@@ -174,23 +298,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="sizes">
-                            <button class="size initiate-drop">Sizes <i class="ion-chevron-down"></i></button>
-                            <div class="vendor-dropdown dropdown">
-                                <div class="input-container" name="size" id="size-search">
-                                    <!-- {% if vendors %} -->
-                                    {% for size in sizes %}
-                                        <input name="size-options" type="checkbox" id="{{ size.sid }}" class="size-options" value="{{ size.sid }}">
-                                        <label for="{{ size.sid }}">{{ size.s_descr }}</label>
-                                    {% endfor %}
-                                    {% for spec in specs %}
-                                        <input name="size-options" type="checkbox" id="{{ spec.spid }}" class="size-options" value="{{ spec.spid }}">
-                                        <label for="{{ spec.spid }}">{{ spec.sp_descr }}</label>
-                                    {% endfor %}
-                                    <!-- {% endif %} -->
-                                </div>
-                            </div>
-                        </div>
                         <div class="submit-wrapper">
                             <input type="submit" class="submit-apply" form="formSearch" value="Apply">
                         </div>
@@ -233,6 +340,17 @@
                 if (dropdown) {
                     let isVisible = dropdown.style.display === 'grid';
                     dropdown.style.display = isVisible ? 'none' : 'grid';
+                }
+            });
+        });
+
+        // category color options
+        document.querySelectorAll('.catCheckbox').forEach(checkbox => {
+            checkbox.addEventListener('change', event => {
+                let sizeContainer = checkbox.parentElement.nextElementSibling;
+                if (sizeContainer && sizeContainer.classList.contains('sizes_hidden')) {
+                    let isVisible = sizeContainer.style.display === 'flex';
+                    sizeContainer.style.display = isVisible ? 'none' : 'flex';
                 }
             });
         });

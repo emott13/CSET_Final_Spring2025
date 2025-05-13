@@ -4,7 +4,7 @@
 main{
     margin: 0 auto;
     min-height: calc(100vh - 215px);
-    max-width: 1400px;
+    max-width: 1800px;
     font-family: var(--font-main);
 }
 
@@ -14,12 +14,12 @@ main{
     align-items: center;
     margin: 0 auto;
     min-height: 80vh;
-    width: 1285px;
+    width: fit-content;
 }
 
 .searchWrapper{
     position: relative;
-    left: 80px;
+    left: 100px;
     margin: 0 auto;
     padding: 0 20px;
     min-height: fit-content;
@@ -81,11 +81,11 @@ img.cardImg{
 .sideMenu{
     position: absolute;
     top: -20px;
-    left: -280px;
+    left: -300px;
     background-color: var(--color-purple-white);
     padding: 20px;
     height: fit-content;
-    width: 280px;
+    width: 300px;
 }
 .clearBtn{
     border: none;
@@ -146,15 +146,43 @@ img.cardImg{
     color: var(--color-purple-red);
 }
 
-/* -- color filter styles -- */
+
 .input-container{
-    display: grid;
-    grid-template-columns: 15px 220px;
-    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    min-height: 40px;
+    width: 100%;
     font-size: 20px;
     color: var(--color-purple-red);
     text-align: start;
+    /* overflow: scroll; */
 }
+.sizes_hidden{
+    display: none;
+    flex-direction: column;
+    margin-bottom: 5px;
+    border-radius: 15px;
+    background-color: #fff;
+    color: var(--color-purple-red);
+    font-size: 15px;
+    font-weight: 400;
+}
+.sizes_hidden_title{
+    border: none;
+    border-radius: 15px;
+    background-color: var(--color-purple);
+    padding: 4px 6px;
+    width: fit-content;
+    text-transform: uppercase;
+    color: var(--color-purple-white);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+
+
+/* -- color filter styles -- */
 .color-container{
     display: grid;
     grid-template-columns: auto auto;
@@ -459,12 +487,36 @@ img.cardImg{
     }
 
     .input-container{
-        display: grid;
-        grid-template-columns: 15px 220px;
-        gap: 10px;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+        min-height: 40px;
+        width: 100%;
         font-size: 20px;
         color: var(--color-purple-red);
         text-align: start;
+        /* overflow: scroll; */
+    }
+    .sizes_hidden{
+        display: none;
+        flex-direction: column;
+        margin-bottom: 5px;
+        border-radius: 15px;
+        background-color: #fff;
+        color: var(--color-purple-red);
+        font-size: 15px;
+        font-weight: 400;
+    }
+    .sizes_hidden_title{
+        border: none;
+        border-radius: 15px;
+        background-color: var(--color-purple);
+        padding: 4px 6px;
+        width: fit-content;
+        text-transform: uppercase;
+        color: var(--color-purple-white);
+        font-size: 15px;
+        font-weight: 600;
     }
 
     /* -- price slider styles -- */
