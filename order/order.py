@@ -255,7 +255,7 @@ def getVendorOrders(user):
                 orders.total_price, orders.customer_email, 
                 quantity, price_at_order_time, vendor_id, product_title, 
                 product_description, order_item_id, address, address2, city, 
-                state, country, credit_card, card_name, card_cvc
+                state, country, credit_card, card_name, card_cvc, product_id
             FROM order_items NATURAL JOIN product_variants NATURAL JOIN products
             INNER JOIN orders ON order_items.order_id = orders.order_id
             WHERE vendor_id = :user
@@ -286,6 +286,7 @@ def getVendorOrders(user):
             'credit_card': row[16],
             'card_name': row[17],
             'card_cvc': row[18],
+            'product_id': row[19]
         })
     return orders_map
 

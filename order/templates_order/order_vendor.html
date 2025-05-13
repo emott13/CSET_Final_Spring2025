@@ -20,7 +20,7 @@
                             </tr>
                             <tr class="orderRow">
                                 <td>Ordered From: </td>
-                                <td>{{ order.customer_email }}</td>
+                                <td><a href="{{url_for('chat.room', type='product', combined_id=order.product_id, recieverEmail=order.customer_email)}}">{{ order.customer_email }}</a></td>
                             </tr>
                             <tr class="orderRow">
                                 <td>Product Title: </td>
