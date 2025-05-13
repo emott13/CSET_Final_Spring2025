@@ -129,6 +129,7 @@ def order():
                             count=orderCount, message=success)                              # user orders, message, order count
 
 @order_bp.route('/order/vendor', methods=['GET'])
+@login_required
 def vendor():
     if getCurrentType() != 'vendor':
         redirect(url_for("home.home"))
@@ -144,6 +145,7 @@ def vendor():
                            statuses=statuses, error=error)
 
 @order_bp.route("/order/vendor/<int:orderItemId>", methods=["POST"])
+@login_required
 def updateOrder(orderItemId):
     if getCurrentType() != 'vendor':
         redirect(url_for("home.home"))
