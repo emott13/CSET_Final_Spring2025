@@ -1,3 +1,7 @@
+select product_id, product_title 
+from products;
+
+
 -- select * from images where variant_id between 100227 AND 100240;
 select image_id, file_path from images where variant_id in (100261, 100262);
 select * from products where cat_num = 101;
@@ -43,13 +47,21 @@ select * from product_variants;
 
 select * from cart_items;
 select * from order_items;
+
+SELECT v.product_id, v.variant_id, p.product_title,
+		p.cat_num, u.email, v.price, v.current_inventory,
+        c.color_name, c.color_hex
+	FROM product_variants v
+	JOIN products p ON p.product_id = v.product_id
+	LEFT JOIN users u ON p.vendor_id = u.email
+    LEFT JOIN colors c ON v.color_id = c.color_id;
 -- select * from users;
 -- select variant_id from product_variants where product_id = 850555;
 -- select product_title, product_description from products where product_id = 850555;
 -- select product_id, COUNT(variant_id) from product_variants group by product_id order by product_id;
 -- select MIN(price), MAX(price) from product_variants where product_id = 850555;
 -- select product_id, product_title, size_description from products natural join product_variants natural join sizes where product_id = 850555 and variant_id IN(100200, 100201, 100202);
-
+drop database goods_fix;
 -- select * from users;
 -- SELECT variant_id, COUNT(color_name), COUNT(size_description)
 -- FROM product_variants
