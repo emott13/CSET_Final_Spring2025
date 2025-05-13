@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user, login_required
 from sqlalchemy import text
-from extensions import conn, dict_db_data, getCurrentType
+from extensions import conn, dict_db_data, getCurrentType, sql_enum_list
 
 complaint_bp = Blueprint('complaint', __name__, static_folder='static_complaint', 
                          template_folder='templates_complaint', url_prefix="/complaint")
@@ -85,9 +85,3 @@ def create(orderId):
     return render_template("create.html", orderId=orderId, order=order, demands=demands, error=error, success=success)
         
 
-
-def sql_enum_list(enum: str) -> list:
-    arr = []
-    for item in enum[5:-1].split(','):
-        arr.append(item.replace("'", ""))
-    return arr

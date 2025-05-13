@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user, login_required
 from sqlalchemy import text
 from datetime import datetime
-from extensions import conn
+from extensions import conn, getCurrentType, sql_enum_list
 from search.search import toCents, toDollar
 
 order_bp = Blueprint('order', __name__, static_folder='static_order', template_folder='templates_order')
@@ -18,6 +18,9 @@ def order():
     if total == '$0.00':
         request.method = 'GET'
         message = 'There was an issue placing your order.'
+
+    if getCurrentType() == 'vendor':
+        return redirect(url_for("order.vendor"))
 
     if request.method == 'GET':
         orders_map, orderCount = getOrders(user)
@@ -124,6 +127,65 @@ def order():
 
         return render_template('order_post.html',orders=orders_map,                         # render order page with
                             count=orderCount, message=success)                              # user orders, message, order count
+
+@order_bp.route('/order/vendor', methods=['GET'])
+def vendor():
+    if getCurrentType() != 'vendor':
+        redirect(url_for("home.home"))
+    vendorOrders = getVendorOrders(current_user.email)
+    statuses = sql_enum_list(
+        conn.execute(text("SHOW COLUMNS FROM order_items LIKE 'status'")).all()[0][1])
+    # print(vendorOrders)
+    # print(statuses)
+
+    return render_template("order_vendor.html", vendorOrders=vendorOrders, 
+                           statuses=statuses)
+
+@order_bp.route("/order/vendor/<int:orderItemId>", methods=["POST"])
+def updateOrder(orderItemId):
+    if getCurrentType() != 'vendor':
+        redirect(url_for("home.home"))
+    userOwns = bool(conn.execute(text(
+        """SELECT vendor_id FROM order_items NATURAL JOIN product_variants
+           NATURAL JOIN products 
+           WHERE vendor_id = :vendorId AND order_item_id = :orderItemId"""),
+           {'vendorId': current_user.email, 'orderItemId': orderItemId}).first())
+    print(userOwns)
+
+    return redirect(url_for("order.vendor"))
+
+
+def getVendorOrders(user):
+    orders_map = []
+    orders = conn.execute(
+        text('''
+            SELECT order_items.order_id, order_items.status, order_date, total_price, customer_email, 
+            quantity, price_at_order_time, vendor_id, product_title, product_description,
+            order_item_id
+            FROM order_items NATURAL JOIN product_variants NATURAL JOIN products
+            LEFT JOIN orders ON order_items.status = orders.status
+            WHERE vendor_id = :user
+            ORDER BY order_id DESC;
+        '''),
+        {'user': user}).fetchall()
+    for row in orders:
+        print(row)
+        date, time = row[2].strftime("%B %d, %Y"), row[2].strftime("%H:%M:%S %p")
+        orders_map.append({
+            'id': row[0],
+            'status': row[1].title(),
+            'date': date,
+            'time': time,
+            'total': toDollar(row[3], thousand=True),
+            'customer_email': row[4],
+            'quantity': row[5],
+            'price_at_order_time': row[6],
+            'vendor_id': row[7],
+            'product_title': row[8],
+            'product_description': row[9],
+            'order_item_id': row[10]
+        })
+    return orders_map
 
 
 def getOrders(user):

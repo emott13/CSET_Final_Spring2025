@@ -86,6 +86,12 @@ def dict_db_data(table, extra="", select=""):
 
     return dataDict
 
+def sql_enum_list(enum: str) -> list:
+    arr = []
+    for item in enum[5:-1].split(','):
+        arr.append(item.replace("'", ""))
+    return arr
+
 # price formatter for jinja template. call like {{154|priceFormat}}
 @app.template_filter()
 def priceFormat(value):

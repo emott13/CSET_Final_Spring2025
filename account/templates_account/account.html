@@ -47,7 +47,7 @@
             {% if account.type == 'vendor' or account.type == 'admin' %}
                 <a href="{{ url_for('product_manage.manage') }}" class="ordersBtn">Manage Products</a>
             {% endif %}
-            {% if account.type == 'customer' %}
+            {% if account.type == 'customer' or account.type == 'vendor' %}
                 <a href="{{ url_for('order.order') }}" class="ordersBtn">view orders</a>
             {% endif %}
             {% if account.type == 'customer' or account.type == 'admin' %}
