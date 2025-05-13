@@ -112,6 +112,11 @@
     font-size: 15px;
     font-weight: 500;
 }
+.error{
+    color: var(--color-error-red);
+    font-size: 14px;
+}
+
 
 /* -- ion icon styles -- */
 .ion-trash-b{

@@ -21,10 +21,10 @@ def login():
         # first checks email, then checks username
         if user and bcrypt.check_password_hash(user.hashed_pswd, password):
             login_user(user)
-            return redirect(url_for("home.home"))
+            return redirect(url_for("account.account"))
         elif user_username and bcrypt.check_password_hash(user_username.hashed_pswd, password):
             login_user(user_username)
-            return redirect(url_for("home.home"))
+            return redirect(url_for("account.account"))
         
         else:
             return render_template("login.html", error="Invalid username or password")

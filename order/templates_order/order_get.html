@@ -6,6 +6,9 @@
 <main class="main">
     <section class="orderSection">
         <h2 class="orderHeader">Orders:</h2>
+        {% if error %}
+            <h4 class="error">{{ error }}</h4>
+        {% endif %}
         <div class="previousOrders">
             <div class="orderContainer">
                 {% if count %}

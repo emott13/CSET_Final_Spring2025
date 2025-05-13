@@ -8,11 +8,13 @@ cart_bp = Blueprint('cart', __name__, static_folder='static_cart', template_fold
 
 @cart_bp.route('/cart', methods = ['GET', 'POST'])
 @login_required
-def cart(messageString=None):
+def cart():
     if getCurrentType() != 'customer':
         return redirect(url_for('login.login', error="Error: You must be signed in as a customer to order items"))
 
-    # print('Message from param:', messageString)
+    message = request.args.get('message')
+    print('Message from param:', message)
+
     user = current_user.email
     cartItems = conn.execute(
         text('''
@@ -55,7 +57,7 @@ def cart(messageString=None):
     totals = [subtotal, tax, total]
 
     return render_template('cart.html', cartItems = cartItems_map, 
-                           totals = totals, message = messageString)
+                           totals = totals, error = message)
 
 @cart_bp.route('/update_cart', methods=['POST'])
 @login_required

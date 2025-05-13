@@ -50,7 +50,7 @@ main{
     border-radius: 15px;
     border: none;
     background-color: var(--color-purple-red);
-    height: 340px;
+    height: 400px;
     width: 340px;
     color: var(--color-purple-white);
     text-decoration: none;
@@ -113,7 +113,9 @@ img.cardImg{
 
 .category,
 .vendor,
-.price{
+.price,
+.color,
+.size{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -144,6 +146,7 @@ img.cardImg{
     color: var(--color-purple-red);
 }
 
+/* -- color filter styles -- */
 .input-container{
     display: grid;
     grid-template-columns: 15px 220px;
@@ -151,6 +154,118 @@ img.cardImg{
     font-size: 20px;
     color: var(--color-purple-red);
     text-align: start;
+}
+.color-container{
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px;
+    font-size: 20px;
+    color: var(--color-purple-red);
+    text-align: start;
+}
+.container{
+    display: block;
+    position: relative;
+    padding-left: 20px;
+    height: 20px;
+    width: 20px;
+    font-size: 18px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.container input{
+    position: absolute;
+    height: 0;
+    width: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+/* checkmark-light for darker colors */
+/* checkmark-dark for lighter colors */
+/* provides contrast for visibility */
+.checkmark-light,
+.checkmark-dark{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    border: 1.5px solid black;
+}
+.checkmark-light:after,
+.checkmark-dark:after{
+  content: "";
+  position: absolute;
+  display: none;
+}
+.container input:checked ~ .checkmark-light:after,
+.container input:checked ~ .checkmark-dark:after{
+  display: block;
+}
+.container .checkmark-light:after{
+  left: 6px;
+  top: 2px;
+  width: 3px;
+  height: 10px;
+  border: solid #ffffff;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.container .checkmark-dark:after{
+  left: 6px;
+  top: 2px;
+  width: 3px;
+  height: 10px;
+  border: solid #000000;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+#red{
+    background-color: #ff0000;
+}
+#orange{
+    background-color: #ffa500;
+}
+#yellow{
+    background-color: #ffff00;
+}
+#green{
+    background-color: #008000;
+}
+#blue{
+    background-color: #0091ff;
+}
+#purple{
+    background-color: #bc3fc3;
+}
+#pink{
+    background-color: #ffc0cb;
+}
+#black{
+    background-color: #000000;
+}
+#brown{
+    background-color: #96502f;
+}
+#grey{
+    background-color: #808080;
+}
+#white{
+    background-color: #ffffff;
+}
+#multicolor,
+#assorted{
+    background: linear-gradient(to top right, #ff54ff, #ffff3d, #31ffff);
+}
+#clear{
+    background-color: #ffffff;
 }
 
 /* -- price slider styles -- */

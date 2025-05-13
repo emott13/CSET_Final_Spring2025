@@ -20,8 +20,11 @@
                         {% if checkedCategories %}
                         {% for value in checkedCategories.values() %}
                             <div class="filter-item">{{ value }}</div>
-                        {% endfor %}
-                        {% endif %}
+                        {% endfor %}{% endif %}
+                        {% if checkedColors %}
+                        {% for color in checkedColors %}
+                            <div class="filter-item" style="text-transform: capitalize;">{{ color }}</div>
+                        {% endfor %}{% endif %}
                         <div class="filter-item">$0 &mdash; ${{ priceValue }}</div>
                         <button class="clearBtn" type="submit" form="clear">Clear Filters</button>               <!-- shows error lines but still works-->
                     </form>
@@ -108,8 +111,86 @@
                                 </div> -->
                             </div>
                         </div>
-                        <div class="colors"></div>
-                        <div class="sizes"></div>
+                        <div class="colors">
+                            <button class="color initiate-drop">Colors <i class="ion-chevron-down"></i></button>
+                            <div class="color-dropdown dropdown">
+                                <div class="color-container" name="color" id="color-search">
+                                    <label id="red" class="container">Red
+                                        <input name="color-options" type="checkbox" class="color-options" value="red">
+                                        <span class="checkmark-light"></span>
+                                    </label>
+                                    <label id="orange" class="container">Orange
+                                        <input name="color-options" type="checkbox" class="color-options" value="orange">
+                                        <span class="checkmark-light"></span>
+                                    </label>
+                                    <label id="yellow" class="container">Yellow
+                                        <input name="color-options" type="checkbox" class="color-options" value="yellow">
+                                        <span class="checkmark-dark"></span>
+                                    </label>
+                                    <label id="green" class="container">Green
+                                        <input name="color-options" type="checkbox" class="color-options" value="green">
+                                        <span class="checkmark-light"></span>
+                                    </label>
+                                    <label id="blue" class="container">Blue
+                                        <input name="color-options" type="checkbox" class="color-options" value="blue">
+                                        <span class="checkmark-light"></span>
+                                    </label>
+                                    <label id="purple" class="container">Purple
+                                        <input name="color-options" type="checkbox" class="color-options" value="purple">
+                                        <span class="checkmark-light"></span>
+                                    </label>
+                                    <label id="pink" class="container">Pink
+                                        <input name="color-options" type="checkbox" class="color-options" value="pink">
+                                        <span class="checkmark-dark"></span>
+                                    </label>
+                                    <label id="black" class="container">Black
+                                        <input name="color-options" type="checkbox" class="color-options" value="black">
+                                        <span class="checkmark-light"></span>
+                                    </label>
+                                    <label id="brown" class="container">Brown
+                                        <input name="color-options" type="checkbox" class="color-options" value="brown">
+                                        <span class="checkmark-light"></span>
+                                    </label>
+                                    <label id="grey" class="container">Grey
+                                        <input name="color-options" type="checkbox" class="color-options" value="grey">
+                                        <span class="checkmark-light"></span>
+                                    </label>
+                                    <label id="white" class="container">White
+                                        <input name="color-options" type="checkbox" class="color-options" value="white">
+                                        <span class="checkmark-dark"></span>
+                                    </label>
+                                    <label id="multicolor" class="container">Multicolor
+                                        <input name="color-options" type="checkbox" class="color-options" value="multicolor">
+                                        <span class="checkmark-dark"></span>
+                                    </label>
+                                    <label id="assorted" class="container">Assorted
+                                        <input name="color-options" type="checkbox" class="color-options" value="assorted">
+                                        <span class="checkmark-dark"></span>
+                                    </label>
+                                    <label id="clear" class="container">Clear
+                                        <input name="color-options" type="checkbox" class="color-options" value="clear">
+                                        <span class="checkmark-dark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sizes">
+                            <button class="size initiate-drop">Sizes <i class="ion-chevron-down"></i></button>
+                            <div class="vendor-dropdown dropdown">
+                                <div class="input-container" name="size" id="size-search">
+                                    <!-- {% if vendors %} -->
+                                    {% for size in sizes %}
+                                        <input name="size-options" type="checkbox" id="{{ size.sid }}" class="size-options" value="{{ size.sid }}">
+                                        <label for="{{ size.sid }}">{{ size.s_descr }}</label>
+                                    {% endfor %}
+                                    {% for spec in specs %}
+                                        <input name="size-options" type="checkbox" id="{{ spec.spid }}" class="size-options" value="{{ spec.spid }}">
+                                        <label for="{{ spec.spid }}">{{ spec.sp_descr }}</label>
+                                    {% endfor %}
+                                    <!-- {% endif %} -->
+                                </div>
+                            </div>
+                        </div>
                         <div class="submit-wrapper">
                             <input type="submit" class="submit-apply" form="formSearch" value="Apply">
                         </div>
@@ -119,7 +200,7 @@
                     <div class="prodResult">
                         {% for product in products %}
                             {% if product.display == True %}
-                                <a href="{{ url_for('product.product', productId = product.id) }}" class="resultCard {{ product.id }} {{ product.vendor }}">
+                                <a href="{{ url_for('product.product', product_id = product.id, variant_id = product.vid) }}" class="resultCard {{ product.id }} {{ product.vendor }}">
                                     <div class="imgWrapper">
                                         <div class="iconWrapper">
                                             <i class="ion-search"></i>
