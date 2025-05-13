@@ -312,14 +312,18 @@
                                         <div class="iconWrapper">
                                             <i class="ion-search"></i>
                                         </div>
+                                        <div class="vendorBrand">
+                                            <button class="productBrand">{{ product.brand }}</button>
+                                        </div>
                                         <img style="object-fit: cover;" src="{{ product.photo }}" alt="" class="cardImg">
                                     </div>
                                     <div class="prodInfo">
                                         <p style="font-weight: 800;">{{ product.title }}</p>
                                         <p>{{ product.size }}</p>
                                         <p>{{ product.options }} options</p>
-                                        <p>{{ product.price }}</p>
-                                        <!-- <p>{{ product.category }}</p> -->
+                                        <p>
+                                            {{ product.price }}
+                                        </p>
                                     </div>
                                 </a>
                             {% endif %}

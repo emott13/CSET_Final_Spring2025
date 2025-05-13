@@ -11,7 +11,17 @@ FROM products p
 JOIN product_variants v ON p.product_id = v.product_id
 LEFT JOIN specifications sp ON v.spec_id = sp.spec_id
 WHERE p.cat_num BETWEEN 1 AND 99;
-
+select * from users where type = 'vendor';
+SELECT product_id
+FROM products p 
+JOIN users u ON p.vendor_id = u.email
+WHERE p.product_title
+	LIKE '%smart%'
+OR p.product_description
+	LIKE '%smart%'
+OR CONCAT(u.first_name, ' ', u.last_name)
+	LIKE '%smart%';
+        
 -- select * from images where variant_id between 100227 AND 100240;
 select image_id, file_path from images where variant_id in (100261, 100262);
 select * from products where cat_num = 101;

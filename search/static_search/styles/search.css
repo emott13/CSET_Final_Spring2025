@@ -50,7 +50,7 @@ main{
     border-radius: 15px;
     border: none;
     background-color: var(--color-purple-red);
-    height: 400px;
+    height: 390px;
     width: 340px;
     color: var(--color-purple-white);
     text-decoration: none;
@@ -71,13 +71,30 @@ img.cardImg{
     height: 100%;
 }
 
+.vendorBrand{
+    position: relative;
+    top: 0;
+    width: 150px;
+}
+.productBrand{
+    position: absolute;
+    top: 340;
+    right: -80;
+    border: 4px double var(--color-yellow);
+    border-radius: 15px;
+    background-color: transparent;
+    padding: 4px 6px;
+    color: var(--color-purple-white);
+    font-size: 16px;
+    font-weight: 600;
+}
+
 .prodInfo{
     padding: 10px;
     font-size: 23px;
 }
 
 /* -- side menu styles -- */
-
 .sideMenu{
     position: absolute;
     top: -20px;

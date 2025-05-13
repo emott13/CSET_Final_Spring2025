@@ -14,7 +14,8 @@ def search():
         text('''
             SELECT v.product_id, v.variant_id, p.product_title,
                 p.cat_num, u.email, v.price, v.current_inventory,
-                c.color_name, c.color_hex, v.size_id, v.spec_id
+                c.color_name, c.color_hex, v.size_id, v.spec_id,
+                CONCAT(u.first_name, ' ', u.last_name)
             FROM product_variants v
             JOIN products p ON p.product_id = v.product_id
             LEFT JOIN users u ON p.vendor_id = u.email
@@ -50,7 +51,7 @@ def search():
 
     products = []                                                   # create product list
     for row in product_data:
-        pid, vid, title, cat_num, vendor, price, inventory, c_name, c_hex, size, spec = row
+        pid, vid, title, cat_num, vendor, price, inventory, c_name, c_hex, size, spec, brand = row
 
         price = toDollar(price)
         products.append({                                           # append product dict to products list
@@ -67,6 +68,7 @@ def search():
             'stock': inventory,
             'photo': photos.get(vid),
             'options': option_map.get(pid, 0),
+            'brand': brand,
             'display': True
         })
 
@@ -225,12 +227,16 @@ def search():
             searchMatches = []
             searchInputMatches = conn.execute(
                 text('''
-                    SELECT product_id 
-                    FROM products
-                    WHERE product_title
-                        LIKE :input
-                    OR product_description
-                        LIKE :input;
+                    SELECT product_id
+                    FROM products p 
+                    JOIN users u 
+                    ON p.vendor_id = u.email
+                    WHERE p.product_title
+                    LIKE :input
+                    OR p.product_description
+                    LIKE :input
+                    OR CONCAT(u.first_name, ' ', u.last_name)
+                    LIKE :input;
                 '''), {'input': searchInput}).fetchall()
             for input in searchInputMatches:
                 searchMatches.append(input[0])
