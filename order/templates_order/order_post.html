@@ -50,7 +50,7 @@
                                 <td>{{ orders[i].date }}<br>{{ orders[i].time }}</td>
                             </tr>
                             <tr class="orderRow">
-                                <td><button class="btn orderBtn">View order details</button></td>
+                                <td><button class="btn orderBtn" onclick="document.location.href = `{{url_for('order.orderDetails', orderId=orders[i].id)}}`">View order details</button></td>
                             <td><button class="btn orderBtn" onclick="document.location.href = `{{url_for('complaint.create', orderId=orders[i].id)}}`">Issues with your order?</button></td>
                             </tr>
                         </table>
