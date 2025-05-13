@@ -194,7 +194,6 @@ def vendor():
     vendorOrders = getVendorOrders(current_user.email)
     statuses = sql_enum_list(
         conn.execute(text("SHOW COLUMNS FROM order_items LIKE 'status'")).all()[0][1])
-    print(vendorOrders[0]['status'])
     # print(statuses)
 
     return render_template("order_vendor.html", vendorOrders=vendorOrders, 
@@ -253,9 +252,10 @@ def getVendorOrders(user):
     orders = conn.execute(
         text('''
             SELECT order_items.order_id, order_items.status, orders.order_date, 
-            orders.total_price, orders.customer_email, 
-            quantity, price_at_order_time, vendor_id, product_title, product_description,
-            order_item_id
+                orders.total_price, orders.customer_email, 
+                quantity, price_at_order_time, vendor_id, product_title, 
+                product_description, order_item_id, address, address2, city, 
+                state, country, credit_card, card_name, card_cvc
             FROM order_items NATURAL JOIN product_variants NATURAL JOIN products
             INNER JOIN orders ON order_items.order_id = orders.order_id
             WHERE vendor_id = :user
@@ -277,7 +277,15 @@ def getVendorOrders(user):
             'vendor_id': row[7],
             'product_title': row[8],
             'product_description': row[9],
-            'order_item_id': row[10]
+            'order_item_id': row[10], 
+            'address': row[11],
+            'address2': row[12],
+            'city': row[13],
+            'state': row[14],
+            'country': row[15],
+            'credit_card': row[16],
+            'card_name': row[17],
+            'card_cvc': row[18],
         })
     return orders_map
 

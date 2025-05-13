@@ -47,6 +47,11 @@
                                 <td>Submitted on: </td>
                                 <td>{{ order.date }}<br>{{ order.time }}</td>
                             </tr>
+                            <tr class="orderRow">
+                                <td>Delivering to: </td>
+                                <td>{{ order.address + " " + order.address2 + ", " + 
+                                    order.city + ", " + order.state + " " + order.country}}</td>
+                            </tr>
                         </table>
                     {% endfor %}
                 {% else %}
