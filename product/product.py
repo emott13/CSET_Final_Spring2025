@@ -388,8 +388,8 @@ def product(product_id, variant_id=None, error=None):
 @product_bp.route("/product/<int:productId>/<int:variantId>/review", methods=["POST"])
 def submitReview(productId, variantId):
     rating = int(request.form.get('rating'))
-    desc = request.form.get('description')
-    url = request.form.get('image')
+    desc = request.form.get('description', None)
+    url = request.form.get('image', None)
     reviewExists = bool(conn.execute(text("SELECT review_id FROM reviews "
         f"WHERE product_id = {productId} AND customer_email = '{current_user.email}'"
         )).first())
@@ -397,21 +397,17 @@ def submitReview(productId, variantId):
     if reviewExists:
         return redirect(url_for("product.product", product_id=productId, variantId=variantId))
 
-    if not desc:
-        desc = "NULL"
-    else:
-        desc = "'" + desc + "'"
-    if not url:
-        url = "NULL"
-    else:
-        url = "'" + url + "'"
-
     if  (rating >= 1 and rating <= 5 ) and \
-        (len(desc) <= 500) and \
-        (len(url) <= 255):
-        conn.execute(text(f"INSERT INTO reviews (customer_email, product_id, rating, description, image) "
-                          f"VALUES ('{current_user.email}', {productId}, {rating}, "
-                          f"{desc}, {url})"))
+        not (desc and len(desc) > 500) and \
+        not (url and len(url) > 255
+    ):
+        print(f"\n\n\nTo else\n\n\n")
+        conn.execute(text(f"INSERT INTO reviews (customer_email, product_id, rating\
+                        {', description' if desc else ''} {', image' if url else ''}) "
+                        "VALUES (:email, :productId, :rating "
+                        f"{', :desc' if desc else ''}{', :url' if url else ''})"),
+                        {'email': current_user.email, 'productId': productId, 
+                        'rating': rating, 'desc': desc, 'url': url})
         conn.commit()
 
     return redirect(url_for("product.product", product_id=productId, variant_id=variantId))
