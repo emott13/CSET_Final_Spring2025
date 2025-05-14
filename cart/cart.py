@@ -28,6 +28,8 @@ def cart():
     ).fetchall()
     # print('cartItems')
     
+
+
     cartItems_map = []
     prices = []
     for item in cartItems:
@@ -36,12 +38,35 @@ def cart():
         prices.append(int(item[2] * item[1]))
         price = toDollar(int(item[2] * item[1]))
         id = item[3]
+        photo = conn.execute(text("""
+            SELECT image_id, file_path
+            FROM images
+            WHERE variant_id = :vid
+            ORDER BY image_id ASC;
+        """), {'vid': id}).fetchone()
         cartItems_map.append({
             'name': name,
             'quantity': quantity,
             'price': price,
-            'id': id
+            'id': id,
+            'photo': photo[1]
         })
+
+    photos = []
+    for item in cartItems_map:
+        variant = item['id']
+        photo = conn.execute(text("""
+            SELECT image_id, file_path
+            FROM images
+            WHERE variant_id = :vid
+            ORDER BY image_id ASC;
+    """), {'vid': variant}).fetchone()
+        photos.append({
+            'iid': photo[0],
+            'file': photo[1],
+            'vid': variant
+        })
+        print('photos', photos)
     
     subtotal = 0
     tax = 0

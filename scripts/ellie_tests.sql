@@ -542,7 +542,7 @@ VALUES
 (iid, 'https://www.staples-3p.com/s7/is/image/Staples/95CBC599-9581-4384-AB7E87134750EEBE_sc7?wid=700&hei=700', ''),
 (iid, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700', ''),
 select product_id, product_title, cat_num, variant_id, color_name, size_description, spec_description, price from products natural join product_variants natural join sizes natural join specifications natural join colors order by variant_id asc;
-
+select * from product_variants;
 
 (iid, ''),
 (iid, ''),
