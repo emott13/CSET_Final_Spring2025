@@ -7,7 +7,6 @@ USE goods;
 -- CREATE TABLE STATEMENTS --
 -- ----------------------- --
 
-select * from product_variants;
 CREATE TABLE IF NOT EXISTS users (
 	email VARCHAR(255) PRIMARY KEY, 										-- using email like a user id since unique
     username VARCHAR(255) NOT NULL UNIQUE,
