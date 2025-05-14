@@ -157,11 +157,16 @@
                                 <label class="" for="size">Size:</label>
                             </div>
                         </div>
-
+                        <div class="flex">
+                            <div class="fancy-input">
+                                <input class="full-width" type="text" name="spec" placeholder="" required/>
+                                <label class="" for="spec">Specs:</label>
+                            </div>
+                        </div>
                         <div class="flex">
                             <div class="fancy-input">
                                 <input class="full-width" type="text" name="price" placeholder="$10.99" required/>
-                                <label class="label-shown" for="size">Price:</label>
+                                <label class="label-shown" for="price">Price:</label>
                             </div>
                         </div>
 
@@ -194,6 +199,7 @@
                         <th>Color</th>
                         <th></th>
                         <th>Size</th>
+                        <th>Spec</th>
                         <th>Price</th>
                         <th>Inventory</th>
                         <th>URLs</th>
@@ -220,6 +226,7 @@
                                 </td>
                                 <td><a class="product-color-box" style="background-color: {{variant['color_hex']}}"></a></td>
                                 <td><input name="size" value="{{variant['size_description']}}"></td>
+                                <td><input name="spec" value="{{variant['spec_description']}}"></td>
                                 <td><input name="price" value="${{variant['price']|priceFormat}}"></td>
                                 <td><input name="inventory" type="number" min="0" value="{{variant['current_inventory']}}"></td>
                                 {% for image in imageData %}
