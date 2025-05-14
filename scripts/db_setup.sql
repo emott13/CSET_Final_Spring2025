@@ -7,7 +7,6 @@ USE goods;
 -- CREATE TABLE STATEMENTS --
 -- ----------------------- --
 
-select * from product_variants;
 CREATE TABLE IF NOT EXISTS users (
 	email VARCHAR(255) PRIMARY KEY, 										-- using email like a user id since unique
     username VARCHAR(255) NOT NULL UNIQUE,
@@ -143,8 +142,10 @@ CREATE TABLE IF NOT EXISTS complaints ( 									-- join tables using complaint_
     demand ENUM('return', 'refund', 'warranty claim'),
     status ENUM('pending', 'rejected', 'handed to delivery partner', 'shipped', 'confirmed', 'processing', 'complete') NOT NULL,
     date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	order_id INT,
     FOREIGN KEY (submitted_by) REFERENCES users(email),
-    FOREIGN KEY (reviewed_by) REFERENCES users(email)
+    FOREIGN KEY (reviewed_by) REFERENCES users(email),
+    FOREIGN KEY (order_id) REFERENCES orders(order_id)
 );
 
 -- chats

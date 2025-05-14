@@ -11,7 +11,11 @@ def getUser():
 
 def getProductData(product_id):
     result = conn.execute(
-        text("SELECT * FROM products WHERE product_id = :pid"),
+        text("SELECT product_id, vendor_id, product_title, product_description, " \
+            "warranty_months, CONCAT(first_name, ' ', last_name) " \
+            "FROM products " \
+            "JOIN users ON users.email = products.vendor_id " \
+            "WHERE product_id = :pid"),
         {'pid': product_id}).first()
     return result if result else None
 
@@ -117,6 +121,8 @@ def product(product_id, variant_id=None, error=None):
     elif redirect_url:
         return redirect(redirect_url)
 
+    print(f"produc_id: {product_id}")
+
     user = getUser()
     product = getProductData(product_id)
     variants = getVariantData(product_id)
@@ -125,14 +131,15 @@ def product(product_id, variant_id=None, error=None):
     discount = getDiscount(variant_id)
     allDiscounts = getAllDiscounts(product_id)
     images = getImageData(variant_id)
-    user_type = getUser()
+    user_type = getCurrentType()
 
     product_map = {
         'pid': product[0],
         'vend_id': product[1],
         'title': product[2],
         'description': product[3],
-        'warranty': product[4]
+        'warranty': product[4],
+        'full_name': product[5]
     }
     allVariants_map = []
     for variant in variants:
@@ -381,41 +388,36 @@ def product(product_id, variant_id=None, error=None):
 @product_bp.route("/product/<int:productId>/<int:variantId>/review", methods=["POST"])
 def submitReview(productId, variantId):
     rating = int(request.form.get('rating'))
-    desc = request.form.get('description')
-    url = request.form.get('image')
+    desc = request.form.get('description', None)
+    url = request.form.get('image', None)
     reviewExists = bool(conn.execute(text("SELECT review_id FROM reviews "
         f"WHERE product_id = {productId} AND customer_email = '{current_user.email}'"
         )).first())
 
     if reviewExists:
-        return redirect(url_for("product.product", productId=productId, variantId=variantId))
-
-    if not desc:
-        desc = "NULL"
-    else:
-        desc = "'" + desc + "'"
-    if not url:
-        url = "NULL"
-    else:
-        url = "'" + url + "'"
+        return redirect(url_for("product.product", product_id=productId, variantId=variantId))
 
     if  (rating >= 1 and rating <= 5 ) and \
-        (len(desc) <= 500) and \
-        (len(url) <= 255):
-        conn.execute(text(f"INSERT INTO reviews (customer_email, product_id, rating, description, image) "
-                          f"VALUES ('{current_user.email}', {productId}, {rating}, "
-                          f"{desc}, {url})"))
+        not (desc and len(desc) > 500) and \
+        not (url and len(url) > 255
+    ):
+        print(f"\n\n\nTo else\n\n\n")
+        conn.execute(text(f"INSERT INTO reviews (customer_email, product_id, rating\
+                        {', description' if desc else ''} {', image' if url else ''}) "
+                        "VALUES (:email, :productId, :rating "
+                        f"{', :desc' if desc else ''}{', :url' if url else ''})"),
+                        {'email': current_user.email, 'productId': productId, 
+                        'rating': rating, 'desc': desc, 'url': url})
         conn.commit()
 
-    return redirect(url_for("product.product", productId=productId, variantId=variantId))
+    return redirect(url_for("product.product", product_id=productId, variant_id=variantId))
 
 @product_bp.route("/product/<int:productId>/<int:variantId>/<int:reviewId>", methods=["POST"])
 def reviewDelete(productId, variantId, reviewId):
     review_email = conn.execute(text("SELECT customer_email FROM reviews "
                                      f"WHERE review_id = {reviewId}")).first()[0]
-    print(review_email)
     if review_email != current_user.email:
-        return redirect(url_for("product.product", productId=productId, variantId=variantId))
+        return redirect(url_for("product.product", product_id=productId, variant_id=variantId))
 
     try:
         conn.execute(text(f"DELETE FROM reviews WHERE review_id = {reviewId}"))
@@ -423,5 +425,4 @@ def reviewDelete(productId, variantId, reviewId):
     except Exception as e:
         print("\n" + str(e) + "\n")
 
-
-    return redirect(url_for("product.product", productId=productId, variantId=variantId))
+    return redirect(url_for("product.product", product_id=productId, variant_id=variantId))
