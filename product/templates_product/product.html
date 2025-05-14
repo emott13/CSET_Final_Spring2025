@@ -147,10 +147,14 @@
                         This product has a {{ productData.warranty }} month warranty
                     </p>
                 {% endif %}
-                <h2 class="product-description-h2 top-margin">Have Questions?</h2>
-                <button class="btn product-chat-btn" onclick="document.location.href = 
-                `{{url_for('chat.room', type='product', combined_id=productData.pid, 
-                           recieverEmail=productData.vendor_id)}}`">Chat With {{productData.full_name}}</button>
+                {% if email %}
+                    <h2 class="product-description-h2 top-margin">Have Questions?</h2>
+                    <button class="btn product-chat-btn" 
+                        onclick="document.location.href = 
+                        `{{url_for('chat.room', type='product', combined_id=productData.pid, 
+                        recieverEmail=productData.vendor_id)}}`">Chat With {{productData.full_name}}
+                    </button>
+                {% endif %}
             </div>
 
         </div>

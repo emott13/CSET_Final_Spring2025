@@ -7,7 +7,7 @@ product_bp = Blueprint("product", __name__, static_folder="static_product",
                         template_folder="templates_product")
 
 def getUser():
-    return current_user.email
+    return None if not current_user.is_authenticated else current_user.email
 
 def getProductData(product_id):
     result = conn.execute(
@@ -125,7 +125,7 @@ def product(product_id, variant_id=None, error=None):
     discount = getDiscount(variant_id)
     allDiscounts = getAllDiscounts(product_id)
     images = getImageData(variant_id)
-    user_type = current_user.type
+    user_type = getUser()
 
     product_map = {
         'pid': product[0],
