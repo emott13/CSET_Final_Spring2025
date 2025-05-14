@@ -141,21 +141,24 @@ def variant(method, productId, variantId=None):
     # add size to the sizes table if it doesn't exist
     if not (
         conn.execute(text(
-        f"SELECT size_id FROM sizes WHERE size_description = '{size.replace("'", "\'")}'")).first()
+        f"SELECT size_id FROM sizes WHERE size_description = '" + 
+            size.replace("'", "\\'") + "'")).first()
         ):
         conn.execute(text("INSERT INTO sizes (size_description) "
-                          f"VALUES ('{size.replace("'", "\'")}')")) 
+                          f"VALUES ('" + size.replace("'", "\\'") + "')")) 
         conn.commit()
     sizeId = conn.execute(text(
-        f"SELECT size_id FROM sizes WHERE size_description = '{size.replace("'", "\'")}'")).first()[0]
+        f"SELECT size_id FROM sizes WHERE size_description = '" + 
+            size.replace("'", "\\'") + "}'")).first()[0]
 
     # add spec to the specs table if it doesn't exist
     if not (
         conn.execute(text(
-        f"SELECT spec_id FROM specifications WHERE spec_description = '{spec.replace("'", "\'")}'")).first()
+        f"SELECT spec_id FROM specifications WHERE spec_description = '" + 
+            spec.replace("'", "\\'") + "'")).first()
         ):
         conn.execute(text("INSERT INTO specifications (spec_description) "
-                          f"VALUES ('{spec.replace("'", "\'")}')")) 
+                          f"VALUES ('" + spec.replace("'", "\\'") + "')")) 
         conn.commit()
     specId = conn.execute(text(
         f"SELECT spec_id FROM specifications WHERE spec_description = '{spec}'")).first()[0]

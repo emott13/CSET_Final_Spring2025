@@ -14,6 +14,8 @@ from account.account import account_bp
 from complaint.complaint import complaint_bp
 from chat.chat import chat_bp
 
+defaultDBPassword() # Hashes the default user's password as 'password'
+
 # -- LOGIN PAGE -- #
 app.register_blueprint(login_bp)
 

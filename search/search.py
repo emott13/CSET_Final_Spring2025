@@ -206,7 +206,7 @@ def navSearch():
     
     print('TYPE # # # # # # #', type(cat_list))
     if len(cat_list) == 1:
-        match cat_list:
+        match cat_list[0]:
             case 'TX':
                 cat_query = [
                     '301', '302', '303', 

@@ -1,6 +1,8 @@
-CREATE DATABASE IF NOT EXISTS goods_fix;
-USE goods_fix;
--- drop database goods_fix;
+
+CREATE DATABASE IF NOT EXISTS goods;
+USE goods;
+
+-- drop database goods;
 -- ----------------------- --
 -- CREATE TABLE STATEMENTS --
 -- ----------------------- --
@@ -14,6 +16,17 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR(60) NOT NULL,
     type ENUM('vendor', 'admin', 'customer') NOT NULL
 );
+
+
+CREATE TABLE IF NOT EXISTS admin_appli (
+	email VARCHAR(255) PRIMARY KEY, 										-- using email like a user id since unique
+    username VARCHAR(255) NOT NULL UNIQUE,
+    hashed_pswd VARCHAR(300) NOT NULL, 										-- hashed passwords needed more space in prev programs so using 300 instead of 255
+    first_name VARCHAR(60) NOT NULL,
+    last_name VARCHAR(60) NOT NULL
+);
+
+
 -- products related tables
 CREATE TABLE IF NOT EXISTS categories(					-- product categories for search / filter
 	cat_num INT PRIMARY KEY,
@@ -95,14 +108,24 @@ CREATE TABLE IF NOT EXISTS cart_items (
 CREATE TABLE IF NOT EXISTS orders (
     order_id INT PRIMARY KEY AUTO_INCREMENT,		
     customer_email VARCHAR(255) NOT NULL,	
-    status ENUM('pending', 'rejected', 'confirmed', 'processing', 'complete') NOT NULL DEFAULT 'pending',
+    status ENUM('pending', 'rejected', 'handed to delivery partner', 'shipped', 'confirmed', 'processing', 'complete') NOT NULL DEFAULT 'pending',
     order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     total_price INT NOT NULL,													 -- in cents
+    address VARCHAR(255),
+    address2 VARCHAR(255),
+    city VARCHAR(255),
+    state VARCHAR(255),
+    country VARCHAR(255),
+    credit_card VARCHAR(19),
+    card_name VARCHAR(255),
+    card_cvc VARCHAR(4),
     FOREIGN KEY (customer_email) REFERENCES users(email)
 );
 CREATE TABLE IF NOT EXISTS order_items (
     order_item_id INT PRIMARY KEY AUTO_INCREMENT,
-    order_id INT NOT NULL,														-- references user's order
+    order_id INT NOT NULL,	
+	status ENUM('pending', 'rejected', 'handed to delivery partner', 'shipped', 'confirmed', 'processing', 'complete') NOT NULL DEFAULT 'pending',
+
     variant_id INT NOT NULL,
     quantity INT NOT NULL,
     price_at_order_time INT NOT NULL, 											-- copy of the product_variant.price at time of order
@@ -118,7 +141,7 @@ CREATE TABLE IF NOT EXISTS complaints ( 									-- join tables using complaint_
 	title VARCHAR(50),
     description VARCHAR(500),
     demand ENUM('return', 'refund', 'warranty claim'),
-    status ENUM('pending', 'rejected', 'confirmed', 'processing', 'complete') NOT NULL,
+    status ENUM('pending', 'rejected', 'handed to delivery partner', 'shipped', 'confirmed', 'processing', 'complete') NOT NULL,
     date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (submitted_by) REFERENCES users(email),
     FOREIGN KEY (reviewed_by) REFERENCES users(email)
@@ -185,18 +208,18 @@ ALTER TABLE specifications AUTO_INCREMENT = 200;
 
 INSERT INTO users (email, username, hashed_pswd, first_name, last_name, type)
 VALUES											
-	('d_daedalus_admin@goods.com', 'dd_admin', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Daedalus', 'Dzidzic', 'admin'), -- admin
-	('m_malova_admin@goods.com', 'mm_admin', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Maya', 'Malova', 'admin'), -- admin
-	('s_teller@gmail.com', 'steller', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Simpson', 'Teller', 'customer'), -- customer
-	('s_petocs@gmail.com', 'spetocs', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Sajay', 'Petocs', 'customer'), -- customer
-	('d_giant@outlook.com', 'dgiant', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Damien', 'Giant', 'customer'), -- customer
-	('c_ramos@outlook.com', 'cramos', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Celia', 'Ramos', 'customer'), -- customer
-	('j_prescott@gmail.com', 'jprescott', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Jean', 'Prescott', 'customer'), -- customer
-	('a_batts@textbooksmadeeasy.org', 'abatts_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Textbooks', 'Made Easy', 'vendor'), -- vendor
-	('g_pitts@supplies4school.org', 'gpitts_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Supplies', '4 School', 'vendor'), -- vendor
-	('i_tombolli@study_space.com', 'itombolli_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Study', 'Space', 'vendor'), -- vendor
-    ('f_craft@techtime.com', 'fcraft_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Tech', 'Time', 'vendor'),
-    ('c_simmons@worksmart.com', 'csimmons_vendor', '2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Work', 'Smart Co.', 'vendor'); 
+	('d_daedalus_admin@goods.com', 'dd_admin', 'password', 'Daedalus', 'Dzidzic', 'admin'), -- admin
+	('m_malova_admin@goods.com', 'mm_admin', 'password', 'Maya', 'Malova', 'admin'), -- admin
+	('s_teller@gmail.com', 'steller', 'password', 'Simpson', 'Teller', 'customer'), -- customer
+	('s_petocs@gmail.com', 'spetocs', 'password', 'Sajay', 'Petocs', 'customer'), -- customer
+	('d_giant@outlook.com', 'dgiant', 'password', 'Damien', 'Giant', 'customer'), -- customer
+	('c_ramos@outlook.com', 'cramos', 'password', 'Celia', 'Ramos', 'customer'), -- customer
+	('j_prescott@gmail.com', 'jprescott', 'password', 'Jean', 'Prescott', 'customer'), -- customer
+	('a_batts@textbooksmadeeasy.org', 'abatts_vendor', 'password', 'Textbooks', 'Made Easy', 'vendor'), -- vendor
+	('g_pitts@supplies4school.org', 'gpitts_vendor', 'password', 'Supplies', '4 School', 'vendor'), -- vendor
+	('i_tombolli@study_space.com', 'itombolli_vendor', 'password', 'Study', 'Space', 'vendor'), -- vendor
+    ('f_craft@techtime.com', 'fcraft_vendor', 'password', 'Tech', 'Time', 'vendor'),
+    ('c_simmons@worksmart.com', 'csimmons_vendor', 'password', 'Work', 'Smart Co.', 'vendor'); 
     
 INSERT INTO categories(cat_num, cat_name)
 VALUES
@@ -967,20 +990,20 @@ VALUES
 (9038, 622, 401, 214, 2589, 10),
 (9039, 601, 401, 221, 3049, 10),
 (9040, 644, 401, 202, 1899, 10),
-(9041, 603, 401, 210, 0, 10),
-(9041, 601, 401, 210, 0, 10),
-(9042, 601, 401, 214, 0, 10),
-(9043, 601, 401, 217, 0, 10),
-(9043, 601, 401, 231, 0, 10),
-(9044, 601, 401, 227, 0, 10),
-(9045, 601, 424, 222, 0, 10),
-(9046, 601, 424, 214, 0, 10),
-(9046, 602, 424, 214, 0, 10),
-(9046, 603, 424, 214, 0, 10),
-(9047, 601, 424, 232, 0, 10),
-(9048, 601, 424, 207, 0, 10),
-(9049, 601, 431, 207, 0, 10),
-(9050, 601, 400, 218, 0, 10),
+(9041, 603, 401, 210, 9999, 10),
+(9041, 601, 401, 210, 9999, 10),
+(9042, 601, 401, 214, 9999, 10),
+(9043, 601, 401, 217, 9999, 10),
+(9043, 601, 401, 231, 9999, 10),
+(9044, 601, 401, 227, 9999, 10),
+(9045, 601, 424, 222, 9999, 10),
+(9046, 601, 424, 214, 9999, 10),
+(9046, 602, 424, 214, 9999, 10),
+(9046, 603, 424, 214, 9999, 10),
+(9047, 601, 424, 232, 9999, 10),
+(9048, 601, 424, 207, 9999, 10),
+(9049, 601, 431, 207, 9999, 10),
+(9050, 601, 400, 218, 9999, 10),
 (9051, 601, 435, 246, 469, 10),
 (9051, 601, 435, 247, 1169, 10),
 (9051, 601, 435, 248, 6079, 10),
@@ -988,43 +1011,44 @@ VALUES
 (9052, 601, 436, 245, 969, 10),
 (9052, 601, 436, 249, 4739, 10),
 (9053, 601, 435, 268, 3039, 10),
-(9054, 601, 436, 269, 0, 10),
-(9055, 601, 434, 271, 0, 10),
-(9056, 601, 476, 270, 0, 10),
-(9057, 601, 476, 270, 0, 10),
-(9058, 601, 476, 270, 0, 10),
-(9059, 601, 406, 274, 0, 10),
-(9060, 601, 406, 275, 0, 10),
-(9061, 601, 406, 276, 0, 10),
+(9054, 601, 436, 269, 9999, 10),
+(9055, 601, 434, 271, 9999, 10),
+(9056, 601, 476, 270, 9999, 10),
+(9057, 601, 476, 270, 9999, 10),
+(9058, 601, 476, 270, 9999, 10),
+(9059, 601, 406, 274, 9999, 10),
+(9060, 601, 406, 275, 9999, 10),
+(9061, 601, 406, 276, 9999, 10),
+
 (9062, 606, 467, 200, 2769, 10),
 (9062, 634, 467, 200, 2769, 10),
 (9062, 639, 467, 200, 2769, 10),
 (9062, 644, 467, 200, 2769, 10),
-(9063, 606, 401, 200, 0, 10),
-(9063, 639, 401, 200, 0, 10),
-(9063, 644, 401, 200, 0, 10),
-(9064, 606, 401, 200, 0, 10),
+(9063, 606, 401, 200, 9999, 10),
+(9063, 639, 401, 200, 9999, 10),
+(9063, 644, 401, 200, 9999, 10),
+(9064, 606, 401, 200, 9999, 10),
 (9065, 606, 400, 262, 5299, 10),
 (9066, 621, 400, 261, 5299, 10),
-(9067, 601, 477, 222, 0, 10),
-(9068, 601, 477, 222, 0, 10),
-(9069, 644, 405, 251, 0, 10),
-(9069, 644, 405, 252, 0, 10),
-(9069, 644, 405, 253, 0, 10),
-(9069, 644, 405, 254, 0, 10),
-(9069, 644, 405, 255, 0, 10),
-(9070, 644, 404, 251, 0, 10),
-(9070, 644, 404, 252, 0, 10),
-(9070, 644, 404, 253, 0, 10),
-(9070, 644, 404, 254, 0, 10),
-(9070, 644, 404, 255, 0, 10),
-(9071, 644, 403, 251, 0, 10),
-(9071, 644, 403, 252, 0, 10),
-(9071, 644, 403, 253, 0, 10),
-(9071, 644, 403, 254, 0, 10),
-(9071, 644, 403, 255, 0, 10),
-(9072, 606, 401, 263, 0, 10),
-(9073, 606, 401, 263, 0, 10),
+(9067, 601, 477, 222, 9999, 10),
+(9068, 601, 477, 222, 9999, 10),
+(9069, 644, 405, 251, 9999, 10),
+(9069, 644, 405, 252, 9999, 10),
+(9069, 644, 405, 253, 9999, 10),
+(9069, 644, 405, 254, 9999, 10),
+(9069, 644, 405, 255, 9999, 10),
+(9070, 644, 404, 251, 9999, 10),
+(9070, 644, 404, 252, 9999, 10),
+(9070, 644, 404, 253, 9999, 10),
+(9070, 644, 404, 254, 9999, 10),
+(9070, 644, 404, 255, 9999, 10),
+(9071, 644, 403, 251, 9999, 10),
+(9071, 644, 403, 252, 9999, 10),
+(9071, 644, 403, 253, 9999, 10),
+(9071, 644, 403, 254, 9999, 10),
+(9071, 644, 403, 255, 9999, 10),
+(9072, 606, 401, 263, 9999, 10),
+(9073, 606, 401, 263, 9999, 10),
 (9074, 606, 402, 200, 5999, 10),
 (9075, 639, 402, 200, 5569, 10),
 (9076, 606, 402, 200, 10719, 10),
@@ -1036,6 +1060,7 @@ VALUES
 (9081, 606, 402, 200, 6999, 10),
 (9082, 606, 401, 200, 4489, 10),
 (9083, 606, 401, 200, 4999, 10),
+
 (9084, 614, 401, 201, 24900, 10),
 (9085, 606, 401, 200, 7999, 10),
 (9085, 606, 401, 200, 9999, 10),
@@ -1047,14 +1072,15 @@ VALUES
 (9090, 606, 401, 200, 12999, 10),
 (9091, 613, 471, 209, 1599, 10),
 (9091, 613, 471, 273, 1299, 10),
-(9091, 613, 472, 209, 0, 10),
-(9091, 613, 472, 273, 0, 10),
-(9091, 613, 473, 209, 0, 10),
-(9091, 613, 473, 273, 0, 10),
-(9091, 613, 474, 209, 0, 10),
-(9091, 613, 474, 273, 0, 10),
-(9092, 606, 401, 200, 0, 10),
-(9093, 606, 401, 200, 0, 10),
+(9091, 613, 472, 209, 9999, 10),
+(9091, 613, 472, 273, 9999, 10),
+(9091, 613, 473, 209, 9999, 10),
+(9091, 613, 473, 273, 9999, 10),
+(9091, 613, 474, 209, 9999, 10),
+(9091, 613, 474, 273, 9999, 10),
+(9092, 606, 401, 200, 9999, 10),
+(9093, 606, 401, 200, 9999, 10),
+
 (9094, 644, 401, 256, 29999, 10),
 (9094, 644, 401, 257, 39999, 10),
 (9095, 606, 401, 200, 4549, 10),
@@ -1090,11 +1116,12 @@ VALUES
 (9102, 607, 401, 200, 13899, 10),
 (9102, 642, 401, 200, 13899, 10),
 (9102, 629, 401, 200, 13899, 10),
-(9103, 601, 408, 205, 0, 10),
-(9104, 606, 415, 200, 0, 10),
-(9104, 607, 415, 200, 0, 10),
-(9104, 617, 415, 200, 0, 10),
-(9104, 636, 415, 200, 0, 10),
+(9103, 601, 408, 205, 9999, 10),
+(9104, 606, 415, 200, 9999, 10),
+(9104, 607, 415, 200, 9999, 10),
+(9104, 617, 415, 200, 9999, 10),
+(9104, 636, 415, 200, 9999, 10),
+
 (9105, 607, 422, 200, 17199, 10),
 (9106, 604, 401, 200, 19499, 10),
 (9107, 605, 432, 200, 17999, 5),
@@ -1838,6 +1865,7 @@ VALUES
     (860, 'https://www.staples-3p.com/s7/is/image/Staples/C3B2A525-6B7E-48CC-A5CAB5A9E3C8A227_sc7?wid=700&hei=700'),
     (860, 'https://www.staples-3p.com/s7/is/image/Staples/A30142CC-B670-45A6-83CB1A7200E993CD_sc7?wid=700&hei=700'),
     
+
     (861, 'https://www.staples-3p.com/s7/is/image/Staples/2F939766-0CDF-4383-934896971849A14D_sc7?wid=700&hei=700'),
     (861, 'https://www.staples-3p.com/s7/is/image/Staples/19C11F38-D022-4A2B-B040A007BCDEAD78_sc7?wid=700&hei=700'),
     (861, 'https://www.staples-3p.com/s7/is/image/Staples/D4626D79-761A-4C3D-931E248DEDBBCB5E_sc7?wid=700&hei=700'),
@@ -2312,6 +2340,7 @@ VALUES
 	(968, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700'),
 		
 	(969, 'https://www.staples-3p.com/s7/is/image/Staples/95CBC599-9581-4384-AB7E87134750EEBE_sc7?wid=700&hei=700'),
+
 	(969, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700'),
     
     (970, ''),

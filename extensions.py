@@ -16,7 +16,7 @@ from flask_bcrypt import Bcrypt
 
 # Initialize Flask app
 # conn_str = "mysql://root:cset155@localhost/goods" <-- main database
-conn_str = "mysql://root:cset155@localhost/goods_fix" # <-- database for testing changes
+conn_str = "mysql://root:cset155@localhost/goods" 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = conn_str
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -91,6 +91,17 @@ def sql_enum_list(enum: str) -> list:
     for item in enum[5:-1].split(','):
         arr.append(item.replace("'", ""))
     return arr
+
+def defaultDBPassword():
+    """
+    Sets the default user's password to the hashed password, 'password'.
+    'password' default hash value is invalid so the user can't allow their
+    password to be changed by this function
+    """
+    conn.execute(text(
+        "UPDATE users SET hashed_pswd = :pswdHash WHERE hashed_pswd = 'password'"),
+        {'pswdHash': bcrypt.generate_password_hash('password')})
+    conn.commit()
 
 # price formatter for jinja template. call like {{154|priceFormat}}
 @app.template_filter()
