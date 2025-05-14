@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS goods_fix;
-USE goods_fix;
+CREATE DATABASE IF NOT EXISTS goods;
+USE goods;
 -- drop database goods_fix;
 -- ----------------------- --
 -- CREATE TABLE STATEMENTS --
@@ -14,6 +14,15 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR(60) NOT NULL,
     type ENUM('vendor', 'admin', 'customer') NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS admin_appli (
+	email VARCHAR(255) PRIMARY KEY, 										-- using email like a user id since unique
+    username VARCHAR(255) NOT NULL UNIQUE,
+    hashed_pswd VARCHAR(300) NOT NULL, 										-- hashed passwords needed more space in prev programs so using 300 instead of 255
+    first_name VARCHAR(60) NOT NULL,
+    last_name VARCHAR(60) NOT NULL
+);
+
 -- products related tables
 CREATE TABLE IF NOT EXISTS categories(					-- product categories for search / filter
 	cat_num INT PRIMARY KEY,
@@ -1702,7 +1711,7 @@ VALUES
     
     (825, 'https://www.staples-3p.com/s7/is/image/Staples/sp138382946_sc7?wid=700&hei=700'),
     (825, 'https://www.staples-3p.com/s7/is/image/Staples/5743C478-DAF6-41D4-A3DC245D60749CF1_sc7?wid=700&hei=700'),
-    (825, 'https://www.staples-3p.com/s7/is/image/Staples/sp41817060_sc7?wid=700&hei=700')
+    (825, 'https://www.staples-3p.com/s7/is/image/Staples/sp41817060_sc7?wid=700&hei=700'),
     
     (826, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856294_sc7?wid=700&hei=700'),
     (826, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856295_sc7?wid=700&hei=700'),
