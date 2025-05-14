@@ -7,7 +7,7 @@
 <main>
     <div class="main">
         <section class="productsContainer">
-            <z class="productWrapper">
+            <div class="productWrapper">
                 <div class="prodTextbooks floatItem">
                     <h3 class="prodHeadline pos-text">
                         <pre>Fastrack learning</pre>
@@ -15,7 +15,7 @@
                             Hit the books and stay ahead.
                             From algebra to zoology &mdash; textbooks for every subject and schedule.
                         </p>
-                        <a href="#" class="prodSubCTA">
+                        <a href="{{ url_for('search.navSearch', cat=['TX']) }}" class="prodSubCTA">
                             Explore textbooks <span class="arrow"><i class="ion-arrow-right-c"></i></span>
                         </a>
                     </h3>
@@ -28,7 +28,7 @@
                             Design the ultimate classroom with just a few clicks.
                             From seating to storage, and so much more: we've got you covered.
                         </p>
-                        <a href="#" class="prodSubCTA">
+                        <a href="{{ url_for('search.navSearch', cat=['SC', 'FT']) }}" class="prodSubCTA">
                             Explore classroom furniture <span class="arrow"><i class="ion-arrow-right-c"></i></span>
                         </a>
                     </h3>
@@ -40,7 +40,7 @@
                             Stock up on classroom essentials in a snap.
                             From notebooks to name tags, everything you need is right here.
                         </p>
-                        <a href="#" class="prodSubCTA">
+                        <a href="{{ url_for('search.navSearch', cat=['SO', 'SC']) }}" class="prodSubCTA">
                             Explore school essentials <span class="arrow"><i class="ion-arrow-right-c"></i></span>
                         </a>
                     </h3>
@@ -52,7 +52,7 @@
                             Refresh your workspace without the hassle.
                             Desks, chairs, and storage solutions &mdash; all just a click away.
                         </p>
-                        <a href="#" class="prodSubCTA">
+                        <a href="{{ url_for('search.navSearch', cat=['OF', 'FT']) }}" class="prodSubCTA">
                             Explore office furniture <span class="arrow"><i class="ion-arrow-right-c"></i></span>
                         </a>
                     </h3>
@@ -76,7 +76,7 @@
                             Boost productivity with gear that keeps up.
                             Laptops, accessories, and gadgets to power every task.
                         </p>
-                        <a href="#" class="prodSubCTA">
+                        <a href="{{ url_for('search.navSearch', cat=['TC']) }}" class="prodSubCTA">
                             Explore classroom and office electronics <span class="arrow"><i class="ion-arrow-right-c"></i></span>
                         </a>
                     </h3>
