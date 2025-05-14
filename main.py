@@ -9,7 +9,7 @@ from search.search import search_bp
 from home.home import home_bp
 from product_manage.product_manage import product_manage_bp
 from cart.cart import cart_bp
-from order.order import order_bp
+from order.order import order_bpBee
 from account.account import account_bp
 from complaint.complaint import complaint_bp
 from chat.chat import chat_bp
