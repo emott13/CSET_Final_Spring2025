@@ -213,14 +213,18 @@ def search():
             'hex': color[2]
         })
     
+
+    checkAvailability(products)
+    
     if request.method == 'POST':
         formPrice = request.form.get('price')
         formName = request.form.getlist('vendor-options')
         formColor = request.form.getlist('color-options')
         formSizes = request.form.getlist('cat-sizes')
+        formStock = request.form.get('stock-options')
 
         # -- handles navigation to page from search bar -- #
-        if not formPrice and not formName and not formCategories and not formColor and not formSizes: 
+        if not formPrice and not formName and not formCategories and not formColor and not formSizes and not formStock: 
             formSearch = request.form.get('product_search')
             searchInput = formSearch.strip().replace(' ', '%')
             searchInput = '%' + searchInput + '%'
@@ -261,7 +265,8 @@ def search():
                        formCategories=formCategories, 
                        formPrice=formPrice, 
                        formColor=formColor,
-                       formSizes=formSizes)
+                       formSizes=formSizes,
+                       formStock=formStock)
 
         print('# # # # # FORMS')
         print('cat', formCategories)
@@ -373,10 +378,20 @@ def getSecondPrice(string):
     except Exception:
         return '$00.00'
 
+def checkAvailability(products):
+    for product in products:
+        count = int(product.get('stock'))
+        if count > 5:
+            product['availability'] = None
+        elif 0 < count <= 5:
+            product['availability'] = 'Less than 5 left'
+        else:
+            product['availability'] = 'Out of Stock'
+
 def filterProducts(products, formVendors=None, 
                    formCategories=None, formPrice=None, 
                    formSearch=None, formColor=None,
-                   formSizes=None):
+                   formSizes=None, formStock=None):
     for product in products:
         should_display = True                                                   # assume product should be displayed
         
@@ -423,6 +438,12 @@ def filterProducts(products, formVendors=None,
             
             if color_name not in selected_colors:                           # if product color not in selected colors,
                 should_display = False                                      # product display changed to avoid display
+
+        if formStock:
+            if formStock == 'in' and int(product.get('stock')) == 0:
+                should_display = False
+            if formStock == 'out' and int(product.get('stock')) > 0:
+                should_display = False
 
         if formPrice:
             max_price_cents = toCents(formPrice)

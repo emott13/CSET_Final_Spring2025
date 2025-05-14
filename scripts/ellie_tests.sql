@@ -16,11 +16,12 @@ SELECT product_id
 FROM products p 
 JOIN users u ON p.vendor_id = u.email
 WHERE p.product_title
-	LIKE '%smart%'
+	LIKE :input
 OR p.product_description
-	LIKE '%smart%'
+	LIKE :input
 OR CONCAT(u.first_name, ' ', u.last_name)
-	LIKE '%smart%';
+	LIKE :input;
+    select * from product_variants
         
 -- select * from images where variant_id between 100227 AND 100240;
 select image_id, file_path from images where variant_id in (100261, 100262);

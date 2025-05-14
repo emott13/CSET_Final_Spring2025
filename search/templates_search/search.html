@@ -298,6 +298,25 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="availability">
+                            <button class="stock initiate-drop">Availability <i class="ion-chevron-down"></i></button>
+                            <div class="stock-dropdown dropdown">
+                                <div class="input-container" name="stock" id="stock-search">
+                                    <label for="in-stock">
+                                        <input name="stock-options" type="radio" id="in-stock" class="stock-options" value="in">
+                                        In Stock
+                                    </label>
+                                    <label for="out-stock">
+                                        <input name="stock-options" type="radio" id="out-stock" class="stock-options" value="out">
+                                        Out of Stock
+                                    </label>
+                                    <label for="both-stock">
+                                        <input name="stock-options" type="radio" id="both-stock" class="stock-options" value="all">
+                                        All Availability
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="submit-wrapper">
                             <input type="submit" class="submit-apply" form="formSearch" value="Apply">
                         </div>
@@ -312,6 +331,11 @@
                                         <div class="iconWrapper">
                                             <i class="ion-search"></i>
                                         </div>
+                                        {% if product.availability is not none %}
+                                        <div class="prodAvailablity">
+                                            <p class="prodStock">{{ product.availability }}</p>
+                                        </div>
+                                        {% endif %}
                                         <div class="vendorBrand">
                                             <button class="productBrand">{{ product.brand }}</button>
                                         </div>

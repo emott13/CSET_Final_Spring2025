@@ -89,6 +89,24 @@ img.cardImg{
     font-weight: 600;
 }
 
+.prodAvailablity{
+    position: relative;
+    top: 0;
+    width: 150px;
+}
+.prodStock{
+    position: absolute;
+    top: 150;
+    left: -80;
+    border: 1px solid var(--color-rust);
+    border-radius: 15px;
+    background-color: transparent;
+    padding: 4px 6px;
+    color: var(--color-rust);
+    font-size: 16px;
+    font-weight: 600;
+}
+
 .prodInfo{
     padding: 10px;
     font-size: 23px;
@@ -132,7 +150,8 @@ img.cardImg{
 .vendor,
 .price,
 .color,
-.size{
+.size,
+.stock{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
