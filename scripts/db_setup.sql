@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS cart_items (
 CREATE TABLE IF NOT EXISTS orders (
     order_id INT PRIMARY KEY AUTO_INCREMENT,		
     customer_email VARCHAR(255) NOT NULL,	
-    status ENUM('pending', 'rejected', 'confirmed', 'processing', 'complete') NOT NULL DEFAULT 'pending',
+    status ENUM('pending', 'rejected', 'handed to delivery partner', 'shipped', 'confirmed', 'processing', 'complete') NOT NULL DEFAULT 'pending',
     order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     total_price INT NOT NULL,													 -- in cents
     address VARCHAR(255),
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS orders (
 CREATE TABLE IF NOT EXISTS order_items (
     order_item_id INT PRIMARY KEY AUTO_INCREMENT,
     order_id INT NOT NULL,	
-	status ENUM('pending', 'rejected', 'confirmed', 'processing', 'complete') NOT NULL DEFAULT 'pending',
+	status ENUM('pending', 'rejected', 'handed to delivery partner', 'shipped', 'confirmed', 'processing', 'complete') NOT NULL DEFAULT 'pending',
     variant_id INT NOT NULL,
     quantity INT NOT NULL,
     price_at_order_time INT NOT NULL, 											-- copy of the product_variant.price at time of order
@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS complaints ( 									-- join tables using complaint_
 	title VARCHAR(50),
     description VARCHAR(500),
     demand ENUM('return', 'refund', 'warranty claim'),
-    status ENUM('pending', 'rejected', 'confirmed', 'processing', 'complete') NOT NULL,
+    status ENUM('pending', 'rejected', 'handed to delivery partner', 'shipped', 'confirmed', 'processing', 'complete') NOT NULL,
     date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (submitted_by) REFERENCES users(email),
     FOREIGN KEY (reviewed_by) REFERENCES users(email)
