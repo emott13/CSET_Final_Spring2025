@@ -100,7 +100,7 @@ img.cardImg{
     left: -80;
     border: 1px solid var(--color-rust);
     border-radius: 15px;
-    background-color: transparent;
+    background-color: #fff;
     padding: 4px 6px;
     color: var(--color-rust);
     font-size: 16px;

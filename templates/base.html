@@ -22,17 +22,6 @@
                     <a href="{{ url_for('home.home')}}">The Study Stack</a>
                  </div>
             </div>
-            <!-- <div class="headerSection directory">
-                 <div class="headerItemDirectory">
-                    <select name="products" id="prodDirectory">
-                        <option value="textbook">Textbooks</option>
-                        <option value="supplies">School supplies</option>
-                        <option value="office">Office furniture</option>
-                        <option value="classroom">Classroom furniture</option>
-                        <option value="technology">Technology</option>
-                    </select>
-                 </div>
-            </div> -->
             <div class="headerSection search">
                 <!-- search -->
                  <form class="headerItemSearch searchPosition" id="search-form" method="POST" action="{{ url_for('search.search')}}">
@@ -61,19 +50,19 @@
         <nav class="headerDirectory">
             <ol class="prodNavMenu">
                 <li class="prodNavItem">
-                    <a href="#" class="hoverAnimation">Textbooks</a>
+                    <a href="{{ url_for('search.navSearch', cat=['TX']) }}" class="hoverAnimation">Textbooks</a>
                 </li>
                 <li class="prodNavItem">
-                    <a href="#" class="hoverAnimation">School supplies</a>
+                    <a href="{{ url_for('search.navSearch', cat=['SO', 'SC']) }}" class="hoverAnimation">School supplies</a>
                 </li>
                 <li class="prodNavItem">
-                    <a href="#" class="hoverAnimation">Office furniture</a>
+                    <a href="{{ url_for('search.navSearch', cat=['OF', 'FT']) }}" class="hoverAnimation">Office furniture</a>
                 </li>
                 <li class="prodNavItem">
-                    <a href="#" class="hoverAnimation">Classroom furniture</a>
+                    <a href="{{ url_for('search.navSearch', cat=['SC', 'FT']) }}" class="hoverAnimation">Classroom furniture</a>
                 </li>
                 <li class="prodNavItem">
-                    <a href="#" class="hoverAnimation">Technology</a>
+                    <a href="{{ url_for('search.navSearch', cat=['TC']) }}" class="hoverAnimation">Technology</a>
                 </li>
             </ol>
         </nav>

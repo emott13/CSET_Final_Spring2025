@@ -1,219 +1,79 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 from sqlalchemy import text
 from extensions import conn
 from colorsys import rgb_to_hls
 
 search_bp = Blueprint('search', __name__, static_folder='static_search', template_folder='templates_search')
 
-
-# -- SEARCH PAGE -- #
-@search_bp.route('/search', methods=['GET', 'POST'])
-@search_bp.route('/search/search.py', methods=['GET', 'POST'])
-def search():
-    product_data = conn.execute(                                    # fetch all product data
-        text('''
-            SELECT v.product_id, v.variant_id, p.product_title,
-                p.cat_num, u.email, v.price, v.current_inventory,
-                c.color_name, c.color_hex, v.size_id, v.spec_id,
-                CONCAT(u.first_name, ' ', u.last_name)
-            FROM product_variants v
-            JOIN products p ON p.product_id = v.product_id
-            LEFT JOIN users u ON p.vendor_id = u.email
-            LEFT JOIN colors c ON v.color_id = c.color_id;
-    ''')).fetchall()
-
-    product_options = conn.execute(                                 # get variant counts
-        text('''                         
-        SELECT product_id, COUNT(variant_id) AS option_count
-        FROM product_variants
-        GROUP BY product_id;
-    ''')).fetchall()
-    option_map = {pid: count for pid, count in product_options}
-
-    product_variants = conn.execute(
-        text('''
-        SELECT variant_id FROM product_variants;
-             ''')).fetchall()
-    photos = {}
-    for vid in product_variants:
-        vid = int(vid[0])
-        product_photo = conn.execute(
-            text('''
-                SELECT file_path, image_id
-                FROM images 
-                WHERE variant_id = :vid 
-                ORDER BY image_id
-                LIMIT 1;
-                '''),
-                {'vid': vid}).fetchone()
-        photos[vid] = product_photo[0] if product_photo is not None else None
-    
-
-    products = []                                                   # create product list
-    for row in product_data:
-        pid, vid, title, cat_num, vendor, price, inventory, c_name, c_hex, size, spec, brand = row
-
-        price = toDollar(price)
-        products.append({                                           # append product dict to products list
-            'id': pid,
-            'vid': vid,
-            'title': title or 'No Title',
-            'price': price or 'N/A',
-            'vendor': vendor or 'No Vendor',
-            'category': cat_num,
-            'sid': size,
-            'spid': spec,
-            'color': c_name,
-            'hex': c_hex,
-            'stock': inventory,
-            'photo': photos.get(vid),
-            'options': option_map.get(pid, 0),
-            'brand': brand,
-            'display': True
-        })
-
-    vendors = conn.execute(                                         # fetch vendors
-        text('''                                 
-        SELECT username, CONCAT(first_name, " ", last_name) 
-        FROM users WHERE type = "vendor"
-    ''')).fetchall()
-
-    category_queries = {                                            # seperate categories by cat_num range
+category_queries = {                                            # seperate categories by cat_num range
         'SO': (1, 99),
         'SC': (100, 199),
         'OF': (200, 299),
         'TX': (300, 399),
         'TC': (400, 499),
         'FT': (500, 599)
-    }
-    categories = {}                                                 # create categories dictionary
-    for key, (start, end) in category_queries.items():
-        categories[key] = conn.execute(text('''
-            SELECT cat_num, cat_name 
-            FROM categories
-            WHERE cat_num BETWEEN :start AND :end
-        '''), {'start': start, 'end': end}).fetchall()
+}
+individual_cat_queries = {                                            # seperate categories by cat_num range
+    'Writing Supplies': 11,
+    'Notetaking': 12,
+    'Folders & Filing': 13,
+    'Bags, Lunchboxes, & Backpacks': 14,
+    'School Basics': 101,
+    'Calculators': 102,
+    'Art Supplies': 103,
+    'Office Basics': 201,
+    'Paper & Mailing Supplies': 202,
+    'Art Textbooks': 301,
+    'Business & Economics Textbooks': 302,
+    'Computer Textbooks': 303,
+    'Design Textbooks': 304,
+    'English Textbooks': 305,
+    'Foreign Language Textbooks': 306,
+    'Health & Fitness Textbooks': 307,
+    'History Textbooks': 308,
+    'Law Textbooks': 309,
+    'Mathematics Textbooks': 310,
+    'Medical Textbooks': 311,
+    'Music Textbooks': 312,
+    'Philosophy Textbooks': 313,
+    'Photography Textbooks': 314,
+    'Science Textbooks': 315,
+    'Study Aids Textbooks': 316,
+    'Tech & Engineering Textbooks': 317,
+    'Batteries': 401,
+    'Cables': 402,
+    'Computers': 403,
+    'Computer Accessories': 404,
+    'Computer Monitors': 405,
+    'Extension Cords': 406,
+    'External Device Storage': 407,
+    'Laptops': 408,
+    'Printers, Scanners & Accessories': 409,
+    'Classroom Chairs': 501,
+    'Classroom Desks': 502,
+    'Classroom Mats & Rugs': 503,
+    'Classroom Storage': 504,
+    'Office Chairs': 505,
+    'Office Desks': 506,
+    'Office Storage': 507,
+    'Office Mats & Rugs': 508
+}
 
+@search_bp.route('/search/search.py', methods=['GET', 'POST'])
+@search_bp.route('/search', methods=['GET', 'POST'])
+def search():
+    product_data = getProductData()
+    option_map = getProductOptions()
+    product_variants = getProductVariants()
+    photos = getPhotos(product_variants)
+    products = createProductList(product_data, photos, option_map)
+    vendors = getVendors()
+
+    categories = getCategories(category_queries)
     formCategories = request.form.getlist('categories')
 
-    colors = conn.execute(
-        text("""
-            SELECT color_id, color_name, color_hex
-            FROM colors
-            ORDER BY color_id ASC;
-        """)).fetchall()
-    
-    individual_cat_queries = {                                            # seperate categories by cat_num range
-        'Writing Supplies': 11,
-        'Notetaking': 12,
-        'Folders & Filing': 13,
-        'Bags, Lunchboxes, & Backpacks': 14,
-        'School Basics': 101,
-        'Calculators': 102,
-        'Art Supplies': 103,
-        'Office Basics': 201,
-        'Paper & Mailing Supplies': 202,
-        'Art Textbooks': 301,
-        'Business & Economics Textbooks': 302,
-        'Computer Textbooks': 303,
-        'Design Textbooks': 304,
-        'English Textbooks': 305,
-        'Foreign Language Textbooks': 306,
-        'Health & Fitness Textbooks': 307,
-        'History Textbooks': 308,
-        'Law Textbooks': 309,
-        'Mathematics Textbooks': 310,
-        'Medical Textbooks': 311,
-        'Music Textbooks': 312,
-        'Philosophy Textbooks': 313,
-        'Photography Textbooks': 314,
-        'Science Textbooks': 315,
-        'Study Aids Textbooks': 316,
-        'Tech & Engineering Textbooks': 317,
-        'Batteries': 401,
-        'Cables': 402,
-        'Computers': 403,
-        'Computer Accessories': 404,
-        'Computer Monitors': 405,
-        'Extension Cords': 406,
-        'External Device Storage': 407,
-        'Laptops': 408,
-        'Printers, Scanners & Accessories': 409,
-        'Classroom Chairs': 501,
-        'Classroom Desks': 502,
-        'Classroom Mats & Rugs': 503,
-        'Classroom Storage': 504,
-        'Office Chairs': 505,
-        'Office Desks': 506,
-        'Office Storage': 507,
-        'Office Mats & Rugs': 508
-    }
-
-    category_sizes = {}                                                 # create categories dictionary
-    for key, value in individual_cat_queries.items():
-        category_sizes[key] = conn.execute(text('''
-            SELECT s.size_id, s.size_description
-            FROM products p
-            JOIN product_variants v ON p.product_id = v.product_id
-            LEFT JOIN sizes s ON v.size_id = s.size_id
-            WHERE p.cat_num = :value
-        '''), {'value': value}).fetchall()
-    # redefine each dict key value to distinct tuples
-    for key, value in category_sizes.items():
-        cat_size_set = []
-        for tuple in value:
-            if tuple in cat_size_set:
-                continue
-            cat_size_set.append(tuple)
-        category_sizes[key] = cat_size_set
-    
-    size_map = []
-    for key, value in category_sizes.items():
-        for tuple in value:
-            size_map.append({
-                'cat': individual_cat_queries[key],
-                'id': tuple[0],
-                'descr': tuple[1]
-            })
-
-    # fetch specs by category 
-    category_specs = {}
-    for key, value in individual_cat_queries.items():
-        category_specs[key] = conn.execute(text('''
-            SELECT sp.spec_id, sp.spec_description
-            FROM products p 
-            JOIN product_variants v ON p.product_id = v.product_id
-            LEFT JOIN specifications sp ON v.spec_id = sp.spec_id
-            WHERE p.cat_num BETWEEN :start AND :end
-            ORDER BY sp.spec_id ASC;
-        '''), {'start': start, 'end': end}).fetchall()
-    # redefine each dict key value to distinct tuples
-    for key, value in  category_specs.items():
-        cat_spec_set = []
-        for tuple in value:
-            if tuple in cat_spec_set:
-                continue
-            cat_spec_set.append(tuple)
-        category_specs[key] = cat_spec_set
-
-    spec_map = []
-    for key, value in category_specs.items():
-        for tuple in value:
-            spec_map.append({
-                'cat': individual_cat_queries[key],
-                'id': tuple[0],
-                'descr': tuple[1]
-            })
-
-    colors_map = []
-    for color in colors:
-        colors_map.append({
-            'cid': color[0],
-            'name': color[1],
-            'hex': color[2]
-        })
-    
-
+    size_map = getCategorySizes(individual_cat_queries)
+    spec_map = getCategorySpecs(individual_cat_queries)
     checkAvailability(products)
     
     if request.method == 'POST':
@@ -330,9 +190,239 @@ def search():
         cat_sizes =  size_map,
         cat_specs = spec_map
     )
+
+# -- SEARCH PAGE -- #
+@search_bp.route('/redirect', methods=['GET'])
+def navSearch():
+    cat_list = request.args.getlist('cat')
+    print('THE CAT_LIST # # # # #', cat_list)
+
+    cat_query = {}
+    userInput = ''
+    try:
+        len(cat_list) == 1
+    except:
+        return redirect(url_for('search.search'))
     
+    print('TYPE # # # # # # #', type(cat_list))
+    if len(cat_list) == 1:
+        match cat_list:
+            case 'TX':
+                cat_query = [
+                    '301', '302', '303', 
+                    '304', '305', '306', 
+                    '307', '308', '309', 
+                    '310', '311', '312', 
+                    '313', '314', '315', 
+                    '316', '317'
+                ]
+                userInput = 'Textbooks'
+            case 'TC':
+                cat_query = ['401', '402', '403', '404', '405', '406', '407', '408', '409']
+                userInput = 'Technology'
+    if len(cat_list) == 2:
+        match cat_list[0], cat_list[1]:
+            case 'SO', 'SC':
+                cat_query = ['11', '12', '13', '14', '101', '102', '103']
+                userInput = 'School Supplies'
+            case 'SC', 'FT':
+                cat_query = ['501', '502', '503', '504']
+                userInput = 'Classroom Furniture'
+            case 'OF', 'FT':
+                cat_query = ['505', '506', '507', '508']
+                userInput = 'Office Furniture'
+    
+    product_data = getProductData()
+    product_variants = getProductVariants()
+    photos = getPhotos(product_variants)
+    option_map = getProductOptions()
+    categories = getCategories(category_queries)
+    
+    # to display page
+    products = createProductList(product_data, photos, option_map)
+    vendors = getVendors()
+
+    filterProducts(products=products, formCategories=cat_query)
+    
+    size_map = getCategorySizes(individual_cat_queries)
+    spec_map = getCategorySpecs(individual_cat_queries)
+
+    checkAvailability(products)
+
+    print('CAT********', cat_list, type(cat_list))
+    return render_template(
+            'search.html',
+            products = products,
+            vendors = vendors,
+            categories = categories,
+            userInput = userInput,
+            priceValue = 1000,
+            clearDisplay = 'none',
+            cat_sizes =  size_map,
+            cat_specs = spec_map
+        )  
 
 # -- FUNCTIONS -- #
+
+def getProductData():
+    return conn.execute(                                    # fetch all product data
+        text('''
+            SELECT v.product_id, v.variant_id, p.product_title,
+                p.cat_num, u.email, v.price, v.current_inventory,
+                c.color_name, c.color_hex, v.size_id, v.spec_id,
+                CONCAT(u.first_name, ' ', u.last_name)
+            FROM product_variants v
+            JOIN products p ON p.product_id = v.product_id
+            LEFT JOIN users u ON p.vendor_id = u.email
+            LEFT JOIN colors c ON v.color_id = c.color_id;
+    ''')).fetchall()
+
+def getProductOptions():
+    result = conn.execute(                                 # get variant counts
+        text('''                         
+        SELECT product_id, COUNT(variant_id) AS option_count
+        FROM product_variants
+        GROUP BY product_id;
+    ''')).fetchall()
+    return {pid: count for pid, count in result}
+
+def getProductVariants():
+    return conn.execute(text('''
+        SELECT variant_id FROM product_variants;
+        ''')).fetchall()
+    
+def getPhotos(product_variants):
+    photos = {}
+    for vid in product_variants:
+        vid = int(vid[0])
+        product_photo = conn.execute(
+            text('''
+                SELECT file_path, image_id
+                FROM images 
+                WHERE variant_id = :vid 
+                ORDER BY image_id
+                LIMIT 1;
+                '''),
+                {'vid': vid}).fetchone()
+        photos[vid] = product_photo[0] if product_photo is not None else None
+    return photos
+
+def createProductList(product_data, photos, option_map):
+    products = []                                                   # create product list
+    for row in product_data:
+        pid, vid, title, cat_num, vendor, price, inventory, c_name, c_hex, size, spec, brand = row
+
+        price = toDollar(price)
+        products.append({                                           # append product dict to products list
+            'id': pid,
+            'vid': vid,
+            'title': title or 'No Title',
+            'price': price or 'N/A',
+            'vendor': vendor or 'No Vendor',
+            'category': cat_num,
+            'sid': size,
+            'spid': spec,
+            'color': c_name,
+            'hex': c_hex,
+            'stock': inventory,
+            'photo': photos.get(vid),
+            'options': option_map.get(pid, 0),
+            'brand': brand,
+            'display': True
+        })
+    return products
+
+def getVendors():
+    return conn.execute(                                         # fetch vendors
+        text('''                                 
+        SELECT username, CONCAT(first_name, " ", last_name) 
+        FROM users WHERE type = "vendor"
+    ''')).fetchall()
+
+def getCategories(category_queries):
+    categories = {}                                                 # create categories dictionary
+    for key, (start, end) in category_queries.items():
+        categories[key] = conn.execute(text('''
+            SELECT cat_num, cat_name 
+            FROM categories
+            WHERE cat_num BETWEEN :start AND :end
+        '''), {'start': start, 'end': end}).fetchall()
+    return categories
+
+def getColors():
+    result = conn.execute(
+        text("""
+            SELECT color_id, color_name, color_hex
+            FROM colors
+            ORDER BY color_id ASC;
+        """)).fetchall()
+    colors_map = []
+    for color in result:
+        colors_map.append({
+            'cid': color[0],
+            'name': color[1],
+            'hex': color[2]
+        })
+    return colors_map
+
+def getCategorySizes(individual_cat_queries):
+    category_sizes = {}                                                 # create categories dictionary
+    for key, value in individual_cat_queries.items():
+        category_sizes[key] = conn.execute(text('''
+            SELECT s.size_id, s.size_description
+            FROM products p
+            JOIN product_variants v ON p.product_id = v.product_id
+            LEFT JOIN sizes s ON v.size_id = s.size_id
+            WHERE p.cat_num = :value
+        '''), {'value': value}).fetchall()
+    # redefine each dict key value to distinct tuples
+    for key, value in category_sizes.items():
+        cat_size_set = []
+        for tuple in value:
+            if tuple in cat_size_set:
+                continue
+            cat_size_set.append(tuple)
+        category_sizes[key] = cat_size_set
+    
+    size_map = []
+    for key, value in category_sizes.items():
+        for tuple in value:
+            size_map.append({
+                'cat': individual_cat_queries[key],
+                'id': tuple[0],
+                'descr': tuple[1]
+            })
+    return size_map
+
+def getCategorySpecs(individual_cat_queries):
+    # fetch specs by category 
+    category_specs = {}
+    for key, value in individual_cat_queries.items():
+        category_specs[key] = conn.execute(text('''
+            SELECT sp.spec_id, sp.spec_description
+            FROM products p 
+            JOIN product_variants v ON p.product_id = v.product_id
+            LEFT JOIN specifications sp ON v.spec_id = sp.spec_id
+            WHERE p.cat_num = :value
+        '''), {'value': value}).fetchall()
+    # redefine each dict key value to distinct tuples
+    for key, value in  category_specs.items():
+        cat_spec_set = []
+        for tuple in value:
+            if tuple in cat_spec_set:
+                continue
+            cat_spec_set.append(tuple)
+        category_specs[key] = cat_spec_set
+
+    spec_map = []
+    for key, value in category_specs.items():
+        for tuple in value:
+            spec_map.append({
+                'cat': individual_cat_queries[key],
+                'id': tuple[0],
+                'descr': tuple[1]
+            })
+    return spec_map
 
 def toCents(num):
     numFloat = 0
@@ -495,9 +585,9 @@ def getColorName(color):
         'yellow': (46, 60),
         'green': (61, 150),
         'blue': (151, 255),
-        'purple': (256, 285),
-        'pink': (286, 335),
-        'red2': (336, 360)
+        'purple': (256, 303),
+        'pink': (304, 344),
+        'red2': (345, 360)
     }
     light_map = {
         'black': (0, 10),
