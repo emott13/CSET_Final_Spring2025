@@ -401,7 +401,8 @@ def filterProducts(products, formVendors=None,
 
         if formVendors:                                                         # filter by vendors
             selected_vendors = set(formVendors)
-            if product.get('vendor') not in selected_vendors:           
+            if product.get('vendor') not in selected_vendors: 
+                print('nOT VENDOR', product.get('vendor'))          
                 should_display = False
 
         if formCategories:                                                      # filter by category

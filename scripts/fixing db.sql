@@ -875,6 +875,7 @@ VALUES
 (9012, 617, 401, 210, 1379, 10),
 (9012, 607, 401, 210, 1379, 10),
 (9012, 635, 401, 210, 1379, 10),
+
 (9013, 636, 405, 200, 379, 10),
 (9013, 645, 405, 200, 379, 10),
 (9013, 617, 405, 200, 379, 10),
@@ -882,6 +883,7 @@ VALUES
 (9013, 629, 405, 200, 379, 10),
 (9013, 606, 405, 200, 379, 10),
 (9013, 601, 405, 205, 1299, 10),
+
 (9014, 601, 420, 242, 2399, 10),
 (9014, 601, 420, 242, 2399, 10),
 (9014, 601, 420, 242, 2399, 10),
@@ -890,46 +892,65 @@ VALUES
 (9014, 601, 420, 243, 699, 10),
 (9014, 601, 420, 243, 699, 10),
 (9014, 601, 420, 243, 699, 10),
+
 (9015, 601, 401, 241, 1329, 10),
+
 (9016, 601, 410, 240, 789, 10),
 (9016, 601, 412, 239, 429, 10),
+
 (9017, 606, 401, 200, 3799, 10),
 (9017, 629, 401, 200, 3799, 10),
 (9017, 632, 401, 200, 3799, 10),
 (9017, 644, 401, 200, 3799, 10),
+
 (9018, 636, 401, 200, 3299, 10),
 (9018, 634, 401, 200, 3299, 10),
 (9018, 620, 401, 200, 3299, 10),
 (9018, 618, 401, 200, 3299, 10),
 (9018, 611, 401, 200, 3299, 10),
+
 (9019, 619, 401, 200, 1499, 10),
+
 (9020, 623, 401, 200, 5499, 10),
 (9020, 606, 401, 200, 5499, 10),
 (9020, 611, 401, 200, 5499, 10),
 (9020, 637, 401, 200, 5499, 10),
 (9020, 641, 401, 200, 5499, 10),
 (9020, 615, 401, 200, 5499, 10),
+
 (9021, 605, 401, 200, 5499, 10),
 (9021, 605, 401, 200, 5499, 10),
 (9021, 605, 401, 200, 5499, 10),
+
 (9022, 601, 401, 200, 4889, 10),
+
 (9023, 609, 401, 215, 1089, 10),
 (9023, 609, 401, 226, 1899, 10),
+
 (9024, 601, 480, 217, 1649, 10),
+
 (9025, 629, 437, 229, 2449, 10),
+
 (9026, 600, 401, 233, 2199, 10),
 (9026, 600, 401, 266, 21919, 10),
+
 (9027, 600, 401, 200, 649, 10),
 (9027, 600, 401, 200, 649, 10),
 (9027, 600, 401, 205, 3849, 10),
 (9027, 600, 401, 205, 3849, 10),
+
 (9028, 629, 401, 200, 1849, 10),
 (9028, 634, 401, 200, 1849, 10),
 (9028, 610, 401, 200, 1849, 10),
+
 (9029, 607, 401, 200, 1789, 10),
+
 (9030, 614, 401, 200, 1259, 10),
+
 (9031, 606, 401, 200, 2449, 10),
+
 (9032, 601, 401, 209, 939, 10),
+
 (9033, 636, 401, 267, 4039, 10),
 (9033, 631, 401, 267, 4039, 10),
 (9033, 645, 401, 267, 4039, 10),
@@ -938,6 +959,7 @@ VALUES
 (9033, 624, 401, 267, 4039, 10),
 (9033, 644, 401, 267, 4039, 10),
 (9033, 612, 401, 267, 4039, 10),
+
 (9034, 601, 475, 210, 5299, 10),
 (9035, 601, 418, 212, 849, 10),
 (9036, 601, 419, 207, 3299, 10),
@@ -1548,10 +1570,9 @@ VALUES
 -- 	('Thanks for the info! For 10 or more 12-packs, I can offer them at $26.99 per pack instead of $29.99.', 850556, 'g_pitts@supplies4school.org', 'd_giant@outlook.com', '2025-04-09 11:01:12'),
 -- 	('That’s a fair offer. If I go with 15 packs, could you do $25 each?', 850556, 'd_giant@outlook.com', 'g_pitts@supplies4school.org', '2025-04-09 11:03:44'),
 -- 	('For 15 packs, I can meet you halfway at $25.99 per pack. Let me know if that works for you.', 850556, 'g_pitts@supplies4school.org', 'd_giant@outlook.com', '2025-04-09 11:06:10');
---     
+
 INSERT INTO images (variant_id, file_path)
 VALUES
--- bic mech pencils --
 	(800, 'https://www.staples-3p.com/s7/is/image/Staples/sp134866786_sc7?wid=700&hei=700'),
     (800, 'https://www.staples-3p.com/s7/is/image/Staples/BD2506AA-25C9-4DBF-8A9A71DDABB79FEC_sc7?wid=700&hei=700'),
     (800, 'https://www.staples-3p.com/s7/is/image/Staples/D1FA9BE6-94CE-4799-89346460B9D84DC6_sc7?wid=700&hei=700'),
@@ -1637,7 +1658,7 @@ VALUES
     -- 12 red
     (816, 'https://www.staples-3p.com/s7/is/image/Staples/BC5D0E88-8321-4645-AA5F31AC9F42C60A_sc7?wid=700&hei=700'),
     (816, 'https://www.staples-3p.com/s7/is/image/Staples/A6D65917-D1B1-498B-8980AD55397B2366_sc7?wid=700&hei=700'),
-    (816, ''),
+    (816, '*'),
     -- black 60
     (817, 'https://www.staples-3p.com/s7/is/image/Staples/AFD5FBB8-71A3-434C-989B74986834C3E5_sc7?wid=700&hei=700'),
     (817, 'https://www.staples-3p.com/s7/is/image/Staples/281C65AA-E03C-4165-BE0335374B5300D6_sc7?wid=700&hei=700'),
@@ -1672,7 +1693,7 @@ VALUES
     
     (825, 'https://www.staples-3p.com/s7/is/image/Staples/sp138382946_sc7?wid=700&hei=700'),
     (825, 'https://www.staples-3p.com/s7/is/image/Staples/5743C478-DAF6-41D4-A3DC245D60749CF1_sc7?wid=700&hei=700'),
-    (825, 'https://www.staples-3p.com/s7/is/image/Staples/sp41817060_sc7?wid=700&hei=700'),
+    (825, 'https://www.staples-3p.com/s7/is/image/Staples/sp41817060_sc7?wid=700&hei=700')
     
     (826, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856294_sc7?wid=700&hei=700'),
     (826, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856295_sc7?wid=700&hei=700'),
@@ -1682,205 +1703,609 @@ VALUES
     
     (828, 'https://www.staples-3p.com/s7/is/image/Staples/sp137770008_sc7?wid=700&hei=700'),
     (828, 'https://www.staples-3p.com/s7/is/image/Staples/sp137770011_sc7?wid=700&hei=700'),
+
+    (829, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856218_sc7?wid=700&hei=700'),
+    (829, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856219_sc7?wid=700&hei=700'),
     
-    (829, 'https://www.staples-3p.com/s7/is/image/Staples/sp137770008_sc7?wid=700&hei=700'),
-    (829, 'https://www.staples-3p.com/s7/is/image/Staples/sp137770011_sc7?wid=700&hei=700'),
+    (830, 'https://www.staples-3p.com/s7/is/image/Staples/s1070669_sc7?wid=700&hei=700'),
+    (830, 'https://www.staples-3p.com/s7/is/image/Staples/s1082037_sc7?wid=700&hei=700'),
     
-    (830, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856218_sc7?wid=700&hei=700'),
-    (830, 'https://www.staples-3p.com/s7/is/image/Staples/sp130856219_sc7?wid=700&hei=700'),
-    
-    (831, 'https://www.staples-3p.com/s7/is/image/Staples/s1070669_sc7?wid=700&hei=700'),
-    (831, 'https://www.staples-3p.com/s7/is/image/Staples/s1082037_sc7?wid=700&hei=700'),
-    
-    (832, 'https://www.staples-3p.com/s7/is/image/Staples/s1078333_sc7?wid=700&hei=700'),
-    (832, 'https://www.staples-3p.com/s7/is/image/Staples/s1078334_sc7?wid=700&hei=700'),
-    (832, 'https://www.staples-3p.com/s7/is/image/Staples/s1078335_sc7?wid=700&hei=700'),
-    (832, 'https://www.staples-3p.com/s7/is/image/Staples/s1078336_sc7?wid=700&hei=700'),
-    (832, 'https://www.staples-3p.com/s7/is/image/Staples/s1078337_sc7?wid=700&hei=700'),
+    (831, 'https://www.staples-3p.com/s7/is/image/Staples/s1078333_sc7?wid=700&hei=700'),
+    (831, 'https://www.staples-3p.com/s7/is/image/Staples/s1078334_sc7?wid=700&hei=700'),
+    (831, 'https://www.staples-3p.com/s7/is/image/Staples/s1078335_sc7?wid=700&hei=700'),
+    (831, 'https://www.staples-3p.com/s7/is/image/Staples/s1078336_sc7?wid=700&hei=700'),
+    (831, 'https://www.staples-3p.com/s7/is/image/Staples/s1078337_sc7?wid=700&hei=700'),
     
     -- paper mate felt pens --
-    (833, 'https://www.staples-3p.com/s7/is/image/Staples/98C1DFBD-AFCE-488D-B080922050338AA7_sc7?wid=700&hei=700'),
-    (833, 'https://www.staples-3p.com/s7/is/image/Staples/sp161466748_sc7?wid=700&hei=700'),
-    (833, 'https://www.staples-3p.com/s7/is/image/Staples/sp161466749_sc7?wid=700&hei=700'),
+    (832, 'https://www.staples-3p.com/s7/is/image/Staples/98C1DFBD-AFCE-488D-B080922050338AA7_sc7?wid=700&hei=700'),
+    (832, 'https://www.staples-3p.com/s7/is/image/Staples/sp161466748_sc7?wid=700&hei=700'),
+    (832, 'https://www.staples-3p.com/s7/is/image/Staples/sp161466749_sc7?wid=700&hei=700'),
     
     -- sharpie permenant markers --
     -- black
-    (834, 'https://www.staples-3p.com/s7/is/image/Staples/D67EC31B-0DB3-45F9-BD62DC872D1ACBF1_sc7?wid=700&hei=700'),
-    (834, 'https://www.staples-3p.com/s7/is/image/Staples/1BCDF1C0-5454-4A4A-A616BD9601C8C140_sc7?wid=700&hei=700'),
-    (834, 'https://www.staples-3p.com/s7/is/image/Staples/DD9A5C21-9C21-4A0E-B3B6C1149A3D0399_sc7?wid=700&hei=700'),
+    (833, 'https://www.staples-3p.com/s7/is/image/Staples/D67EC31B-0DB3-45F9-BD62DC872D1ACBF1_sc7?wid=700&hei=700'),
+    (833, 'https://www.staples-3p.com/s7/is/image/Staples/1BCDF1C0-5454-4A4A-A616BD9601C8C140_sc7?wid=700&hei=700'),
+    (833, 'https://www.staples-3p.com/s7/is/image/Staples/DD9A5C21-9C21-4A0E-B3B6C1149A3D0399_sc7?wid=700&hei=700'),
     -- red
-    (835, 'https://www.staples-3p.com/s7/is/image/Staples/5CA98F6D-8D11-4886-B08C0CC322E38815_sc7?wid=700&hei=700'),
-    (835, 'https://www.staples-3p.com/s7/is/image/Staples/sp89168542_sc7?wid=700&hei=700'),
-    (835, 'https://www.staples-3p.com/s7/is/image/Staples/s0922441_sc7?wid=700&hei=700'),
+    (834, 'https://www.staples-3p.com/s7/is/image/Staples/5CA98F6D-8D11-4886-B08C0CC322E38815_sc7?wid=700&hei=700'),
+    (834, 'https://www.staples-3p.com/s7/is/image/Staples/sp89168542_sc7?wid=700&hei=700'),
+    (834, 'https://www.staples-3p.com/s7/is/image/Staples/s0922441_sc7?wid=700&hei=700'),
     -- blue
-    (836, 'https://www.staples-3p.com/s7/is/image/Staples/1C929E3D-8BCF-48E2-A00933FB4AAD3B2D_sc7?wid=700&hei=700'),
-    (836, 'https://www.staples-3p.com/s7/is/image/Staples/s0933668_sc7?wid=700&hei=700'),
-    (836, 'https://www.staples-3p.com/s7/is/image/Staples/s0922442_sc7?wid=700&hei=700'),
+    (835, 'https://www.staples-3p.com/s7/is/image/Staples/1C929E3D-8BCF-48E2-A00933FB4AAD3B2D_sc7?wid=700&hei=700'),
+    (835, 'https://www.staples-3p.com/s7/is/image/Staples/s0933668_sc7?wid=700&hei=700'),
+    (835, 'https://www.staples-3p.com/s7/is/image/Staples/s0922442_sc7?wid=700&hei=700'),
     -- silver
-    (837, 'https://www.staples-3p.com/s7/is/image/Staples/m007068285_sc7?wid=700&hei=700'),
-    (837, 'https://www.staples-3p.com/s7/is/image/Staples/m007068281_sc7?wid=700&hei=700'),
-    (837, 'https://www.staples-3p.com/s7/is/image/Staples/m007068283_sc7?wid=700&hei=700'),
+    (836, 'https://www.staples-3p.com/s7/is/image/Staples/m007068285_sc7?wid=700&hei=700'),
+    (836, 'https://www.staples-3p.com/s7/is/image/Staples/m007068281_sc7?wid=700&hei=700'),
+    (836, 'https://www.staples-3p.com/s7/is/image/Staples/m007068283_sc7?wid=700&hei=700'),
     -- assorted
-    (838, 'https://www.staples-3p.com/s7/is/image/Staples/s1189983_sc7?wid=700&hei=700'),
-    (838, 'https://www.staples-3p.com/s7/is/image/Staples/m002908378_sc7?wid=700&hei=700'),
+    (837, 'https://www.staples-3p.com/s7/is/image/Staples/s1189983_sc7?wid=700&hei=700'),
+    (837, 'https://www.staples-3p.com/s7/is/image/Staples/m002908378_sc7?wid=700&hei=700'),
     -- assorted 24 pack
-    (839, 'https://www.staples-3p.com/s7/is/image/Staples/D5E6B1CA-30FC-4219-9BD4322085DCA998_sc7?wid=700&hei=700'),
-    (839, 'https://www.staples-3p.com/s7/is/image/Staples/sp44335828_sc7?wid=700&hei=700'),
-    (839, 'https://www.staples-3p.com/s7/is/image/Staples/sp44335829_sc7?wid=700&hei=700'),
+    (838, 'https://www.staples-3p.com/s7/is/image/Staples/D5E6B1CA-30FC-4219-9BD4322085DCA998_sc7?wid=700&hei=700'),
+    (838, 'https://www.staples-3p.com/s7/is/image/Staples/sp44335828_sc7?wid=700&hei=700'),
+    (838, 'https://www.staples-3p.com/s7/is/image/Staples/sp44335829_sc7?wid=700&hei=700'),
     
     -- dry erase starter set
-    (840, 'https://www.staples-3p.com/s7/is/image/Staples/E1755194-7001-4CE3-93598F83B0079751_sc7?wid=700&hei=700'),
-    (840, 'https://www.staples-3p.com/s7/is/image/Staples/sp40798560_sc7?wid=700&hei=700'),
-    (840, 'https://www.staples-3p.com/s7/is/image/Staples/sp40798562_sc7?wid=700&hei=700'),
-    (840, 'https://www.staples-3p.com/s7/is/image/Staples/sp40798565_sc7?wid=700&hei=700'),
+    (839, 'https://www.staples-3p.com/s7/is/image/Staples/E1755194-7001-4CE3-93598F83B0079751_sc7?wid=700&hei=700'),
+    (839, 'https://www.staples-3p.com/s7/is/image/Staples/sp40798560_sc7?wid=700&hei=700'),
+    (839, 'https://www.staples-3p.com/s7/is/image/Staples/sp40798562_sc7?wid=700&hei=700'),
+    (839, 'https://www.staples-3p.com/s7/is/image/Staples/sp40798565_sc7?wid=700&hei=700'),
     
     -- dry erase kit
-    (841, 'https://www.staples-3p.com/s7/is/image/Staples/m002304039_sc7?wid=700&hei=700'),
-    (841, 'https://www.staples-3p.com/s7/is/image/Staples/m002304040_sc7?wid=700&hei=700https://www.staples-3p.com/s7/is/image/Staples/m002304040_sc7?wid=700&hei=700'),
-    (841, 'https://www.staples-3p.com/s7/is/image/Staples/m002304041_sc7?wid=700&hei=700'),
-    (841, 'https://www.staples-3p.com/s7/is/image/Staples/m002304042_sc7?wid=700&hei=700'),
+    (840, 'https://www.staples-3p.com/s7/is/image/Staples/m002304039_sc7?wid=700&hei=700'),
+    (840, 'https://www.staples-3p.com/s7/is/image/Staples/m002304040_sc7?wid=700&hei=700https://www.staples-3p.com/s7/is/image/Staples/m002304040_sc7?wid=700&hei=700'),
+    (840, 'https://www.staples-3p.com/s7/is/image/Staples/m002304041_sc7?wid=700&hei=700'),
+    (840, 'https://www.staples-3p.com/s7/is/image/Staples/m002304042_sc7?wid=700&hei=700'),
     
     -- dry erase markers
     -- assorted
-    (842, 'https://www.staples-3p.com/s7/is/image/Staples/1B6FF91A-3111-4FC5-993BBF7E44F1E0BE_sc7?wid=700&hei=700'),
-    (842, 'https://www.staples-3p.com/s7/is/image/Staples/sp155560515_sc7?wid=700&hei=700'),
-    (842, 'https://www.staples-3p.com/s7/is/image/Staples/sp155560516_sc7?wid=700&hei=700'),
+    (841, 'https://www.staples-3p.com/s7/is/image/Staples/1B6FF91A-3111-4FC5-993BBF7E44F1E0BE_sc7?wid=700&hei=700'),
+    (841, 'https://www.staples-3p.com/s7/is/image/Staples/sp155560515_sc7?wid=700&hei=700'),
+    (841, 'https://www.staples-3p.com/s7/is/image/Staples/sp155560516_sc7?wid=700&hei=700'),
     -- black
-    (843, 'https://www.staples-3p.com/s7/is/image/Staples/sp161387743_sc7?wid=700&hei=700'),
-    (843, 'https://www.staples-3p.com/s7/is/image/Staples/sp161387838_sc7?wid=700&hei=700'),
-    (843, 'https://www.staples-3p.com/s7/is/image/Staples/sp161387839_sc7?wid=700&hei=700'),
+    (842, 'https://www.staples-3p.com/s7/is/image/Staples/sp161387743_sc7?wid=700&hei=700'),
+    (842, 'https://www.staples-3p.com/s7/is/image/Staples/sp161387838_sc7?wid=700&hei=700'),
+    (842, 'https://www.staples-3p.com/s7/is/image/Staples/sp161387839_sc7?wid=700&hei=700'),
     -- red
-    (844, 'https://www.staples-3p.com/s7/is/image/Staples/sp102580415_sc7?wid=700&hei=700'),
-    (844, 'https://www.staples-3p.com/s7/is/image/Staples/6E4861C8-7E9A-4E8F-9968DE672544E5AA_sc7?wid=700&hei=700'),
-    (844, 'https://www.staples-3p.com/s7/is/image/Staples/sp102580416_sc7?wid=700&hei=700'),
+    (843, 'https://www.staples-3p.com/s7/is/image/Staples/sp102580415_sc7?wid=700&hei=700'),
+    (843, 'https://www.staples-3p.com/s7/is/image/Staples/6E4861C8-7E9A-4E8F-9968DE672544E5AA_sc7?wid=700&hei=700'),
+    (843, 'https://www.staples-3p.com/s7/is/image/Staples/sp102580416_sc7?wid=700&hei=700'),
     -- green
-    (845, 'https://www.staples-3p.com/s7/is/image/Staples/sp40888435_sc7?wid=700&hei=700'),
-    (845, 'https://www.staples-3p.com/s7/is/image/Staples/sp40888433_sc7?wid=700&hei=700'),
-    (845, 'https://www.staples-3p.com/s7/is/image/Staples/sp40888432_sc7?wid=700&hei=700'),
+    (844, 'https://www.staples-3p.com/s7/is/image/Staples/sp40888435_sc7?wid=700&hei=700'),
+    (844, 'https://www.staples-3p.com/s7/is/image/Staples/sp40888433_sc7?wid=700&hei=700'),
+    (844, 'https://www.staples-3p.com/s7/is/image/Staples/sp40888432_sc7?wid=700&hei=700'),
     -- blue
-    (846, 'https://www.staples-3p.com/s7/is/image/Staples/s1184756_sc7?wid=700&hei=700'),
-    (846, 'https://www.staples-3p.com/s7/is/image/Staples/614B9DDE-27C9-41AE-89E590D1247EC18B_sc7?wid=700&hei=700'),
-    (846, 'https://www.staples-3p.com/s7/is/image/Staples/sp57451607_sc7?wid=700&hei=700'),
+    (845, 'https://www.staples-3p.com/s7/is/image/Staples/s1184756_sc7?wid=700&hei=700'),
+    (845, 'https://www.staples-3p.com/s7/is/image/Staples/614B9DDE-27C9-41AE-89E590D1247EC18B_sc7?wid=700&hei=700'),
+    (845, 'https://www.staples-3p.com/s7/is/image/Staples/sp57451607_sc7?wid=700&hei=700'),
     -- purple
-    (847, 'https://www.staples-3p.com/s7/is/image/Staples/s1192758_sc7?wid=700&hei=700'),
-    (847, 'https://www.staples-3p.com/s7/is/image/Staples/sp49508023_sc7?wid=700&hei=700'),
+    (846, 'https://www.staples-3p.com/s7/is/image/Staples/s1192758_sc7?wid=700&hei=700'),
+    (846, 'https://www.staples-3p.com/s7/is/image/Staples/sp49508023_sc7?wid=700&hei=700'),
     
-    (848, ''),
-    (848, ''),
-    
-    (849, ''),
-    (849, '')
-    
-    (850, ''),
-    (850, '')
-    
-    (851, ''),
-    (851, '')
-    
-    
-    
+    -- red apex notebook
+    (847, 'https://m.media-amazon.com/images/I/81y2PkckqSL._AC_SL1500_.jpg'),
+    (847, 'https://i5.walmartimages.com/asr/a5a532f2-8ad9-4b60-9e4e-5cdd439ce47f.d8217e8b065113176b8fd5325d6d0a14.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF'),
+    -- blue apex notebook
+    (848, 'https://m.media-amazon.com/images/I/81y2PkckqSL._AC_SL1500_.jpg'),
+    (848, 'https://i5.walmartimages.com/asr/a5a532f2-8ad9-4b60-9e4e-5cdd439ce47f.d8217e8b065113176b8fd5325d6d0a14.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF'),
+    -- green apex notebook
+    (849, 'https://m.media-amazon.com/images/I/81y2PkckqSL._AC_SL1500_.jpg'),
+    (849, 'https://i5.walmartimages.com/asr/a5a532f2-8ad9-4b60-9e4e-5cdd439ce47f.d8217e8b065113176b8fd5325d6d0a14.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF'),
+    -- yellow apex notebook
+    (850, 'https://m.media-amazon.com/images/I/81y2PkckqSL._AC_SL1500_.jpg'),
+    (850, 'https://i5.walmartimages.com/asr/a5a532f2-8ad9-4b60-9e4e-5cdd439ce47f.d8217e8b065113176b8fd5325d6d0a14.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF'),
+    -- navy apex notebook
+    (851, 'https://m.media-amazon.com/images/I/81y2PkckqSL._AC_SL1500_.jpg'),
+    (851, 'https://i5.walmartimages.com/asr/a5a532f2-8ad9-4b60-9e4e-5cdd439ce47f.d8217e8b065113176b8fd5325d6d0a14.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF'),
+    -- black apex notebook
+    (852, 'https://m.media-amazon.com/images/I/81y2PkckqSL._AC_SL1500_.jpg'),
+    (852, 'https://i5.walmartimages.com/asr/a5a532f2-8ad9-4b60-9e4e-5cdd439ce47f.d8217e8b065113176b8fd5325d6d0a14.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF'),
+	-- assorted 6 pack apex notebooks
+    (853, 'https://i5.walmartimages.com/seo/VEEBOOST-Spiral-Notebook-Wide-Ruled-Notebooks-Pack-70-Sheets-1-Subject-Notebooks-Bulk-6-Color-Assortment-3-Hole-Perforated-Sheets-6-College-Ruled_1b531551-d0b8-450d-9ff7-afea18bbd779.5271cf7c8925bd50af57f06aba6cc5cc.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF'),
+	(853, 'https://eclipsusa.com/cdn/shop/files/23955Shot_6_Lifestyle.jpg?v=1735326621&width=1946'),
+	-- assorted 12 pack apex notebooks
+    -- (855, 'https://m.media-amazon.com/images/I/81MjndMAZYL.jpg', 'Assorted 12 Pack - Stacked View'),
+    -- (855, 'https://i5.walmartimages.com/asr/a5a532f2-8ad9-4b60-9e4e-5cdd439ce47f.d8217e8b065113176b8fd5325d6d0a14.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF', 'Single Notebook - Inside View'),
+
     -- large post it packs
-	(855, 'https://www.staples-3p.com/s7/is/image/Staples/F44DFD2D-9753-43C2-BA3F9790DFDB4DF3_sc7?wid=700&hei=700'),
-    (855, 'https://www.staples-3p.com/s7/is/image/Staples/D6069D02-1F52-4573-865AD52B40E466DB_sc7?wid=700&hei=700'),
-    (855, 'https://www.staples-3p.com/s7/is/image/Staples/6917C6F4-2B87-488E-97496D7101CBDA1A_sc7?wid=700&hei=700'),
+	(854, 'https://www.staples-3p.com/s7/is/image/Staples/F44DFD2D-9753-43C2-BA3F9790DFDB4DF3_sc7?wid=700&hei=700'),
+    (854, 'https://www.staples-3p.com/s7/is/image/Staples/D6069D02-1F52-4573-865AD52B40E466DB_sc7?wid=700&hei=700'),
+    (854, 'https://www.staples-3p.com/s7/is/image/Staples/6917C6F4-2B87-488E-97496D7101CBDA1A_sc7?wid=700&hei=700'),
     
-    (856, 'https://www.staples-3p.com/s7/is/image/Staples/9C2D556A-98F8-447E-8B5DFCD6EF7C7060_sc7?wid=700&hei=700'),
-    (856, 'https://www.staples-3p.com/s7/is/image/Staples/A7CECE27-AB63-4A6F-BA8847561E4603C3_sc7?wid=700&hei=700'),
-    (856, 'https://www.staples-3p.com/s7/is/image/Staples/4267CE5D-A42B-456F-9C0B3E82BF2C22C2_sc7?wid=700&hei=700'),
+    (855, 'https://www.staples-3p.com/s7/is/image/Staples/9C2D556A-98F8-447E-8B5DFCD6EF7C7060_sc7?wid=700&hei=700'),
+    (855, 'https://www.staples-3p.com/s7/is/image/Staples/A7CECE27-AB63-4A6F-BA8847561E4603C3_sc7?wid=700&hei=700'),
+    (855, 'https://www.staples-3p.com/s7/is/image/Staples/4267CE5D-A42B-456F-9C0B3E82BF2C22C2_sc7?wid=700&hei=700'),
     
-    (857, 'https://www.staples-3p.com/s7/is/image/Staples/F8E92CAF-1F6F-4325-873109687F2E8612_sc7?wid=700&hei=700'),
-    (857, 'https://www.staples-3p.com/s7/is/image/Staples/E64BABF4-6D56-45D7-ABD2810EA7F1975F_sc7?wid=700&hei=700'),
-    (857, 'https://www.staples-3p.com/s7/is/image/Staples/025DA1D9-7F5A-4203-9847D3492D3E5560_sc7?wid=700&hei=700'),
+    (856, 'https://www.staples-3p.com/s7/is/image/Staples/F8E92CAF-1F6F-4325-873109687F2E8612_sc7?wid=700&hei=700'),
+    (856, 'https://www.staples-3p.com/s7/is/image/Staples/E64BABF4-6D56-45D7-ABD2810EA7F1975F_sc7?wid=700&hei=700'),
+    (856, 'https://www.staples-3p.com/s7/is/image/Staples/025DA1D9-7F5A-4203-9847D3492D3E5560_sc7?wid=700&hei=700'),
     
-    (858, 'https://www.staples-3p.com/s7/is/image/Staples/452A6108-45E7-4047-B9C0874D166A5611_sc7?wid=700&hei=700'),
-    (858, 'https://www.staples-3p.com/s7/is/image/Staples/4A0D9376-150E-4414-A33206877C7FEA3C_sc7?wid=700&hei=700'),
-    (858, 'https://www.staples-3p.com/s7/is/image/Staples/EACE8D2D-6D38-46F9-B4F9A95F1493316C_sc7?wid=700&hei=700'),
+    (857, 'https://www.staples-3p.com/s7/is/image/Staples/452A6108-45E7-4047-B9C0874D166A5611_sc7?wid=700&hei=700'),
+    (857, 'https://www.staples-3p.com/s7/is/image/Staples/4A0D9376-150E-4414-A33206877C7FEA3C_sc7?wid=700&hei=700'),
+    (857, 'https://www.staples-3p.com/s7/is/image/Staples/EACE8D2D-6D38-46F9-B4F9A95F1493316C_sc7?wid=700&hei=700'),
     
     -- small pack post it notes --
-	(859, 'https://www.staples-3p.com/s7/is/image/Staples/BFDF1A3E-7119-4F7E-8F987BDB0E8C04E5_sc7?wid=700&hei=700'),
-    (859, 'https://www.staples-3p.com/s7/is/image/Staples/62F83CB0-0776-4D80-93FDDBBEF83D02C6_sc7?wid=700&hei=700'),
-    (859, 'https://www.staples-3p.com/s7/is/image/Staples/B47EA64D-73EE-4B93-91E3C7553D5CE518_sc7?wid=700&hei=700'),
+	(858, 'https://www.staples-3p.com/s7/is/image/Staples/BFDF1A3E-7119-4F7E-8F987BDB0E8C04E5_sc7?wid=700&hei=700'),
+    (858, 'https://www.staples-3p.com/s7/is/image/Staples/62F83CB0-0776-4D80-93FDDBBEF83D02C6_sc7?wid=700&hei=700'),
+    (858, 'https://www.staples-3p.com/s7/is/image/Staples/B47EA64D-73EE-4B93-91E3C7553D5CE518_sc7?wid=700&hei=700'),
     
-    (860, 'https://www.staples-3p.com/s7/is/image/Staples/E07963F4-0CAF-49AD-BDEB95F98A5CB1EF_sc7?wid=700&hei=700'),
-    (860, 'https://www.staples-3p.com/s7/is/image/Staples/763A3A81-4C86-44BE-A4F6B03E6E15D0F5_sc7?wid=700&hei=700'),
-    (860, 'https://www.staples-3p.com/s7/is/image/Staples/20B1174F-58C3-4C23-8596C7B33B9C512A_sc7?wid=700&hei=700'),
+    (859, 'https://www.staples-3p.com/s7/is/image/Staples/E07963F4-0CAF-49AD-BDEB95F98A5CB1EF_sc7?wid=700&hei=700'),
+    (859, 'https://www.staples-3p.com/s7/is/image/Staples/763A3A81-4C86-44BE-A4F6B03E6E15D0F5_sc7?wid=700&hei=700'),
+    (859, 'https://www.staples-3p.com/s7/is/image/Staples/20B1174F-58C3-4C23-8596C7B33B9C512A_sc7?wid=700&hei=700'),
     
-    (861, 'https://www.staples-3p.com/s7/is/image/Staples/326DBC5F-C484-47F3-80F547B9AD68F847_sc7?wid=700&hei=700'),
-    (861, 'https://www.staples-3p.com/s7/is/image/Staples/C3B2A525-6B7E-48CC-A5CAB5A9E3C8A227_sc7?wid=700&hei=700'),
-    (861, 'https://www.staples-3p.com/s7/is/image/Staples/A30142CC-B670-45A6-83CB1A7200E993CD_sc7?wid=700&hei=700'),
-    
-    (862, 'https://www.staples-3p.com/s7/is/image/Staples/2F939766-0CDF-4383-934896971849A14D_sc7?wid=700&hei=700'),
-    (862, 'https://www.staples-3p.com/s7/is/image/Staples/19C11F38-D022-4A2B-B040A007BCDEAD78_sc7?wid=700&hei=700'),
-    (862, 'https://www.staples-3p.com/s7/is/image/Staples/D4626D79-761A-4C3D-931E248DEDBBCB5E_sc7?wid=700&hei=700'),
+    (860, 'https://www.staples-3p.com/s7/is/image/Staples/326DBC5F-C484-47F3-80F547B9AD68F847_sc7?wid=700&hei=700'),
+    (860, 'https://www.staples-3p.com/s7/is/image/Staples/C3B2A525-6B7E-48CC-A5CAB5A9E3C8A227_sc7?wid=700&hei=700'),
+    (860, 'https://www.staples-3p.com/s7/is/image/Staples/A30142CC-B670-45A6-83CB1A7200E993CD_sc7?wid=700&hei=700'),
     
     
-    	-- black
-	(863, 'https://www.staples-3p.com/s7/is/image/Staples/0D3524FF-2832-47D7-A2AACA09B78251AF_sc7?wid=700&hei=700'),
-    (863, 'https://www.staples-3p.com/s7/is/image/Staples/D7428E65-0EE6-478F-884DCE28AD123792_sc7?wid=700&hei=700'),
-    (863, 'https://www.staples-3p.com/s7/is/image/Staples/2C813818-609C-48B0-A5B72C9270296301_sc7?wid=700&hei=700'),
-    (863, 'https://www.staples-3p.com/s7/is/image/Staples/24AD6A77-5DC8-4FBD-989E4FEE55F15DA9_sc7?wid=700&hei=700'),
-    (863, 'https://www.staples-3p.com/s7/is/image/Staples/8BB61944-3D48-4CE4-8327F63BF437634F_sc7?wid=700&hei=700'),
-    (863, 'https://www.staples-3p.com/s7/is/image/Staples/3E85D25E-1967-4307-8A64BC3BA5F18A62_sc7?wid=700&hei=700'),
+    (861, 'https://www.staples-3p.com/s7/is/image/Staples/2F939766-0CDF-4383-934896971849A14D_sc7?wid=700&hei=700'),
+    (861, 'https://www.staples-3p.com/s7/is/image/Staples/19C11F38-D022-4A2B-B040A007BCDEAD78_sc7?wid=700&hei=700'),
+    (861, 'https://www.staples-3p.com/s7/is/image/Staples/D4626D79-761A-4C3D-931E248DEDBBCB5E_sc7?wid=700&hei=700'),
+    
+    (862, '*'),
+    (863, '*'),
+    (864, '*'),
+	-- black
+	(865, 'https://www.staples-3p.com/s7/is/image/Staples/0D3524FF-2832-47D7-A2AACA09B78251AF_sc7?wid=700&hei=700'),
+    (865, 'https://www.staples-3p.com/s7/is/image/Staples/D7428E65-0EE6-478F-884DCE28AD123792_sc7?wid=700&hei=700'),
+    (865, 'https://www.staples-3p.com/s7/is/image/Staples/2C813818-609C-48B0-A5B72C9270296301_sc7?wid=700&hei=700'),
+    (865, 'https://www.staples-3p.com/s7/is/image/Staples/24AD6A77-5DC8-4FBD-989E4FEE55F15DA9_sc7?wid=700&hei=700'),
+    (865, 'https://www.staples-3p.com/s7/is/image/Staples/8BB61944-3D48-4CE4-8327F63BF437634F_sc7?wid=700&hei=700'),
+    (865, 'https://www.staples-3p.com/s7/is/image/Staples/3E85D25E-1967-4307-8A64BC3BA5F18A62_sc7?wid=700&hei=700'),
     -- navy
-    (864, 'https://www.staples-3p.com/s7/is/image/Staples/37B758D7-2B96-4E2D-ABF4E4AAFFE3BC6F_sc7?wid=700&hei=700'),
-    (864, 'https://www.staples-3p.com/s7/is/image/Staples/5E737974-B2C3-448C-B4DD1BBC1F1B0F06_sc7?wid=700&hei=700'),
-    (864, 'https://www.staples-3p.com/s7/is/image/Staples/58FD9017-97AE-48E8-AAB4269BC0883BD9_sc7?wid=700&hei=700'),
-    (864, 'https://www.staples-3p.com/s7/is/image/Staples/8C2DF227-53C1-4D0E-929B8F5EC0A09A2D_sc7?wid=700&hei=700'),
-    (864, 'https://www.staples-3p.com/s7/is/image/Staples/E6F89404-A849-45B4-80DCC8BEF18E2DB8_sc7?wid=700&hei=700'),
-    (864, 'https://www.staples-3p.com/s7/is/image/Staples/6E602881-5F54-4B2E-996312B335A7FE9B_sc7?wid=700&hei=700'),
+    (866, 'https://www.staples-3p.com/s7/is/image/Staples/37B758D7-2B96-4E2D-ABF4E4AAFFE3BC6F_sc7?wid=700&hei=700'),
+    (866, 'https://www.staples-3p.com/s7/is/image/Staples/5E737974-B2C3-448C-B4DD1BBC1F1B0F06_sc7?wid=700&hei=700'),
+    (866, 'https://www.staples-3p.com/s7/is/image/Staples/58FD9017-97AE-48E8-AAB4269BC0883BD9_sc7?wid=700&hei=700'),
+    (866, 'https://www.staples-3p.com/s7/is/image/Staples/8C2DF227-53C1-4D0E-929B8F5EC0A09A2D_sc7?wid=700&hei=700'),
+    (866, 'https://www.staples-3p.com/s7/is/image/Staples/E6F89404-A849-45B4-80DCC8BEF18E2DB8_sc7?wid=700&hei=700'),
+    (866, 'https://www.staples-3p.com/s7/is/image/Staples/6E602881-5F54-4B2E-996312B335A7FE9B_sc7?wid=700&hei=700'),
     -- orchid
-    (865, 'https://www.staples-3p.com/s7/is/image/Staples/A9809EBD-5FCC-4A03-B40FAFB26118DA2D_sc7?wid=700&hei=700'),
-    (865, 'https://www.staples-3p.com/s7/is/image/Staples/B3D23C50-568C-4B28-959B3CF228CC8C89_sc7?wid=700&hei=700'),
-    (865, 'https://www.staples-3p.com/s7/is/image/Staples/5C21529A-EFDE-448E-A53EAC257AE36928_sc7?wid=700&hei=700'),
-    (865, 'https://www.staples-3p.com/s7/is/image/Staples/053E5E0E-70C8-40E7-925992EE95C92A2E_sc7?wid=700&hei=700'),
-    (865, 'https://www.staples-3p.com/s7/is/image/Staples/561C327E-6541-411D-9BD30A2BC1684949_sc7?wid=700&hei=700'),
-    (865, 'https://www.staples-3p.com/s7/is/image/Staples/EC589213-4362-47E4-BB4383489F986315_sc7?wid=700&hei=700'),
+    (867, 'https://www.staples-3p.com/s7/is/image/Staples/A9809EBD-5FCC-4A03-B40FAFB26118DA2D_sc7?wid=700&hei=700'),
+    (867, 'https://www.staples-3p.com/s7/is/image/Staples/B3D23C50-568C-4B28-959B3CF228CC8C89_sc7?wid=700&hei=700'),
+    (867, 'https://www.staples-3p.com/s7/is/image/Staples/5C21529A-EFDE-448E-A53EAC257AE36928_sc7?wid=700&hei=700'),
+    (867, 'https://www.staples-3p.com/s7/is/image/Staples/053E5E0E-70C8-40E7-925992EE95C92A2E_sc7?wid=700&hei=700'),
+    (867, 'https://www.staples-3p.com/s7/is/image/Staples/561C327E-6541-411D-9BD30A2BC1684949_sc7?wid=700&hei=700'),
+    (867, 'https://www.staples-3p.com/s7/is/image/Staples/EC589213-4362-47E4-BB4383489F986315_sc7?wid=700&hei=700'),
     -- white
-    (866, 'https://www.staples-3p.com/s7/is/image/Staples/0278D8CC-CD92-488F-A51BBFEF8525B601_sc7?wid=700&hei=700'),
-    (866, 'https://www.staples-3p.com/s7/is/image/Staples/458B3FB4-6391-4DA2-A81E960707074A01_sc7?wid=700&hei=700'),
-    (866, 'https://www.staples-3p.com/s7/is/image/Staples/6057FEA6-587E-428E-A1EB00AA985361D8_sc7?wid=700&hei=700'),
-    (866, 'https://www.staples-3p.com/s7/is/image/Staples/3ABF2577-407D-4AE7-83BFA04EC3F81832_sc7?wid=700&hei=700'),
-    (866, 'https://www.staples-3p.com/s7/is/image/Staples/C4FFF143-A820-4A77-907625918C01B691_sc7?wid=700&hei=700'),
-    (866, 'https://www.staples-3p.com/s7/is/image/Staples/2B6ADFEF-D3DE-4B33-9CEF5C1D71C9741E_sc7?wid=700&hei=700'),
+    (868, 'https://www.staples-3p.com/s7/is/image/Staples/0278D8CC-CD92-488F-A51BBFEF8525B601_sc7?wid=700&hei=700'),
+    (868, 'https://www.staples-3p.com/s7/is/image/Staples/458B3FB4-6391-4DA2-A81E960707074A01_sc7?wid=700&hei=700'),
+    (868, 'https://www.staples-3p.com/s7/is/image/Staples/6057FEA6-587E-428E-A1EB00AA985361D8_sc7?wid=700&hei=700'),
+    (868, 'https://www.staples-3p.com/s7/is/image/Staples/3ABF2577-407D-4AE7-83BFA04EC3F81832_sc7?wid=700&hei=700'),
+    (868, 'https://www.staples-3p.com/s7/is/image/Staples/C4FFF143-A820-4A77-907625918C01B691_sc7?wid=700&hei=700'),
+    (868, 'https://www.staples-3p.com/s7/is/image/Staples/2B6ADFEF-D3DE-4B33-9CEF5C1D71C9741E_sc7?wid=700&hei=700'),
     
     -- bentogo pop lunch box --
     -- red
-    (867, 'https://www.staples-3p.com/s7/is/image/Staples/7802D637-CB82-415E-AD543B5AECD0F8B0_sc7?wid=700&hei=700'),
-    (867, 'https://www.staples-3p.com/s7/is/image/Staples/84239C76-86E5-491D-BA3738AC08D7078B_sc7?wid=700&hei=700'),
-    (867, 'https://www.staples-3p.com/s7/is/image/Staples/820464A3-38B8-4F93-AE794889BBE4E222_sc7?wid=700&hei=700'),
-    (867, 'https://www.staples-3p.com/s7/is/image/Staples/6789F01A-E7F3-4C16-A9C0B5A03DB540C3_sc7?wid=700&hei=700'),
-    (867, 'https://www.staples-3p.com/s7/is/image/Staples/459428D1-2F4C-4A2B-ACA9B062AC797467_sc7?wid=700&hei=700'),
-    (867, 'https://www.staples-3p.com/s7/is/image/Staples/1EF62BCA-C053-4587-9EAA8547341A6F6D_sc7?wid=700&hei=700'),
+    (869, 'https://www.staples-3p.com/s7/is/image/Staples/7802D637-CB82-415E-AD543B5AECD0F8B0_sc7?wid=700&hei=700'),
+    (869, 'https://www.staples-3p.com/s7/is/image/Staples/84239C76-86E5-491D-BA3738AC08D7078B_sc7?wid=700&hei=700'),
+    (869, 'https://www.staples-3p.com/s7/is/image/Staples/820464A3-38B8-4F93-AE794889BBE4E222_sc7?wid=700&hei=700'),
+    (869, 'https://www.staples-3p.com/s7/is/image/Staples/6789F01A-E7F3-4C16-A9C0B5A03DB540C3_sc7?wid=700&hei=700'),
+    (869, 'https://www.staples-3p.com/s7/is/image/Staples/459428D1-2F4C-4A2B-ACA9B062AC797467_sc7?wid=700&hei=700'),
+    (869, 'https://www.staples-3p.com/s7/is/image/Staples/1EF62BCA-C053-4587-9EAA8547341A6F6D_sc7?wid=700&hei=700'),
     -- pink
-    (868, 'https://www.staples-3p.com/s7/is/image/Staples/B94BEB4E-D957-48EF-95D72577308D9D9E_sc7?wid=700&hei=700'),
-    (868, 'https://www.staples-3p.com/s7/is/image/Staples/C86E6289-5F11-4B7F-8134AB18B8BBCEDF_sc7?wid=700&hei=700'),
-    (868, 'https://www.staples-3p.com/s7/is/image/Staples/BB5695B7-BB6D-4041-870DD10C8694077D_sc7?wid=700&hei=700'),
-    (868, 'https://www.staples-3p.com/s7/is/image/Staples/454A7A0F-3B24-496D-8825EACBDDFE9136_sc7?wid=700&hei=700'),
-    (868, 'https://www.staples-3p.com/s7/is/image/Staples/DC8A7FB9-DEA9-4F01-90E512858E58C32B_sc7?wid=700&hei=700'),
-    (868, 'https://www.staples-3p.com/s7/is/image/Staples/5241D329-4F2A-4FB5-A8A9F25AF1827BC1_sc7?wid=700&hei=700'),
+    (870, 'https://www.staples-3p.com/s7/is/image/Staples/B94BEB4E-D957-48EF-95D72577308D9D9E_sc7?wid=700&hei=700'),
+    (870, 'https://www.staples-3p.com/s7/is/image/Staples/C86E6289-5F11-4B7F-8134AB18B8BBCEDF_sc7?wid=700&hei=700'),
+    (870, 'https://www.staples-3p.com/s7/is/image/Staples/BB5695B7-BB6D-4041-870DD10C8694077D_sc7?wid=700&hei=700'),
+    (870, 'https://www.staples-3p.com/s7/is/image/Staples/454A7A0F-3B24-496D-8825EACBDDFE9136_sc7?wid=700&hei=700'),
+    (870, 'https://www.staples-3p.com/s7/is/image/Staples/DC8A7FB9-DEA9-4F01-90E512858E58C32B_sc7?wid=700&hei=700'),
+    (870, 'https://www.staples-3p.com/s7/is/image/Staples/5241D329-4F2A-4FB5-A8A9F25AF1827BC1_sc7?wid=700&hei=700'),
     -- light green
-    (869, 'https://www.staples-3p.com/s7/is/image/Staples/99B9D519-6226-4D08-B5D63D58833982D0_sc7?wid=700&hei=700'),
-    (869, 'https://www.staples-3p.com/s7/is/image/Staples/A1EB8473-94EF-47B3-92B2E6BED0600A15_sc7?wid=700&hei=700'),
-    (869, 'https://www.staples-3p.com/s7/is/image/Staples/D45B7B60-D35B-487A-8DF59B7CDEECAC7E_sc7?wid=700&hei=700'),
-    (869, 'https://www.staples-3p.com/s7/is/image/Staples/563C0F35-F21A-4A5D-A4F71A8DB0D7D22D_sc7?wid=700&hei=700'),
-    (869, 'https://www.staples-3p.com/s7/is/image/Staples/43147E57-97C4-4D52-A7EFB57CCBBA7CBE_sc7?wid=700&hei=700'),
-    (869, 'https://www.staples-3p.com/s7/is/image/Staples/C29F0E87-FCF5-4588-BEA9AAC74014BFC1_sc7?wid=700&hei=700'),
+    (871, 'https://www.staples-3p.com/s7/is/image/Staples/99B9D519-6226-4D08-B5D63D58833982D0_sc7?wid=700&hei=700'),
+    (871, 'https://www.staples-3p.com/s7/is/image/Staples/A1EB8473-94EF-47B3-92B2E6BED0600A15_sc7?wid=700&hei=700'),
+    (871, 'https://www.staples-3p.com/s7/is/image/Staples/D45B7B60-D35B-487A-8DF59B7CDEECAC7E_sc7?wid=700&hei=700'),
+    (871, 'https://www.staples-3p.com/s7/is/image/Staples/563C0F35-F21A-4A5D-A4F71A8DB0D7D22D_sc7?wid=700&hei=700'),
+    (871, 'https://www.staples-3p.com/s7/is/image/Staples/43147E57-97C4-4D52-A7EFB57CCBBA7CBE_sc7?wid=700&hei=700'),
+    (871, 'https://www.staples-3p.com/s7/is/image/Staples/C29F0E87-FCF5-4588-BEA9AAC74014BFC1_sc7?wid=700&hei=700'),
     -- light blue
-    (870, 'https://www.staples-3p.com/s7/is/image/Staples/4CC559BD-0238-429E-A7313225AB132440_sc7?wid=700&hei=700'),
-    (870, 'https://www.staples-3p.com/s7/is/image/Staples/8AFD60A3-5403-473F-A1541896FB8CC470_sc7?wid=700&hei=700'),
-    (870, 'https://www.staples-3p.com/s7/is/image/Staples/342935CA-7C09-4E4B-B093C4DB3B578A30_sc7?wid=700&hei=700'),
-    (870, 'https://www.staples-3p.com/s7/is/image/Staples/E3BE1F16-4503-4980-8DA18F6B6E041180_sc7?wid=700&hei=700'),
-    (870, 'https://www.staples-3p.com/s7/is/image/Staples/EB90F81D-1EF8-4950-A2A086EEF78B1D93_sc7?wid=700&hei=700'),
-    (870, 'https://www.staples-3p.com/s7/is/image/Staples/18E0B232-5AC9-4758-AEE8BA168DDC3058_sc7?wid=700&hei=700'),
+    (872, 'https://www.staples-3p.com/s7/is/image/Staples/4CC559BD-0238-429E-A7313225AB132440_sc7?wid=700&hei=700'),
+    (872, 'https://www.staples-3p.com/s7/is/image/Staples/8AFD60A3-5403-473F-A1541896FB8CC470_sc7?wid=700&hei=700'),
+    (872, 'https://www.staples-3p.com/s7/is/image/Staples/342935CA-7C09-4E4B-B093C4DB3B578A30_sc7?wid=700&hei=700'),
+    (872, 'https://www.staples-3p.com/s7/is/image/Staples/E3BE1F16-4503-4980-8DA18F6B6E041180_sc7?wid=700&hei=700'),
+    (872, 'https://www.staples-3p.com/s7/is/image/Staples/EB90F81D-1EF8-4950-A2A086EEF78B1D93_sc7?wid=700&hei=700'),
+    (872, 'https://www.staples-3p.com/s7/is/image/Staples/18E0B232-5AC9-4758-AEE8BA168DDC3058_sc7?wid=700&hei=700'),
     -- dark blue
-    (871, 'https://www.staples-3p.com/s7/is/image/Staples/9483D0B0-C978-4EF1-8E0C2F1C0FC4375A_sc7?wid=700&hei=700'),
-    (871, 'https://www.staples-3p.com/s7/is/image/Staples/CBDE0746-0BBD-4B9B-A27394B9C7B9AD5A_sc7?wid=700&hei=700'),
-    (871, 'https://www.staples-3p.com/s7/is/image/Staples/A4C81F63-7C65-40E8-B151CD67AB13A1C0_sc7?wid=700&hei=700'),
-    (871, 'https://www.staples-3p.com/s7/is/image/Staples/5271254D-38E5-4650-9039CE4B4F650C68_sc7?wid=700&hei=700'),
-    (871, 'https://www.staples-3p.com/s7/is/image/Staples/DDEFA5EE-FF77-4D88-9C3897C9C5ABF86C_sc7?wid=700&hei=700'),
-    (871, 'https://www.staples-3p.com/s7/is/image/Staples/05D9E779-A5E0-4E12-909095440A75E541_sc7?wid=700&hei=700'),
-    
+    (873, 'https://www.staples-3p.com/s7/is/image/Staples/9483D0B0-C978-4EF1-8E0C2F1C0FC4375A_sc7?wid=700&hei=700'),
+    (873, 'https://www.staples-3p.com/s7/is/image/Staples/CBDE0746-0BBD-4B9B-A27394B9C7B9AD5A_sc7?wid=700&hei=700'),
+    (873, 'https://www.staples-3p.com/s7/is/image/Staples/A4C81F63-7C65-40E8-B151CD67AB13A1C0_sc7?wid=700&hei=700'),
+    (873, 'https://www.staples-3p.com/s7/is/image/Staples/5271254D-38E5-4650-9039CE4B4F650C68_sc7?wid=700&hei=700'),
+    (873, 'https://www.staples-3p.com/s7/is/image/Staples/DDEFA5EE-FF77-4D88-9C3897C9C5ABF86C_sc7?wid=700&hei=700'),
+    (873, 'https://www.staples-3p.com/s7/is/image/Staples/05D9E779-A5E0-4E12-909095440A75E541_sc7?wid=700&hei=700'),
+
     -- jam kraft brown paper bags --
-	(872, 'https://www.staples-3p.com/s7/is/image/Staples/sp71001592_sc7?wid=700&hei=700'),
-    (872, 'https://www.staples-3p.com/s7/is/image/Staples/sp71001593_sc7?wid=700&hei=700'),
-    (872, 'https://www.staples-3p.com/s7/is/image/Staples/sp71001594_sc7?wid=700&hei=700');
+	(874, 'https://www.staples-3p.com/s7/is/image/Staples/sp71001592_sc7?wid=700&hei=700'),
+    (874, 'https://www.staples-3p.com/s7/is/image/Staples/sp71001593_sc7?wid=700&hei=700'),
+    (874, 'https://www.staples-3p.com/s7/is/image/Staples/sp71001594_sc7?wid=700&hei=700'),
+
+-- backpacks
+	-- lilac
+	(875, 'https://www.staples-3p.com/s7/is/image/Staples/sp169025046_sc7?wid=700&hei=700'),
+	(875, 'https://www.staples-3p.com/s7/is/image/Staples/sp169025047_sc7?wid=700&hei=700'),
+	(875, 'https://www.staples-3p.com/s7/is/image/Staples/sp169025048_sc7?wid=700&hei=700'),
+    -- black
+	(876, 'https://www.staples-3p.com/s7/is/image/Staples/sp40888791_sc7?wid=700&hei=700'),
+    (876, 'https://www.staples-3p.com/s7/is/image/Staples/sp40888792_sc7?wid=700&hei=700'),
+    (876, 'https://www.staples-3p.com/s7/is/image/Staples/sp40888793_sc7?wid=700&hei=700'),
+    -- dark blue
+    (877, 'https://www.staples-3p.com/s7/is/image/Staples/s1082362_sc7?wid=700&hei=700'),
+    -- rose pink
+    (878, 'https://www.staples-3p.com/s7/is/image/Staples/sp150961408_sc7?wid=700&hei=700'),
+    (878, 'https://www.staples-3p.com/s7/is/image/Staples/sp150961409_sc7?wid=700&hei=700'),
+    (878, 'https://www.staples-3p.com/s7/is/image/Staples/sp150961410_sc7?wid=700&hei=700'),
+    -- sky blue
+    (879, 'https://www.staples-3p.com/s7/is/image/Staples/A42527E5-1616-4463-975C38BBC150D177_sc7?wid=700&hei=700'),
+    (879, 'https://www.staples-3p.com/s7/is/image/Staples/639855A4-A270-4DE2-89D1D0CCA0E89EE9_sc7?wid=700&hei=700'),
+
+    -- dark red
+    (880, 'https://www.staples-3p.com/s7/is/image/Staples/6F48881A-03DA-4D2D-B9A500674071B711_sc7?wid=700&hei=700'),
+    (880, 'https://www.staples-3p.com/s7/is/image/Staples/70DAC7C3-DF86-421C-9C401CB4A3077035_sc7?wid=700&hei=700'),
+    (880, 'https://www.staples-3p.com/s7/is/image/Staples/357DABE7-4E00-4964-A4DFED41577FCE66_sc7?wid=700&hei=700'),
+    (880, 'https://www.staples-3p.com/s7/is/image/Staples/6D3276E6-2D0A-4C86-8CC5F92645E6AFAA_sc7?wid=700&hei=700'),
+    -- pattern baltik
+    (881, 'https://www.staples-3p.com/s7/is/image/Staples/FD9E3E64-F254-4D26-BB64AE738D1FCB6E_sc7?wid=700&hei=700'),
+    (881, 'https://www.staples-3p.com/s7/is/image/Staples/1EF6D154-8899-4E93-882FB4A329BB2CA4_sc7?wid=700&hei=700'),
+    
+    -- floral
+    (882, 'https://www.staples-3p.com/s7/is/image/Staples/34D30FCB-3D50-482D-8144049713B364E2_sc7?wid=700&hei=700'),
+    (882, 'https://www.staples-3p.com/s7/is/image/Staples/283E7B9A-395F-46CD-9A1C536D65A1316C_sc7?wid=700&hei=700'),
+    
+    -- galaxy
+    (883, 'https://www.staples-3p.com/s7/is/image/Staples/3770177A-F2DB-4F15-BC64FB4C4E707090_sc7?wid=700&hei=700'),
+    (883, 'https://www.staples-3p.com/s7/is/image/Staples/7BB0CE69-8AEA-4DB5-8AA4122D306CDACE_sc7?wid=700&hei=700'),
+    
+    -- fiskars scissors
+    (884, 'https://www.staples-3p.com/s7/is/image/Staples/F880E890-965C-4DBD-9BF2C7449FD0D5FB_sc7?wid=700&hei=700'),
+    
+    -- elmers glue sticks
+    (885, 'https://www.staples-3p.com/s7/is/image/Staples/sp161466975_sc7?wid=700&hei=700'),
+    (885, 'https://www.staples-3p.com/s7/is/image/Staples/sp161466773_sc7?wid=700&hei=700'),
+    (885, 'https://www.staples-3p.com/s7/is/image/Staples/sp161466774_sc7?wid=700&hei=700'),
+    (885, 'https://www.staples-3p.com/s7/is/image/Staples/sp161466946_sc7?wid=700&hei=700'),
+    (885, '*'),
+    
+    (886, 'https://www.staples-3p.com/s7/is/image/Staples/sp161466816_sc7?wid=700&hei=700'),
+    (886, 'https://www.staples-3p.com/s7/is/image/Staples/sp161466819_sc7?wid=700&hei=700'),
+    (886, 'https://www.staples-3p.com/s7/is/image/Staples/sp161466823_sc7?wid=700&hei=700'),
+    (886, 'https://www.staples-3p.com/s7/is/image/Staples/sp161466821_sc7?wid=700&hei=700'),
+    
+    (887, 'https://www.staples-3p.com/s7/is/image/Staples/sp86239112_sc7?wid=700&hei=700'),
+    (887, 'https://www.staples-3p.com/s7/is/image/Staples/sp86239113_sc7?wid=700&hei=700'),
+    (887, 'https://www.staples-3p.com/s7/is/image/Staples/sp86239114_sc7?wid=700&hei=700'),
+    (887, 'https://www.staples-3p.com/s7/is/image/Staples/sp86239115_sc7?wid=700&hei=700'),
+    
+    (888, 'https://www.staples-3p.com/s7/is/image/Staples/sp222027441_sc7?wid=700&hei=700'),
+    (888, 'https://www.staples-3p.com/s7/is/image/Staples/sp222027442_sc7?wid=700&hei=700'),
+    (888, 'https://www.staples-3p.com/s7/is/image/Staples/sp222027443_sc7?wid=700&hei=700'),
+    (888, 'https://www.staples-3p.com/s7/is/image/Staples/sp222027444_sc7?wid=700&hei=700'),
+    (888, 'https://www.staples-3p.com/s7/is/image/Staples/sp222027445_sc7?wid=700&hei=700'),
+
+    (889, 'https://www.staples-3p.com/s7/is/image/Staples/11063273-E98B-46FB-9D1C237A96D9115C_sc7?wid=700&hei=700'),
+    (889, 'https://www.staples-3p.com/s7/is/image/Staples/CE53EDCF-FAE0-4DB8-913AC9BD27D7E019_sc7?wid=700&hei=700'),
+    (889, 'https://www.staples-3p.com/s7/is/image/Staples/BA06CDFF-00AC-4DF3-92EF89ACCDF6C90F_sc7?wid=700&hei=700'),
+    (889, 'https://www.staples-3p.com/s7/is/image/Staples/49BADA3E-C6EA-4CDF-B7601BFE4168A4F3_sc7?wid=700&hei=700'),
+
+    (890, 'https://www.staples-3p.com/s7/is/image/Staples/CF953BE9-0A69-4668-B505684660540250_sc7?wid=700&hei=700'),
+    (890, 'https://www.staples-3p.com/s7/is/image/Staples/0574AB13-BC19-48A3-808A24C3873D7921_sc7?wid=700&hei=700'),
+    (890, 'https://www.staples-3p.com/s7/is/image/Staples/05AB2272-9D5B-4C40-B0157AB0B041471C_sc7?wid=700&hei=700'),
+    (890, 'https://www.staples-3p.com/s7/is/image/Staples/10F99B35-1C80-495C-A30CE6BF1F39A2EC_sc7?wid=700&hei=700'),
+
+    (891, 'https://www.staples-3p.com/s7/is/image/Staples/29C12086-2E8B-49D1-B422BD659B01A05D_sc7?wid=700&hei=700'),
+    (891, 'https://www.staples-3p.com/s7/is/image/Staples/7BEA3649-0CC4-4780-9D062EC29C292530_sc7?wid=700&hei=700'),
+    (891, 'https://www.staples-3p.com/s7/is/image/Staples/55660E2E-3F23-434C-9444A6D1567B9115_sc7?wid=700&hei=700'),
+    
+    (892, 'https://www.staples-3p.com/s7/is/image/Staples/941DD4A5-8BB3-4528-8CAAF94F24ACC3C0_sc7?wid=700&hei=700'),
+    (892, 'https://www.staples-3p.com/s7/is/image/Staples/941DD4A5-8BB3-4528-8CAAF94F24ACC3C0_sc7?wid=700&hei=700'),
+    (892, 'https://www.staples-3p.com/s7/is/image/Staples/7EB6B603-3FE4-43C3-A848E17CE6147FC7_sc7?wid=700&hei=700'),
+
+    (893, 'https://www.staples-3p.com/s7/is/image/Staples/BB2926B9-034C-49A6-9763CE02A535A808_sc7?wid=700&hei=700'),
+    (893, 'https://www.staples-3p.com/s7/is/image/Staples/EF3A40E9-9B2D-49F9-A75FA181B703B32F_sc7?wid=700&hei=700'),
+    (893, 'https://www.staples-3p.com/s7/is/image/Staples/F58D711D-327D-42E4-8A61547D02C07A77_sc7?wid=700&hei=700'),
+    (893, 'https://www.staples-3p.com/s7/is/image/Staples/51782929-A8CE-47A9-8490A2B2FB8B7EC6_sc7?wid=700&hei=700'),
+
+    (894, 'https://www.staples-3p.com/s7/is/image/Staples/145C0E87-28A8-465E-81C59A9CE699F8A7_sc7?wid=700&hei=700'),
+    (894, 'https://www.staples-3p.com/s7/is/image/Staples/275EBC20-088D-4AC5-8787B2C935A83B69_sc7?wid=700&hei=700'),
+    (894, 'https://www.staples-3p.com/s7/is/image/Staples/545D12DE-4CCD-4866-8C8006A1AC9D70C6_sc7?wid=700&hei=700'),
+    (894, 'https://www.staples-3p.com/s7/is/image/Staples/5C7349A8-0829-40E4-A76B3279719738E8_sc7?wid=700&hei=700'),
+
+    (895, 'https://www.staples-3p.com/s7/is/image/Staples/sp36292377_sc7?wid=700&hei=700'),
+    (895, 'https://www.staples-3p.com/s7/is/image/Staples/sp36292378_sc7?wid=700&hei=700'),
+
+    (896, 'https://www.staples-3p.com/s7/is/image/Staples/sp36292379_sc7?wid=700&hei=700'),
+    (896, 'https://www.staples-3p.com/s7/is/image/Staples/s0381730_sc7?wid=700&hei=700'),
+
+    (897, 'https://www.staples-3p.com/s7/is/image/Staples/3E27756C-7302-4ED5-A455BE19F8A00A9E_sc7?wid=700&hei=700'),
+
+    (898, 'https://www.staples-3p.com/s7/is/image/Staples/sp40319133_sc7?wid=700&hei=700'),
+
+    (899, 'https://www.staples-3p.com/s7/is/image/Staples/sp36292364_sc7?wid=700&hei=700'),
+
+    (900, 'https://www.staples-3p.com/s7/is/image/Staples/sp36292370_sc7?wid=700&hei=700'),
+    (900, 'https://www.staples-3p.com/s7/is/image/Staples/sp36292371_sc7?wid=700&hei=700'),
+
+    (901, 'https://www.staples-3p.com/s7/is/image/Staples/sp74866313_sc7?wid=700&hei=700'),
+    (901, 'https://www.staples-3p.com/s7/is/image/Staples/sp74866314_sc7?wid=700&hei=700'),
+    (901, 'https://www.staples-3p.com/s7/is/image/Staples/sp74866310_sc7?wid=700&hei=700'),
+    (901, 'https://www.staples-3p.com/s7/is/image/Staples/sp74866311_sc7?wid=700&hei=700'),
+    (901, 'https://www.staples-3p.com/s7/is/image/Staples/sp74866312_sc7?wid=700&hei=700'),
+-- paint red
+    (902, 'https://www.staples-3p.com/s7/is/image/Staples/sp66600518_sc7?wid=700&hei=700'),
+    (902, 'https://www.staples-3p.com/s7/is/image/Staples/sp66600513_sc7?wid=700&hei=700'),
+
+    (903, 'https://www.staples-3p.com/s7/is/image/Staples/sp66600491_sc7?wid=700&hei=700'),
+    (903, 'https://www.staples-3p.com/s7/is/image/Staples/sp66600492_sc7?wid=700&hei=700'),
+    (903, 'https://www.staples-3p.com/s7/is/image/Staples/sp66600406_sc7?wid=700&hei=700'),
+
+    (904, 'https://www.staples-3p.com/s7/is/image/Staples/sp66600462_sc7?wid=700&hei=700'),
+    (904, 'https://www.staples-3p.com/s7/is/image/Staples/sp66600459_sc7?wid=700&hei=700'),
+    (904, 'https://www.staples-3p.com/s7/is/image/Staples/sp66600458_sc7?wid=700&hei=700'),
+
+    (905, 'https://www.staples-3p.com/s7/is/image/Staples/sp66600623_sc7?wid=700&hei=700'),
+    (905, 'https://www.staples-3p.com/s7/is/image/Staples/sp66600617_sc7?wid=700&hei=700'),
+    
+    (906, 'https://www.staples-3p.com/s7/is/image/Staples/s0068169_sc7?wid=700&hei=700'),
+    (906, 'https://www.staples-3p.com/s7/is/image/Staples/s0166818_sc7?wid=700&hei=700'),
+    
+    (907, 'https://www.staples-3p.com/s7/is/image/Staples/m007093057_sc7?wid=700&hei=700'),
+    
+    (908, 'https://www.staples-3p.com/s7/is/image/Staples/sp66601198_sc7?wid=700&hei=700'),
+    (908, 'https://www.staples-3p.com/s7/is/image/Staples/sp66601191_sc7?wid=700&hei=700'),
+    (908, 'https://www.staples-3p.com/s7/is/image/Staples/sp66601193_sc7?wid=700&hei=700'),
+    
+    (909, 'https://www.staples-3p.com/s7/is/image/Staples/sp97810692_sc7?wid=700&hei=700'),
+    (909, 'https://www.staples-3p.com/s7/is/image/Staples/sp97810695_sc7?wid=700&hei=700'),
+
+    (910, 'https://www.staples-3p.com/s7/is/image/Staples/sp34067352_sc7?wid=700&hei=700'),
+    (910, 'https://www.staples-3p.com/s7/is/image/Staples/sp34067357_sc7?wid=700&hei=700'),
+    
+    (911, 'https://www.staples-3p.com/s7/is/image/Staples/814B79CD-8C48-45F0-B3598CBA7F6C3C94_sc7?wid=700&hei=700'),
+    (911, 'https://www.staples-3p.com/s7/is/image/Staples/9993840A-6CE0-45B3-8FD3DD07DF563297_sc7?wid=700&hei=700'),
+    (911, 'https://www.staples-3p.com/s7/is/image/Staples/15952A1D-8415-4987-A5170BCC3B49C6E9_sc7?wid=700&hei=700'),
+    (911, 'https://www.staples-3p.com/s7/is/image/Staples/647AAF7F-6B7F-4346-99575DC5FD307175_sc7?wid=700&hei=700'),
+    (911, 'https://www.staples-3p.com/s7/is/image/Staples/AC3BF813-0461-401E-8527DDD7C045B35F_sc7?wid=700&hei=700'),
+    
+    (912, 'https://www.staples-3p.com/s7/is/image/Staples/7EB95350-001B-4FCA-8A10BE7D017380E2_sc7?wid=700&hei=700'),
+    
+    (913, 'https://www.staples-3p.com/s7/is/image/Staples/m007111304_sc7?wid=700&hei=700'),
+    
+    (914, 'https://www.staples-3p.com/s7/is/image/Staples/sp55888274_sc7?wid=700&hei=700'),
+    
+    (915, 'https://www.staples-3p.com/s7/is/image/Staples/sp128054629_sc7?wid=700&hei=700'),
+    
+    (916, 'https://www.staples-3p.com/s7/is/image/Staples/FA781511-4D0F-402E-95A8554B62E54C85_sc7?wid=700&hei=700'),
+    (916, 'https://www.staples-3p.com/s7/is/image/Staples/8A225CD5-B8C6-43AF-92BEBAFCED34C027_sc7?wid=700&hei=700'),
+    (916, 'https://www.staples-3p.com/s7/is/image/Staples/A3C14608-741B-4537-B48B742491FF16DE_sc7?wid=700&hei=700'),
+    (916, 'https://www.staples-3p.com/s7/is/image/Staples/A0392C61-8B42-4DF2-83935F868A201E95_sc7?wid=700&hei=700'),
+    (916, 'https://www.staples-3p.com/s7/is/image/Staples/14644629-505D-46D2-AB7B0EAEA86FB3F1_sc7?wid=700&hei=700'),
+    
+-- crayola colored pencils --
+	-- pastel 12pack
+	(917, 'https://www.staples-3p.com/s7/is/image/Staples/7F85263E-79E0-437C-A14FBE37C21CF681_sc7?wid=700&hei=700'),
+	(917, 'https://www.staples-3p.com/s7/is/image/Staples/8F60F9E4-F334-416E-AAF7A89CE5D42CB5_sc7?wid=700&hei=700'),
+	(917, 'https://www.staples-3p.com/s7/is/image/Staples/529F8607-C73D-4C14-82C35B42E22530A7_sc7?wid=700&hei=700'),
+	(917, 'https://www.staples-3p.com/s7/is/image/Staples/307831B6-1D03-4D44-9B3234FD9D4FB14A_sc7?wid=700&hei=700'),
+	-- regular/assorted 12pack
+	(918, 'https://www.staples-3p.com/s7/is/image/Staples/5D27A585-FF26-4D7E-AF465FFEB2F8345D_sc7?wid=700&hei=700'),
+	(918, 'https://www.staples-3p.com/s7/is/image/Staples/12D715CB-091E-4CEB-A592F528A41F3A39_sc7?wid=700&hei=700'),
+	(918, 'https://www.staples-3p.com/s7/is/image/Staples/0AD39FB7-989F-453C-A9263138AEA15D3F_sc7?wid=700&hei=700'),
+	(918, 'https://www.staples-3p.com/s7/is/image/Staples/35A652D4-B70D-42F3-B3556E4906C6F7DC_sc7?wid=700&hei=700'),
+	(918, 'https://www.staples-3p.com/s7/is/image/Staples/E7741D8E-CEEE-4656-9517293FC4EA812E_sc7?wid=700&hei=700'),
+	-- colors of the world 24 pack
+	(919, 'https://www.staples-3p.com/s7/is/image/Staples/sp107458503_sc7?wid=700&hei=700'),
+	(919, 'https://www.staples-3p.com/s7/is/image/Staples/sp107458504_sc7?wid=700&hei=700'),
+	-- regular/assorted 36pack
+	(920, 'https://www.staples-3p.com/s7/is/image/Staples/E58203F0-4B7A-49F5-97F5F8C1D01E9AE9_sc7?wid=700&hei=700'),
+	(920, 'https://www.staples-3p.com/s7/is/image/Staples/2FFD9C47-E842-4EBF-A4C92197AF333E9F_sc7?wid=700&hei=700'),
+	(920, 'https://www.staples-3p.com/s7/is/image/Staples/B47C356C-0778-4C50-87D02840E032D1D2_sc7?wid=700&hei=700'),
+	(920, 'https://www.staples-3p.com/s7/is/image/Staples/D37E02DF-3AAF-4716-894F6BB6483C674A_sc7?wid=700&hei=700'),
+	(920, 'https://www.staples-3p.com/s7/is/image/Staples/0D8AC005-1BBC-4CC5-88B785A978D06294_sc7?wid=700&hei=700'),
+	-- regular/assorted 100pack
+	(921, 'https://www.staples-3p.com/s7/is/image/Staples/sp56580404_sc7?wid=700&hei=700'),
+	(921, 'https://www.staples-3p.com/s7/is/image/Staples/sp56580405_sc7?wid=700&hei=700'),
+	(921, 'https://www.staples-3p.com/s7/is/image/Staples/sp56580406_sc7?wid=700&hei=700'),
+	-- kids short regular/assorted 64pack
+	(922, 'https://www.staples-3p.com/s7/is/image/Staples/527776E5-86D8-4BAA-873E5AD5FA854693_sc7?wid=700&hei=700'),
+	(922, 'https://www.staples-3p.com/s7/is/image/Staples/211FBE95-ED40-43DF-80AA4CF3CFB0D02B_sc7?wid=700&hei=700'),
+	(922, 'https://www.staples-3p.com/s7/is/image/Staples/B605D84F-736D-4A9A-892F9AE12E140D52_sc7?wid=700&hei=700'),
+	(922, 'https://www.staples-3p.com/s7/is/image/Staples/0FF2591A-2E28-47F2-AB7160F64E680109_sc7?wid=700&hei=700'),
+	(922, 'https://www.staples-3p.com/s7/is/image/Staples/D4770902-036D-4AA8-B101400D9DB788F7_sc7?wid=700&hei=700'),
+	
+	-- crayola crayons --
+	-- classpack 80/box assorted
+	(923, 'https://www.staples-3p.com/s7/is/image/Staples/EA29EB3B-116D-4C15-BFDAE2CAC268F59B_sc7?wid=700&hei=700'),
+	(923, 'https://www.staples-3p.com/s7/is/image/Staples/49AEE1EE-747F-41AC-98AD44CE837AC3FE_sc7?wid=700&hei=700'),
+	(923, 'https://www.staples-3p.com/s7/is/image/Staples/29E32DFA-769F-4233-938487200334E99A_sc7?wid=700&hei=700'),
+	(923, 'https://www.staples-3p.com/s7/is/image/Staples/5B3A5113-5ECB-4045-ADF3B217D7E31C5C_sc7?wid=700&hei=700'),
+	(923, 'https://www.staples-3p.com/s7/is/image/Staples/40992B7F-67B8-473A-94B12A9CEA5A609B_sc7?wid=700&hei=700'),
+	
+	-- 24/pack regular/assorted
+	(924, 'https://www.staples-3p.com/s7/is/image/Staples/EFA6E1CD-D33E-499E-80C60408C7458DE7_sc7?wid=700&hei=700'),
+	(924, 'https://www.staples-3p.com/s7/is/image/Staples/F26DDEFF-4824-4895-BC070726A57B234D_sc7?wid=700&hei=700'),
+	(924, 'https://www.staples-3p.com/s7/is/image/Staples/69AD0382-DB7F-4F91-BECEF168ABB9B91E_sc7?wid=700&hei=700'),
+	(924, 'https://www.staples-3p.com/s7/is/image/Staples/E7DB3A9A-DF0F-44BA-8ADE94A783070CDA_sc7?wid=700&hei=700'),
+	(924, 'https://www.staples-3p.com/s7/is/image/Staples/272F2A6A-F2DD-4E69-AC5407A41847C1FE_sc7?wid=700&hei=700'),
+	-- 24pack metallic assorted
+	(925, 'https://www.staples-3p.com/s7/is/image/Staples/sp138066198_sc7?wid=700&hei=700'),
+	(925, 'https://www.staples-3p.com/s7/is/image/Staples/sp138066201_sc7?wid=700&hei=700'),
+	(925, 'https://www.staples-3p.com/s7/is/image/Staples/sp138066200_sc7?wid=700&hei=700'),
+	(925, 'https://www.staples-3p.com/s7/is/image/Staples/sp138066199_sc7?wid=700&hei=700'),
+	-- 24pack pastel assorted (colors of kindness pack)
+	(926, 'https://www.staples-3p.com/s7/is/image/Staples/sp152284712_sc7?wid=700&hei=700'),
+	(926, 'https://www.staples-3p.com/s7/is/image/Staples/sp152284713_sc7?wid=700&hei=700'),
+	(926, 'https://www.staples-3p.com/s7/is/image/Staples/sp152284714_sc7?wid=700&hei=700'),
+	(926, 'https://www.staples-3p.com/s7/is/image/Staples/sp152284715_sc7?wid=700&hei=700'),
+	(926, 'https://www.staples-3p.com/s7/is/image/Staples/sp152284716_sc7?wid=700&hei=700'),
+	(926, 'https://www.staples-3p.com/s7/is/image/Staples/sp152284717_sc7?wid=700&hei=700'),
+	(926, 'https://www.staples-3p.com/s7/is/image/Staples/sp152284718_sc7?wid=700&hei=700'),
+	-- 120pack regular/assorted
+	(927, 'https://www.staples-3p.com/s7/is/image/Staples/49181D2F-44A7-425F-A077EF3A7FB61CEA_sc7?wid=700&hei=700'),
+	(927, 'https://www.staples-3p.com/s7/is/image/Staples/8536C452-6E42-4F58-9008D3B2666E3265_sc7?wid=700&hei=700'),
+	(927, 'https://www.staples-3p.com/s7/is/image/Staples/F1B734B2-56EA-4386-81328AD005BCADB7_sc7?wid=700&hei=700'),
+	(927, 'https://www.staples-3p.com/s7/is/image/Staples/34987F2C-882C-49B2-A98D5681661CDFAE_sc7?wid=700&hei=700'),
+    -- 8pack regular/assorted
+	(928, 'https://www.staples-3p.com/s7/is/image/Staples/sp64626997_sc7?wid=700&hei=700'),
+	(928, 'https://www.staples-3p.com/s7/is/image/Staples/sp64626998_sc7?wid=700&hei=700'),
+	(928, 'https://www.staples-3p.com/s7/is/image/Staples/sp64626994_sc7?wid=700&hei=700'),
+	(928, 'https://www.staples-3p.com/s7/is/image/Staples/sp64626995_sc7?wid=700&hei=700'),
+	-- large washable 8pack assorted
+	(929, 'https://www.staples-3p.com/s7/is/image/Staples/sp71925575_sc7?wid=700&hei=700'),
+	(929, 'https://www.staples-3p.com/s7/is/image/Staples/sp71925574_sc7?wid=700&hei=700'),
+	(929, 'https://www.staples-3p.com/s7/is/image/Staples/sp71925576_sc7?wid=700&hei=700'),
+	(929, 'https://www.staples-3p.com/s7/is/image/Staples/sp71925577_sc7?wid=700&hei=700'),
+
+	-- pacon origomi paper
+	(930, 'https://www.staples-3p.com/s7/is/image/Staples/s0355585_sc7?wid=700&hei=700'),
+	-- crayola 96sheet
+	(931, 'https://www.staples-3p.com/s7/is/image/Staples/sp127455179_sc7?wid=700&hei=700'),
+	(931, 'https://www.staples-3p.com/s7/is/image/Staples/sp127455181_sc7?wid=700&hei=700'),
+	(931, 'https://www.staples-3p.com/s7/is/image/Staples/sp127455182_sc7?wid=700&hei=700'),
+	(931, 'https://www.staples-3p.com/s7/is/image/Staples/sp127455178_sc7?wid=700&hei=700'),
+	-- crayola 240sheet 
+	(932, 'https://www.staples-3p.com/s7/is/image/Staples/sp127455498_sc7?wid=700&hei=700'),
+	(932, 'https://www.staples-3p.com/s7/is/image/Staples/sp127455500_sc7?wid=700&hei=700'),
+	(932, 'https://www.staples-3p.com/s7/is/image/Staples/sp127455502_sc7?wid=700&hei=700'),
+	(932, 'https://www.staples-3p.com/s7/is/image/Staples/sp127455503_sc7?wid=700&hei=700'),
+	(932, 'https://www.staples-3p.com/s7/is/image/Staples/sp127455497_sc7?wid=700&hei=700'),
+	-- crayola 96sheet 12bulk pack
+	(933, 'https://www.staples-3p.com/s7/is/image/Staples/sp128051988_sc7?wid=700&hei=700'),
+	(933, 'https://www.staples-3p.com/s7/is/image/Staples/sp127455181_sc7?wid=700&hei=700'),
+	(933, 'https://www.staples-3p.com/s7/is/image/Staples/sp127455182_sc7?wid=700&hei=700'),
+	(933, 'https://www.staples-3p.com/s7/is/image/Staples/sp127455178_sc7?wid=700&hei=700'),
+	-- crayola 240sheet 3 bulk pack
+	(934, 'https://www.staples-3p.com/s7/is/image/Staples/95B45050-A9A5-48BC-AC6E70A0A9072CDD_sc7?wid=700&hei=700'),
+	(934, 'https://www.staples-3p.com/s7/is/image/Staples/sp127455500_sc7?wid=700&hei=700'),
+	(934, 'https://www.staples-3p.com/s7/is/image/Staples/sp127455502_sc7?wid=700&hei=700'),
+	(934, 'https://www.staples-3p.com/s7/is/image/Staples/sp127455503_sc7?wid=700&hei=700'),
+	(934, 'https://www.staples-3p.com/s7/is/image/Staples/sp127455497_sc7?wid=700&hei=700'),
+	-- crayola giant paper 48sheet
+	(935, 'https://www.staples-3p.com/s7/is/image/Staples/93B8D66E-3314-49DB-B96B213051B38BCC_sc7?wid=700&hei=700'),
+	(935, 'https://www.staples-3p.com/s7/is/image/Staples/sp85143793_sc7?wid=700&hei=700'),
+	(935, 'https://www.staples-3p.com/s7/is/image/Staples/0CF804E5-76CA-4D58-8100F8D3BD53EEEA_sc7?wid=700&hei=700'),
+	(935, 'https://www.staples-3p.com/s7/is/image/Staples/sp85143832_sc7?wid=700&hei=700'),
+	-- crayola giant paper 48sheet 6bulk pack
+	(936, 'https://www.staples-3p.com/s7/is/image/Staples/sp128051987_sc7?wid=700&hei=700'),
+	(936, 'https://www.staples-3p.com/s7/is/image/Staples/sp85143793_sc7?wid=700&hei=700'),
+	(936, 'https://www.staples-3p.com/s7/is/image/Staples/0CF804E5-76CA-4D58-8100F8D3BD53EEEA_sc7?wid=700&hei=700'),
+	(936, 'https://www.staples-3p.com/s7/is/image/Staples/sp85143832_sc7?wid=700&hei=700'),
+
+	-- coloring books --
+	-- crayola bluey
+	(938, 'https://www.staples-3p.com/s7/is/image/Staples/AD8F2AE1-DB2E-4EEC-B24442C7B3BBCA1B_sc7?wid=700&hei=700'),
+	-- crayola retired colors 
+	(939, 'https://www.staples-3p.com/s7/is/image/Staples/C517303C-8CB9-4CE0-911D72D9BA7D28A8_sc7?wid=700&hei=700'),
+	(939, 'https://www.staples-3p.com/s7/is/image/Staples/EEF52310-1D8F-4733-8C46BEB4C545D8B3_sc7?wid=700&hei=700'),
+	-- bendon frozen 2
+	(940, 'https://www.staples-3p.com/s7/is/image/Staples/E4178F86-7CBE-4D08-A1933F661428C2FE_sc7?wid=700&hei=700'),
+	(940, 'https://www.staples-3p.com/s7/is/image/Staples/F056EE9A-BC96-4FCF-9481273AC642E2CB_sc7?wid=700&hei=700'),
+	(940, 'https://www.staples-3p.com/s7/is/image/Staples/583FED6E-BD55-4DF5-9A8241E441D181B5_sc7?wid=700&hei=700'),
+	-- bendon paw patrol
+	(941, 'https://www.staples-3p.com/s7/is/image/Staples/189A041D-EC4D-4143-B7916355A349C3A8_sc7?wid=700&hei=700'),
+	(941, 'https://www.staples-3p.com/s7/is/image/Staples/79B84B23-E8B4-4FD8-88D597DD0AF9BEAC_sc7?wid=700&hei=700'),
+	(941, 'https://www.staples-3p.com/s7/is/image/Staples/150E4AFF-2E2F-4CFB-94DA538F398CF354_sc7?wid=700&hei=700'),
+	-- bendon despicable me 4
+	(942, 'https://www.staples-3p.com/s7/is/image/Staples/395A6C34-3408-478C-AD599243632A348E_sc7?wid=700&hei=700'),
+
+	-- stickers --
+	-- trend stinky stickers
+	(943, 'https://www.staples-3p.com/s7/is/image/Staples/sp42804717_sc7?wid=700&hei=700'),
+	-- trend supershapes stickers
+	(944, 'https://www.staples-3p.com/s7/is/image/Staples/sp44852281_sc7?wid=700&hei=700'),
+	-- Trend superSpots & superShapes
+	(945, 'https://www.staples-3p.com/s7/is/image/Staples/sp38165596_sc7?wid=700&hei=700'),
+	(945, 'https://www.staples-3p.com/s7/is/image/Staples/sp38165597_sc7?wid=700&hei=700'),
+	(945, 'https://www.staples-3p.com/s7/is/image/Staples/sp38165598_sc7?wid=700&hei=700'),
+
+	-- office basics --
+
+	-- mind reader desk organizer 7-compartment
+	-- black 5.25W" x 11L" x 5.25H" 7 compartments 27.69
+	(946, 'https://www.staples-3p.com/s7/is/image/Staples/1F887323-3BA1-4C4F-BAA3CE6ADDCCB95B_sc7?wid=700&hei=700'),
+	(946, 'https://www.staples-3p.com/s7/is/image/Staples/88002436-7EE5-433F-8F66EB61159A262A_sc7?wid=700&hei=700'),
+	(946, 'https://www.staples-3p.com/s7/is/image/Staples/391E5B3C-238E-4587-A40A287C170F051E_sc7?wid=700&hei=700'),
+	(946, 'https://www.staples-3p.com/s7/is/image/Staples/E812DAA3-17E6-48AA-A3C6DB7BD3AFF372_sc7?wid=700&hei=700'),
+	(946, 'https://www.staples-3p.com/s7/is/image/Staples/9465C5FB-441F-43E9-ADEBB8AC9CD159C2_sc7?wid=700&hei=700'),
+	-- pink 
+	(947, 'https://www.staples-3p.com/s7/is/image/Staples/B3CA0957-B05B-4FD9-A32B78AD750AAB94_sc7?wid=700&hei=700'),
+	(947, 'https://www.staples-3p.com/s7/is/image/Staples/504A8707-4D21-4405-93A9622B261E73C9_sc7?wid=700&hei=700'),
+	(947, 'https://www.staples-3p.com/s7/is/image/Staples/8794E559-10F3-460A-BA01B3D50A2F7AA2_sc7?wid=700&hei=700'),
+	(947, 'https://www.staples-3p.com/s7/is/image/Staples/DA11281B-8DEE-4903-8A22BE589425A0AC_sc7?wid=700&hei=700'),
+	(947, 'https://www.staples-3p.com/s7/is/image/Staples/ABAA2A50-1B6C-47B6-A544347AD5305F9E_sc7?wid=700&hei=700'),
+	-- silver
+	(948, 'https://www.staples-3p.com/s7/is/image/Staples/829D8BC4-DC53-4179-BA5438890711EE71_sc7?wid=700&hei=700'),
+	(948, 'https://www.staples-3p.com/s7/is/image/Staples/8439118D-F7FB-4F8D-A284480CFDE9B151_sc7?wid=700&hei=700'),
+	(948, 'https://www.staples-3p.com/s7/is/image/Staples/36978FEA-E001-4079-BF3F455FA0FB3201_sc7?wid=700&hei=700'),
+	(948, 'https://www.staples-3p.com/s7/is/image/Staples/503F7B41-9DF3-465E-99DDF54C9665257C_sc7?wid=700&hei=700'),
+	(948, 'https://www.staples-3p.com/s7/is/image/Staples/2DC18375-3B4B-4B78-B73023CA08BBF405_sc7?wid=700&hei=700'),
+	-- white
+	(949, 'https://www.staples-3p.com/s7/is/image/Staples/82068D18-8D2F-4DD1-8D9536785755C703_sc7?wid=700&hei=700'),
+	(949, 'https://www.staples-3p.com/s7/is/image/Staples/E0B006F3-1F86-4405-823CAD52E600AECD_sc7?wid=700&hei=700'),
+	(949, 'https://www.staples-3p.com/s7/is/image/Staples/2453C7E1-7E49-4CC9-81F4101EF4D1234A_sc7?wid=700&hei=700'),
+	(949, 'https://www.staples-3p.com/s7/is/image/Staples/66AACB70-BFA1-4219-AC170E8C746EEB6A_sc7?wid=700&hei=700'),
+	(949, 'https://www.staples-3p.com/s7/is/image/Staples/36DBAE3C-670A-4309-A90295F92E111C0F_sc7?wid=700&hei=700'),
+
+	-- Mind Reader Metal Pen and Accessory Holder Desk Organizer
+	-- black
+	(950, 'https://www.staples-3p.com/s7/is/image/Staples/EAFE6FC1-C70F-472E-A535E1B2D364FD44_sc7?wid=700&hei=700'),
+	(950, 'https://www.staples-3p.com/s7/is/image/Staples/CE3AE701-6FCB-4B4A-8463CD2F7EEC34DD_sc7?wid=700&hei=700'),
+	(950, 'https://www.staples-3p.com/s7/is/image/Staples/DA84883B-8A05-4EEE-937500DCC90F2F3B_sc7?wid=700&hei=700'),
+	(950, 'https://www.staples-3p.com/s7/is/image/Staples/AE869E10-3E96-4E71-A5586300CAEF0E5F_sc7?wid=700&hei=700'),
+	(950, 'https://www.staples-3p.com/s7/is/image/Staples/2E5D9327-0071-4820-94FC720AE517A249_sc7?wid=700&hei=700'),
+	-- silver
+	(951, 'https://www.staples-3p.com/s7/is/image/Staples/B373203F-45BB-4503-8DAC620D77B4D631_sc7?wid=700&hei=700'),
+	(951, 'https://www.staples-3p.com/s7/is/image/Staples/566B7A9E-2FFE-474E-BB0E3DE5F7BBEFD1_sc7?wid=700&hei=700'),
+	(951, 'https://www.staples-3p.com/s7/is/image/Staples/D5EA984E-6D97-4214-95616B57E76B422C_sc7?wid=700&hei=700'),
+	(951, 'https://www.staples-3p.com/s7/is/image/Staples/14EA91ED-FDE1-4D18-9739621044A730D9_sc7?wid=700&hei=700'),
+	(951, 'https://www.staples-3p.com/s7/is/image/Staples/BB2A9237-E6AC-4713-A02EAA789FFD958E_sc7?wid=700&hei=700'),
+	(951, 'https://www.staples-3p.com/s7/is/image/Staples/C1E11F2A-C574-46BD-8F79CA9D2D5513D5_sc7?wid=700&hei=700'),
+	-- white
+	(952, 'https://www.staples-3p.com/s7/is/image/Staples/77C938F9-544F-417E-992773A8E7DC9AE2_sc7?wid=700&hei=700'),
+	(952, 'https://www.staples-3p.com/s7/is/image/Staples/5766BE21-AABF-49C0-8C0940730BD232B9_sc7?wid=700&hei=700'),
+	(952, 'https://www.staples-3p.com/s7/is/image/Staples/4381D588-FC53-4AFC-9F7F001599988586_sc7?wid=700&hei=700'),
+	(952, 'https://www.staples-3p.com/s7/is/image/Staples/51E14056-51AC-42D6-A0491CA2FBB925E0_sc7?wid=700&hei=700'),
+	(952, 'https://www.staples-3p.com/s7/is/image/Staples/61E4FFA7-4BEA-4011-919E37F4E3140CE3_sc7?wid=700&hei=700'),
+
+	-- mind reader 8 compartment desk organizer black
+	(953, 'https://www.staples-3p.com/s7/is/image/Staples/EF941F83-0BFB-47E2-BF73FC54D7094891_sc7?wid=700&hei=700'),
+	(953, 'https://www.staples-3p.com/s7/is/image/Staples/C0AB5825-FE6E-4DEE-8CD9A5B2B724016A_sc7?wid=700&hei=700'),
+	(953, 'https://www.staples-3p.com/s7/is/image/Staples/0564E03D-7354-4F18-9A43A0C7D64EF97D_sc7?wid=700&hei=700'),
+	(953, 'https://www.staples-3p.com/s7/is/image/Staples/D1C60796-ABD3-48C5-BE5AD45BA67B1C19_sc7?wid=700&hei=700'),
+	(953, 'https://www.staples-3p.com/s7/is/image/Staples/172816F2-3BC4-4FBF-98C7883E3E2CF459_sc7?wid=700&hei=700'),
+
+	-- bostitch electric desktip 3 hole punch 52.59
+	(954, 'https://www.staples-3p.com/s7/is/image/Staples/F6204164-3C12-4DD6-BA567DDBCFCAC154_sc7?wid=700&hei=700'),
+
+	-- bostich ez squeeze 1-hole punch
+	(955, 'https://www.staples-3p.com/s7/is/image/Staples/s1153400_sc7?wid=700&hei=700'),
+	(955, 'https://www.staples-3p.com/s7/is/image/Staples/s1153401_sc7?wid=700&hei=700'),
+	(955, 'https://www.staples-3p.com/s7/is/image/Staples/s1153403_sc7?wid=700&hei=700'),
+
+
+	-- hammermill copy paper --
+	-- letter
+	(958, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072084_sc7?wid=700&hei=700'),
+	(958, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700'),
+		
+	(959, 'https://www.staples-3p.com/s7/is/image/Staples/DC2712FE-A922-4E5F-B9B9CF5677D6BE83_sc7?wid=700&hei=700'),
+	(959, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700'),
+		
+	(960, 'https://www.staples-3p.com/s7/is/image/Staples/A2C4AC65-2CB3-4263-BB0C166AE240F3D8_sc7?wid=700&hei=700'),
+	(960, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700'),
+    
+	(961, 'https://www.staples-3p.com/s7/is/image/Staples/sp167250067_sc7?wid=700&hei=700'),
+	(961, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700'),
+    
+	(962, 'https://www.staples-3p.com/s7/is/image/Staples/95CBC599-9581-4384-AB7E87134750EEBE_sc7?wid=700&hei=700'),
+	(962, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700'),
+    
+	-- legal
+	(963, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072261_sc7?wid=700&hei=700'),
+	(963, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700'),
+    
+	(964, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072238_sc7?wid=700&hei=700'),
+	(964, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700'),
+
+	-- A4
+	(968, 'https://www.staples-3p.com/s7/is/image/Staples/sp167250076_sc7?wid=700&hei=700'),
+	(968, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700'),
+		
+	(969, 'https://www.staples-3p.com/s7/is/image/Staples/95CBC599-9581-4384-AB7E87134750EEBE_sc7?wid=700&hei=700'),
+	(969, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700');

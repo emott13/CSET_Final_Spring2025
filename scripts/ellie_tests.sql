@@ -22,7 +22,7 @@ OR p.product_description
 OR CONCAT(u.first_name, ' ', u.last_name)
 	LIKE :input;
     select * from product_variants
-        
+     select * from products natural join product_variants order by variant_id asc;   
 -- select * from images where variant_id between 100227 AND 100240;
 select image_id, file_path from images where variant_id in (100261, 100262);
 select * from products where cat_num = 101;
@@ -209,7 +209,7 @@ ORDER BY image_id;
 -- ('Walnut', 19739, '#99592e'),
 -- ('White', 19740, '#ffffff'),
 -- ('Yellow', 19741, '#ffff00');
-
+select product_id, product_title, cat_num, variant_id, color_name, size_description, spec_description, price from products natural join product_variants natural join sizes natural join specifications natural join colors;
 INSERT INTO product_variants (product_id, color_id, size_id, spec, price, current_inventory)
 VALUES
 	(9000, , '', '', , )
@@ -541,6 +541,7 @@ VALUES
     
 (iid, 'https://www.staples-3p.com/s7/is/image/Staples/95CBC599-9581-4384-AB7E87134750EEBE_sc7?wid=700&hei=700', ''),
 (iid, 'https://www.staples-3p.com/s7/is/image/Staples/sp167072089_sc7?wid=700&hei=700', ''),
+select product_id, product_title, cat_num, variant_id, color_name, size_description, spec_description, price from products natural join product_variants natural join sizes natural join specifications natural join colors order by variant_id asc;
 
 
 (iid, ''),
