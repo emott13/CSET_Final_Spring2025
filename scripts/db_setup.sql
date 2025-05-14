@@ -203,17 +203,17 @@ ALTER TABLE specifications AUTO_INCREMENT = 200;
 
 INSERT INTO users (email, username, hashed_pswd, first_name, last_name, type)
 VALUES											
-	('d_daedalus_admin@goods.com', 'dd_admin', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Daedalus', 'Dzidzic', 'admin'), -- admin
-	('m_malova_admin@goods.com', 'mm_admin', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Maya', 'Malova', 'admin'), -- admin
-	('s_teller@gmail.com', 'steller', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Simpson', 'Teller', 'customer'), -- customer
-	('s_petocs@gmail.com', 'spetocs', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Sajay', 'Petocs', 'customer'), -- customer
-	('d_giant@outlook.com', 'dgiant', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Damien', 'Giant', 'customer'), -- customer
-	('c_ramos@outlook.com', 'cramos', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Celia', 'Ramos', 'customer'), -- customer
-	('j_prescott@gmail.com', 'jprescott', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Jean', 'Prescott', 'customer'), -- customer
-	('a_batts@textbooksmadeeasy.org', 'abatts_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Textbooks', 'Made Easy', 'vendor'), -- vendor
-	('g_pitts@supplies4school.org', 'gpitts_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Supplies', '4 School', 'vendor'), -- vendor
-	('i_tombolli@study_space.com', 'itombolli_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Study', 'Space', 'vendor'), -- vendor
-    ('f_craft@techtime.com', 'fcraft_vendor', '$2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Tech', 'Time', 'vendor'),
+	('d_daedalus_admin@goods.com', 'dd_admin', 'password', 'Daedalus', 'Dzidzic', 'admin'), -- admin
+	('m_malova_admin@goods.com', 'mm_admin', 'password', 'Maya', 'Malova', 'admin'), -- admin
+	('s_teller@gmail.com', 'steller', 'password', 'Simpson', 'Teller', 'customer'), -- customer
+	('s_petocs@gmail.com', 'spetocs', 'password', 'Sajay', 'Petocs', 'customer'), -- customer
+	('d_giant@outlook.com', 'dgiant', 'password', 'Damien', 'Giant', 'customer'), -- customer
+	('c_ramos@outlook.com', 'cramos', 'password', 'Celia', 'Ramos', 'customer'), -- customer
+	('j_prescott@gmail.com', 'jprescott', 'password', 'Jean', 'Prescott', 'customer'), -- customer
+	('a_batts@textbooksmadeeasy.org', 'abatts_vendor', 'password', 'Textbooks', 'Made Easy', 'vendor'), -- vendor
+	('g_pitts@supplies4school.org', 'gpitts_vendor', 'password', 'Supplies', '4 School', 'vendor'), -- vendor
+	('i_tombolli@study_space.com', 'itombolli_vendor', 'password', 'Study', 'Space', 'vendor'), -- vendor
+    ('f_craft@techtime.com', 'fcraft_vendor', 'password', 'Tech', 'Time', 'vendor'),
     ('c_simmons@worksmart.com', 'csimmons_vendor', '2b$12$sm8yNymjyUq40vGxRkGhve0dvWvSN2eb0ENT4/QZUEkYRGVTHDXjy', 'Work', 'Smart Co.', 'vendor'); 
     
 INSERT INTO categories(cat_num, cat_name)

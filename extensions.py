@@ -92,6 +92,17 @@ def sql_enum_list(enum: str) -> list:
         arr.append(item.replace("'", ""))
     return arr
 
+def defaultDBPassword():
+    """
+    Sets the default user's password to the hashed password, 'password'.
+    'password' default hash value is invalid so the user can't allow their
+    password to be changed by this function
+    """
+    conn.execute(text(
+        "UPDATE users SET hashed_pswd = :pswdHash WHERE hashed_pswd = 'password'"),
+        {'pswdHash': bcrypt.generate_password_hash('password')})
+    conn.commit()
+
 # price formatter for jinja template. call like {{154|priceFormat}}
 @app.template_filter()
 def priceFormat(value):
