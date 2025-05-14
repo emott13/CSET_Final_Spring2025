@@ -22,6 +22,8 @@ def order():
 
     if getCurrentType() == 'vendor':
         return redirect(url_for("order.vendor"))
+    elif getCurrentType() == 'admin':
+        return redirect(url_for("order.admin"))
 
     if request.method == 'GET':
         orders_map, orderCount = getOrders(user)
@@ -184,6 +186,39 @@ def orderDetails(orderId):
 
     return render_template("order_details.html", orderId=orderId, orderItems=orderItems)
 
+@order_bp.route('/order/admin', methods=['GET'])
+@login_required
+def admin():
+    if getCurrentType() != 'admin':
+        redirect(url_for("home.home"))
+
+    orders = dict_db_data('orders', "ORDER BY order_id DESC")
+    statuses = sql_enum_list(
+        conn.execute(text("SHOW COLUMNS FROM orders LIKE 'status'")).all()[0][1])
+    statusesItems = sql_enum_list(
+        conn.execute(text("SHOW COLUMNS FROM orders LIKE 'status'")).all()[0][1])
+
+    # append all the order items into the orders list of dicts
+    for order in orders:
+        orderItems = dict_db_data("order_items", 
+            f"NATURAL JOIN product_variants NATURAL JOIN products WHERE order_id = {order['order_id']}",
+            select='product_title')
+        order['order_items'] = orderItems
+
+    return render_template("order_admin.html", orders=orders, statuses=statuses, 
+                           statusesItems=statusesItems)
+    
+@order_bp.route("/order/admin/<int:orderId>", methods=["POST"])
+@login_required
+def adminUpdateOrder(orderId):
+    if getCurrentType() != 'admin':
+        redirect(url_for("home.home"))
+    status = request.form.get('status')
+    conn.execute(text("UPDATE orders SET status = :status WHERE order_id = :orderId"),
+                      {'status': status, 'orderId': orderId})
+
+    return redirect(url_for("order.admin"))
+
 @order_bp.route('/order/vendor', methods=['GET'])
 @login_required
 def vendor():
@@ -202,13 +237,15 @@ def vendor():
 @order_bp.route("/order/vendor/<int:orderItemId>", methods=["POST"])
 @login_required
 def updateOrder(orderItemId):
-    if getCurrentType() != 'vendor':
+    if getCurrentType() != 'vendor' or getCurrentType() != 'admin':
         redirect(url_for("home.home"))
     userOwns = bool(conn.execute(text(
         """SELECT vendor_id FROM order_items NATURAL JOIN product_variants
            NATURAL JOIN products 
            WHERE vendor_id = :vendorId AND order_item_id = :orderItemId"""),
            {'vendorId': current_user.email, 'orderItemId': orderItemId}).first())
+    if getCurrentType() == 'admin':
+        userOwns = True
     newStatus = request.form.get("status")
 
     if userOwns:
@@ -244,7 +281,10 @@ def updateOrder(orderItemId):
         #     print(f"\n{e}\n")
         # return redirect(url_for("order.vendor", error="Unable to update status"))
 
-    return redirect(url_for("order.vendor"))
+    if getCurrentType() == 'admin':
+        return redirect(url_for("order.admin"))
+    else:
+        return redirect(url_for("order.vendor"))
 
 
 def getVendorOrders(user):
