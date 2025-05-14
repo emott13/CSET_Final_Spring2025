@@ -1,0 +1,66 @@
+<link rel="stylesheet" href="../../static/styles/styles.css">
+<link rel="stylesheet" href="../../static_order/order.css">
+<script defer>
+    // prevents sending another POST request on refresh
+    if (window.history.replaceState)
+        window.history.replaceState( null, null, window.location.href );
+</script>
+{% extends 'base.html' %}
+{% block body %}
+<div class="full-height container">
+    <div class="inner">
+        <div class="complaint-container">
+            {% for complaint in complaints %}
+                <table class="orderTable">
+                    <tr class="orderRow">
+                        <td>Order number: </td>
+                        <td>{{ complaint['order_id'] }}</td>
+                    </tr>
+                    <tr class="orderRow">
+                        <td>Submitted By: </td>
+                        <td>{{ complaint['submitted_by'] }}</td>
+                    </tr>
+                    <tr class="orderRow">
+                        <td>Status: </td>
+                        <td><form action="{{url_for('complaint.updateStatus', complaintId=complaint['complaint_id'])}}" method="POST" id="update-status-{{complaint['complaint_id']}}" autocomplete="off">
+                            <select class="status-select" name="status">
+                            {% for status in statuses %}
+                                {% set select = 'selected' if status == complaint['status'] else "" %}
+                                <option for="status" value="{{status}}" {{select}}>{{status}}</option>
+                            {% endfor %}
+                            </select>
+                            <input type="submit" class="btn" value="Update Status">
+                        </form></td>
+                    </tr>
+                    <tr class="orderRow">
+                        <td>Submitted on: </td>
+                        <td>{{ complaint['date']|dateOnlyFormat }}<br>{{complaint['date']|timeOnlyFormat}}</td>
+                    </tr>
+                    <tr class="orderRow">
+                        <td>Demand: </td>
+                        <td>{{ complaint['demand'] }}</td>
+                    </tr>
+                    <tr class="orderRow">
+                        <td>Title: </td>
+                        <td>{{ complaint['title']}}</td>
+                    </tr>
+                    <tr class="orderRow">
+                        <td>Description: </td>
+                        <td class="complaint-desc-view">{{ complaint['description']}}</td>
+                    </tr>
+                </table>
+            {% endfor %}
+        </div>
+     
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        {% if success %}
+            {% autoescape false %}
+            <h2 class="success">{{ success }}</h2>
+            {% endautoescape %}
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

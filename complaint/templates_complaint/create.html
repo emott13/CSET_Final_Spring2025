@@ -1,0 +1,72 @@
+<link rel="stylesheet" href="../../static/styles/styles.css">
+<link rel="stylesheet" href="../../static_order/order.css">
+<script defer>
+    // prevents sending another POST request on refresh
+    if (window.history.replaceState)
+        window.history.replaceState( null, null, window.location.href );
+</script>
+{% extends 'base.html' %}
+{% block body %}
+<div class="full-height container">
+    <div class="inner">
+        <div class="orderContainer">
+            <table class="orderTable">
+                <tr class="orderRow">
+                    <td>Order number: </td>
+                    <td>{{ order['order_id'] }}</td>
+                </tr>
+                <tr class="orderRow">
+                    <td>Status: </td>
+                    <td>{{ order['status'] }}</td>
+                </tr>
+                <tr class="orderRow">
+                    <td>Total: </td>
+                    <td>${{ order['total_price']|priceFormat }}</td>
+                </tr>
+                <tr class="orderRow">
+                    <td>Submitted on: </td>
+                    <td>{{ order['order_date']|dateOnlyFormat }}<br>{{order['order_date']|timeOnlyFormat}}</td>
+                </tr>
+            </table>
+        </div>
+     
+        <h1 class="login-h1">Create Complaint</h1>
+        
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        {% if success %}
+            {% autoescape false %}
+            <h2 class="success">{{ success }}</h2>
+            {% endautoescape %}
+        {% endif %}
+
+        <form class="login-form space" action="{{url_for('complaint.create', orderId=orderId)}}" method="post">
+            <div class="input-row">
+                <div class="fancy-input full-width">
+                    <input class="full-width" type="text" name="title" maxlength="50" placeholder="" required />
+                    <label for="title">Title:</label>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="fancy-input full-width">
+                    <textarea class="full-width complaint-desc" type="text" name="description" maxlength="500" rows="7" cols="100" placeholder="" required></textarea>
+                    <label class="label-shown" for="description">Description:</label>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="fancy-input full-width">
+                    <select class="full-width" for="demand" name="demand">
+                        {% for demand in demands %}
+                            <option value="{{demand}}" selected>{{demand.title()}}</option>
+                        {% endfor %}
+                    </select>
+                    <input class="full-width" style="display: none">
+                    <label class="label-shown" for="demand">Demand</label>
+                </div>
+            </div>
+            <button class="btn" type="submit">Submit Complaint</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

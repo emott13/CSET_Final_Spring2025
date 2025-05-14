@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user, login_required
 from sqlalchemy import text
 from datetime import datetime
-from extensions import conn
+from extensions import conn, getCurrentType, sql_enum_list, dict_db_data
 from search.search import toCents, toDollar
 
 order_bp = Blueprint('order', __name__, static_folder='static_order', template_folder='templates_order')
@@ -12,23 +12,58 @@ order_bp = Blueprint('order', __name__, static_folder='static_order', template_f
 def order():
     user = current_user.email
     total = request.form.get('total')
-    print('* * * * * *TOTAL', total)
+    error = request.args.get('error')
+    # print('* * * * * *TOTAL', total)
     totalInCents = toCents(total)
     now = datetime.now()
     if total == '$0.00':
         request.method = 'GET'
         message = 'There was an issue placing your order.'
 
+    if getCurrentType() == 'vendor':
+        return redirect(url_for("order.vendor"))
+    elif getCurrentType() == 'admin':
+        return redirect(url_for("order.admin"))
+
     if request.method == 'GET':
         orders_map, orderCount = getOrders(user)
         try:
-            print('! ! ! ! !', message)
+            # print('! ! ! ! !', message)
             return redirect(url_for('cart.cart', message=message))                                # user orders, message, order count
         except UnboundLocalError:
             return render_template('order_get.html',orders=orders_map,                          # render order page with
                                 count=orderCount)                                               # user orders, message, order count
         
     elif request.method == 'POST':
+        address = request.form.get("address", "")
+        address2 = request.form.get('address2', "")
+        city = request.form.get('city', "")
+        state = request.form.get('state', "")
+        country = request.form.get('country', "")
+        creditCard = request.form.get('credit-card', "")
+        cardName = request.form.get('card-name', "")
+        cvc = request.form.get('cvc', "")
+        error = None
+
+        if len(address) > 255 or len(address2) > 255 or not address:
+            error = "Invalid address"
+        elif len(city) > 255 or not city:
+            error = "Invalid city"
+        elif len(state) > 255 or not state:
+            error = "Invalid state / province / territory"
+        elif len(country) > 255 or not country:
+            error = "Invalid country"
+        elif len(creditCard) > 255 or len(creditCard) < 13 or not creditCard or creditCard.isalpha():
+            error = "Invalid credit card"
+        elif len(cardName) > 255 or not cardName:
+            error = "Invalid card name"
+        elif len(cvc) > 4 or len(cvc) < 3 or cvc.isalpha() or not cvc:
+            error = "Invalid card cvc"
+        print(f"error\n{error}")
+
+        if error:
+            return redirect(url_for('cart.cart', message=error))
+
         currentCart = conn.execute(
             text('''
                 SELECT * FROM cart_items
@@ -38,16 +73,21 @@ def order():
                  '''),
                 {'user': user}
         ).fetchall()
-        print('curr cart', currentCart)
+        # print('curr cart', currentCart)
         if currentCart is None or currentCart == []:
             return render_template('cart.html', messageString='There was an error placing your order.')
 
         conn.execute(                                                                       # create new order
             text('''
-                INSERT INTO orders (customer_email, status, order_date, total_price)
-                VALUES (:user, :status, :date, :total)
+                INSERT INTO orders (customer_email, status, order_date, total_price, 
+                    address, address2, city, state, country, credit_card, card_name, card_cvc)
+                VALUES (:user, :status, :date, :total,
+                    :address, :address2, :city, :state, :country, :creditCard,
+                    :cardName, :cvc)
             '''), 
-            {'user': user, 'status': 'pending', 'date': now, 'total': totalInCents}
+            {'user': user, 'status': 'pending', 'date': now, 'total': totalInCents,
+             'address': address, 'address2': address2, 'city': city, 'state': state,
+             'country': country, 'creditCard': creditCard, 'cardName': cardName, 'cvc': cvc}
         )
 
         order_id_result = conn.execute(                                                     # get new order id
@@ -125,26 +165,201 @@ def order():
         return render_template('order_post.html',orders=orders_map,                         # render order page with
                             count=orderCount, message=success)                              # user orders, message, order count
 
+@order_bp.route('/order/<int:orderId>', methods=['GET', 'POST'])
+@login_required
+def orderDetails(orderId):
+    if getCurrentType() != 'customer':
+        return redirect(url_for("login.login"))
+    orderEmail = conn.execute(text("SELECT customer_email FROM orders "
+                                      "WHERE order_id = :orderId"),
+                                      {'orderId': orderId}).first()
+    orderItems = dict_db_data("order_items", 
+        "NATURAL JOIN product_variants NATURAL JOIN products NATURAL JOIN colors "+ 
+        "NATURAL JOIN sizes NATURAL JOIN specifications  "+
+        f"WHERE order_id = {orderId} ",
+        select="product_id, product_title, color_name, size_description, spec_description")
+    print(orderItems)
+    print(orderEmail)
+
+    if orderEmail == None or orderEmail[0] != current_user.email:
+        return redirect(url_for('home.home'))
+
+    return render_template("order_details.html", orderId=orderId, orderItems=orderItems)
+
+@order_bp.route('/order/admin', methods=['GET'])
+@login_required
+def admin():
+    if getCurrentType() != 'admin':
+        redirect(url_for("home.home"))
+
+    orders = dict_db_data('orders', "ORDER BY order_id DESC")
+    statuses = sql_enum_list(
+        conn.execute(text("SHOW COLUMNS FROM orders LIKE 'status'")).all()[0][1])
+    statusesItems = sql_enum_list(
+        conn.execute(text("SHOW COLUMNS FROM orders LIKE 'status'")).all()[0][1])
+
+    # append all the order items into the orders list of dicts
+    for order in orders:
+        orderItems = dict_db_data("order_items", 
+            f"NATURAL JOIN product_variants NATURAL JOIN products WHERE order_id = {order['order_id']}",
+            select='product_title')
+        order['order_items'] = orderItems
+
+    return render_template("order_admin.html", orders=orders, statuses=statuses, 
+                           statusesItems=statusesItems)
+    
+@order_bp.route("/order/admin/<int:orderId>", methods=["POST"])
+@login_required
+def adminUpdateOrder(orderId):
+    if getCurrentType() != 'admin':
+        redirect(url_for("home.home"))
+    status = request.form.get('status')
+    conn.execute(text("UPDATE orders SET status = :status WHERE order_id = :orderId"),
+                      {'status': status, 'orderId': orderId})
+
+    return redirect(url_for("order.admin"))
+
+@order_bp.route('/order/vendor', methods=['GET'])
+@login_required
+def vendor():
+    if getCurrentType() != 'vendor':
+        redirect(url_for("home.home"))
+
+    error = request.args.get("error")
+    vendorOrders = getVendorOrders(current_user.email)
+    statuses = sql_enum_list(
+        conn.execute(text("SHOW COLUMNS FROM order_items LIKE 'status'")).all()[0][1])
+    # print(statuses)
+
+    return render_template("order_vendor.html", vendorOrders=vendorOrders, 
+                           statuses=statuses, error=error)
+
+@order_bp.route("/order/vendor/<int:orderItemId>", methods=["POST"])
+@login_required
+def updateOrder(orderItemId):
+    if getCurrentType() != 'vendor' or getCurrentType() != 'admin':
+        redirect(url_for("home.home"))
+    userOwns = bool(conn.execute(text(
+        """SELECT vendor_id FROM order_items NATURAL JOIN product_variants
+           NATURAL JOIN products 
+           WHERE vendor_id = :vendorId AND order_item_id = :orderItemId"""),
+           {'vendorId': current_user.email, 'orderItemId': orderItemId}).first())
+    if getCurrentType() == 'admin':
+        userOwns = True
+    newStatus = request.form.get("status")
+
+    if userOwns:
+        # try:
+        conn.execute(text("""
+            UPDATE order_items 
+            SET status = :newStatus
+            WHERE order_item_id = :orderItemId"""),
+            {'newStatus': newStatus, 'orderItemId': orderItemId})
+        conn.commit()
+
+        orderId = conn.execute(text("SELECT order_id FROM order_items WHERE order_item_id = :orderItemId"),
+                                    {'orderItemId': orderItemId}).first()[0]
+        orderItems = conn.execute(text("SELECT order_items.status FROM order_items WHERE order_id = :orderId"),
+                                       {'orderId': orderId}).all()
+        print(f"orderId: {orderId}")
+        print(f"orderItems: {orderItems}")
+        status = None
+        sameStatus = True
+        for item in orderItems:
+            if status == None:
+                status = item[0]
+            else:
+                if status != item[0]:
+                    sameStatus = False
+                    break
+        if sameStatus:
+            conn.execute(text("UPDATE orders SET status = :status WHERE order_id = :orderId"),
+                              {'status': status, 'orderId': orderId})
+            conn.commit()
+        
+        # except Exception as e:
+        #     print(f"\n{e}\n")
+        # return redirect(url_for("order.vendor", error="Unable to update status"))
+
+    if getCurrentType() == 'admin':
+        return redirect(url_for("order.admin"))
+    else:
+        return redirect(url_for("order.vendor"))
+
+
+def getVendorOrders(user):
+    orders_map = []
+    orders = conn.execute(
+        text('''
+            SELECT order_items.order_id, order_items.status, orders.order_date, 
+                orders.total_price, orders.customer_email, 
+                quantity, price_at_order_time, vendor_id, product_title, 
+                product_description, order_item_id, address, address2, city, 
+                state, country, credit_card, card_name, card_cvc, product_id
+            FROM order_items NATURAL JOIN product_variants NATURAL JOIN products
+            INNER JOIN orders ON order_items.order_id = orders.order_id
+            WHERE vendor_id = :user
+            ORDER BY order_date, order_item_id DESC;
+        '''),
+        {'user': user}).fetchall()
+    for row in orders:
+        # print(row)
+        date, time = row[2].strftime("%B %d, %Y"), row[2].strftime("%I:%M:%S %p")
+        orders_map.append({
+            'id': row[0],
+            'status': row[1],
+            'date': date,
+            'time': time,
+            'total': toDollar(row[3], thousand=True),
+            'customer_email': row[4],
+            'quantity': row[5],
+            'price_at_order_time': row[6],
+            'vendor_id': row[7],
+            'product_title': row[8],
+            'product_description': row[9],
+            'order_item_id': row[10], 
+            'address': row[11],
+            'address2': row[12],
+            'city': row[13],
+            'state': row[14],
+            'country': row[15],
+            'credit_card': row[16],
+            'card_name': row[17],
+            'card_cvc': row[18],
+            'product_id': row[19]
+        })
+    return orders_map
+
 
 def getOrders(user):
     orders_map = []
     orders = conn.execute(                                                                  # get user orders
         text('''
-            SELECT order_id, status, order_date, total_price
+            SELECT order_id, status, order_date, total_price,
+            address, address2, city, state, country,
+            credit_card, card_name, card_cvc
             FROM orders
             WHERE customer_email = :user
             ORDER BY order_id DESC;
         '''),
         {'user': user}).fetchall()
     for row in orders:                                                                      # map user orders
-        print(row)
-        date, time = row[2].strftime("%B %d, %Y"), row[2].strftime("%H:%M:%S %p")
+        # print(row)
+        date, time = row[2].strftime("%B %d, %Y"), row[2].strftime("%I:%M:%S %p")
         orders_map.append({
             'id': row[0],
             'status': row[1].title(),
             'date': date,
             'time': time,
-            'total': toDollar(row[3], thousand=True)
+            'total': toDollar(row[3], thousand=True),
+            'address': row[4],
+            'address2': row[5],
+            'city': row[6],
+            'state': row[7],
+            'country': row[8],
+            'credit_card': row[9],
+            'card_name': row[10],
+            'card_cvc': row[11],
         })
     orderCount = len(orders)                                                                # get length of orders
     return orders_map, orderCount

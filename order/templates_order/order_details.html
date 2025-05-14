@@ -5,43 +5,41 @@
 {% block body %}
 <main class="main">
     <section class="orderSection">
-        <h2 class="orderHeader">Orders:</h2>
+        <h2 class="orderHeader">Order #{{orderId}}:</h2>
         {% if error %}
             <h4 class="error">{{ error }}</h4>
         {% endif %}
         <div class="previousOrders">
             <div class="orderContainer">
-                {% if count %}
-                    {% for i in range(0, count) %}
+                {% if orderItems %}
+                    {% for item in orderItems %}
                         <table class="orderTable">
                             <tr class="orderRow">
-                                <td>Order number: </td>
-                                <td>{{ orders[i].id }}</td>
+                                <td>Product Title: </td>
+                                <td>
+                                    <a href="{{url_for('product.product', product_id=item.product_id, variant_id=item.variant_id)}}">
+                                    {{ item.product_title }}</a>
+                                </td>
                             </tr>
                             <tr class="orderRow">
                                 <td>Status: </td>
-                                <td>{{ orders[i].status }}</td>
+                                <td>{{ item.status.title() }}</td>
                             </tr>
                             <tr class="orderRow">
-                                <td>Total: </td>
-                                <td>{{ orders[i].total }}</td>
+                                <td>Quantity: </td>
+                                <td>{{ item.quantity }}</td>
                             </tr>
                             <tr class="orderRow">
-                                <td>Submitted on: </td>
-                                <td>{{ orders[i].date }}<br>{{ orders[i].time }}</td>
+                                <td>Color: </td>
+                                <td>{{ item.color_name }}</td>
                             </tr>
                             <tr class="orderRow">
-                                <td>Delivering to: </td>
-                                <td>{{ orders[i].address + " " + orders[i].address2 + ", " + 
-                                    orders[i].city + ", " + orders[i].state + " " + orders[i].country}}</td>
+                                <td>Size: </td>
+                                <td>{{ item.size_description }}</td>
                             </tr>
                             <tr class="orderRow">
-                                <td>Card ending in: </td>
-                                <td>{{ orders[i].credit_card[-4:] }}</td>
-                            </tr>
-                            <tr class="orderRow">
-                                <td><button class="btn orderBtn" onclick="document.location.href = `{{url_for('order.orderDetails', orderId=orders[i].id)}}`">View order details</button></td>
-                                <td><button class="btn orderBtn" onclick="document.location.href = `{{url_for('complaint.create', orderId=orders[i].id)}}`">Issues with your order?</button></td>
+                                <td>Spec: </td>
+                                <td>{{ item.spec_description }}</td>
                             </tr>
                         </table>
                     {% endfor %}

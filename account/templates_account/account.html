@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/static/styles/styles.css">
 <link rel="stylesheet" href="../static_account/account.css">
 {% extends 'base.html' %}
 {% block body %}
@@ -18,31 +19,43 @@
                 <td>{{ account.type }}</td>
             </tr>
         </table>
-        <div class="chatsContainer">
-            <h3>Support Tickets</h3>
-            <table class="chatsTable">
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>{{ chat.cid }}</td>
-                    <td>Related ID</td>
-                    <td>{{ chat.id }}</td>
-                </tr>
-                <tr>
-                    <td colspan="2">Last Message</td>
-                    <td colspan="2" id="formSubmit">{{ chat.text }} <i class="ion-chevron-right"></i></td>
-                    <form action="{{ url_for('account.chat') }}" method="GET" name="chat" id="chatForm">
-                        <input type="hidden" value="{{ chat.cid }}" name="data" id="input">
-                    </form>
-                </tr>
-                <tr>
-                    <td colspan="2">Support Personel</td>
-                    <td colspan="2">{{ chat.from }}</td>
-                </tr>
-            </table>
-        </div>
+        {% if chat %}
+            <div class="chatsContainer">
+                <h3>Support Tickets</h3>
+                <table class="chatsTable">
+                    <tr>
+                        <td>Ticket ID</td>
+                        <td>{{ chat.cid }}</td>
+                        <td>Related ID</td>
+                        <td>{{ chat.id }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Last Message</td>
+                        <td colspan="2" id="formSubmit">{{ chat.text }} <i class="ion-chevron-right"></i></td>
+                        <form action="{{ url_for('chat.home') }}" method="GET" name="chat" id="chatForm">
+                            <input type="hidden" value="{{ chat.cid }}" name="data" id="input">
+                        </form>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Support Personel</td>
+                        <td colspan="2">{{ chat.from }}</td>
+                    </tr>
+                </table>
+            </div>
+        {% endif %}
         <div class="ordersContainer">
+            {% if account.type == 'vendor' or account.type == 'admin' %}
+                <a href="{{ url_for('product_manage.manage') }}" class="ordersBtn">Manage Products</a>
+            {% endif %}
+
             <a href="{{ url_for('order.order') }}" class="ordersBtn">view orders</a>
+
+            {% if account.type == 'customer' or account.type == 'admin' %}
+                <a href="{{ url_for('complaint.complaint') }}" class="ordersBtn">view complaints</a>
+            {% endif %}
+            <a href="{{ url_for('chat.home') }}" class="ordersBtn">view chats</a>
         </div>
+        <a class="btn btn-delete top-margin" href="{{url_for('logout')}}">Log Out</a>
     </section>
 </main>
 <script>

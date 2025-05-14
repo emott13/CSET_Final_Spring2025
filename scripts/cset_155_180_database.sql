@@ -13,6 +13,14 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR(60) NOT NULL,
     type ENUM('vendor', 'admin', 'customer') NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS admin_appli (
+	email VARCHAR(255) PRIMARY KEY, 										-- using email like a user id since unique
+    username VARCHAR(255) NOT NULL UNIQUE,
+    hashed_pswd VARCHAR(300) NOT NULL, 										-- hashed passwords needed more space in prev programs so using 300 instead of 255
+    first_name VARCHAR(60) NOT NULL,
+    last_name VARCHAR(60) NOT NULL
+);
 -- products related tables
 CREATE TABLE IF NOT EXISTS categories(					-- product categories for search / filter
 	cat_num INT PRIMARY KEY,
@@ -53,18 +61,17 @@ CREATE TABLE IF NOT EXISTS product_variants (			-- product variants with each co
 -- images
 CREATE TABLE IF NOT EXISTS images (						-- product, complaint, and review images
     image_id INT PRIMARY KEY AUTO_INCREMENT,
-    variant_id INT,															-- will contain variant_id if image belongs to product
-	chat_id INT,															-- will contain chat_id if image belongs to chat conversation															
+    variant_id INT,															-- will contain variant_id if image belongs to product														
     complaint_id INT,														-- will contain complaint_id if image belongs to customer complaint
     review_id INT,															-- will contain review_id if image belongs to customer review
     file_path VARCHAR(500) NOT NULL,  										-- path or URL to the image file
     alt_text VARCHAR(255),            										-- image description / alt text
     FOREIGN KEY (variant_id) REFERENCES product_variants(variant_id),
 	CONSTRAINT only_one_fk CHECK (											-- forces only one foreign key per row, ensuring image will belong to only one type of entry
-		(chat_id IS NOT NULL AND variant_id IS NULL AND complaint_id IS NULL AND review_id IS NULL) OR
-		(chat_id IS NULL AND variant_id IS NOT NULL AND complaint_id IS NULL AND review_id IS NULL) OR
-		(chat_id IS NULL AND variant_id IS NULL AND complaint_id IS NOT NULL AND review_id IS NULL) OR
-		(chat_id IS NULL AND variant_id IS NULL AND complaint_id IS NULL AND review_id IS NOT NULL)
+		(variant_id IS NULL AND complaint_id IS NULL AND review_id IS NULL) OR
+		(variant_id IS NOT NULL AND complaint_id IS NULL AND review_id IS NULL) OR
+		(variant_id IS NULL AND complaint_id IS NOT NULL AND review_id IS NULL) OR
+		(variant_id IS NULL AND complaint_id IS NULL AND review_id IS NOT NULL)
     )
 );
 
@@ -113,8 +120,10 @@ CREATE TABLE IF NOT EXISTS complaints ( 									-- join tables using complaint_
     demand ENUM('return', 'refund', 'warranty claim'),
     status ENUM('pending', 'rejected', 'confirmed', 'processing', 'complete') NOT NULL,
     date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    order_id INT,
     FOREIGN KEY (submitted_by) REFERENCES users(email),
-    FOREIGN KEY (reviewed_by) REFERENCES users(email)
+    FOREIGN KEY (reviewed_by) REFERENCES users(email),
+    FOREIGN KEY (order_id) REFERENCES orders(order_id)
 );
 
 -- chats
@@ -123,13 +132,11 @@ CREATE TABLE IF NOT EXISTS chats (
     complaint_id INT,
     product_id INT,
 	text VARCHAR(500),
-	image_id INT,
     user_from VARCHAR(255),													    -- person sending message
     user_to VARCHAR(255),													    -- person receiving message
     date_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,						-- to keep track of when chats were sent to display in proper order
     FOREIGN KEY (user_from) REFERENCES users(email),
     FOREIGN KEY (user_to) REFERENCES users(email),
-    FOREIGN KEY (image_id) REFERENCES images(image_id),
     FOREIGN KEY (complaint_id) REFERENCES complaints(complaint_id),
     FOREIGN KEY (product_id) REFERENCES products(product_id),
     CONSTRAINT only_one_id CHECK (
@@ -897,13 +904,10 @@ VALUES
     ('I tried to fix it but part where the wheels go into the base is broken.', 2, NULL, 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:44:27'),
     ('I am very sorry for the inconvenience. Can you please attach a photo of the damaged part?', 2, NULL, 'i_tombolli@study_space.com', 's_teller@gmail.com', '2025-04-08 11:45:23'),
     ('Sure one sec.', 2, NULL, 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:45:51');
-INSERT INTO images (chat_id, file_path, alt_text)
+INSERT INTO chats (text, complaint_id, product_id, user_from, user_to, date_time)
 VALUES
-	(2, 'https://www.reddit.com/media?url=https%3A%2F%2Fi.redd.it%2F976ux5ctckwz.jpg', 'Customer submitted image');
-INSERT INTO chats (text, complaint_id, product_id, image_id, user_from, user_to, date_time)
-VALUES
-    ('Okay here is the photo:', 2, NULL, NULL, 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:49:12'),
-    (NULL, 2, NULL, 32, 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:49:28');
+    ('Okay here is the photo:', 2, NULL, 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:49:12'),
+    (NULL, 2, NULL, 's_teller@gmail.com', 'i_tombolli@study_space.com', '2025-04-08 11:49:28');
 INSERT INTO chats (text, complaint_id, product_id, user_from, user_to, date_time)
 VALUES
     ('Thank you, Mr. Teller. I see the issue. I will submit the warranty claim for you. It can take up to 7 business days to be processed.', 2, NULL, 'i_tombolli@study_space.com', 's_teller@gmail.com', '2025-04-08 11:50:00'),

@@ -86,6 +86,12 @@ def dict_db_data(table, extra="", select=""):
 
     return dataDict
 
+def sql_enum_list(enum: str) -> list:
+    arr = []
+    for item in enum[5:-1].split(','):
+        arr.append(item.replace("'", ""))
+    return arr
+
 # price formatter for jinja template. call like {{154|priceFormat}}
 @app.template_filter()
 def priceFormat(value):
@@ -98,11 +104,36 @@ def priceFormat(value):
     return formatted
     # return f"{ round( int(value)/100, 2):.2f }"
 
-# date formatter for jinja template. call like {{154|dateFormat}}
+# date formatter for jinja template
 @app.template_filter()
 def dateFormat(value: datetime.datetime) -> str:
     # formats like "Dec 05, 2026 11:59 PM"
     return value.strftime("%b %d, %Y %I:%M %p")
+
+# date formatter for jinja template
+@app.template_filter()
+def dateOnlyFormat(value: datetime.datetime) -> str:
+    # formats like "Dec 05, 2026"
+    return value.strftime("%b %d, %Y")
+
+# date formatter for jinja template
+@app.template_filter()
+def timeOnlyFormat(value: datetime.datetime) -> str:
+    # formats like "09:10:32 PM"
+    return value.strftime("%I:%M:%S %p")
+
+@app.template_filter()
+def chatDateFormat(value: datetime.datetime) -> str:
+    """Sets the date to Today or Yesterday if that's true"""
+    currentTime = datetime.datetime.now()
+    if value.date() == currentTime.date():
+        # formats like "Today at 11:59 PM"
+        return value.strftime("Today at %-I:%M %p")
+    elif value.date() == currentTime.date() - datetime.timedelta(1):
+        # formats like "Yesterday at 11:59 PM"
+        return value.strftime("Yesterday at %-I:%M %p")
+    # formats like "Sun, Dec 05, 2026 11:59 PM"
+    return value.strftime("%a, %b %d, %Y %-I:%M %p")
 
 # Load user for Flask-Login
 @login_manager.user_loader

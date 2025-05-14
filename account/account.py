@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from flask_login import LoginManager, UserMixin, current_user
+from flask_login import LoginManager, UserMixin, current_user, login_required
 from sqlalchemy import text
 from extensions import conn
 from search.search import toDollar
@@ -7,6 +7,7 @@ from search.search import toDollar
 account_bp = Blueprint('account', __name__, static_folder='static_account', template_folder='templates_account')
 
 @account_bp.route('/account')
+@login_required
 def account():
     user = current_user.email
     userData = conn.execute(
@@ -35,6 +36,10 @@ def account():
             LIMIT 1;
         '''),
         {'user': user}).fetchone()
+    print(chat)
+    if not chat:
+        return render_template('account.html', account = userData_map)
+
     if chat[1] is not None:
         id = chat[1]
     else:
@@ -59,11 +64,11 @@ def account():
 
     return render_template('account.html', account = userData_map, chat = userChats_map)
 
-# temp to print passed data. 
-# html action can be changed to go to chats when we create chats.py,
-# and then this could be deleted
-@account_bp.route('/chat')
-def chat():
-    chat = request.args.get('data')
-    print('chat', chat)
-    return redirect(url_for('account.account'))
+# # temp to print passed data. 
+# # html action can be changed to go to chats when we create chats.py,
+# # and then this could be deleted
+# @account_bp.route('/chat')
+# def chat():
+#     chat = request.args.get('data')
+#     print('chat', chat)
+#     return redirect(url_for('account.account'))

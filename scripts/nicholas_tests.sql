@@ -8,18 +8,25 @@ SELECT * FROM discounts;
 SELECT * FROM product_variants;
 SELECT * FROM colors;
 SELECT * FROM sizes;
-SELECT * FROM categories;
 SELECT * FROM images;
-SELECT * FROM reviews 
+SELECT * FROM categories;
+SELECT * FROM orders;
+SELECT * FROM order_items;
+SELECT * FROM complaints;
+DELETE FROM complaints WHERE complaint_id = 7;
+SELECT * FROM reviews; 
 JOIN users ON reviews.customer_email = users.email
 WHERE product_id = 850556;
-SELECT * FROM product_variants NATURAL JOIN products WHERE vendor_id = 'g_pitts@supplies4school.org';
 
 SELECT * FROM carts;
 SELECT * FROM cart_items WHERE cart_id = 6;
 
 DESC products;
 DESC images;
+DESC sizes;
+DESC colors;
+DESC complaints;
+SHOW COLUMNS FROM complaints LIKE 'demand';
 DESC product_variants;
 DELETE FROM cart_items WHERE cart_id = (SELECT cart_id FROM carts WHERE customer_email = "bluemario8@gmail.com");
 DELETE FROM carts WHERE customer_email = "bluemario812@gmail.com";
@@ -41,6 +48,13 @@ NATURAL JOIN product_variants
 NATURAL JOIN colors
 NATURAL JOIN sizes
 ORDER BY product_id;           
+
+SELECT variant_id, product_id, pv.color_id, pv.size_id,
+        price, current_inventory, color_name, color_hex, size_description
+        FROM product_variants AS pv LEFT JOIN colors ON pv.color_id=colors.color_id
+        LEFT JOIN sizes ON pv.size_id=sizes.size_id
+		WHERE product_id = 850555 AND variant_id = 100200
+        ORDER BY variant_id;
 
 INSERT INTO discounts (variant_id, discount_price, start_date)
 VALUES (100204, 149, NOW());

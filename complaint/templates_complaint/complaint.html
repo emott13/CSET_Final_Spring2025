@@ -1,0 +1,69 @@
+<link rel="stylesheet" href="../../static/styles/styles.css">
+<link rel="stylesheet" href="../../static_order/order.css">
+<script defer>
+    // prevents sending another POST request on refresh
+    if (window.history.replaceState)
+        window.history.replaceState( null, null, window.location.href );
+</script>
+{% extends 'base.html' %}
+{% block body %}
+<div class="full-height container">
+    <div class="inner">
+        <h1>Complaints</h1>
+        <div class="complaint-container">
+            {% for complaint in complaints %}
+                <table class="orderTable">
+                    <tr class="orderRow">
+                        <td>Order number: </td>
+                        <td>{{ complaint['order_id'] }}</td>
+                    </tr>
+                    <tr class="orderRow">
+                        <td>Status: </td>
+                        <td>{{ complaint['status'] }}</td>
+                    </tr>
+                    <tr class="orderRow">
+                        <td>Submitted on: </td>
+                        <td>{{ complaint['date']|dateOnlyFormat }}<br>{{complaint['date']|timeOnlyFormat}}</td>
+                    </tr>
+                    <tr class="orderRow">
+                        <td>Demand: </td>
+                        <td>{{ complaint['demand'] }}</td>
+                    </tr>
+                    <tr class="orderRow">
+                        <td>Title: </td>
+                        <td>{{ complaint['title']}}</td>
+                    </tr>
+                    <tr class="orderRow">
+                        <td>Description: </td>
+                        <td class="complaint-desc-view">{{ complaint['description']}}</td>
+                    </tr>
+                    {% if complaint['reviewed_by'] %}
+                    <tr class="orderRow">
+                        <td>Reviewed By: </td>
+                        <td>{{ complaint['reviewed_by'] }}</td>
+                    </tr>
+                    <tr class="orderRow">
+                        <td>Not happy?</td>
+                        <td>
+                            <button class="btn complaint-btn"
+                            onclick="document.location.href = `{{url_for('chat.room', type='complaint', combined_id=complaint['complaint_id'], recieverEmail=complaint['reviewed_by'])}}`">Chat With The Admin</button>
+                        </td>
+                    </tr>
+
+                    {% endif %}
+                </table>
+            {% endfor %}
+        </div>
+     
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        {% if success %}
+            {% autoescape false %}
+            <h2 class="success">{{ success }}</h2>
+            {% endautoescape %}
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

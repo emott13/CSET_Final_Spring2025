@@ -7,9 +7,12 @@ from register.register import register_bp
 from product.product import product_bp
 from search.search import search_bp
 from home.home import home_bp
+from product_manage.product_manage import product_manage_bp
 from cart.cart import cart_bp
 from order.order import order_bp
 from account.account import account_bp
+from complaint.complaint import complaint_bp
+from chat.chat import chat_bp
 
 # -- LOGIN PAGE -- #
 app.register_blueprint(login_bp)
@@ -28,6 +31,15 @@ app.register_blueprint(search_bp)
 
 # -- PRODUCT PAGE -- #
 app.register_blueprint(product_bp)
+
+# -- PRODUCT MANAGE PAGE -- #
+app.register_blueprint(product_manage_bp)
+
+# -- COMPLAINT PAGE -- #
+app.register_blueprint(complaint_bp)
+
+# -- CHAT PAGE -- #
+app.register_blueprint(chat_bp)
 
 # -- TEST PAGE -- #
 # Shows current_user data (whoever is logged in)

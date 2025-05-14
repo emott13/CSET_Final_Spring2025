@@ -20,7 +20,7 @@ def getVariantData(product_id):
         text("""
             SELECT variant_id, product_id, color_id, color_name,
                 color_hex, size_id, size_description, price,
-                spec_id, spec_description
+                spec_id, spec_description, current_inventory
             FROM product_variants 
                 NATURAL JOIN colors 
                 NATURAL JOIN sizes 
@@ -146,7 +146,8 @@ def product(product_id, variant_id=None, error=None):
             's_descr': variant[6],
             'price': variant[7],
             'spid': variant[8],
-            'sp_descr': variant[9]
+            'sp_descr': variant[9],
+            'current_inventory': variant[10]
         })
     print('.................... allvariantsmap', allVariants_map)
     currVariant_map = next((v for v in allVariants_map if v['vid'] == variant_id), None)
@@ -191,6 +192,51 @@ def product(product_id, variant_id=None, error=None):
             reviewsAvg=review_avg, reviewsData=reviews_map, getCurrentType=getCurrentType(), 
             bestDiscount=discount, email=user, userType=user_type)
     elif request.method == "POST":
+        amount = request.form.get("number")
+        variantId = currVariant_map['vid']
+        if not current_user.is_authenticated:
+            error = "You must be signed in to add to cart"
+        elif current_user.type != 'customer':
+            error = "You must be signed in as a customer"
+        elif not amount.isdigit():
+            error = "Amount value is invalid"
+        elif int(amount) < 1 or int(amount) > 100:
+            error = "Amount value is invalid"
+
+        if not error:
+            email = current_user.get_email()
+            cartId = conn.execute(text(
+                f"SELECT cart_id FROM carts WHERE customer_email = '{email}'"
+            )).first()
+
+            if not cartId:
+                conn.execute(text(f"INSERT INTO carts (customer_email) VALUES ('{email}')"))
+                conn.commit()
+
+            cartId = conn.execute(text(
+                f"SELECT cart_id FROM carts WHERE customer_email = '{email}'"
+            )).first()[0]
+
+            cartItemVariants = conn.execute(text(
+                f"SELECT variant_id FROM cart_items WHERE cart_id = {cartId}")).all()
+            
+            inCart = False
+            for variant in cartItemVariants:
+                if variant[0] == variantId:
+                    inCart = True
+                    break
+
+
+            if not inCart:
+                conn.execute(text(
+                    "INSERT INTO cart_items (cart_id, variant_id, quantity)"
+                f"VALUES ({cartId}, {variantId}, {amount})"))
+            else:
+                conn.execute(text("UPDATE cart_items "
+                                f"SET quantity = (quantity + {amount})"
+                                f"WHERE cart_id = {cartId} AND variant_id = {variantId}"))
+            conn.commit()
+
         return render_template("product.html", error=error, productId=product_id, 
             productData=product_map, variantId=variant_id, variantData=currVariant_map, 
             allVariantsData=allVariants_map, imageData=images_map, allDiscountData=allDiscounts_map, 

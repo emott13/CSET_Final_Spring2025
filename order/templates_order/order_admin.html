@@ -1,0 +1,97 @@
+<link rel="stylesheet" href="../../static/styles/styles.css">
+<link rel="stylesheet" href="../static_order/order.css">
+<script src="/static_order/scripts/order.js" defer></script>
+{% extends 'base.html' %}
+{% block body %}
+<main class="main">
+    <section class="orderSection">
+        <h2 class="orderHeader">Orders:</h2>
+        {% if error %}
+            <h4 class="error">{{ error }}</h4>
+        {% endif %}
+        <div class="previousOrders">
+                {% if orders %}
+                    {% for order in orders %}
+                        <div class="center flex flex-column">
+                            <table class="orderTable">
+                                <tr class="orderRow">
+                                    <td>Order number: </td>
+                                    <td>{{ order.order_id }}</td>
+                                </tr>
+                                <tr class="orderRow">
+                                    <td>Ordered From: </td>
+                                    <td>{{ order.customer_email }}</td>
+                                </tr>
+                                <tr class="orderRow">
+                                    <td>Status: </td>
+                                    <td><form action="{{url_for('order.adminUpdateOrder', orderId=order.order_id)}}" method="POST" 
+                                        autocomplete="off">
+                                        <select class="status-select" name="status">
+                                        {% for status in statuses %}
+                                            {% set select = 'selected' if status == order.status else "" %}
+                                            <option for="status" value="{{status}}" {{select}}>{{status}}</option>
+                                        {% endfor %}
+                                        </select>
+                                        <input type="submit" class="btn top-margin" value="Update Status">
+                                    </form></td>
+                                </tr>
+                                <tr class="orderRow">
+                                    <td>Total: </td>
+                                    <td>${{ order.total_price|priceFormat }}</td>
+                                </tr>
+                                <tr class="orderRow">
+                                    <td>Submitted on: </td>
+                                    <td>{{ order.order_date|dateFormat }}</td>
+                                </tr>
+                                <tr class="orderRow">
+                                    <td>Delivering to: </td>
+                                    <td>{{ order.address + " " + order.address2 + ", " + 
+                                        order.city + ", " + order.state + " " + order.country}}</td>
+                                </tr>
+                            </table>
+                            {% for item in order.order_items %}
+                                <div class="orderContainer">
+                                    <table class="orderTable">
+                                        <tr class="orderRow">
+                                            <td>Product Title: </td>
+                                            <td>{{ item.product_title }}</td>
+                                        </tr>
+                                        <tr class="orderRow">
+                                            <td>Status: </td>
+                                            <td><form action="{{url_for('order.updateOrder', orderItemId=item.order_item_id)}}" method="POST" 
+                                                autocomplete="off">
+                                                <select class="status-select" name="status">
+                                                {% for status in statusesItems %}
+                                                    {% set select = 'selected' if status == item.status else "" %}
+                                                    <option for="status" value="{{status}}" {{select}}>{{status}}</option>
+                                                {% endfor %}
+                                                </select>
+                                                <input type="submit" class="btn top-margin" value="Update Status">
+                                            </form></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h3 class="noOrders">You have no past orders</h3>
+                {% endif %}
+            
+        </div>
+    </section>
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        button = document.querySelector('.initiate-drop')
+        button.addEventListener('click', event => {
+            event.preventDefault()
+            let dropdown = button.parentElement.querySelector('.dropdown');
+            if (dropdown) {
+                let isVisible = dropdown.style.display === 'grid';
+                dropdown.style.display = isVisible ? 'none' : 'grid';
+            }
+        });
+    });
+</script>
+{% endblock %}

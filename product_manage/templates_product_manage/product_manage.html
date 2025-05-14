@@ -157,11 +157,16 @@
                                 <label class="" for="size">Size:</label>
                             </div>
                         </div>
-
+                        <div class="flex">
+                            <div class="fancy-input">
+                                <input class="full-width" type="text" name="spec" placeholder="" required/>
+                                <label class="" for="spec">Specs:</label>
+                            </div>
+                        </div>
                         <div class="flex">
                             <div class="fancy-input">
                                 <input class="full-width" type="text" name="price" placeholder="$10.99" required/>
-                                <label class="label-shown" for="size">Price:</label>
+                                <label class="label-shown" for="price">Price:</label>
                             </div>
                         </div>
 
@@ -185,6 +190,7 @@
                         <input type="submit" class="btn" value="Create Variant">
                     </form>
                 </div>
+                {% for variant in productIdVariants[p['product_id']] %}
                 <table class="variant-modify-table">
                     <tr>
                         <th>DELETE</th>
@@ -193,11 +199,11 @@
                         <th>Color</th>
                         <th></th>
                         <th>Size</th>
+                        <th>Spec</th>
                         <th>Price</th>
                         <th>Inventory</th>
                         <th>URLs</th>
                     </tr>
-                    {% for variant in productIdVariants[p['product_id']] %}
                         <tr>
                             </form>
                             <form action="{{url_for('product_manage.variantDelete', variantId=variant['variant_id'])}}" method="POST" onsubmit="return confirm('Do you really want to delete this item? This cannot be undone.');">
@@ -220,6 +226,7 @@
                                 </td>
                                 <td><a class="product-color-box" style="background-color: {{variant['color_hex']}}"></a></td>
                                 <td><input name="size" value="{{variant['size_description']}}"></td>
+                                <td><input name="spec" value="{{variant['spec_description']}}"></td>
                                 <td><input name="price" value="${{variant['price']|priceFormat}}"></td>
                                 <td><input name="inventory" type="number" min="0" value="{{variant['current_inventory']}}"></td>
                                 {% for image in imageData %}
@@ -237,6 +244,7 @@
                         </tr> 
                     {% endfor %}
                 </table>
+                {% if productIdVariants[p['product_id']] %}
                 <form class="manage-discount-form" action="{{url_for('product_manage.discount', method='create')}}" method="POST">
                     <h2>Add Discount</h2>
                     <p class="discount-hint">Hint: Start date and/or end date can be blank (meaning it starts now and/or it never ends)</p>
@@ -296,6 +304,7 @@
                     {% endfor %}
                     {% endfor %}
                 </table>
+                {% endif %}
             </div>
         </div>
         {% endfor %}

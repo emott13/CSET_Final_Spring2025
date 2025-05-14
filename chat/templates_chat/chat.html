@@ -1,0 +1,81 @@
+<link rel="stylesheet" href="../../static/styles/styles.css">
+<link rel="stylesheet" href="../../static_order/order.css">
+<script src="/chat/static_chat/scripts/chat.js"></script>
+<script defer>
+    // prevents sending another POST request on refresh
+    if (window.history.replaceState)
+        window.history.replaceState( null, null, window.location.href );
+</script>
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="full-height container">
+    <div class="inner">
+            <h1 class="chat-h1">Complaint Chats</h1>
+        <div class="complaint-container">
+            {% for chats in complaintRowDict %}
+            <table class="orderTable">
+                <tr class="orderRow">
+                    <td>Complaint ID: </td>
+                    <td>{{ chats['complaint_id'] }}</td>
+                </tr>
+                {% set otherUser = chats['user_to'] if chats['user_to'] != email else chats['user_from'] %}
+                <tr class="orderRow">
+                    <td>Chat With: </td>
+                    <td>{{ otherUser }}</td>
+                </tr>
+                <tr class="orderRow">
+                    <td>Last Message: </td>
+                    <td>{{ chats['text'] }}</td>
+                </tr>
+                <tr class="orderRow">
+                    <td>Last Message Date: </td>
+                    <td>{{ chats['date_time'] }}</td>
+                </tr>
+                <tr class="orderRow">
+                    <td>Continue Chatting?: </td>
+                    <td>
+                        <button class="btn chat-btn" onclick="document.location.href = 
+                        `{{url_for('chat.room', type='complaint', combined_id=chats['complaint_id'], recieverEmail=otherUser)}}`">
+                        Chat!</button>
+                    </td>
+                </tr>
+            </table>
+            {% endfor %}
+        </div>
+            <h1 class="chat-h1">Product Chats</h1>
+        <div class="product-container">
+            {% for chats in productRowDict %}
+            <table class="orderTable">
+                <tr class="orderRow">
+                    <td>Product ID: </td>
+                    <td>{{ chats['product_id'] }}</td>
+                </tr>
+                {% set otherUser = chats['user_to'] if chats['user_to'] != email else chats['user_from'] %}
+                <tr class="orderRow">
+                    <td>Chat With: </td>
+                    <td>{{ otherUser }}</td>
+                </tr>
+                <tr class="orderRow">
+                    <td>Last Message: </td>
+                    <td>{{ chats['text'] }}</td>
+                </tr>
+                <tr class="orderRow">
+                    <td>Last Message Date: </td>
+                    <td>{{ chats['date_time'] }}</td>
+                </tr>
+                <tr class="orderRow">
+                    <td>Continue Chatting?: </td>
+                    <td>
+                        <button class="btn chat-btn" onclick="document.location.href = 
+                        `{{url_for('chat.room', type='product', combined_id=chats['product_id'], recieverEmail=otherUser)}}`">
+                        Chat!</button>
+                    </td>
+                </tr>
+            </table>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

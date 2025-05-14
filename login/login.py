@@ -7,6 +7,7 @@ login_bp = Blueprint("login", __name__, static_folder="static",
 
 @login_bp.route("/login", methods=["GET", "POST"])
 def login():
+    error = request.args.get("error", None)
     if request.method == "POST":
         email = request.form.get("username")
         password = request.form.get("password")
@@ -28,4 +29,4 @@ def login():
         else:
             return render_template("login.html", error="Invalid username or password")
 
-    return render_template("login.html")
+    return render_template("login.html", error=error)

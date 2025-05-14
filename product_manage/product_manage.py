@@ -29,10 +29,11 @@ def manage(error=None):
     categoryData = dict_db_data("categories")
     colorData = dict_db_data("colors")
     imageData = dict_db_data("images")
+    specData = dict_db_data("specifications")
     variantData = dict_db_data("product_variants", 
-        f"NATURAL JOIN products NATURAL JOIN colors NATURAL JOIN sizes WHERE vendor_id = '{vendorId}'"+
+        f"NATURAL JOIN products NATURAL JOIN colors NATURAL JOIN sizes NATURAL JOIN specifications WHERE vendor_id = '{vendorId}'"+
         "ORDER BY variant_id", 
-        select="color_name, color_hex, size_description")
+        select="color_name, color_hex, size_description, spec_description")
     discountData = dict_db_data("discounts")
 
     productIdVariants = dict()
@@ -52,7 +53,7 @@ def manage(error=None):
     return render_template("product_manage.html", type=current_user.type, error=error,
         productData=productData, categoryData=categoryData, colorData=colorData, 
         productIdVariants=productIdVariants, imageData=imageData, vendorData=vendorData,
-        adminVendor=adminVendor, discountIdData = discountIdData)
+        adminVendor=adminVendor, discountIdData = discountIdData, specData=specData)
 
 @product_manage_bp.route("/manage/add/<method>", methods=["POST"])
 @product_manage_bp.route("/manage/add/<method>/<productId>", methods=["POST"])
@@ -126,33 +127,46 @@ def variant(method, productId, variantId=None):
         return redirect(url_for('login.login'))
     colorSelect = request.form.get("color-select")
     size = request.form.get("size")
+    spec = request.form.get("spec")
     price = request.form.get("price").replace("$", "")
     inventory = request.form.get("inventory")
     urls = request.form.getlist("url")
 
 
-    error = variantChecks(colorSelect, size, price, inventory, urls, productId, variantId)
+    error = variantChecks(colorSelect, size, spec, price, inventory, urls, productId, variantId)
 
     if error:
         return redirect(url_for("product_manage.manage", error=error))
 
+    # add size to the sizes table if it doesn't exist
     if not (
         conn.execute(text(
-        f"SELECT size_id FROM sizes WHERE size_description = '{size}'")).first()
+        f"SELECT size_id FROM sizes WHERE size_description = '{size.replace("'", "\'")}'")).first()
         ):
         conn.execute(text("INSERT INTO sizes (size_description) "
-                          f"VALUES ('{size}')")) 
+                          f"VALUES ('{size.replace("'", "\'")}')")) 
         conn.commit()
     sizeId = conn.execute(text(
-        f"SELECT size_id FROM sizes WHERE size_description = '{size}'")).first()[0]
+        f"SELECT size_id FROM sizes WHERE size_description = '{size.replace("'", "\'")}'")).first()[0]
+
+    # add spec to the specs table if it doesn't exist
+    if not (
+        conn.execute(text(
+        f"SELECT spec_id FROM specifications WHERE spec_description = '{spec.replace("'", "\'")}'")).first()
+        ):
+        conn.execute(text("INSERT INTO specifications (spec_description) "
+                          f"VALUES ('{spec.replace("'", "\'")}')")) 
+        conn.commit()
+    specId = conn.execute(text(
+        f"SELECT spec_id FROM specifications WHERE spec_description = '{spec}'")).first()[0]
 
     price = int( float(price) * 100 )
 
     try:
         if method == "create":
             conn.execute(text(
-                "INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory) "
-                f"VALUES ({productId}, {colorSelect}, {sizeId}, {price}, {inventory})"))
+                "INSERT INTO product_variants (product_id, color_id, size_id, price, current_inventory, spec_id) "
+                f"VALUES ({productId}, {colorSelect}, {sizeId}, {price}, {inventory}, {specId})"))
 
             variantId = conn.execute(text("SELECT LAST_INSERT_ID()")).first()[0]
             imageValues = ""
@@ -170,7 +184,8 @@ def variant(method, productId, variantId=None):
         elif method == "edit":
             conn.execute(text(
                 "UPDATE product_variants "
-                f"SET color_id = {colorSelect}, size_id = {sizeId}, price = {price}, current_inventory = {inventory} "
+                f"SET color_id = {colorSelect}, size_id = {sizeId}, price = {price}, current_inventory = {inventory}, \
+                    spec_id = {specId} "
                 f"WHERE variant_id = {variantId}"))
             
             conn.execute(text(f"DELETE FROM images WHERE variant_id = {variantId}"))
@@ -339,19 +354,21 @@ def priceChecks(price):
         return "Invalid price"
     return None
 
-def variantChecks(colorSelect, size, price, inventory, urls, productId, variantId=None):
+def variantChecks(colorSelect, size, spec, price, inventory, urls, productId, variantId=None):
     colors = dict_db_data("colors")
     # check if the values exist
-    if not colorSelect or not size or not price or not inventory or not urls:
+    if not colorSelect or not size or not spec or not price or not inventory or not urls:
         return "A value was not entered"
 
-    # check if (variant_id, color_id, size_id) are together unique)
+    # check if (variant_id, color_id, size_id, spec_id) are together unique)
     sizeId = conn.execute(text(f"SELECT size_id FROM sizes WHERE size_description = '{size}'")).first()
-    if sizeId:
+    specId = conn.execute(text(f"SELECT spec_id FROM specifications WHERE spec_description = '{spec}'")).first()
+    if sizeId and specId:
         sizeId = sizeId[0]
+        specId = specId[0]
         unique = int( conn.execute(text(
             "SELECT COUNT(variant_id) FROM product_variants "
-            f"WHERE product_id = {productId} AND color_id = {colorSelect} AND size_id = {sizeId} "
+            f"WHERE product_id = {productId} AND color_id = {colorSelect} AND size_id = {sizeId} AND spec_id = {specId} "
             f"{'AND variant_id != ' + str(variantId) if variantId else ''}"
         )).first()[0] )
         if unique > 0:
