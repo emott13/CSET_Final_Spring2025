@@ -11,7 +11,11 @@ def getUser():
 
 def getProductData(product_id):
     result = conn.execute(
-        text("SELECT * FROM products WHERE product_id = :pid"),
+        text("SELECT product_id, vendor_id, product_title, product_description, " \
+            "warranty_months, CONCAT(first_name, ' ', last_name) " \
+            "FROM products " \
+            "JOIN users ON users.email = products.vendor_id " \
+            "WHERE product_id = :pid"),
         {'pid': product_id}).first()
     return result if result else None
 
@@ -134,7 +138,8 @@ def product(product_id, variant_id=None, error=None):
         'vend_id': product[1],
         'title': product[2],
         'description': product[3],
-        'warranty': product[4]
+        'warranty': product[4],
+        'full_name': product[5]
     }
     allVariants_map = []
     for variant in variants:
@@ -415,7 +420,6 @@ def submitReview(productId, variantId):
 def reviewDelete(productId, variantId, reviewId):
     review_email = conn.execute(text("SELECT customer_email FROM reviews "
                                      f"WHERE review_id = {reviewId}")).first()[0]
-    print(review_email)
     if review_email != current_user.email:
         return redirect(url_for("product.product", product_id=productId, variant_id=variantId))
 
@@ -424,10 +428,5 @@ def reviewDelete(productId, variantId, reviewId):
         conn.commit()
     except Exception as e:
         print("\n" + str(e) + "\n")
-
-    print()
-    print(productId)
-    print(variantId)
-    print()
 
     return redirect(url_for("product.product", product_id=productId, variant_id=variantId))

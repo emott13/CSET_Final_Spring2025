@@ -19,7 +19,7 @@
 
             <div class="product-info-container">
                 <h1 class="product-title">{{ productData.title }}</h1>
-                <p class="vendor-username">Vendor: {{ productData.vend_id }}</p>
+                <p class="vendor-username">Vendor: {{ productData.full_name }}</p>
                 <div class="product-rating">
                     {% if reviewsAvg %}
                         {% if reviewsAvg > 0.7 %}
@@ -152,7 +152,7 @@
                     <button class="btn product-chat-btn" 
                         onclick="document.location.href = 
                         `{{url_for('chat.room', type='product', combined_id=productData.pid, 
-                        recieverEmail=productData.vendor_id)}}`">Chat With {{productData.full_name}}
+                        recieverEmail=productData.vend_id)}}`">Chat With {{productData.full_name}}
                     </button>
                 {% endif %}
             </div>
