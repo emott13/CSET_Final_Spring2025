@@ -117,6 +117,8 @@ def product(product_id, variant_id=None, error=None):
     elif redirect_url:
         return redirect(redirect_url)
 
+    print(f"produc_id: {product_id}")
+
     user = getUser()
     product = getProductData(product_id)
     variants = getVariantData(product_id)
@@ -125,7 +127,7 @@ def product(product_id, variant_id=None, error=None):
     discount = getDiscount(variant_id)
     allDiscounts = getAllDiscounts(product_id)
     images = getImageData(variant_id)
-    user_type = getUser()
+    user_type = getCurrentType()
 
     product_map = {
         'pid': product[0],
@@ -388,7 +390,7 @@ def submitReview(productId, variantId):
         )).first())
 
     if reviewExists:
-        return redirect(url_for("product.product", productId=productId, variantId=variantId))
+        return redirect(url_for("product.product", product_id=productId, variantId=variantId))
 
     if not desc:
         desc = "NULL"
@@ -407,7 +409,7 @@ def submitReview(productId, variantId):
                           f"{desc}, {url})"))
         conn.commit()
 
-    return redirect(url_for("product.product", productId=productId, variantId=variantId))
+    return redirect(url_for("product.product", product_id=productId, variant_id=variantId))
 
 @product_bp.route("/product/<int:productId>/<int:variantId>/<int:reviewId>", methods=["POST"])
 def reviewDelete(productId, variantId, reviewId):
@@ -415,7 +417,7 @@ def reviewDelete(productId, variantId, reviewId):
                                      f"WHERE review_id = {reviewId}")).first()[0]
     print(review_email)
     if review_email != current_user.email:
-        return redirect(url_for("product.product", productId=productId, variantId=variantId))
+        return redirect(url_for("product.product", product_id=productId, variant_id=variantId))
 
     try:
         conn.execute(text(f"DELETE FROM reviews WHERE review_id = {reviewId}"))
@@ -423,5 +425,9 @@ def reviewDelete(productId, variantId, reviewId):
     except Exception as e:
         print("\n" + str(e) + "\n")
 
+    print()
+    print(productId)
+    print(variantId)
+    print()
 
-    return redirect(url_for("product.product", productId=productId, variantId=variantId))
+    return redirect(url_for("product.product", product_id=productId, variant_id=variantId))
