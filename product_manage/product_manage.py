@@ -133,35 +133,37 @@ def variant(method, productId, variantId=None):
     urls = request.form.getlist("url")
 
 
+    print("size: " + size)
     error = variantChecks(colorSelect, size, spec, price, inventory, urls, productId, variantId)
 
     if error:
         return redirect(url_for("product_manage.manage", error=error))
 
     # add size to the sizes table if it doesn't exist
-    if not (
-        conn.execute(text(
-        f"SELECT size_id FROM sizes WHERE size_description = '" + 
-            size.replace("'", "\\'") + "'")).first()
+    if not ( conn.execute(text(
+                f"SELECT size_id FROM sizes WHERE size_description = :size"),
+                {'size': size}).first()
         ):
-        conn.execute(text("INSERT INTO sizes (size_description) "
-                          f"VALUES ('" + size.replace("'", "\\'") + "')")) 
+        conn.execute(text("INSERT INTO sizes (size_description) VALUES (:size)"),
+                    {'size': size}) 
         conn.commit()
+
     sizeId = conn.execute(text(
-        f"SELECT size_id FROM sizes WHERE size_description = '" + 
-            size.replace("'", "\\'") + "}'")).first()[0]
+        f"SELECT size_id FROM sizes WHERE size_description = :size"),
+        {'size': size}).first()[0]
 
     # add spec to the specs table if it doesn't exist
     if not (
         conn.execute(text(
-        f"SELECT spec_id FROM specifications WHERE spec_description = '" + 
-            spec.replace("'", "\\'") + "'")).first()
+        f"SELECT spec_id FROM specifications WHERE spec_description = :spec"),
+            {'spec': spec}).first()
         ):
         conn.execute(text("INSERT INTO specifications (spec_description) "
                           f"VALUES ('" + spec.replace("'", "\\'") + "')")) 
         conn.commit()
     specId = conn.execute(text(
-        f"SELECT spec_id FROM specifications WHERE spec_description = '{spec}'")).first()[0]
+        f"SELECT spec_id FROM specifications WHERE spec_description = :spec"),
+        {'spec': spec}).first()[0]
 
     price = int( float(price) * 100 )
 
