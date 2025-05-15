@@ -81,7 +81,7 @@ def getDiscount(variant_id): # FIX VID INFORMATION #############################
     else: 
         return None    
     
-def getAllDiscounts(product_id):
+def getAllDiscounts(vid):
     allDiscountData = conn.execute(
         text("""
         SELECT variant_id, MIN(discount_price) 
@@ -89,9 +89,9 @@ def getAllDiscounts(product_id):
         NATURAL JOIN product_variants
         WHERE (start_date <= NOW() OR start_date IS NULL) 
             AND (end_date >= NOW() OR end_date IS NULL)
-            AND (product_id = :pid)
+            AND (variant_id = :vid)
         GROUP BY variant_id;
-        """), {'pid': product_id}).all()
+        """), {'vid': vid}).all()
     print('.................... alldiscountdata', allDiscountData)
     return allDiscountData
     
@@ -129,7 +129,7 @@ def product(product_id, variant_id=None, error=None):
     reviews, review_avg = getReviewData(product_id)
     cart_id = getCartId(user)
     discount = getDiscount(variant_id)
-    allDiscounts = getAllDiscounts(product_id)
+    allDiscounts = getAllDiscounts(variant_id)
     images = getImageData(variant_id)
     user_type = getCurrentType()
 
@@ -197,7 +197,7 @@ def product(product_id, variant_id=None, error=None):
             productData=product_map, variantId=variant_id, variantData=currVariant_map, 
             allVariantsData=allVariants_map, imageData=images_map, allDiscountData=allDiscounts_map, 
             reviewsAvg=review_avg, reviewsData=reviews_map, getCurrentType=getCurrentType(), 
-            bestDiscount=discount, email=user, userType=user_type)
+            bestDiscount=discount_map, email=user, userType=user_type)
     elif request.method == "POST":
         amount = request.form.get("number")
         variantId = currVariant_map['vid']
@@ -248,7 +248,7 @@ def product(product_id, variant_id=None, error=None):
             productData=product_map, variantId=variant_id, variantData=currVariant_map, 
             allVariantsData=allVariants_map, imageData=images_map, allDiscountData=allDiscounts_map, 
             reviewsAvg=review_avg, reviewsData=reviews_map, getCurrentType=getCurrentType(), 
-            bestDiscount=discount, email=user, userType=user_type)
+            bestDiscount=discount_map, email=user, userType=user_type)
         
     # pi = { # product indexes
     #     'product_id': 0,
